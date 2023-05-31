@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Modal from "@/Components/Modal";
-import { format } from "date-fns";
+import { format, isValid } from "date-fns";
 import { ArrowLeft, ArrowRight, Pencil, Plus, Search, Trash } from "lucide-react";
 import dynamic from "next/dynamic";
 import { Key, useState } from "react";
@@ -28,7 +28,7 @@ export default function Home() {
 
 	return (
 		<section className="w-5/6 h-max ml-auto">
-			<Calendar className="w-[100%!important] h-1/2 calendar shadow-md rounded-md" value={infosInput.diaAula} onChange={e => setInfosInput({ ...infosInput, diaAula: new Date(e).toString()})} />
+			<Calendar className="w-[100%!important] h-1/2 calendar shadow-md rounded-md" value={infosInput.diaAula} onChange={e => setInfosInput({ ...infosInput, diaAula: new Date(e)})} />
 
 			<div className="w-full flex flex-col gap-4 px-6 py-3">
 				<h1 className="text-5xl">Aulas</h1>
@@ -86,7 +86,7 @@ export default function Home() {
 											<th scope="row" className="p-1 text-start border border-[#999]">{info.titularidade}</th>
 											{/* eslint-disable */}
 											<th scope="row" className="p-1 text-start border border-[#999]">
-												{format(new Date(info.diaAula), "dd/MM/yyyy")}
+												{format(new Date(info.diaAula.toString()), "dd/MM/yyyy")}
 											</th>
 											{/* eslint-enable */}
 											<th scope="row" className="flex items-center justify-between p-1 text-start border-x border-t border-[#999]">

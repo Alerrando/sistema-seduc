@@ -15,7 +15,7 @@ const HorasValues: HorasInfos[] = [
 		id: 0,
 		nomeProfessor: "Alerrando",
 		titularidade: "Titular",
-		diaAula: new Date().toString(),
+		diaAula: new Date(),
 		edit: -1,
 	}
 ];

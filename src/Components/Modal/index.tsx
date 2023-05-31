@@ -42,7 +42,7 @@ export default function Modal(props: ModalProps){
 				</header>
 
 				<div className="w-full flex flex-col sm:grid sm:grid-cols-2">
-					<Calendar className="w-[100%!important] calendar shadow-md rounded-md" value={infosInput.diaAula} onChange={e => setInfosInput({ ...infosInput, diaAula: new Date(e).toString()})}  />
+					<Calendar className="w-[100%!important] calendar shadow-md rounded-md" value={infosInput.diaAula} onChange={e => setInfosInput({ ...infosInput, diaAula: new Date(e)})}  />
 
 					<form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(submit)}>
 						<div className="w-full flex flex-row items-center justify-between">
@@ -87,7 +87,7 @@ export default function Modal(props: ModalProps){
 
 	function submit(event){
 		const aux: HorasInfos = {
-			diaAula: new Date(infosInput.diaAula).toString(),
+			diaAula: new Date(infosInput.diaAula),
 			horaAulas: event.horaAulas,
 			nomeProfessor: event.nomeProfessor,
 			titularidade: event.titularidade,
