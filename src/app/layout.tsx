@@ -1,8 +1,11 @@
+"use client";
 import React from "react";
 import "./globals.css";
 import { Roboto } from "next/font/google";
 import Aside from "@/Components/Aside";
 import Header from "@/Components/Header";
+import { Provider } from "react-redux";
+import { store } from "../../system";
 
 const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 
@@ -19,9 +22,11 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={roboto.className}>
-				<Aside />
-				<Header />
-				{children}
+				<Provider store={store}>
+					<Aside />
+					<Header />
+					{children}
+				</Provider>
 			</body>
 		</html>
 	);
