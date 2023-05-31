@@ -9,6 +9,15 @@ export type HorasInfos = {
   edit: number,
 }
 
+export const HorasValuesDefault = {
+	diaAula: new Date().toString(),
+	edit: -1,
+	horaAulas: 0,
+	id: 0,
+	nomeProfessor: "",
+	titularidade: "",
+}
+
 const HorasValues: HorasInfos[] = [
 	{
 		horaAulas: 0,

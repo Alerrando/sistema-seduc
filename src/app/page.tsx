@@ -1,30 +1,24 @@
 "use client";
 import React from "react";
 import Modal from "@/Components/Modal";
-import { format, isValid } from "date-fns";
-import { ArrowLeft, ArrowRight, Pencil, Plus, Search, Trash } from "lucide-react";
+import Table from "@/Components/Table";
+import { ArrowLeft, ArrowRight, Plus, Search } from "lucide-react";
 import dynamic from "next/dynamic";
-import { Key, useState } from "react";
+import { useState } from "react";
 import "react-calendar/dist/Calendar.css";
 import { useDispatch, useSelector } from "react-redux";
-import { HorasInfos, deleteInfosChange } from "../../slice";
+import { deleteInfosChange, HorasInfos, HorasValuesDefault } from "../../slice";
 import { RootState } from "../../system";
 
 const Calendar = dynamic(() => import("react-calendar"), { ssr: false });
 
 export default function Home() {
-	const [infosInput, setInfosInput] = useState<HorasInfos>({
-		diaAula: new Date().toString(),
-		edit: -1,
-		horaAulas: 0,
-		id: 0,
-		nomeProfessor: "",
-		titularidade: "",
-	} as HorasInfos);
+	const [infosInput, setInfosInput] = useState<HorasInfos>(HorasValuesDefault);
 	const allInfos = useSelector(({ Slice }: RootState) => Slice.allInfos);
 	const dispatch = useDispatch();
 	const [search, setSearch] = useState("");
 	const [modal, setModal] = useState(false);
+	const tableHead = ["Id", "Nome", "Horas de aulas dadas", "Titularidade", "Dia das aulas", "Ações"];
 
 	return (
 		<section className="w-5/6 h-max ml-auto">
@@ -62,54 +56,7 @@ export default function Home() {
 				</div>
 
 				<div className="w-full border border-[#999]">
-					<table className="w-full">
-						<thead>
-							<tr>
-								<th scope="col" className="p-1 text-start border border-[#999]">Id</th>
-								<th scope="col" className="p-1 text-start border border-[#999]">Nome</th>
-								<th scope="col" className="p-1 text-start border border-[#999]">Horas de aulas dadas</th>
-								<th scope="col" className="p-1 text-start border border-[#999]">Titularidade</th>
-								<th scope="col" className="p-1 text-start border border-[#999]">Dia das aulas</th>
-								<th scope="col" className="p-1 text-start border border-[#999]">Ações</th>
-							</tr>
-						</thead>
-
-						<tbody>
-							{allInfos.filter((register) => Object.values(register.nomeProfessor).join("").toLowerCase().includes(search.toLowerCase()))
-								.map((info: HorasInfos, index: Key) => {
-
-									return (
-										<tr key={index}>
-											<th scope="row" className="p-1 text-start border border-[#999]">{info.id + 1}</th>
-											<th scope="row" className="p-1 text-start border border-[#999]">{info.nomeProfessor}</th>
-											<th scope="row" className="p-1 text-start border border-[#999]">{info.horaAulas}</th>
-											<th scope="row" className="p-1 text-start border border-[#999]">{info.titularidade}</th>
-											{/* eslint-disable */}
-											<th scope="row" className="p-1 text-start border border-[#999]">
-												{format(new Date(info.diaAula.toString()), "dd/MM/yyyy")}
-											</th>
-											{/* eslint-enable */}
-											<th scope="row" className="flex items-center justify-between p-1 text-start border-x border-t border-[#999]">
-												<div className="w-auto flex flex-row items-center gap-2 px-2 py-1 border border-blue-500 text-blue-500 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white transition-colors"
-													onClick={() => editInfo(info)} 
-												>
-													<Pencil size={18}/>
-													<span>Edit</span>
-												</div>
-
-												<div 
-													className="w-auto flex flex-row items-center gap-2 px-2 py-1 border border-red-500 text-red-500 rounded-lg cursor-pointer hover:bg-red-500 hover:text-white transition-colors"
-													onClick={() => deleteInfo(info)}
-												>
-													<Trash size={18} />
-													<span>Delete</span>
-												</div>
-											</th>
-										</tr>
-									);
-								})}
-						</tbody>
-					</table>
+					<Table tableHead={tableHead} editInfo={editInfo} deleteInfo={deleteInfo} infosAll={allInfos} search={search} key={"Table-Cadastro"} />
 				</div>
 			</div>
 			
