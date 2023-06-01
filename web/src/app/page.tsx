@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "@/Components/Modal";
 import Table from "@/Components/Table";
 import { ArrowLeft, ArrowRight, Plus, Search } from "lucide-react";
@@ -9,6 +9,7 @@ import "react-calendar/dist/Calendar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteInfosChange, HorasInfos, HorasValuesDefault } from "../../slice";
 import { RootState } from "../../system";
+import { readAll } from "@/api";
 
 const Calendar = dynamic(() => import("react-calendar"), { ssr: false });
 
@@ -18,14 +19,14 @@ export default function Home() {
 	const dispatch = useDispatch();
 	const [search, setSearch] = useState("");
 	const [modal, setModal] = useState(false);
-	const tableHead = ["Id", "Nome", "Horas de aulas dadas", "Titularidade", "Dia das aulas", "Ações"];
+	const tableHead = ["Id", "Nome", "Horas de aulas dadas", "Titularidade", "Dia das aulas", "Escola","Ações"];
 
 	return (
 		<section className="w-5/6 h-max ml-auto">
 			<Calendar className="w-[100%!important] h-1/2 calendar shadow-md rounded-md" value={infosInput.diaAula} onChange={e => setInfosInput({ ...infosInput, diaAula: new Date(e)})} />
 
 			<div className="w-full flex flex-col gap-4 px-6 py-3">
-				<h1 className="text-5xl">Aulas</h1>
+				<h1 className="text-[42px]">Aulas</h1>
 
 				<div className="h-auto border border-[#DDD] rounded-lg">
 					<header className="flex items-center justify-between px-5 py-4">
@@ -42,7 +43,7 @@ export default function Home() {
 						</div>
 
 						<div className="flex flex-row items px-4 py-2 bg-principal text-white rounded-lg">
-							<span>Total de registros: {allInfos.length}</span>
+							<span>Total de registros: 1</span>
 						</div>
 					</header>
 				</div>

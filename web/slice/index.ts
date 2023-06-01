@@ -1,3 +1,4 @@
+import { readAll } from "@/api";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type HorasInfos = {
@@ -6,6 +7,7 @@ export type HorasInfos = {
   horaAulas: number;
   titularidade: string;
   diaAula: Date;
+  escola: String,
   edit: number,
 }
 
@@ -16,18 +18,15 @@ export const HorasValuesDefault = {
 	id: 0,
 	nomeProfessor: "",
 	titularidade: "",
+	escola: "",
 }
 
-const HorasValues: HorasInfos[] = [
-	{
-		horaAulas: 0,
-		id: 0,
-		nomeProfessor: "Alerrando",
-		titularidade: "Titular",
-		diaAula: new Date(),
-		edit: -1,
-	}
-];
+const fetchAllHorasInfos = async () => {
+  const horasInfos = await readAll();
+  return horasInfos;
+};
+
+const HorasValues: HorasInfos[] = await readAll();
 
 export type StateProps = {
   allInfos: HorasInfos[];
@@ -61,7 +60,22 @@ export const Slice = createSlice({
 			state.allInfos = state.allInfos.filter(info => info.id !== action.payload.id);
 		}
 	},
+	extraReducers: (builder) => {
+		builder.addCase(fetchAllHorasInfos.fulfilled, (state, action) => {
+		  state.allInfos = action.payload;
+		});
+	  },
 });
+
+export const fetchAllInfos = () => {
+	return async (dispatch: Dispatch) => {
+	  try {
+		const horasInfos = await dispatch(fetchAllHorasInfos());
+	  } catch (error) {
+		console.log(error);
+	  }
+	};
+  };
 
 export const { addInfos, editInfosChange, deleteInfosChange } = Slice.actions;
 export default Slice.reducer;

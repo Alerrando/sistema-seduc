@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { HorasInfos, HorasValuesDefault, addInfos, editInfosChange } from "../../../slice";
 import { RootState } from "../../../system";
-import { readAll } from "@/api";
 
 type ModalProps = {
 	setInfosInput: (infosInput: HorasInfos) => void;
@@ -29,6 +28,7 @@ export default function Modal(props: ModalProps){
 			setValue("horaAulas", infosInput.horaAulas);
 			setValue("nomeProfessor", infosInput.nomeProfessor);
 			setValue("titularidade", infosInput.titularidade);
+			setValue("escola", infosInput.escola);
 		}
 	}, [infosInput.edit]);
 
@@ -97,7 +97,6 @@ export default function Modal(props: ModalProps){
 		if(infosInput.edit === -1){
 			aux.id = allInfos.length;
 			dispatch(addInfos(aux));
-			console.log(readAll())
 		}
 		else{
 			aux.id = infosInput.id;
