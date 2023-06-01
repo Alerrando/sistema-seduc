@@ -4,8 +4,9 @@ import { Plus, X } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { HorasInfos, addInfos, editInfosChange } from "../../../slice";
+import { HorasInfos, HorasValuesDefault, addInfos, editInfosChange } from "../../../slice";
 import { RootState } from "../../../system";
+import { readAll } from "@/api";
 
 type ModalProps = {
 	setInfosInput: (infosInput: HorasInfos) => void;
@@ -32,7 +33,7 @@ export default function Modal(props: ModalProps){
 	}, [infosInput.edit]);
 
 	return(
-		<div className="w-screen h-screen flex items-center justify-center bg-modal fixed inset-0">
+		<div className="w-screen h-auto flex items-center justify-center bg-modal fixed inset-0">
 			<div className="w-3/5 h-auto p-3 bg-white">
 				<header className="w-full h-auto flex flex-col gap-2 p-2 after:block after:border-b after:border-[#999]">
 					<div className="w-full flex flex-row items-center justify-between">
@@ -69,7 +70,7 @@ export default function Modal(props: ModalProps){
 
 							<div className="w-full flex flex-col gap-2 px-2">
 								<label htmlFor="horas-aulas" className="font-bold">Horas de aula dadas</label>
-								<input type="text" placeholder="1" name="horaAulas" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("horaAulas") } />
+								<input type="number" placeholder="1" name="horaAulas" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("horaAulas") } />
 							</div>
 						</div>
 
@@ -85,7 +86,7 @@ export default function Modal(props: ModalProps){
 		</div>
 	);
 
-	function submit(event){
+ 	function submit(event){
 		const aux: HorasInfos = {
 			diaAula: new Date(infosInput.diaAula),
 			horaAulas: event.horaAulas,
@@ -94,12 +95,14 @@ export default function Modal(props: ModalProps){
 		};
 		
 		if(infosInput.edit === -1){
-			aux.edit = allInfos.length;
+			aux.id = allInfos.length;
 			dispatch(addInfos(aux));
+			console.log(readAll())
 		}
 		else{
 			aux.id = infosInput.id;
 			dispatch(editInfosChange(aux));
+			setInfosInput(HorasValuesDefault);
 		}
 
 		setModal(false);

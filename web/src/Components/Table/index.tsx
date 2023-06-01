@@ -17,7 +17,7 @@ export default function Table(props: TableProps){
         <table className="w-full">
             <thead>
                 <tr>
-                    {tableHead.map(head => <th scope="col" className="p-1 text-start border border-[#999]">{head}</th>)}
+                    {tableHead.map(head => <th key={head} scope="col" className="p-1 text-start border border-[#999]">{head}</th>)}
                 </tr>
             </thead>
 
@@ -26,7 +26,7 @@ export default function Table(props: TableProps){
                     .map((info: HorasInfos, index: Key) => {
 
                         return (
-                            <tr key={index}>
+                            <tr key={`${index}-${info.nomeProfessor}`}>
                                 <th scope="row" className="p-1 text-start border border-[#999]">{info.id + 1}</th>
                                 <th scope="row" className="p-1 text-start border border-[#999]">{info.nomeProfessor}</th>
                                 <th scope="row" className="p-1 text-start border border-[#999]">{info.horaAulas}</th>

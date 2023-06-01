@@ -4,7 +4,7 @@ import React from "react";
 
 export default function Aside(){
 	return(
-		<aside className="w-1/6 h-screen absolute top-0 left-0 flex flex-col gap-8 bg-principal">
+		<aside className="w-1/6 h-full fixed top-0 left-0 flex flex-col gap-8 bg-principal">
 			<header className="w-full flex flex-col gap-2 items-center justify-start p-[22px] after:w-full after:h-1 after:border-b after:border-[#203F5C]">
 				<div className="w-4/5 flex flex-row gap-4 items-center text-white">
 					<BookOpen size={32} />
