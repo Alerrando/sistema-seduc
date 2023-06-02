@@ -5,6 +5,7 @@ import com.gerenciamentoescolas.server.repository.CadastroAulaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,6 +18,7 @@ public class CadastroAulaService {
     }
 
     public CadastroAulas create(CadastroAulas cadastroAulas){
+        cadastroAulas.setDiaAula((new Date()));
         return cadastroAulaRepository.save(cadastroAulas);
     }
 

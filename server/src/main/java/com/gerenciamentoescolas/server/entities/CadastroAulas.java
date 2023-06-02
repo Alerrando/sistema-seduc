@@ -2,6 +2,7 @@ package com.gerenciamentoescolas.server.entities;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -11,17 +12,20 @@ public class CadastroAulas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nomeProfessor;
-    private Integer quantAulas;
+    private Integer horaAulas;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date diaAula;
     private String titularidade;
     private String escola;
 
     public CadastroAulas(){
     }
 
-    public CadastroAulas(Integer id, String nomeProfessor, Integer quantAulas, String titularidade, String escola) {
+    public CadastroAulas(Integer id, String nomeProfessor, Integer horaAulas, Date diaAula,String titularidade, String escola) {
         this.id = id;
         this.nomeProfessor = nomeProfessor;
-        this.quantAulas = quantAulas;
+        this.horaAulas = horaAulas;
+        this.diaAula = diaAula;
         this.titularidade = titularidade;
         this.escola = escola;
     }
@@ -42,12 +46,20 @@ public class CadastroAulas {
         this.nomeProfessor = nomeProfessor;
     }
 
-    public Integer getQuantAulas() {
-        return quantAulas;
+    public Integer getHoraAulas() {
+        return horaAulas;
     }
 
-    public void setQuantAulas(Integer quantAulas) {
-        this.quantAulas = quantAulas;
+    public void setHoraAulas(Integer horaAulas) {
+        this.horaAulas = horaAulas;
+    }
+
+    public Date getDiaAula() {
+        return diaAula;
+    }
+
+    public void setDiaAula(Date diaAula) {
+        this.diaAula = diaAula;
     }
 
     public String getTitularidade() {
