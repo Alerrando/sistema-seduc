@@ -27,7 +27,7 @@ export default function Table(props: TableProps){
 
                         return (
                             <tr key={`${index}-${info.nomeProfessor}`}>
-                                <th scope="row" className="p-1 text-start border border-[#999]">{info.id + 1}</th>
+                                <th scope="row" className="p-1 text-start border border-[#999]">{info.id}</th>
                                 <th scope="row" className="p-1 text-start border border-[#999]">{info.nomeProfessor}</th>
                                 <th scope="row" className="p-1 text-start border border-[#999]">{info.horaAulas}</th>
                                 <th scope="row" className="p-1 text-start border border-[#999]">{info.titularidade}</th>
@@ -36,6 +36,7 @@ export default function Table(props: TableProps){
                                     {format(new Date(info.diaAula.toString()), "dd/MM/yyyy")}
                                 </th>
                                 {/* eslint-enable */}
+                                <th scope="row" className="p-1 text-start border border-[#999]">{info.escola}</th>
                                 <th scope="row" className="flex items-center justify-between p-1 text-start border-x border-t border-[#999]">
                                     <div className="w-auto flex flex-row items-center gap-2 px-2 py-1 border border-blue-500 text-blue-500 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white transition-colors"
                                         onClick={() => editInfo(info)} 

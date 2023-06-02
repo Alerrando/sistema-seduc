@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import "react-calendar/dist/Calendar.css";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteInfosChange, HorasInfos, HorasValuesDefault } from "../../slice";
+import { deleteInfosChange, fetchHorasValues, HorasInfos, HorasValuesDefault } from "../../slice";
 import { RootState } from "../../system";
 import { readAll } from "@/api";
 
@@ -20,6 +20,10 @@ export default function Home() {
 	const [search, setSearch] = useState("");
 	const [modal, setModal] = useState(false);
 	const tableHead = ["Id", "Nome", "Horas de aulas dadas", "Titularidade", "Dia das aulas", "Escola","Ações"];
+
+	useEffect(() => {
+		dispatch(fetchHorasValues());
+	}, [])
 
 	return (
 		<section className="w-5/6 h-max ml-auto">
