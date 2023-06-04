@@ -14,8 +14,8 @@ type TableProps = {
 export default function Table(props: TableProps){
     const { tableHead, editInfo, deleteInfo, infosAll, search } = props;
     return(
-        <table className="w-full">
-            <thead>
+        <table className="w-full overflow-x-auto">
+            <thead className='w-auto'>
                 <tr>
                     {tableHead.map(head => <th key={head} scope="col" className="p-1 text-start border border-[#999]">{head}</th>)}
                 </tr>
