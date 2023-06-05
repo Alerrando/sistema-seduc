@@ -4,8 +4,9 @@ import { Plus, X } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { HorasInfos, HorasValuesDefault, addInfos, editInfosChange } from "../../../slice";
+import { HorasInfos, HorasValuesDefault, refreshInfos, editInf, refreshInfososChange } from "../../../slice";
 import { RootState } from "../../../system";
+import { create, edit, readAll } from "@/api";
 
 type ModalProps = {
 	setInfosInput: (infosInput: HorasInfos) => void;
@@ -86,21 +87,24 @@ export default function Modal(props: ModalProps){
 		</div>
 	);
 
- 	function submit(event){
+ 	async function submit(event){
 		const aux: HorasInfos = {
 			diaAula: new Date(infosInput.diaAula),
 			horaAulas: event.horaAulas,
 			nomeProfessor: event.nomeProfessor,
 			titularidade: event.titularidade,
+			escola: event.escola,
 		};
 		
 		if(infosInput.edit === -1){
-			aux.id = allInfos.length;
-			dispatch(addInfos(aux));
+			aux.id = allInfos.length + 1;
+			await create(aux);
+			dispatch(refreshInfos(await readAll()));
 		}
 		else{
 			aux.id = infosInput.id;
-			dispatch(editInfosChange(aux));
+			await edit(aux, aux.id);
+			dispatch(refreshInfos(await readAll()));
 			setInfosInput(HorasValuesDefault);
 		}
 

@@ -7,9 +7,9 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import "react-calendar/dist/Calendar.css";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteInfosChange, fetchHorasValues, HorasInfos, HorasValuesDefault } from "../../slice";
+import { deleteInfosChange, refreshInfos, HorasInfos, HorasValuesDefault } from "../../slice";
 import { RootState } from "../../system";
-import { readAll } from "@/api";
+import { deleteAula, readAll } from "@/api";
 
 const Calendar = dynamic(() => import("react-calendar"), { ssr: false });
 
@@ -22,7 +22,9 @@ export default function Home() {
 	const tableHead = ["Id", "Nome", "Horas de aulas dadas", "Titularidade", "Dia das aulas", "Escola","Ações"];
 
 	useEffect(() => {
-		dispatch(fetchHorasValues());
+		(async () => {
+			dispatch(refreshInfos(await readAll()));
+		})()
 	}, [])
 
 	return (
@@ -75,7 +77,8 @@ export default function Home() {
 		setModal(true);
 	}
 
-	function deleteInfo(infos: HorasInfos){
-		dispatch(deleteInfosChange(infos));
+	async function deleteInfo(infos: HorasInfos){
+		await deleteAula(infos.id);
+		dispatch(refreshInfos(await readAll()));
 	}
 }

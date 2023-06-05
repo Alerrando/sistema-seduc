@@ -33,8 +33,8 @@ export const Slice = createSlice({
   name: "Slice",
   initialState,
   reducers: {
-    addInfos: (state, action: PayloadAction<HorasInfos>) => {
-      state.allInfos.push(action.payload);
+    refreshInfos: (state, action: PayloadAction<HorasInfos[]>) => {
+      state.allInfos = action.payload;
     },
     editInfosChange: (state, action: PayloadAction<HorasInfos>) => {
       state.allInfos = state.allInfos.map((info: HorasInfos) => {
@@ -55,18 +55,6 @@ export const Slice = createSlice({
   },
 });
 
-export const { addInfos, editInfosChange, deleteInfosChange } = Slice.actions;
-
-export const fetchHorasValues = () => async (dispatch) => {
-  try {
-    const horasValues = await readAll();
-	horasValues.map((info) => {
-		console.log(info);
-		dispatch(Slice.actions.addInfos(info))
-	})
-  } catch (error) {
-    console.error("Erro ao buscar os valores:", error);
-  }
-};
+export const { refreshInfos, editInfosChange, deleteInfosChange } = Slice.actions;
 
 export default Slice.reducer;
