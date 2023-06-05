@@ -16,7 +16,7 @@ export async function readAll() {
 export async function create(info: HorasInfos){
   await axios.post(url, info)
   .then((response) => alert("Aula cadastrada com sucesso"))
-  .catch((err) => console.log(err));
+  .catch((err) => console.log(err))
 }
 
 export async function edit(info: HorasInfos, id: number) {
