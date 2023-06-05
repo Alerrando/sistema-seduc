@@ -1,81 +1,60 @@
-import { Book, School2, Siren, BookOpen, Users, PieChart, MenuSquare, AlignJustify, X, GraduationCap } from "lucide-react";
-import Link from "next/link";
-import React, { useState } from "react";
+import { format, isValid } from 'date-fns';
+import { Pencil, Trash } from 'lucide-react';
+import React, { Key } from 'react';
+import { HorasInfos } from '../../../slice';
 
-export default function Aside() {
-  const [menu, setMenu] = useState<boolean>(false);
-  const [showDropdown, setShowDropdown] = useState(false);
+type TableProps = {
+    tableHead: string[],
+    editInfo: (info: HorasInfos) => void,
+    deleteInfo: (info: HorasInfos) => void,
+    infosAll: HorasInfos[],
+    search: string,
+}
 
-  return (
-    <>
-      <AlignJustify className="block sm:hidden" onClick={() => setMenu(true)} />
-      <aside
-        className={` ${menu ? "flex h-full w-full bg-modal" : "hidden sm:flex sm:w-1/6 sm:h-full bg-principal"
-          } fixed top-0 left-0 flex flex-col gap-8 `}
-      >
-        <div className={`${menu ? "w-min" : "w-full"} h-full bg-principal `}>
-          <header
-            className={`w-full ${menu ? "flex" : "hidden sm:flex"
-              } flex-col gap-2 items-center justify-start p-[22px] after:w-full after:h-1 after:border-b after:border-[#203F5C]`}
-          >
-            <div className="w-full flex flex-row gap-4 items-center text-white">
-              <BookOpen className={`w-6 h-6 sm:w-7 sm:h-7`} />
-              <span className="text-xl">Seduc</span>
-              <X className={`w-6 h-6 sm:hidden`} onClick={() => setMenu(false)} />
-            </div>
-          </header>
+export default function Table(props: TableProps) {
+    const { tableHead, editInfo, deleteInfo, infosAll, search } = props;
 
-          <section className={`w-full h-auto ${menu ? "block" : "hidden sm:block"}`}>
-            <ul className="grid gap-4">
-              <Link href="/" className="w-full block py-3 hover:bg-[#458ACE]">
-                <li className="w-full flex flex-row items-center gap-3 px-5 text-white">
-                  <PieChart size={26} />
-                  <span>Dashboard</span>
-                </li>
-              </Link>
+    return (
+        <div className="overflow-x-auto">
+            <table className="w-full">
+                <thead>
+                    <tr>
+                        {tableHead.map(head => <th key={head} scope="col" className="p-1 text-start whitespace-nowrap border border-[#999]">{head}</th>)}
+                    </tr>
+                </thead>
 
-              <div className="w-full h-full flex flex-col gap-4 cursor-pointer" onClick={() => setShowDropdown(!showDropdown)}>
-                <li className="w-full h-full flex flex-row items-center gap-3 py-3 px-5 text-white hover:bg-[#458ACE]">
-                  <Users size={26} />
-                  <span>Cadastro</span>
-                </li>
-                {showDropdown && (
-                    <ul className="grid gap-4">
-                        <Link href="/" className="w-full block py-3 hover:bg-[#458ACE]">
-                            <li className="w-full flex flex-row items-center gap-3 px-10 text-white">
-                                <Book size={22} />
-                                <span>Aulas</span>
-                            </li>
-                        </Link>
-
-                        <Link href="/" className="w-full block py-3 hover:bg-[#458ACE]">
-                            <li className="w-full flex flex-row items-center gap-3 px-10 text-white">
-                                <School2 size={22} />
-                                <span>Escolas</span>
-                            </li>
-                        </Link>
-
-                        <Link href="/" className="w-full block py-3 hover:bg-[#458ACE]">
-                            <li className="w-full flex flex-row items-center gap-3 px-10 text-white">
-                                <GraduationCap size={22} />
-                                <span>Professores</span>
-                            </li>
-                        </Link>
-                    </ul>
-                )}
-              </div>
-
-
-              <Link href="/" className="w-full block py-3 hover:bg-[#458ACE]">
-                <li className="w-full flex flex-row items-center gap-3 px-5 text-white">
-                  <MenuSquare size={26} />
-                  <span>Relátorio</span>
-                </li>
-              </Link>
-            </ul>
-          </section>
+                <tbody>
+                    {infosAll?
+                        .filter((register) => Object.values(register.nomeProfessor).join("").toLowerCase().includes(search.toLowerCase()))
+                        .map((info: HorasInfos, index: Key) => {
+                            return (
+                                <tr key={`${index}-${info.nomeProfessor}`}>
+                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.id}</td>
+                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.nomeProfessor}</td>
+                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.horaAulas}</td>
+                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.titularidade}</td>
+                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">
+                                        {/* eslint-disable-next-line */}
+                                        <span className='whitespace-nowrap'>{format(new Date(info.diaAula.toString()), "dd/MM/yyyy")}</span>
+                                    </td>
+                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.escola}</td>
+                                    <td className="p-1 text-start border-x border-t border-[#999]">
+                                        <div className="flex flex-row items-center justify-between">
+                                            <div className="flex items-center gap-2 px-2 py-1 border border-blue-500 text-blue-500 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white transition-colors" onClick={() => editInfo(info)}>
+                                                <Pencil size={18} />
+                                                <span>Edit</span>
+                                            </div>
+                                            <div className="flex items-center gap-2 px-2 py-1 border border-red-500 text-red-500 rounded-lg cursor-pointer hover:bg-red-500 hover:text-white transition-colors" onClick={() => deleteInfo(info)}>
+                                                <Trash size={18} />
+                                                <span>Delete</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                </tbody>
+            </table>
         </div>
-      </aside>
-    </>
-  );
+    )
 }

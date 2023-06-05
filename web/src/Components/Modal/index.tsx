@@ -70,6 +70,15 @@ export default function Modal(props: ModalProps){
 							</div>
 
 							<div className="w-full flex flex-col gap-2 px-2">
+								<label htmlFor="escola" className="font-bold">Escola</label>
+								<select name="escola" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("escola") }>
+									<option value="" defaultChecked className="outline-none border-none">Selecione uma Escola</option>
+									<option value="Unoeste" className="outline-none border-none">Unoeste</option>
+									<option value="Mario Fiorante" className="outline-none border-none">Mario Fiorante</option>
+								</select>
+							</div>
+
+							<div className="w-full flex flex-col gap-2 px-2">
 								<label htmlFor="horas-aulas" className="font-bold">Horas de aula dadas</label>
 								<input type="number" placeholder="1" name="horaAulas" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("horaAulas") } />
 							</div>
@@ -97,7 +106,6 @@ export default function Modal(props: ModalProps){
 		};
 		
 		if(infosInput.edit === -1){
-			aux.id = allInfos.length + 1;
 			await create(aux);
 			dispatch(refreshInfos(await readAll()));
 		}
