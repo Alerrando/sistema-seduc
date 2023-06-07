@@ -9,7 +9,7 @@ import { RootState } from '../../../system';
 export default function CadastroEscola(){
     const allInfosSchool = useSelector(({ Slice }: RootState) => Slice.allInfosSchool);
     const [search, setSearch] = useState("");
-    const thead = ["Id", "Nome", "Diretor", "Ações"];
+    const thead = ["Id", "Nome da Escola", "Diretor", "Ações"];
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -18,7 +18,6 @@ export default function CadastroEscola(){
         })()
     }, [])
 
-    console.log(allInfosSchool)
 
     return(
         <main className='w-5/6 ml-auto px-6'>

@@ -4,6 +4,7 @@ import { Plus, X } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useForm } from "react-hook-form";
 import { LessonsInfos } from "../../../slice";
+import Input from "../Input";
 
 type ModalProps = {
 	setInfosInput: (infosInput: LessonsInfos) => void;
@@ -74,10 +75,8 @@ export default function Modal(props: ModalProps){
 								</select>
 							</div>
 
-							<div className="w-full flex flex-col gap-2 px-2">
-								<label htmlFor="horas-aulas" className="font-bold">Horas de aula dadas</label>
-								<input type="number" placeholder="1" name="horaAulas" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("horaAulas") } />
-							</div>
+							<Input htmlFor="horas-aulas" label="Horas de aula dadas" name="horaAulas" placeholder="1" register={register} type="number" key={"horaAulas-input"} />
+							
 						</div>
 
 						<div className="w-full flex items-center justify-end">

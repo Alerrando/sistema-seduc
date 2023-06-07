@@ -24,7 +24,7 @@ export default function Table(props: TableProps) {
                 </thead>
 
                 <tbody>
-                    {infosAll
+                    {infosAll?
                         .filter((register) => Object.values(register.name).join("").toLowerCase().includes(search.toLowerCase()))
                         .map((info, index: Key) => {
                             const infos = Object.values(info);

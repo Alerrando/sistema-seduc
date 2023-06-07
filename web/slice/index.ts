@@ -17,6 +17,20 @@ export type SchoolInfos = {
   name: string;
 }
 
+const registerTypes = {
+  Lesson: [
+    
+  ],
+
+  School: {
+
+  },
+
+  Director: {
+
+  }
+}
+
 export const HorasValuesDefault = {
   diaAula: new Date().toString(),
   edit: -1,
