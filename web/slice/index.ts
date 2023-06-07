@@ -18,17 +18,12 @@ export type SchoolInfos = {
 }
 
 const registerTypes = {
-  Lesson: [
-    
-  ],
+  Lesson: {},
 
-  School: {
+  School: {},
 
-  },
+  Director: {},
 
-  Director: {
-
-  }
 }
 
 export const HorasValuesDefault = {
@@ -50,11 +45,13 @@ export const SchoolValuesDefault = {
 export type StateProps = {
   allInfosLesson: LessonsInfos[];
   allInfosSchool: SchoolInfos[];
+  registerType: keyof typeof registerTypes;
 };
 
 const initialState: StateProps = {
   allInfosLesson: [],
   allInfosSchool: [],
+  registerType: null,
 };
 
 export const Slice = createSlice({
@@ -66,6 +63,9 @@ export const Slice = createSlice({
     },
     refreshInfosSchool: (state, action: PayloadAction<LessonsInfos[]>) => {
       state.allInfosSchool = action.payload;
+    },
+    changeRegisterType: (state, action: PayloadAction<keyof typeof registerTypes>) => {
+      state.registerType = action.payload;
     },
     editInfosChange: (state, action: PayloadAction<LessonsInfos>) => {
       state.allInfosLesson = state.allInfosLesson.map((info: LessonsInfos) => {
@@ -86,6 +86,6 @@ export const Slice = createSlice({
   },
 });
 
-export const { refreshInfosLesson, refreshInfosSchool, editInfosChange, deleteInfosChange } = Slice.actions;
+export const { refreshInfosLesson, refreshInfosSchool, changeRegisterType, editInfosChange, deleteInfosChange } = Slice.actions;
 
 export default Slice.reducer;

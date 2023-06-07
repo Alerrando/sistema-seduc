@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import "react-calendar/dist/Calendar.css";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteInfosChange, refreshInfosLesson, LessonsInfos, HorasValuesDefault } from "../../slice";
+import { deleteInfosChange, refreshInfosLesson, LessonsInfos, HorasValuesDefault, changeRegisterType } from "../../slice";
 import { RootState } from "../../system";
 import { createLesson, deleteLesson, editLesson, readAllLesson } from "@/api";
 
@@ -15,7 +15,7 @@ const Calendar = dynamic(() => import("react-calendar"), { ssr: false });
 
 export default function Home() {
 	const [infosInput, setInfosInput] = useState<LessonsInfos>(HorasValuesDefault);
-	const allInfosLesson = useSelector(({ Slice }: RootState) => Slice.allInfosLesson);
+	const { allInfosLesson, registerType } = useSelector((slice: RootState) => slice.Slice);
 	const dispatch = useDispatch();
 	const [search, setSearch] = useState("");
 	const [modal, setModal] = useState(false);
@@ -24,8 +24,10 @@ export default function Home() {
 	useEffect(() => {
 		(async () => {
 			dispatch(refreshInfosLesson(await readAllLesson()));
+			dispatch(changeRegisterType("Lesson"));
 		})()
 	}, [])
+	console.log(registerType);
 
 	return (
 		<section className="w-full sm:w-5/6 h-max ml-auto">

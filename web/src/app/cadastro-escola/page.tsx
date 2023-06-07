@@ -23,7 +23,7 @@ export default function CadastroEscola(){
         <main className='w-5/6 ml-auto px-6'>
             <h1 className="text-[42px]">Cadastro de Escolas</h1>
 
-            <Table tableHead={thead} infosAll={allInfosSchool} search={search} />
+            <Table tableHead={thead} infosAll={allInfosSchool} search={search} key={"Table-Escola"} />
         </main>
     )
 }

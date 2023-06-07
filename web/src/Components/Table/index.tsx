@@ -24,40 +24,41 @@ export default function Table(props: TableProps) {
                 </thead>
 
                 <tbody>
-                    {infosAll?
-                        .filter((register) => Object.values(register.name).join("").toLowerCase().includes(search.toLowerCase()))
-                        .map((info, index: Key) => {
-                            const infos = Object.values(info);
+                {infosAll
+                    ?.filter((register) => Object.values(register.name).join("").toLowerCase().includes(search.toLowerCase()))
+                    .map((info, index: Key) => {
+                    const infos = Object.values(info);
 
-                            return (
-                                <tr key={`${index}-${info.nomeProfessor}`}>
-                                    {infos.map((infosTable, indeX: Key) => (
-                                        <>
-                                            {isValid(parseISO(infosTable)) ? (
-                                                <td className='p-1 text-start whitespace-nowrap border border-[#999]' key={indeX}>
-                                                    <span className='whitespace-nowrap'>{format(new Date(infosTable.toString()), "dd/MM/yyyy")}</span>
-                                                </td>
-                                                ): (
-                                                <td className="p-1 text-start whitespace-nowrap border border-[#999]" key={indeX}>{infosTable}</td>
-                                            )}
-                                        </>
-                                   ))}
-                                    <td className="p-1 text-start border-x border-y border-[#999]" key={index}>
-                                        <div className="flex flex-row items-center justify-between">
-                                            <div className="flex items-center gap-2 px-2 py-1 border border-blue-500 text-blue-500 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white transition-colors" onClick={() => editInfo(info)}>
-                                                <Pencil size={18} />
-                                                <span>Edit</span>
-                                            </div>
-                                            <div className="flex items-center gap-2 px-2 py-1 border border-red-500 text-red-500 rounded-lg cursor-pointer hover:bg-red-500 hover:text-white transition-colors" onClick={() => deleteInfo(info)}>
-                                                <Trash size={18} />
-                                                <span>Delete</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            );
-                        })}
+                    return (
+                        <tr key={`${info.id}-${index}`}>
+                        {infos.map((infosTable, indeX: Key) => (
+                            <React.Fragment key={indeX}>
+                            {isValid(parseISO(infosTable)) ? (
+                                <td className='p-1 text-start whitespace-nowrap border border-[#999]'>
+                                <span className='whitespace-nowrap'>{format(new Date(infosTable.toString()), "dd/MM/yyyy")}</span>
+                                </td>
+                            ) : (
+                                <td className="p-1 text-start whitespace-nowrap border border-[#999]">{infosTable}</td>
+                            )}
+                            </React.Fragment>
+                        ))}
+                        <td className="p-1 text-start border-x border-y border-[#999]">
+                            <div className="flex flex-row items-center justify-between">
+                            <div className="flex items-center gap-2 px-2 py-1 border border-blue-500 text-blue-500 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white transition-colors" onClick={() => editInfo(info)}>
+                                <Pencil size={18} />
+                                <span>Edit</span>
+                            </div>
+                            <div className="flex items-center gap-2 px-2 py-1 border border-red-500 text-red-500 rounded-lg cursor-pointer hover:bg-red-500 hover:text-white transition-colors" onClick={() => deleteInfo(info)}>
+                                <Trash size={18} />
+                                <span>Delete</span>
+                            </div>
+                            </div>
+                        </td>
+                        </tr>
+                    );
+                    })}
                 </tbody>
+
             </table>
         </div>
     )
