@@ -1,43 +1,60 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { readAll } from "@/api";
 
-export type HorasInfos = {
+export type LessonsInfos = {
   id: number;
-  nomeProfessor: string;
+  name: string;
   horaAulas: number;
   titularidade: string;
   diaAula: Date;
-  escola: String;
+  escola: string;
   edit: number;
 };
+
+export type SchoolInfos = {
+  id: number;
+  diretor: string;
+  name: string;
+}
 
 export const HorasValuesDefault = {
   diaAula: new Date().toString(),
   edit: -1,
   horaAulas: 0,
   id: 0,
-  nomeProfessor: "",
+  name: "",
   titularidade: "",
   escola: "",
 };
 
+export const SchoolValuesDefault = {
+  id: 0,
+  diretor: "",
+  name: "",
+}
+
 export type StateProps = {
-  allInfos: HorasInfos[];
+  allInfosLesson: LessonsInfos[];
+  allInfosSchool: SchoolInfos[];
 };
 
 const initialState: StateProps = {
-  allInfos: [],
+  allInfosLesson: [],
+  allInfosSchool: [],
 };
 
 export const Slice = createSlice({
   name: "Slice",
   initialState,
   reducers: {
-    refreshInfos: (state, action: PayloadAction<HorasInfos[]>) => {
-      state.allInfos = action.payload;
+    refreshInfosLesson: (state, action: PayloadAction<LessonsInfos[]>) => {
+      state.allInfosLesson = action.payload;
     },
-    editInfosChange: (state, action: PayloadAction<HorasInfos>) => {
-      state.allInfos = state.allInfos.map((info: HorasInfos) => {
+    refreshInfosSchool: (state, action: PayloadAction<LessonsInfos[]>) => {
+      state.allInfosSchool = action.payload;
+    },
+    editInfosChange: (state, action: PayloadAction<LessonsInfos>) => {
+      state.allInfosLesson = state.allInfosLesson.map((info: LessonsInfos) => {
         if (action.payload.id === info.id) {
           return {
             ...action.payload,
@@ -47,14 +64,14 @@ export const Slice = createSlice({
         return info;
       });
     },
-    deleteInfosChange: (state, action: PayloadAction<HorasInfos>) => {
-      state.allInfos = state.allInfos.filter(
+    deleteInfosChange: (state, action: PayloadAction<LessonsInfos>) => {
+      state.allInfosLesson = state.allInfosLesson.filter(
         (info) => info.id !== action.payload.id
       );
     },
   },
 });
 
-export const { refreshInfos, editInfosChange, deleteInfosChange } = Slice.actions;
+export const { refreshInfosLesson, refreshInfosSchool, editInfosChange, deleteInfosChange } = Slice.actions;
 
 export default Slice.reducer;

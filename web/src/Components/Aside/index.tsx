@@ -26,7 +26,7 @@ export default function Aside() {
           </header>
 
           <section className={`w-full h-auto ${menu ? "block" : "hidden sm:block"}`}>
-            <ul className="grid gap-4">
+            <ul className="flex flex-col gap-4">
               <Link href="/" className="w-full block py-3 hover:bg-[#458ACE]">
                 <li className="w-full flex flex-row items-center gap-3 px-5 text-white">
                   <PieChart size={26} />
@@ -40,23 +40,23 @@ export default function Aside() {
                   <span>Cadastro</span>
                 </li>
                 {showDropdown && (
-                    <ul className="grid gap-4">
+                    <ul className="flex flex-col gap-4">
                         <Link href="/" className="w-full block py-3 hover:bg-[#458ACE]">
-                            <li className="w-full flex flex-row items-center gap-3 px-10 text-white">
+                            <li className="w-max flex flex-row items-center gap-3 px-10 text-white">
                                 <Book size={22} />
                                 <span>Aulas</span>
                             </li>
                         </Link>
 
-                        <Link href="/" className="w-full block py-3 hover:bg-[#458ACE]">
-                            <li className="w-full flex flex-row items-center gap-3 px-10 text-white">
+                        <Link href="/cadastro-escola" className="w-full block py-3 hover:bg-[#458ACE]">
+                            <li className="w-max flex flex-row items-center gap-3 px-10 text-white">
                                 <School2 size={22} />
                                 <span>Escolas</span>
                             </li>
                         </Link>
 
                         <Link href="/" className="w-full block py-3 hover:bg-[#458ACE]">
-                            <li className="w-full flex flex-row items-center gap-3 px-10 text-white">
+                            <li className="w-max flex flex-row items-center gap-3 px-10 text-white">
                                 <GraduationCap size={22} />
                                 <span>Professores</span>
                             </li>

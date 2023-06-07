@@ -24,7 +24,6 @@ export default function RootLayout({
 			<body className={roboto.className}>
 				<Provider store={store}>
 					<Aside />
-					<Header />
 					{children}
 				</Provider>
 			</body>

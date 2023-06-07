@@ -7,15 +7,15 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import "react-calendar/dist/Calendar.css";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteInfosChange, refreshInfos, HorasInfos, HorasValuesDefault } from "../../slice";
+import { deleteInfosChange, refreshInfosLesson, LessonsInfos, HorasValuesDefault } from "../../slice";
 import { RootState } from "../../system";
-import { deleteAula, readAll } from "@/api";
+import { createLesson, deleteLesson, editLesson, readAllLesson } from "@/api";
 
 const Calendar = dynamic(() => import("react-calendar"), { ssr: false });
 
 export default function Home() {
-	const [infosInput, setInfosInput] = useState<HorasInfos>(HorasValuesDefault);
-	const allInfos = useSelector(({ Slice }: RootState) => Slice.allInfos);
+	const [infosInput, setInfosInput] = useState<LessonsInfos>(HorasValuesDefault);
+	const allInfosLesson = useSelector(({ Slice }: RootState) => Slice.allInfosLesson);
 	const dispatch = useDispatch();
 	const [search, setSearch] = useState("");
 	const [modal, setModal] = useState(false);
@@ -23,7 +23,7 @@ export default function Home() {
 
 	useEffect(() => {
 		(async () => {
-			dispatch(refreshInfos(await readAll()));
+			dispatch(refreshInfosLesson(await readAllLesson()));
 		})()
 	}, [])
 
@@ -64,21 +64,44 @@ export default function Home() {
 				</div>
 
 				<div className="w-full border border-[#999]">
-					<Table tableHead={tableHead} editInfo={editInfo} deleteInfo={deleteInfo} infosAll={allInfos} search={search} key={"Table-Cadastro"} />
+					<Table tableHead={tableHead} editInfo={editInfo} deleteInfo={deleteInfo} infosAll={allInfosLesson} search={search} key={"Table-Cadastro"} />
 				</div>
 			</div>
 			
-			{modal ? (<Modal infosInput={infosInput} setInfosInput={setInfosInput} setModal={setModal} />) : null}
+			{modal ? (<Modal infosInput={infosInput} setInfosInput={setInfosInput} setModal={setModal} submitInfos={submitLesson} />) : null}
 		</section>
 	);
 
-	function editInfo(infos: HorasInfos){
-		setInfosInput({ diaAula: infos.diaAula, edit: 1, horaAulas: infos.horaAulas, id: infos.id, titularidade: infos.titularidade, nomeProfessor: infos.nomeProfessor });
+	function editInfo(infos: LessonsInfos){
+		setInfosInput({ diaAula: infos.diaAula, edit: 1, horaAulas: infos.horaAulas, id: infos.id, titularidade: infos.titularidade, name: infos.name });
 		setModal(true);
 	}
 
-	async function deleteInfo(infos: HorasInfos){
-		await deleteAula(infos.id);
-		dispatch(refreshInfos(await readAll()));
+	async function submitLesson(event){
+		const aux: LessonsInfos = {
+			diaAula: new Date(infosInput.diaAula),
+			horaAulas: event.horaAulas,
+			name: event.nomeProfessor,
+			titularidade: event.titularidade,
+			escola: event.escola,
+		};
+		
+		if(infosInput.edit === -1){
+			await createLesson(aux);
+			dispatch(refreshInfosLesson(await readAllLesson()));
+		}
+		else{
+			aux.id = infosInput.id;
+			await editLesson(aux, aux.id);
+			dispatch(refreshInfosLesson(await readAllLesson()));
+			setInfosInput(HorasValuesDefault);
+		}
+
+		setModal(false);
+	}
+
+	async function deleteInfo(infos: LessonsInfos){
+		await deleteLesson(infos.id);
+		dispatch(refreshInfosLesson(await readAllLesson()));
 	}
 }

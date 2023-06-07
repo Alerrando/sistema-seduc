@@ -1,13 +1,13 @@
-import { format, isValid } from 'date-fns';
+import { format, isValid, parseISO } from 'date-fns';
 import { Pencil, Trash } from 'lucide-react';
 import React, { Key } from 'react';
-import { HorasInfos } from '../../../slice';
+import { LessonsInfos } from '../../../slice';
 
 type TableProps = {
     tableHead: string[],
-    editInfo: (info: HorasInfos) => void,
-    deleteInfo: (info: HorasInfos) => void,
-    infosAll: HorasInfos[],
+    editInfo: (info: LessonsInfos) => void,
+    deleteInfo: (info: LessonsInfos) => void,
+    infosAll: [],
     search: string,
 }
 
@@ -24,21 +24,25 @@ export default function Table(props: TableProps) {
                 </thead>
 
                 <tbody>
-                    {infosAll?
-                        .filter((register) => Object.values(register.nomeProfessor).join("").toLowerCase().includes(search.toLowerCase()))
-                        .map((info: HorasInfos, index: Key) => {
+                    {infosAll
+                        .filter((register) => Object.values(register.name).join("").toLowerCase().includes(search.toLowerCase()))
+                        .map((info, index: Key) => {
+                            const infos = Object.values(info);
+
                             return (
                                 <tr key={`${index}-${info.nomeProfessor}`}>
-                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.id}</td>
-                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.nomeProfessor}</td>
-                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.horaAulas}</td>
-                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.titularidade}</td>
-                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">
-                                        {/* eslint-disable-next-line */}
-                                        <span className='whitespace-nowrap'>{format(new Date(info.diaAula.toString()), "dd/MM/yyyy")}</span>
-                                    </td>
-                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.escola}</td>
-                                    <td className="p-1 text-start border-x border-t border-[#999]">
+                                    {infos.map((infosTable, indeX: Key) => (
+                                        <>
+                                            {isValid(parseISO(infosTable)) ? (
+                                                <td className='p-1 text-start whitespace-nowrap border border-[#999]' key={indeX}>
+                                                    <span className='whitespace-nowrap'>{format(new Date(infosTable.toString()), "dd/MM/yyyy")}</span>
+                                                </td>
+                                                ): (
+                                                <td className="p-1 text-start whitespace-nowrap border border-[#999]" key={indeX}>{infosTable}</td>
+                                            )}
+                                        </>
+                                   ))}
+                                    <td className="p-1 text-start border-x border-y border-[#999]" key={index}>
                                         <div className="flex flex-row items-center justify-between">
                                             <div className="flex items-center gap-2 px-2 py-1 border border-blue-500 text-blue-500 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white transition-colors" onClick={() => editInfo(info)}>
                                                 <Pencil size={18} />

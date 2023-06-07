@@ -3,31 +3,27 @@ import { parse } from "date-fns";
 import { Plus, X } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { HorasInfos, HorasValuesDefault, refreshInfos, editInf, refreshInfososChange } from "../../../slice";
-import { RootState } from "../../../system";
-import { create, edit, readAll } from "@/api";
+import { LessonsInfos } from "../../../slice";
 
 type ModalProps = {
-	setInfosInput: (infosInput: HorasInfos) => void;
-	infosInput: HorasInfos;
+	setInfosInput: (infosInput: LessonsInfos) => void;
+	infosInput: LessonsInfos;
 	setModal: (modal: boolean) => void;
+	submitInfos: (e) => void;
 }
 
 const Calendar = dynamic(() => import("react-calendar"), { ssr: false });
 
 export default function Modal(props: ModalProps){
-	const { setInfosInput, infosInput, setModal } = props;
-	const allInfos = useSelector(({ Slice }: RootState) => Slice.allInfos);
-	const { register, handleSubmit, setValue } = useForm<HorasInfos>();
-	const dispatch = useDispatch();
+	const { setInfosInput, infosInput, setModal, submitInfos } = props;
+	const { register, handleSubmit, setValue } = useForm<LessonsInfos>();
 
 	useEffect(() => {
 		if (infosInput.edit !== -1) {
 			const parsedDate = parse(infosInput.diaAula, "dd/MM/yyyy", new Date());
 			setValue("diaAula", parsedDate);
 			setValue("horaAulas", infosInput.horaAulas);
-			setValue("nomeProfessor", infosInput.nomeProfessor);
+			setValue("nomeProfessor", infosInput.name);
 			setValue("titularidade", infosInput.titularidade);
 			setValue("escola", infosInput.escola);
 		}
@@ -97,25 +93,6 @@ export default function Modal(props: ModalProps){
 	);
 
  	async function submit(event){
-		const aux: HorasInfos = {
-			diaAula: new Date(infosInput.diaAula),
-			horaAulas: event.horaAulas,
-			nomeProfessor: event.nomeProfessor,
-			titularidade: event.titularidade,
-			escola: event.escola,
-		};
-		
-		if(infosInput.edit === -1){
-			await create(aux);
-			dispatch(refreshInfos(await readAll()));
-		}
-		else{
-			aux.id = infosInput.id;
-			await edit(aux, aux.id);
-			dispatch(refreshInfos(await readAll()));
-			setInfosInput(HorasValuesDefault);
-		}
-
-		setModal(false);
+		submitInfos(event);
 	}
 }
