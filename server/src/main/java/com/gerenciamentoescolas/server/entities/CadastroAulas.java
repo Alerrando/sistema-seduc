@@ -11,7 +11,7 @@ public class CadastroAulas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String nomeProfessor;
+    private String name;
     private Integer horaAulas;
     @Temporal(TemporalType.TIMESTAMP)
     private Date diaAula;
@@ -21,9 +21,9 @@ public class CadastroAulas {
     public CadastroAulas(){
     }
 
-    public CadastroAulas(Integer id, String nomeProfessor, Integer horaAulas, Date diaAula,String titularidade, String escola) {
+    public CadastroAulas(Integer id, String name, Integer horaAulas, Date diaAula, String titularidade, String escola) {
         this.id = id;
-        this.nomeProfessor = nomeProfessor;
+        this.name = name;
         this.horaAulas = horaAulas;
         this.diaAula = diaAula;
         this.titularidade = titularidade;
@@ -38,12 +38,12 @@ public class CadastroAulas {
         this.id = id;
     }
 
-    public String getNomeProfessor() {
-        return nomeProfessor;
+    public String getName() {
+        return name;
     }
 
-    public void setNomeProfessor(String nomeProfessor) {
-        this.nomeProfessor = nomeProfessor;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getHoraAulas() {
