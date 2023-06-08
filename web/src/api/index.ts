@@ -14,9 +14,10 @@ export async function readAllLesson() {
   }
 }
 
-export async function createLesson(info: LessonsInfos){
+export async function createLesson(info: LessonsInfos, id: string){
   try {
-    await axios.post(urlLesson, info)
+    console.log(info, id);
+    await axios.post(`${urlLesson}/${id}`, info)
     .then((response) => alert("Aula cadastrada com sucesso"))
     .catch((err) => console.log(err))
   } catch (error) {
@@ -24,7 +25,7 @@ export async function createLesson(info: LessonsInfos){
   }
 }
 
-export async function editLesson(info: LessonsInfos, id: number) {
+export async function editLesson(info: LessonsInfos, id: string) {
   try {
     await axios.put(`${urlLesson}/${id}`, info)
     .then((response) => alert("Aula editada com sucesso"))
@@ -88,4 +89,15 @@ export async function deleteSchool(id: number) {
   } catch (error) {
     console.log(error);
   }
+}
+
+export async function getIdSchool(id: string) {
+  let aux: SchoolInfos = {};
+  console.log(id);
+  
+  await axios.get(`${urlSchool}/${id}}`)
+  .then((res) => (aux = res.data))
+  .catch((err) => console.log(err))
+
+  return aux.name;
 }

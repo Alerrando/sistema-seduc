@@ -7,7 +7,7 @@ export type LessonsInfos = {
   horaAulas: number;
   titularidade: string;
   diaAula: Date;
-  escola: string;
+  cadastroEscola: number;
   edit: number;
 };
 
@@ -34,7 +34,7 @@ export const HorasValuesDefault = {
   id: 0,
   name: "",
   titularidade: "",
-  escola: "",
+  cadastroEscola: 0,
 };
 
 export const SchoolValuesDefault = {
@@ -63,31 +63,15 @@ export const Slice = createSlice({
     refreshInfosLesson: (state, action: PayloadAction<LessonsInfos[]>) => {
       state.allInfosLesson = action.payload;
     },
-    refreshInfosSchool: (state, action: PayloadAction<LessonsInfos[]>) => {
+    refreshInfosSchool: (state, action: PayloadAction<SchoolInfos[]>) => {
       state.allInfosSchool = action.payload;
     },
     changeRegisterType: (state, action: PayloadAction<keyof typeof registerTypes>) => {
       state.registerType = action.payload;
     },
-    editInfosChange: (state, action: PayloadAction<LessonsInfos>) => {
-      state.allInfosLesson = state.allInfosLesson.map((info: LessonsInfos) => {
-        if (action.payload.id === info.id) {
-          return {
-            ...action.payload,
-            diaAula: action.payload.diaAula,
-          };
-        }
-        return info;
-      });
-    },
-    deleteInfosChange: (state, action: PayloadAction<LessonsInfos>) => {
-      state.allInfosLesson = state.allInfosLesson.filter(
-        (info) => info.id !== action.payload.id
-      );
-    },
   },
 });
 
-export const { refreshInfosLesson, refreshInfosSchool, changeRegisterType, editInfosChange, deleteInfosChange } = Slice.actions;
+export const { refreshInfosLesson, refreshInfosSchool, changeRegisterType } = Slice.actions;
 
 export default Slice.reducer;

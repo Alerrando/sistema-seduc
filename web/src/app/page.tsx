@@ -7,10 +7,11 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import "react-calendar/dist/Calendar.css";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteInfosChange, refreshInfosLesson, LessonsInfos, HorasValuesDefault, changeRegisterType } from "../../slice";
-import { RootState } from "../../system";
-import { createLesson, deleteLesson, editLesson, readAllLesson } from "@/api";
+import { refreshInfosLesson, LessonsInfos, HorasValuesDefault, changeRegisterType, refreshInfosSchool } from "../../slice"
+import { RootState } from "@/system"
+import { createLesson, deleteLesson, editLesson, readAllLesson, readAllSchool } from "@/api";
 import CreateHeader from "@/Components/CreateHeader";
+
 
 const Calendar = dynamic(() => import("react-calendar"), { ssr: false });
 
@@ -20,14 +21,16 @@ export default function Home() {
 	const dispatch = useDispatch();
 	const [search, setSearch] = useState("");
 	const [modal, setModal] = useState(false);
-	const tableHead = ["Id", "Nome", "Horas de aulas dadas", "Titularidade", "Dia das aulas", "Escola","Ações"];
+	const tableHead = ["Id", "Nome", "Horas de aulas dadas", "Titularidade", "Escola", "Dia das aulas", "Ações"];
 
 	useEffect(() => {
 		(async () => {
 			dispatch(refreshInfosLesson(await readAllLesson()));
+			dispatch(refreshInfosSchool(await readAllSchool()));
 			dispatch(changeRegisterType("Lesson"));
 		})()
 	}, [])
+
 
 	return (
 		<section className="w-full sm:w-5/6 h-max ml-auto">
@@ -58,7 +61,7 @@ export default function Home() {
 	);
 
 	function editInfo(infos: LessonsInfos){
-		setInfosInput({ diaAula: infos.diaAula, edit: 1, horaAulas: infos.horaAulas, id: infos.id, titularidade: infos.titularidade, name: infos.name });
+		setInfosInput({ diaAula: infos.diaAula, edit: 1, horaAulas: infos.horaAulas, id: infos.id, titularidade: infos.titularidade, name: infos.name, cadastroEscola: infos.cadastroEscola });
 		
 		setModal(true);
 	}
@@ -69,16 +72,17 @@ export default function Home() {
 			horaAulas: event.horaAulas,
 			name: event.nomeProfessor,
 			titularidade: event.titularidade,
-			escola: event.escola,
+			cadastroEscola: event.cadastroEscola,
 		};
 		
 		if(infosInput.edit === -1){
-			await createLesson(aux);
+			await createLesson(aux, aux.cadastroEscola);
 			dispatch(refreshInfosLesson(await readAllLesson()));
 		}
 		else{
 			aux.id = infosInput.id;
-			await editLesson(aux, aux.id);
+			console.log(aux);
+			await editLesson(aux, aux.cadastroEscola);
 			dispatch(refreshInfosLesson(await readAllLesson()));
 			setInfosInput(HorasValuesDefault);
 		}

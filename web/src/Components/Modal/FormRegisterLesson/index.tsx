@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { Key, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
-import { LessonsInfos } from '../../../../slice';
+import { LessonsInfos, SchoolInfos } from '@/slice';
 import Input from '@/Components/Input';
 import { Plus } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/system';
 
 type FormRegisterLessonProps = {
-    infosInput: LessonInfos,
+    infosInput: LessonsInfos,
     submit: (e) => void,
     setModal: (modal: boolean) => void,
 }
@@ -13,6 +15,7 @@ type FormRegisterLessonProps = {
 export default function FormRegisterLesson(props: FormRegisterLessonProps){
     const { infosInput, setModal, submit } = props;
     const { register, handleSubmit, setValue } = useForm<LessonsInfos>();
+    const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
 
     useEffect(() => {
 		if (infosInput.edit !== -1) {
@@ -21,7 +24,7 @@ export default function FormRegisterLesson(props: FormRegisterLessonProps){
 			setValue("horaAulas", infosInput.horaAulas);
 			setValue("nomeProfessor", infosInput.name);
 			setValue("titularidade", infosInput.titularidade);
-			setValue("escola", infosInput.escola);
+			setValue("cadastroEscola", infosInput.cadastroEscola);
 		}
 	}, [infosInput.edit]);
 
@@ -50,11 +53,12 @@ export default function FormRegisterLesson(props: FormRegisterLessonProps){
                 </div>
 
                 <div className="w-full flex flex-col gap-2 px-2">
-                    <label htmlFor="escola" className="font-bold">Escola</label>
-                    <select name="escola" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("escola") }>
+                    <label htmlFor="cadastroEscola" className="font-bold">Escola</label>
+                    <select name="cadastroEscola" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cadastroEscola") }>
                         <option value="" defaultChecked className="outline-none border-none">Selecione uma Escola</option>
-                        <option value="Unoeste" className="outline-none border-none">Unoeste</option>
-                        <option value="Mario Fiorante" className="outline-none border-none">Mario Fiorante</option>
+                        {allInfosSchool?.map((school: SchoolInfos, index: Key) => (
+                            <option value={school.id} className="outline-none border-none">{school.name}</option>
+                        ))}
                     </select>
                 </div>
 
