@@ -4,12 +4,14 @@ import { LessonsInfos } from '../../../../slice';
 import Input from '@/Components/Input';
 import { Plus } from 'lucide-react';
 
-type FormCadastroAulasProps = {
+type FormRegisterLessonProps = {
     infosInput: LessonInfos,
     submit: (e) => void,
+    setModal: (modal: boolean) => void,
 }
 
-export default function FormCadastroAulas({ infosInput, submit }: FormCadastroAulasProps){
+export default function FormRegisterLesson(props: FormRegisterLessonProps){
+    const { infosInput, setModal, submit } = props;
     const { register, handleSubmit, setValue } = useForm<LessonsInfos>();
 
     useEffect(() => {

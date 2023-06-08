@@ -4,13 +4,13 @@ import { Plus } from "lucide-react";
 import Input from "@/Components/Input";
 import { useForm } from "react-hook-form";
 
-type FormCadastroSchoolProps = {
+type FormRegisterSchoolProps = {
     infosInput: SchoolInfos,
     submit: (e) => void,
     setModal: (modal: boolean) => void
 }
 
-export default function FormCadastroEscola(props: FormCadastroSchoolProps){
+export default function FormRegisterSchool(props: FormRegisterSchoolProps){
     const { infosInput, setModal, submit } = props;
     const { register, handleSubmit, setValue } = useForm<SchoolInfos>();
 

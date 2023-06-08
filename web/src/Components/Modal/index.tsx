@@ -7,8 +7,8 @@ import { LessonsInfos, SchoolInfos } from "../../../slice";
 import Input from "../Input";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../system";
-import FormCadastroEscola from "./FormCadastroEscola";
-import FormCadastroAulas from "./FormCadastroAulas";
+import FormRegisterSchool from "./FormRegisterSchool";
+import FormRegisterLesson from "./FormRegisterLesson";
 
 type ModalProps = {
 	setInfosInput: (infosInput: LessonsInfos | SchoolInfos) => void;
@@ -42,12 +42,12 @@ export default function Modal(props: ModalProps){
 					{registerType === "Lesson" ? (
 						<>
 							<Calendar className="w-[100%!important] calendar shadow-md rounded-md" value={infosInput.diaAula} onChange={e => setInfosInput({ ...infosInput, diaAula: new Date(e)})}  />
-							<FormCadastroAulas infosInput={infosInput} submit={submit} setModal={setModal} />
+							<FormRegisterLesson infosInput={infosInput} submit={submit} setModal={setModal} />
 						</>
 					) : registerType === "School" ? (
-						<FormCadastroEscola infosInput={infosInput} submit={submit} setModal={setModal} />
+						<FormRegisterSchool infosInput={infosInput} submit={submit} setModal={setModal} />
 					) : (
-						<FormCadastroAulas infosInput={infosInput} submit={submit} setModal={setModal} />
+						<FormRegisterLesson infosInput={infosInput} submit={submit} setModal={setModal} />
 					)}
 				</div>
 			</div>
