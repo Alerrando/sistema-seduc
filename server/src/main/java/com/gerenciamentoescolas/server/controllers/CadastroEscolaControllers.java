@@ -25,12 +25,12 @@ public class CadastroEscolaControllers {
         return cadastroEscolaService.create(cadastroEscola);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public CadastroEscola edit(@PathVariable Integer id, @RequestBody CadastroEscola cadastroEscola){
         return cadastroEscolaService.edit(id, cadastroEscola);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id){
         cadastroEscolaService.delete(id);
     }
