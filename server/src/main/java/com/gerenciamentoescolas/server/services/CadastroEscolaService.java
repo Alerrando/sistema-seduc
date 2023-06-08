@@ -29,4 +29,8 @@ public class CadastroEscolaService {
     public void delete(Integer id){
         cadastroEscolaRepository.deleteById(id);
     }
+
+    public CadastroEscola findById(Integer id) {
+        return cadastroEscolaRepository.findById(id).orElse(null);
+    }
 }

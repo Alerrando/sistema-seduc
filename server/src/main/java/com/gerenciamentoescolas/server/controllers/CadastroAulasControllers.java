@@ -13,15 +13,16 @@ import java.util.List;
 public class CadastroAulasControllers {
     @Autowired
     private CadastroAulaService cadastroAulaService;
+
     @GetMapping
     public List<CadastroAulas> findall(){
         List<CadastroAulas> result = cadastroAulaService.findAll();
         return result;
     }
 
-    @PostMapping
-    public CadastroAulas create(@RequestBody CadastroAulas cadastroAulas){
-        return cadastroAulaService.create(cadastroAulas);
+    @PostMapping("/{escolaId}")
+    public CadastroAulas create(@RequestBody CadastroAulas cadastroAulas, @PathVariable Integer escolaId) {
+        return cadastroAulaService.create(cadastroAulas, escolaId);
     }
 
     @PutMapping("/{id}")

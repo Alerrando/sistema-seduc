@@ -1,6 +1,7 @@
 package com.gerenciamentoescolas.server.entities;
 
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.Objects;
@@ -16,18 +17,19 @@ public class CadastroAulas {
     @Temporal(TemporalType.TIMESTAMP)
     private Date diaAula;
     private String titularidade;
-    private String escola;
+    @JoinColumn(name = "escola")
+    private Integer cadastroEscola;
 
     public CadastroAulas(){
     }
 
-    public CadastroAulas(Integer id, String name, Integer horaAulas, Date diaAula, String titularidade, String escola) {
+    public CadastroAulas(Integer id, String name, Integer horaAulas, Date diaAula, String titularidade, Integer cadastroEscola) {
         this.id = id;
         this.name = name;
         this.horaAulas = horaAulas;
         this.diaAula = diaAula;
         this.titularidade = titularidade;
-        this.escola = escola;
+        this.cadastroEscola = cadastroEscola;
     }
 
     public Integer getId() {
@@ -70,12 +72,12 @@ public class CadastroAulas {
         this.titularidade = titularidade;
     }
 
-    public String getEscola() {
-        return escola;
+    public Integer getCadastroEscola() {
+        return cadastroEscola;
     }
 
-    public void setEscola(String escola) {
-        this.escola = escola;
+    public void setCadastroEscola(Integer cadastroEscola) {
+        this.cadastroEscola = cadastroEscola;
     }
 
     @Override

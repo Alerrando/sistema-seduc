@@ -3,6 +3,7 @@ package com.gerenciamentoescolas.server.controllers;
 import com.gerenciamentoescolas.server.entities.CadastroEscola;
 import com.gerenciamentoescolas.server.services.CadastroEscolaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,4 +35,15 @@ public class CadastroEscolaControllers {
     public void delete(@PathVariable Integer id){
         cadastroEscolaService.delete(id);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CadastroEscola> findById(@PathVariable Integer id) {
+        CadastroEscola escola = cadastroEscolaService.findById(id);
+        if (escola != null) {
+            return ResponseEntity.ok(escola);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
