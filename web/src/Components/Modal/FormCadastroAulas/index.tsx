@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import { LessonsInfos } from '../../../../slice';
 import Input from '@/Components/Input';
+import { Plus } from 'lucide-react';
 
 type FormCadastroAulasProps = {
     infosInput: LessonInfos,

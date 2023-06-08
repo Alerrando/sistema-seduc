@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LessonsInfos } from "../../slice";
+import { LessonsInfos, SchoolInfos } from "../../slice";
 const urlLesson = "http://localhost:8080/cadastro-aulas";
 const urlSchool = "http://localhost:8080/cadastro-escola"
 
@@ -44,6 +44,8 @@ export async function deleteLesson(id: number) {
   }
 }
 
+// ----------------------------- API SCHOOL ----------------------------- //
+
 export async function readAllSchool() {
   try {
     let aux = await axios.get(urlSchool)
@@ -52,6 +54,37 @@ export async function readAllSchool() {
 
     console.log(aux);
     return aux;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function createSchool(info: SchoolInfos){
+  try {
+    console.log(info);
+    await axios.post(urlSchool, info)
+    .then((response) => alert("Escola cadastrada com sucesso"))
+    .catch((err) => console.log(err))
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function editSchool(info: SchoolInfos, id: number) {
+  try {
+    await axios.put(`${urlSchool}/${id}`, info)
+    .then((response) => alert("Escola editada com sucesso"))
+    .catch((err) => console.log(err));
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function deleteSchool(id: number) {
+  try {
+    await axios.delete(`${urlSchool}/${id}`)
+    .then((response) => alert("Escola deletada com sucesso"))
+    .catch((err) => console.log(err));
   } catch (error) {
     console.log(error);
   }

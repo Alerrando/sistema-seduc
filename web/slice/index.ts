@@ -15,6 +15,7 @@ export type SchoolInfos = {
   id: number;
   diretor: string;
   name: string;
+  edit: number;
 }
 
 const registerTypes = {
@@ -40,6 +41,7 @@ export const SchoolValuesDefault = {
   id: 0,
   diretor: "",
   name: "",
+  edit: -1,
 }
 
 export type StateProps = {

@@ -5,6 +5,10 @@ import dynamic from "next/dynamic";
 import { useForm } from "react-hook-form";
 import { LessonsInfos, SchoolInfos } from "../../../slice";
 import Input from "../Input";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../system";
+import FormCadastroEscola from "./FormCadastroEscola";
+import FormCadastroAulas from "./FormCadastroAulas";
 
 type ModalProps = {
 	setInfosInput: (infosInput: LessonsInfos | SchoolInfos) => void;
@@ -17,6 +21,7 @@ const Calendar = dynamic(() => import("react-calendar"), { ssr: false });
 
 export default function Modal(props: ModalProps){
 	const { setInfosInput, infosInput, setModal, submitInfos } = props;
+	const { registerType } = useSelector((slice: RootState) => slice.Slice)
 
 	async function submit(event){
 		submitInfos(event);
@@ -33,9 +38,17 @@ export default function Modal(props: ModalProps){
 				</header>
 
 				<div className="w-full flex flex-col sm:grid sm:grid-cols-2">
-					<Calendar className="w-[100%!important] calendar shadow-md rounded-md" value={infosInput.diaAula} onChange={e => setInfosInput({ ...infosInput, diaAula: new Date(e)})}  />
 
-					<FormCadastroAulas infosInput={infosInput} submit={submit} />
+					{registerType === "Lesson" ? (
+						<>
+							<Calendar className="w-[100%!important] calendar shadow-md rounded-md" value={infosInput.diaAula} onChange={e => setInfosInput({ ...infosInput, diaAula: new Date(e)})}  />
+							<FormCadastroAulas infosInput={infosInput} submit={submit} setModal={setModal} />
+						</>
+					) : registerType === "School" ? (
+						<FormCadastroEscola infosInput={infosInput} submit={submit} setModal={setModal} />
+					) : (
+						<FormCadastroAulas infosInput={infosInput} submit={submit} setModal={setModal} />
+					)}
 				</div>
 			</div>
 		</div>
