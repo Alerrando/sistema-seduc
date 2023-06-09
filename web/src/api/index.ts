@@ -14,6 +14,18 @@ export async function readAllLesson() {
   }
 }
 
+export async function readPaginationLesson(pageNumber: number, pageSize: number) {
+  try {
+    let aux = await axios.get(`${urlLesson}/page?pageNumber=${pageNumber}&pageSize=${pageSize}`)
+    .then((response) => response.data.content)
+    .catch((err) => console.log(err))
+
+    return aux;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export async function createLesson(info: LessonsInfos, id: string){
   try {
     console.log(info, id);

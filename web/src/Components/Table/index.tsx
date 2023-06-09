@@ -75,10 +75,9 @@ export default function Table(props: TableProps) {
     )
 
     function getNameSchool(id: string){
-        let aux = "";
-        allInfosSchool.forEach((school: SchoolInfos) => {
+        let aux =  allInfosSchool.forEach((school: SchoolInfos) => {
             if(school.id == id){
-                aux = school.name;
+                return school.name;
             }
         })
 

@@ -15,6 +15,7 @@ export type SchoolInfos = {
   id: number;
   diretor: string;
   name: string;
+  classificação?: string,
   edit: number;
 }
 

@@ -74,20 +74,24 @@ export default function Home() {
 			titularidade: event.titularidade,
 			cadastroEscola: event.cadastroEscola,
 		};
-		
-		if(infosInput.edit === -1){
-			await createLesson(aux, aux.cadastroEscola);
-			dispatch(refreshInfosLesson(await readAllLesson()));
+		if(aux.cadastroEscola == "0"){
+			alert("Selecione uma escola ou adicione uma!");
 		}
 		else{
-			aux.id = infosInput.id;
-			console.log(aux);
-			await editLesson(aux, aux.cadastroEscola);
-			dispatch(refreshInfosLesson(await readAllLesson()));
-			setInfosInput(HorasValuesDefault);
+			if(infosInput.edit === -1){
+				await createLesson(aux, aux.cadastroEscola);
+				dispatch(refreshInfosLesson(await readAllLesson()));
+			}
+			else{
+				aux.id = infosInput.id;
+				console.log(aux);
+				await editLesson(aux, aux.cadastroEscola);
+				dispatch(refreshInfosLesson(await readAllLesson()));
+				setInfosInput(HorasValuesDefault);
+			}
+	
+			setModal(false);
 		}
-
-		setModal(false);
 	}
 
 	async function deleteInfo(infos: LessonsInfos){

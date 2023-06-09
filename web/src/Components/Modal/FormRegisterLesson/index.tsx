@@ -55,7 +55,7 @@ export default function FormRegisterLesson(props: FormRegisterLessonProps){
                 <div className="w-full flex flex-col gap-2 px-2">
                     <label htmlFor="cadastroEscola" className="font-bold">Escola</label>
                     <select name="cadastroEscola" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cadastroEscola") }>
-                        <option value="" defaultChecked className="outline-none border-none">Selecione uma Escola</option>
+                        <option value="0" defaultChecked className="outline-none border-none">Selecione uma Escola</option>
                         {allInfosSchool?.map((school: SchoolInfos, index: Key) => (
                             <option value={school.id} className="outline-none border-none">{school.name}</option>
                         ))}

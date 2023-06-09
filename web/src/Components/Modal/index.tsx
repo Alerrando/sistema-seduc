@@ -37,19 +37,19 @@ export default function Modal(props: ModalProps){
 					</div>
 				</header>
 
-				<div className="w-full flex flex-col sm:grid sm:grid-cols-2">
 
-					{registerType === "Lesson" ? (
-						<>
-							<Calendar className="w-[100%!important] calendar shadow-md rounded-md" value={infosInput.diaAula} onChange={e => setInfosInput({ ...infosInput, diaAula: new Date(e)})}  />
-							<FormRegisterLesson infosInput={infosInput} submit={submit} setModal={setModal} />
-						</>
-					) : registerType === "School" ? (
-						<FormRegisterSchool infosInput={infosInput} submit={submit} setModal={setModal} />
-					) : (
+				{registerType === "Lesson" ? (
+					<div className="w-full flex flex-col sm:grid sm:grid-cols-2">
+						<Calendar className="w-[100%!important] calendar shadow-md rounded-md" value={infosInput.diaAula} onChange={e => setInfosInput({ ...infosInput, diaAula: new Date(e)})}  />
 						<FormRegisterLesson infosInput={infosInput} submit={submit} setModal={setModal} />
-					)}
-				</div>
+					</div>
+				) : registerType === "School" ? (
+					<div className="w-full flex flex-col sm:grid">
+						<FormRegisterSchool infosInput={infosInput} submit={submit} setModal={setModal} />					
+					</div>
+				) : (
+					<FormRegisterLesson infosInput={infosInput} submit={submit} setModal={setModal} />
+				)}
 			</div>
 		</div>
 	);

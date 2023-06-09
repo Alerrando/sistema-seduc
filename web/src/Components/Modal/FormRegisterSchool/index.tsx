@@ -18,12 +18,29 @@ export default function FormRegisterSchool(props: FormRegisterSchoolProps){
 		if (infosInput.edit !== -1) {
 			setValue("name", infosInput.name);
 			setValue("diretor", infosInput.diretor);
+            setValue("classificação", infosInput.classificação)
 		}
 	}, [infosInput.edit]);
 
     return(
         <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(submit)}>
             <div className="w-full flex flex-col gap-3">
+                <div className="w-full flex flex-row items-center justify-between">
+                    <div className="w-auto flex flex-row items-center gap-2">
+                        <input type="radio" name="classificação" className="w-4 h-4" id="escola-municipal" value="Escola Municipal" { ...register("classificação") } />
+                        <span className="text-xl font-bold">Escola Municipal</span>
+                    </div>
+
+                    <div className="w-auto flex flex-row items-center gap-2">
+                        <input type="radio" name="classificação" className="w-4 h-4" id="escola-estadual" value="Escola Estadual" { ...register("classificação") } />
+                        <span className="text-xl font-bold">Escola Estadual</span>
+                    </div>
+
+                    <div className="w-auto flex flex-row items-center gap-2">
+                        <input type="radio" name="classificação" className="w-4 h-4" id="creche" value="Creche" { ...register("classificação") } />
+                        <span className="text-xl font-bold">Creche</span>
+                    </div>
+                </div>
 
                 <Input htmlFor="name" label="Nome da Escola" name="name" placeholder="Escola Municipal Mario Fiorante" register={register} type="text" key={"name-escola-input"} />
                 

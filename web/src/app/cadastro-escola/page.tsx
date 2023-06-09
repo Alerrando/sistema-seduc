@@ -46,7 +46,7 @@ export default function CadastroEscola(){
         const aux: SchoolInfos = {
             diretor: event.diretor,
             edit: -1,
-            name: event.name,
+            name: `${event.classificação} ${event.name}`,
             id: infosInput.id,
         }
 		if(infosInput.edit === -1){
