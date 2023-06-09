@@ -24,7 +24,7 @@ export default function Table(props: TableProps) {
             <table className="w-full">
                 <thead>
                     <tr>
-                        {tableHead.map(head => <th key={head} scope="col" className="p-1 text-start whitespace-nowrap border border-[#999]">{head}</th>)}
+                        {tableHead.map(head => <th key={head} scope="col" className="px-2 py-1 text-start whitespace-nowrap border border-[#999]">{head}</th>)}
                     </tr>
                 </thead>
 
@@ -75,9 +75,10 @@ export default function Table(props: TableProps) {
     )
 
     function getNameSchool(id: string){
-        let aux =  allInfosSchool.forEach((school: SchoolInfos) => {
+        let aux = ""
+        allInfosSchool.forEach((school: SchoolInfos) => {
             if(school.id == id){
-                return school.name;
+                aux = school.name;
             }
         })
 

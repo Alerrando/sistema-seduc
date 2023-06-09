@@ -28,7 +28,6 @@ export async function readPaginationLesson(pageNumber: number, pageSize: number)
 
 export async function createLesson(info: LessonsInfos, id: string){
   try {
-    console.log(info, id);
     await axios.post(`${urlLesson}/${id}`, info)
     .then((response) => alert("Aula cadastrada com sucesso"))
     .catch((err) => console.log(err))
@@ -65,7 +64,6 @@ export async function readAllSchool() {
     .then((response) => response.data)
     .catch((err) => console.log(err))
 
-    console.log(aux);
     return aux;
   } catch (error) {
     console.log(error);
