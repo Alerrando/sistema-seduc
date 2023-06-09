@@ -6,6 +6,9 @@ import com.gerenciamentoescolas.server.repository.CadastroAulaRepository;
 import com.gerenciamentoescolas.server.repository.CadastroEscolaRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -21,6 +24,11 @@ public class CadastroAulaService {
 
     public List<CadastroAulas> findAll(){
         List<CadastroAulas> result = cadastroAulaRepository.findAll();
+        return result;
+    }
+    public Page<CadastroAulas> findAllPageable(int pageNumber, int pageSize){
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<CadastroAulas> result = cadastroAulaRepository.findAll(pageable);
         return result;
     }
 

@@ -3,6 +3,7 @@ package com.gerenciamentoescolas.server.controllers;
 import com.gerenciamentoescolas.server.entities.CadastroAulas;
 import com.gerenciamentoescolas.server.services.CadastroAulaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,12 @@ public class CadastroAulasControllers {
     @GetMapping
     public List<CadastroAulas> findall(){
         List<CadastroAulas> result = cadastroAulaService.findAll();
+        return result;
+    }
+
+    @GetMapping("/page")
+    public Page<CadastroAulas> findPageable(@RequestParam int pageNumber, @RequestParam(defaultValue = "5") int pageSize){
+        Page<CadastroAulas> result = cadastroAulaService.findAllPageable(pageNumber, pageSize);
         return result;
     }
 
