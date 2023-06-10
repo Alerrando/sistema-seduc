@@ -1,123 +1,90 @@
 "use client";
 import React, { useEffect } from "react";
-import Modal from "@/Components/Modal";
-import Table from "@/Components/Table";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import dynamic from "next/dynamic";
 import { useState } from "react";
-import "react-calendar/dist/Calendar.css";
 import { useDispatch, useSelector } from "react-redux";
-import { refreshInfosLesson, LessonsInfos, HorasValuesDefault, changeRegisterType, refreshInfosSchool } from "../../slice"
-import { RootState } from "@/system"
-import { createLesson, deleteLesson, editLesson, readAllLesson, readAllSchool, readPaginationLesson } from "@/api";
-import CreateHeader from "@/Components/CreateHeader";
-
+import { readAllLesson, readAllSchool } from "@/api";
+import dynamic from "next/dynamic";
+import { refreshInfosSchool } from "../../slice";
+import "react-calendar/dist/Calendar.css";
+import BarChart from "@/Components/BarChart";
+import DoughnutChartChart from "@/Components/DoughnutChart";
 
 const Calendar = dynamic(() => import("react-calendar"), { ssr: false });
 
 export default function Home() {
-  const [infosInput, setInfosInput] = useState<LessonsInfos>(HorasValuesDefault);
-  const [lessonsLengthall, setLessonsLengthall] = useState(0);
   const [pagination, setPagination] = useState(0);
-  const { allInfosLesson, allInfosSchool, registerType } = useSelector((slice: RootState) => slice.Slice);
   const dispatch = useDispatch();
-  const [search, setSearch] = useState("");
-  const [modal, setModal] = useState(false);
-  const tableHead = ["Id", "Nome Completo", "Horas de aulas dadas", "Titularidade", "Escola", "Dia das aulas", "Ações"];
+  const [dataCalendar, setDataCalendar] = useState(new Date().toString());
+  const dataBar = {
+    labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'],
+    datasets: [
+      {
+        label: 'Vendas',
+        data: [12, 19, 3, 5, 2, 3],
+        borderColor: 'rgba(75,192,192,1)',
+      },
+    ],
+  };
+
+  const dataDoughnut = {
+    labels: [
+      'Escola Municipal',
+      'Escola Estadual',
+      'Creche'
+    ],
+    datasets: [{
+      label: 'Escolas',
+      data: [300, 50, 100],
+      backgroundColor: [
+        'rgb(255, 99, 132)',
+        'rgb(54, 162, 235)',
+        'rgb(255, 205, 86)'
+      ],
+      hoverOffset: 4
+    }]
+  };
 
   useEffect(() => {
     (async () => {
-      dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
+      setPagination(await readAllLesson().then((data) => data.length))
       dispatch(refreshInfosSchool(await readAllSchool()));
-      dispatch(changeRegisterType("Lesson"));
-      setLessonsLengthall(await readAllLesson().then((data) => data.length));
     })()
   }, [])
 
 
-  useEffect(() => {
-    (async () => {
-      dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
-      setLessonsLengthall(await readAllLesson().then((data) => data.length));
-    })()
-  }, [pagination])
+  return(
+    <main className="w-full md:w-5/6 h-full ml-auto">
+      <div className="w-full h-full flex flex-col md:flex-row gap-5 py-3">
+        <section className="w-full h-full flex flex-col gap-12 px-6">
+          <header className="w-full h-auto flex flex-col gap-2 items-start">
+            <h1 className="text-3xl md:text-4xl">Bem vindo Alerrando!</h1>
+            <p className="text-base text-[#5a5a5a]">É bom vê-lo novamente.</p>
+          </header>
+
+          <section className="w-full h-auto flex flex-col gap-12">
+            <BarChart data={dataBar} />
+
+            <div className="w-full h-auto grid md:justify-between md:flex md:flex-row gap-3">
+              <div className="w-full md:w-52 h-28 flex flex-col justify-center gap-2 rounded-2xl bg-[#F5F5F7] pl-5">
+                <h2 className="font-bold text-2xl">11</h2>
+                <span className="text-base md:text-sm">Quantidade de Aulas</span>
+              </div>
+
+              <div className="w-full md:w-52 h-28 flex flex-col justify-center gap-2 rounded-2xl bg-[#F5F5F7] pl-5">
+                <h2 className="font-bold text-2xl">11</h2>
+                <span className="text-base md:text-sm">Quantidade de Escolas</span>
+              </div>
+
+              <div className="w-full md:w-52 h-28 flex flex-col justify-center gap-2 rounded-2xl bg-[#F5F5F7] pl-5">
+                <h2 className="font-bold text-2xl">11</h2>
+                <span className="text-base md:text-sm">Quantidade de Professores</span>
+              </div>
+            </div>
+          </section>
 
 
-  return (
-    <section className="w-full sm:w-5/6 h-max ml-auto">
-
-      <div className="w-full flex flex-col gap-4 px-6 py-3">
-        <Calendar className="w-[100%!important] h-1/2 calendar shadow-md rounded-md" value={infosInput.diaAula} onChange={e => setInfosInput({ ...infosInput, diaAula: new Date(e)})} />
-        <h1 className="text-[42px]">Aulas</h1>
-
-        {allInfosLesson != undefined ? (
-          <CreateHeader setModal={setModal} setSearch={setSearch} totalRegiter={lessonsLengthall} key={"create-header-lesson"} />
-        ): null}
-
-        <div className="w-full flex justify-end">
-          <div className="w-auto flex flex-row items-center gap-4">
-            <ArrowLeft size={32} className="cursor-pointer" onClick={changePagination("Left")} />
-            <span className="text-2xl font-bold">{pagination + 1}</span>
-            <ArrowRight size={32} className="cursor-pointer" onClick={changePagination("Right")} />
-          </div>
-        </div>
-
-        <div className="w-full border border-[#999]">
-          <Table tableHead={tableHead} editInfo={editInfo} deleteInfo={deleteInfo} infosAll={allInfosLesson} search={search} key={"Table-Cadastro"} />
-        </div>
+        </section>
       </div>
-      
-      {modal ? (<Modal infosInput={infosInput} setInfosInput={setInfosInput} setModal={setModal} submitInfos={submitLesson} />) : null}
-    </section>
-  );
-
-  function editInfo(infos: LessonsInfos){
-    setInfosInput({ diaAula: infos.diaAula, edit: 1, horaAulas: infos.horaAulas, id: infos.id, titularidade: infos.titularidade, id_escola: infos.id_escola, nome: infos.nome });
-    setModal(true);
-  }
-
-  async function submitLesson(event){
-		const aux: LessonsInfos = {
-			diaAula: new Date(infosInput.diaAula),
-			horaAulas: event.horaAulas,
-			name: event.nomeProfessor,
-			titularidade: event.titularidade,
-			cadastroEscola: event.cadastroEscola,
-		};
-
-		if(aux.cadastroEscola == "0"){
-			alert("Selecione uma escola ou adicione uma!");
-		}
-		else{
-			if(infosInput.edit === -1){
-				await createLesson(aux, aux.cadastroEscola);
-				dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
-			}
-			else{
-				aux.id = infosInput.id;
-				await editLesson(aux, aux.cadastroEscola);
-				dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
-				setInfosInput(HorasValuesDefault);
-			}
-	
-			setModal(false);
-		}
-	}
-
-  async function deleteInfo(infos: LessonsInfos){
-    await deleteLesson(infos.id);
-    dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
-  }
-
-  function changePagination(type: string){
-    return () => {
-      if(type === "Left"){
-        if(pagination === 0) setPagination(0);
-        else setPagination(prev => prev - 1);
-      }else{
-        if(pagination == allInfosLesson.length - 1) setPagination(0);
-        else setPagination(prev => prev + 1);
-      }
-    }
-  }
+    </main>
+  )
 }

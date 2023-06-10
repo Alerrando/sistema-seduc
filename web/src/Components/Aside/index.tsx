@@ -8,7 +8,7 @@ export default function Aside() {
 
   return (
     <>
-      <AlignJustify className="block sm:hidden" onClick={() => setMenu(true)} />
+      <AlignJustify className="absolute text-white top-3 sm:hidden" onClick={() => setMenu(true)} size={24} />
       <aside
         className={` ${menu ? "flex h-full w-full bg-modal" : "hidden sm:flex sm:w-1/6 sm:h-full bg-principal"
           } fixed top-0 left-0 flex flex-col gap-8 `}
@@ -41,7 +41,7 @@ export default function Aside() {
                 </li>
                 {showDropdown && (
                     <ul className="flex flex-col gap-4">
-                        <Link href="/" className="w-full block py-3 hover:bg-[#458ACE]">
+                        <Link href="/cadastro-aula" className="w-full block py-3 hover:bg-[#458ACE]">
                             <li className="w-max flex flex-row items-center gap-3 px-10 text-white">
                                 <Book size={22} />
                                 <span>Aulas</span>
