@@ -11,7 +11,7 @@ module.exports = {
 			colors: {
 				"principal": "#222831",
 				"modal": "rgba(0, 0, 0, 0.5)",
-			}
+			},
 		},
 	},
 	plugins: [],

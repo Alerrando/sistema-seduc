@@ -11,8 +11,7 @@ import { refreshInfosLesson, LessonsInfos, HorasValuesDefault, changeRegisterTyp
 import { RootState } from "@/system";
 import { createLesson, deleteLesson, editLesson, readAllLesson, readAllSchool, readPaginationLesson } from "@/api";
 import CreateHeader from "@/Components/CreateHeader";
-
-const Calendar = dynamic(() => import("react-calendar"), { ssr: false });
+import { Calendar } from 'react-calendar';
 
 export default function CadastroAula() {
   const [infosInput, setInfosInput] =

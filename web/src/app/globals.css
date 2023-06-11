@@ -26,3 +26,7 @@
 .calendar-home .react-calendar__viewContainer .react-calendar__month-view > div > div .react-calendar__month-view__days{
     height: 100%;
 }
+
+img{
+    position: relative!important;
+}
