@@ -2,6 +2,7 @@ package com.gerenciamentoescolas.server.services;
 
 import java.util.List;
 
+import com.gerenciamentoescolas.server.exception.ProfessorJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,12 @@ public class CadastorProfessorService {
     }
 
     public CadastroProfessor create(CadastroProfessor cadastroProfessor){
+        List<CadastroProfessor> professores = cadastroProfessorRepository.findAll();
+        for(CadastroProfessor professor : professores){
+            if(professor.equals(cadastroProfessor)){
+                throw  new ProfessorJaCadastradoException("Professor já cadastrado!");
+            }
+        }
         return cadastroProfessorRepository.save(cadastroProfessor);
     }
 

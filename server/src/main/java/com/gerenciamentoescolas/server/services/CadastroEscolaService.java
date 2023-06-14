@@ -1,6 +1,7 @@
 package com.gerenciamentoescolas.server.services;
 
 import com.gerenciamentoescolas.server.entities.CadastroEscola;
+import com.gerenciamentoescolas.server.exception.EscolaJaCadastradaException;
 import com.gerenciamentoescolas.server.repository.CadastroEscolaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,12 @@ public class CadastroEscolaService {
     }
 
     public CadastroEscola create(CadastroEscola cadastroEscola){
+        List<CadastroEscola> escolas = cadastroEscolaRepository.findAll();
+        for(CadastroEscola escola : escolas){
+            if(cadastroEscolaRepository.existsByNameOrDiretor(escola.getName(), escola.getDiretor())){
+                throw new EscolaJaCadastradaException("Escola já cadastrada!");
+            }
+        }
         return cadastroEscolaRepository.save(cadastroEscola);
     }
 

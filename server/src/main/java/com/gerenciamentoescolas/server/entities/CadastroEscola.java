@@ -51,11 +51,12 @@ public class CadastroEscola {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CadastroEscola that = (CadastroEscola) o;
-        return Objects.equals(id, that.id) && Objects.equals(diretor, that.diretor);
+        return Objects.equals(name, that.name) || Objects.equals(diretor, that.diretor);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, diretor);
+        return Objects.hash(name, diretor);
     }
+
 }
