@@ -3,7 +3,7 @@ import { readAll } from "@/api";
 
 export type LessonsInfos = {
   id: number;
-  name: string;
+  cadastroProfessor: string;
   horaAulas: number;
   titularidade: string;
   diaAula: Date;
@@ -39,7 +39,7 @@ export const HorasValuesDefault = {
   edit: -1,
   horaAulas: 0,
   id: 0,
-  name: "",
+  cadastroProfessor: "",
   titularidade: "",
   cadastroEscola: 0,
 };

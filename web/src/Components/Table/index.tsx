@@ -1,10 +1,10 @@
 import { format, isValid, parseISO } from "date-fns";
 import { Pencil, Trash } from "lucide-react";
-import React, { Key } from "react";
-import { LessonsInfos, SchoolInfos, TeacherInfos } from "@/slice";
-import { useSelector } from "react-redux";
+import React, { Key, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../system";
-import { getIdSchool } from "@/api";
+import { refreshInfosSchool, refreshInfosTeacher, LessonsInfos, SchoolInfos, TeacherInfos } from "../../../slice";
+import { readAllSchool, readAllTeacher } from "@/api";
 
 type TableProps = {
     tableHead: string[],
@@ -16,8 +16,15 @@ type TableProps = {
 
 export default function Table(props: TableProps) {
     const { tableHead, editInfo, deleteInfo, infosAll, search } = props;
-    const { registerType, allInfosSchool } = useSelector((root: RootState) => root.Slice);
+    const { registerType, allInfosSchool, allInfosTeacher } = useSelector((root: RootState) => root.Slice);
+    const dispatch = useDispatch();
 
+    useEffect(() => {
+        (async () => {
+            dispatch(refreshInfosSchool(await readAllSchool()));
+            dispatch(refreshInfosTeacher(await readAllTeacher()));
+        })()
+    }, [])
 
     return (
         <div className="overflow-x-auto">
@@ -29,15 +36,14 @@ export default function Table(props: TableProps) {
                 </thead>
 
                 <tbody>
-                {infosAll != undefined && infosAll.filter((register) => Object.values(register.name).join("").toLowerCase().includes(search.toLowerCase()))
-                    .map((info: LessonsInfos | SchoolInfos, index: Key) => {
+                {infosAll != undefined && infosAll.map((info: LessonsInfos | SchoolInfos | TeacherInfos, index: Key) => {
 
                         return (
                         <tr key={`${info.id}-${index}`}>
                             {registerType === "Lesson" ? (
                                 <>
                                     <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.id}</td>
-                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.name}</td>
+                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{getNameTeacher(info.cadastroProfessor)}</td>
                                     <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.horaAulas}</td>
                                     <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.titularidade}</td>
                                     <td className="p-1 text-start whitespace-nowrap border border-[#999]">{getNameSchool(info.cadastroEscola)}</td>
@@ -84,6 +90,17 @@ export default function Table(props: TableProps) {
         allInfosSchool.forEach((school: SchoolInfos) => {
             if(school.id == id){
                 aux = school.name;
+            }
+        })
+
+        return aux;
+    }
+
+    function getNameTeacher(id: string){
+        let aux = "";
+        allInfosTeacher.forEach((teacher: TeacherInfos) => {
+            if(teacher.id == id){
+                aux = teacher.name;
             }
         })
 

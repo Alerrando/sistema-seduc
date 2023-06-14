@@ -27,9 +27,9 @@ export async function readPaginationLesson(pageNumber: number, pageSize: number)
   }
 }
 
-export async function createLesson(info: LessonsInfos, id: string){
+export async function createLesson(info: LessonsInfos, escolaId: number, professorId: number){
   try {
-    await axios.post(`${urlLesson}/${id}`, info)
+    await axios.post(`${urlLesson}/${escolaId}&${professorId}`, info)
     .then((response) => alert("Aula cadastrada com sucesso"))
     .catch((err) => console.log(err))
   } catch (error) {
@@ -37,9 +37,9 @@ export async function createLesson(info: LessonsInfos, id: string){
   }
 }
 
-export async function editLesson(info: LessonsInfos, id: string) {
+export async function editLesson(info: LessonsInfos, escolaId: number, professorId: number) {
   try {
-    await axios.put(`${urlLesson}/${id}`, info)
+    await axios.put(`${urlLesson}/${escolaId}&${professorId}`, info)
     .then((response) => alert("Aula editada com sucesso"))
     .catch((err) => console.log(err));
   } catch (error) {

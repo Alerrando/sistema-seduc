@@ -1,6 +1,6 @@
 import React, { Key, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
-import { LessonsInfos, SchoolInfos } from '@/slice';
+import { LessonsInfos, SchoolInfos, TeacherInfos } from '@/slice';
 import Input from '@/Components/Input';
 import { Plus } from 'lucide-react';
 import { useSelector } from 'react-redux';
@@ -15,14 +15,14 @@ type FormRegisterLessonProps = {
 export default function FormRegisterLesson(props: FormRegisterLessonProps){
     const { infosInput, setModal, submit } = props;
     const { register, handleSubmit, setValue } = useForm<LessonsInfos>();
-    const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
+    const { allInfosSchool, allInfosTeacher } = useSelector((root: RootState) => root.Slice);
 
     useEffect(() => {
 		if (infosInput.edit !== -1) {
 			const parsedDate = parse(infosInput.diaAula, "dd/MM/yyyy", new Date());
 			setValue("diaAula", parsedDate);
 			setValue("horaAulas", infosInput.horaAulas);
-			setValue("nomeProfessor", infosInput.name);
+			setValue("cadastroProfessor", infosInput.cadastroProfessor);
 			setValue("titularidade", infosInput.titularidade);
 			setValue("cadastroEscola", infosInput.cadastroEscola);
 		}
@@ -45,10 +45,11 @@ export default function FormRegisterLesson(props: FormRegisterLessonProps){
             <div className="w-full flex flex-col gap-3">
                 <div className="w-full flex flex-col gap-2 px-2">
                     <label htmlFor="professores" className="font-bold">Professores</label>
-                    <select name="nomeProfessor" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("nomeProfessor") }>
+                    <select name="cadastroProfessor" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cadastroProfessor") }>
                         <option value="" defaultChecked className="outline-none border-none">Selecione um Professor</option>
-                        <option value="Alerrando" className="outline-none border-none">Alerrando</option>
-                        <option value="Breno" className="outline-none border-none">Breno</option>
+                        {allInfosTeacher?.map((teacher: TeacherInfos, index: Key) => (
+                            <option key={`professor-${teacher.name}`} value={teacher.id} className="outline-none border-none">{teacher.name}</option>
+                        ))}
                     </select>
                 </div>
 
@@ -57,7 +58,7 @@ export default function FormRegisterLesson(props: FormRegisterLessonProps){
                     <select name="cadastroEscola" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cadastroEscola") }>
                         <option value="0" defaultChecked className="outline-none border-none">Selecione uma Escola</option>
                         {allInfosSchool?.map((school: SchoolInfos, index: Key) => (
-                            <option value={school.id} className="outline-none border-none">{school.name}</option>
+                            <option key={`escola-${school.name}`} value={school.id} className="outline-none border-none">{school.name}</option>
                         ))}
                     </select>
                 </div>

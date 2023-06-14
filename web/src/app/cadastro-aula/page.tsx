@@ -116,7 +116,7 @@ export default function CadastroAula() {
       id: infos.id,
       titularidade: infos.titularidade,
       id_escola: infos.id_escola,
-      nome: infos.nome,
+      cadastroProfessor: infos.cadastroProfessor,
     });
     setModal(true);
   }
@@ -125,20 +125,20 @@ export default function CadastroAula() {
     const aux: LessonsInfos = {
       diaAula: new Date(infosInput.diaAula),
       horaAulas: event.horaAulas,
-      name: event.nomeProfessor,
+      cadastroProfessor: event.cadastroProfessor,
       titularidade: event.titularidade,
       cadastroEscola: event.cadastroEscola,
     };
 
-    if (aux.cadastroEscola == "0") {
-      alert("Selecione uma escola ou adicione uma!");
+    if (aux.cadastroEscola == "0" || aux.cadastroProfessor == "0") {
+      alert("Selecione uma escola ou um professor, caso não existam, cadastreos!");
     } else {
       if (infosInput.edit === -1) {
-        await createLesson(aux, aux.cadastroEscola);
+        await createLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
         dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
       } else {
         aux.id = infosInput.id;
-        await editLesson(aux, aux.cadastroEscola);
+        await editLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
         dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
         setInfosInput(HorasValuesDefault);
       }
