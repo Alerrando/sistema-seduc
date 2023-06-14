@@ -31,9 +31,14 @@ public class CadastroAulaService {
         List<CadastroAulas> result = cadastroAulaRepository.findAll();
         return result;
     }
-    public Page<CadastroAulas> findAllPageable(int pageNumber, int pageSize){
+    public Page<CadastroAulas> findAllPageable(Integer pageNumber, Integer pageSize){
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<CadastroAulas> result = cadastroAulaRepository.findAll(pageable);
+        return result;
+    }
+
+    public List<CadastroAulas> findByCadastroProfessor(Integer professorId){
+        List<CadastroAulas> result = cadastroAulaRepository.findByCadastroProfessor(professorId);
         return result;
     }
 

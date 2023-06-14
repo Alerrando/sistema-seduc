@@ -1,7 +1,6 @@
 package com.gerenciamentoescolas.server.entities;
 
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.Objects;
