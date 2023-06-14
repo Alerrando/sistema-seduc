@@ -3,13 +3,14 @@ import Table from '@/Components/Table';
 import { createSchool, deleteSchool, editSchool, readAllSchool } from '@/api';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SchoolInfos, SchoolValuesDefault, changeRegisterType, refreshInfosSchool } from '../../../slice';
+import { SchoolInfos, SchoolValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosSchool } from '../../../slice';
 import { RootState } from '../../../system';
 import CreateHeader from '@/Components/CreateHeader';
 import Modal from '@/Components/Modal';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function CadastroEscola(){
-    const allInfosSchool = useSelector(({ Slice }: RootState) => Slice.allInfosSchool);
+    const { allInfosSchool, registerType } = useSelector((root: RootState) => root.Slice);
     const [infosInput, setInfosInput] = useState<SchoolInfos>(SchoolValuesDefault);
     const [search, setSearch] = useState("");
     const [modal, setModal] = useState<boolean>(false);
@@ -39,6 +40,8 @@ export default function CadastroEscola(){
             {modal ? (
                 <Modal infosInput={infosInput} setInfosInput={setInfosInput} setModal={setModal} submitInfos={submitSchool} key={"modal-cadastro-escola"} />
             ) : null}
+
+            <ToastContainer />
         </main>
     )
 
@@ -50,8 +53,20 @@ export default function CadastroEscola(){
             id: infosInput.id,
         }
 		if(infosInput.edit === -1){
-			await createSchool(aux);
-			dispatch(refreshInfosSchool(await readAllSchool()));
+            if(!objectEmptyValue(aux)){
+                const message = await createSchool(aux);
+                toast.success(message, {
+                    position: "bottom-left",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+                dispatch(refreshInfosSchool(await readAllSchool()));
+            }
 		}
 		else{
 			await editSchool(aux, aux.id);

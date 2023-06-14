@@ -63,7 +63,7 @@ export async function readAllSchool() {
     let aux = await axios.get(urlSchool)
     .then((response) => response.data)
     .catch((err) => console.log(err))
-
+    
     return aux;
   } catch (error) {
     console.log(error);
@@ -72,10 +72,11 @@ export async function readAllSchool() {
 
 export async function createSchool(info: SchoolInfos){
   try {
-    console.log(info);
-    await axios.post(urlSchool, info)
-    .then((response) => alert("Escola cadastrada com sucesso"))
-    .catch((err) => console.log(err))
+    const message = await axios.post(urlSchool, info)
+    .then((response) => "Escola cadastrada com sucesso")
+    .catch((err) => err)
+
+    return message;
   } catch (error) {
     console.log(error);
   }

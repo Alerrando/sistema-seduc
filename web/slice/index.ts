@@ -19,6 +19,12 @@ export type SchoolInfos = {
   edit: number;
 }
 
+export type TeacherInfos = {
+  id: number,
+  name: string,
+  edit: number,
+}
+
 const registerTypes = {
   Lesson: {},
 
@@ -45,15 +51,23 @@ export const SchoolValuesDefault = {
   edit: -1,
 }
 
+export const TeacherValuesDefault = {
+  id: 0,
+  name: "",
+  edit: -1,
+}
+
 export type StateProps = {
   allInfosLesson: LessonsInfos[];
   allInfosSchool: SchoolInfos[];
+  allInfosTeacher: TeacherInfos[];
   registerType: keyof typeof registerTypes;
 };
 
 const initialState: StateProps = {
   allInfosLesson: [],
   allInfosSchool: [],
+  allInfosTeacher: [],
   registerType: null,
 };
 
@@ -72,6 +86,19 @@ export const Slice = createSlice({
     },
   },
 });
+
+export function objectEmptyValue(obj: LessonsInfos | SchoolInfos | TeacherInfos){
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const value = obj[key];
+      if (value === "" || value === null || value === undefined) {
+        return true;
+      }
+    }
+  }
+  
+  return false;
+};
 
 export const { refreshInfosLesson, refreshInfosSchool, changeRegisterType } = Slice.actions;
 
