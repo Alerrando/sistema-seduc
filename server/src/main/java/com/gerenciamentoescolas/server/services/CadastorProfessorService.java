@@ -22,8 +22,8 @@ public class CadastorProfessorService {
     public CadastroProfessor create(CadastroProfessor cadastroProfessor){
         List<CadastroProfessor> professores = cadastroProfessorRepository.findAll();
         for(CadastroProfessor professor : professores){
-            if(professor.equals(cadastroProfessor)){
-                throw  new ProfessorJaCadastradoException("Professor já cadastrado!");
+            if(cadastroProfessorRepository.existsByName(cadastroProfessor.getName())){
+                throw new ProfessorJaCadastradoException("Professor já cadastrado!");
             }
         }
         return cadastroProfessorRepository.save(cadastroProfessor);

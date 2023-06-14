@@ -1,7 +1,6 @@
 package com.gerenciamentoescolas.server.controllers;
 
 import com.gerenciamentoescolas.server.entities.CadastroEscola;
-import com.gerenciamentoescolas.server.exception.EscolaJaCadastradaException;
 import com.gerenciamentoescolas.server.services.CadastroEscolaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
