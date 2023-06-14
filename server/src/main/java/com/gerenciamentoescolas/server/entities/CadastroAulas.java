@@ -12,7 +12,8 @@ public class CadastroAulas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
+    @JoinColumn(name = "name")
+    private Integer cadastroProfessor;
     private Integer horaAulas;
     @Temporal(TemporalType.TIMESTAMP)
     private Date diaAula;
@@ -23,9 +24,9 @@ public class CadastroAulas {
     public CadastroAulas(){
     }
 
-    public CadastroAulas(Integer id, String name, Integer horaAulas, Date diaAula, String titularidade, Integer cadastroEscola) {
+    public CadastroAulas(Integer id, Integer cadastroProfessor, Integer horaAulas, Date diaAula, String titularidade, Integer cadastroEscola) {
         this.id = id;
-        this.name = name;
+        this.cadastroProfessor = cadastroProfessor;
         this.horaAulas = horaAulas;
         this.diaAula = diaAula;
         this.titularidade = titularidade;
@@ -40,12 +41,12 @@ public class CadastroAulas {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getCadastroProfessor() {
+        return cadastroProfessor;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCadastroProfessor(Integer cadastroProfessor) {
+        this.cadastroProfessor = cadastroProfessor;
     }
 
     public Integer getHoraAulas() {

@@ -27,14 +27,14 @@ public class CadastroAulasControllers {
         return result;
     }
 
-    @PostMapping("/{escolaId}")
-    public CadastroAulas create(@RequestBody CadastroAulas cadastroAulas, @PathVariable Integer escolaId) {
-        return cadastroAulaService.create(cadastroAulas, escolaId);
+    @PostMapping("/{escolaId}&{professorId}")
+    public CadastroAulas create(@RequestBody CadastroAulas cadastroAulas, @PathVariable Integer escolaId, @PathVariable Integer professorId) {
+        return cadastroAulaService.create(cadastroAulas, escolaId, professorId);
     }
 
-    @PutMapping("/{id}")
-    public CadastroAulas update(@PathVariable Integer id, @RequestBody CadastroAulas cadastroAulas){
-        return cadastroAulaService.update(id, cadastroAulas);
+    @PutMapping("/{escolaId}&{professorId}")
+    public CadastroAulas update(@PathVariable Integer escolaId, @PathVariable Integer professorId, @RequestBody CadastroAulas cadastroAulas){
+        return cadastroAulaService.update(escolaId, professorId, cadastroAulas);
     }
 
     @DeleteMapping("/{id}")
