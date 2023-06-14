@@ -8,6 +8,7 @@ import { RootState } from '../../../system';
 import CreateHeader from '@/Components/CreateHeader';
 import Modal from '@/Components/Modal';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function CadastroEscola(){
     const { allInfosSchool, registerType } = useSelector((root: RootState) => root.Slice);
@@ -54,22 +55,14 @@ export default function CadastroEscola(){
         }
 		if(infosInput.edit === -1){
             if(!objectEmptyValue(aux)){
-                const message = await createSchool(aux);
-                toast.success(message, {
-                    position: "bottom-left",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
+                const message: object | string = await createSchool(aux);
+                messageToast(message);
                 dispatch(refreshInfosSchool(await readAllSchool()));
             }
 		}
 		else{
-			await editSchool(aux, aux.id);
+			const message: object | string = await editSchool(aux, aux.id);
+            messageToast(message);
 			dispatch(refreshInfosSchool(await readAllSchool()));
 			setInfosInput(SchoolValuesDefault);
 		}
@@ -83,7 +76,35 @@ export default function CadastroEscola(){
     }
 
     async function deleteInfo(info: SchoolInfos) {
-        await deleteSchool(info.id);
+        const message:object | string = await deleteSchool(info.id);
+        messageToast(message);
         dispatch(refreshInfosSchool(await readAllSchool()));
+    }
+
+    function messageToast(message){
+        if(typeof message !== "object"){
+            toast.success(message, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+        else{
+            toast.error(message.response.data, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
     }
 }

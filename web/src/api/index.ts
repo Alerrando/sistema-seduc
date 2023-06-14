@@ -84,9 +84,11 @@ export async function createSchool(info: SchoolInfos){
 
 export async function editSchool(info: SchoolInfos, id: number) {
   try {
-    await axios.put(`${urlSchool}/${id}`, info)
-    .then((response) => alert("Escola editada com sucesso"))
-    .catch((err) => console.log(err));
+    const message = await axios.put(`${urlSchool}/${id}`, info)
+    .then((response) => "Escola editada com sucesso")
+    .catch((err) => err);
+
+    return message;
   } catch (error) {
     console.log(error);
   }
@@ -94,9 +96,11 @@ export async function editSchool(info: SchoolInfos, id: number) {
 
 export async function deleteSchool(id: number) {
   try {
-    await axios.delete(`${urlSchool}/${id}`)
-    .then((response) => alert("Escola deletada com sucesso"))
-    .catch((err) => console.log(err));
+    const message = await axios.delete(`${urlSchool}/${id}`)
+    .then((response) => "Escola deletada com sucesso")
+    .catch((err) => err);
+
+    return message;
   } catch (error) {
     console.log(error);
   }

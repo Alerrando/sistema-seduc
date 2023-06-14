@@ -16,7 +16,7 @@ export default function Home() {
 
   useEffect(() => {
     (async () => {
-      setPagination(await readAllLesson().then((data) => data.length))
+      setPagination(await readAllLesson().then((data) => data?.length))
       dispatch(refreshInfosSchool(await readAllSchool()));
     })()
   }, [])
