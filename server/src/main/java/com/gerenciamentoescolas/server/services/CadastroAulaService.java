@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CadastroAulaService {
@@ -37,9 +38,11 @@ public class CadastroAulaService {
         return result;
     }
 
-    public List<CadastroAulas> findByCadastroProfessor(Integer professorId){
-        List<CadastroAulas> result = cadastroAulaRepository.findByCadastroProfessor(professorId);
-        return result;
+    public List<CadastroAulas> findByCadastroProfessor(String name){
+        List<CadastroProfessor> professores = cadastroProfessorRepository.filterByName(name);
+        List<Integer> professoresIds = professores.stream().map(CadastroProfessor::getId).collect(Collectors.toList());
+
+        return cadastroAulaRepository.findByCadastroProfessor(professoresIds);
     }
 
     public CadastroAulas create(CadastroAulas cadastroAulas, Integer escolaId, Integer professorId) {
@@ -48,7 +51,6 @@ public class CadastroAulaService {
         CadastroProfessor professor = cadastroProfessorRepository.findById(professorId)
                 .orElseThrow(() -> new RuntimeException("Professor não encontrado"));
 
-        cadastroAulas.setDiaAula(new Date());
         cadastroAulas.setCadastroEscola(escola.getId());
         cadastroAulas.setCadastroProfessor(professor.getId());
 

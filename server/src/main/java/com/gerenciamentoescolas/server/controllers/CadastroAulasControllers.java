@@ -27,10 +27,10 @@ public class CadastroAulasControllers {
         return result;
     }
 
-    @GetMapping("/{professorId}")
-    public List<CadastroAulas> findByCadastroProfessor(@PathVariable Integer professorId){
-        List<CadastroAulas> result = cadastroAulaService.findByCadastroProfessor(professorId);
-        return result;
+    @GetMapping("/{name}")
+    public List<CadastroAulas> findByCadastroProfessor(@PathVariable String name){
+        List<CadastroAulas> aulas = cadastroAulaService.findByCadastroProfessor(name);
+        return aulas;
     }
 
     @PostMapping("/{escolaId}&{professorId}")
