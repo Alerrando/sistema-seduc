@@ -29,9 +29,11 @@ export async function readPaginationLesson(pageNumber: number, pageSize: number)
 
 export async function createLesson(info: LessonsInfos, escolaId: number, professorId: number){
   try {
-    await axios.post(`${urlLesson}/${escolaId}&${professorId}`, info)
-    .then((response) => alert("Aula cadastrada com sucesso"))
-    .catch((err) => console.log(err))
+    const message = await axios.post(`${urlLesson}/${escolaId}&${professorId}`, info)
+    .then((response) => "Aula cadastrada com sucesso")
+    .catch((err) => err)
+
+    return message;
   } catch (error) {
     console.log(error);
   }
@@ -39,9 +41,11 @@ export async function createLesson(info: LessonsInfos, escolaId: number, profess
 
 export async function editLesson(info: LessonsInfos, escolaId: number, professorId: number) {
   try {
-    await axios.put(`${urlLesson}/${escolaId}&${professorId}`, info)
-    .then((response) => alert("Aula editada com sucesso"))
-    .catch((err) => console.log(err));
+    const message = await axios.put(`${urlLesson}/${escolaId}&${professorId}`, info)
+    .then((response) => "Aula editada com sucesso")
+    .catch((err) => err);
+
+    return message;
   } catch (error) {
     console.log(error);
   }
@@ -49,9 +53,11 @@ export async function editLesson(info: LessonsInfos, escolaId: number, professor
 
 export async function deleteLesson(id: number) {
   try {
-    await axios.delete(`${urlLesson}/${id}`)
-    .then((response) => alert("Aula deletada com sucesso"))
-    .catch((err) => console.log(err));
+    const message = await axios.delete(`${urlLesson}/${id}`)
+    .then((response) => "Aula deletada com sucesso")
+    .catch((err) => err);
+
+    return message;
   } catch (error) {
     console.log(error);
   }

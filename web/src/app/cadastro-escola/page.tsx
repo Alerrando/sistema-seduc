@@ -1,14 +1,14 @@
 'use client';
-import Table from '@/Components/Table';
-import { createSchool, deleteSchool, editSchool, readAllSchool } from '@/api';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { SchoolInfos, SchoolValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosSchool } from '../../../slice';
-import { RootState } from '../../../system';
 import CreateHeader from '@/Components/CreateHeader';
 import Modal from '@/Components/Modal';
+import Table from '@/Components/Table';
+import { createSchool, deleteSchool, editSchool, readAllSchool } from '@/api';
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { SchoolInfos, SchoolValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosSchool } from '../../../slice';
+import { RootState } from '../../../system';
 
 export default function CadastroEscola(){
     const { allInfosSchool, registerType } = useSelector((root: RootState) => root.Slice);

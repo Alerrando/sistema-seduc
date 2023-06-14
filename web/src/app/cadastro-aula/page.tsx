@@ -1,26 +1,26 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import CreateHeader from "@/Components/CreateHeader";
 import Modal from "@/Components/Modal";
 import Table from "@/Components/Table";
+import { createLesson, deleteLesson, editLesson, readAllLesson, readPaginationLesson } from "@/api";
+import { RootState } from "@/system";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import dynamic from "next/dynamic";
-import { useState } from "react";
+import { Calendar } from 'react-calendar';
 import "react-calendar/dist/Calendar.css";
 import { useDispatch, useSelector } from "react-redux";
-import { refreshInfosLesson, LessonsInfos, HorasValuesDefault, changeRegisterType, refreshInfosSchool } from "../../../slice";
-import { RootState } from "@/system";
-import { createLesson, deleteLesson, editLesson, readAllLesson, readAllSchool, readPaginationLesson } from "@/api";
-import CreateHeader from "@/Components/CreateHeader";
-import { Calendar } from 'react-calendar';
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { HorasValuesDefault, LessonsInfos, changeRegisterType, refreshInfosLesson } from "../../../slice";
+
 
 export default function CadastroAula() {
   const [infosInput, setInfosInput] =
     useState<LessonsInfos>(HorasValuesDefault);
   const [lessonsLengthall, setLessonsLengthall] = useState(0);
+  const [date, setDate ] = useState<Date>(new Date());
   const [pagination, setPagination] = useState(0);
-  const { allInfosLesson, allInfosSchool, registerType } = useSelector(
-    (slice: RootState) => slice.Slice
-  );
+  const { allInfosLesson, allInfosSchool, registerType } = useSelector((slice: RootState) => slice.Slice);
   const dispatch = useDispatch();
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState(false);
@@ -53,9 +53,9 @@ export default function CadastroAula() {
       <div className="w-full flex flex-col gap-4 px-6 py-3">
         <Calendar
           className="w-[100%!important] h-1/2 calendar shadow-md rounded-md"
-          value={infosInput.diaAula}
+          value={date}
           onChange={(e) =>
-            setInfosInput({ ...infosInput, diaAula: new Date(e) })
+            setDate(e)
           }
         />
         <h1 className="text-[42px]">Aulas</h1>
@@ -105,6 +105,8 @@ export default function CadastroAula() {
           submitInfos={submitLesson}
         />
       ) : null}
+
+      <ToastContainer />
     </section>
   );
 
@@ -134,11 +136,13 @@ export default function CadastroAula() {
       alert("Selecione uma escola ou um professor, caso não existam, cadastreos!");
     } else {
       if (infosInput.edit === -1) {
-        await createLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
+        const message = await createLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
+        messageToast(message);
         dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
       } else {
         aux.id = infosInput.id;
-        await editLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
+        const message = await editLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
+        messageToast(message);
         dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
         setInfosInput(HorasValuesDefault);
       }
@@ -148,7 +152,8 @@ export default function CadastroAula() {
   }
 
   async function deleteInfo(infos: LessonsInfos) {
-    await deleteLesson(infos.id);
+    const message = await deleteLesson(infos.id);
+    messageToast(message);
     dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
   }
 
@@ -163,4 +168,31 @@ export default function CadastroAula() {
       }
     };
   }
+
+  function messageToast(message){
+    if(typeof message !== "object"){
+        toast.success(message, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+    }
+    else{
+        toast.error(message.response.data, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+    }
+}
 }

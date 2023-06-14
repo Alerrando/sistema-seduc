@@ -42,13 +42,14 @@ export default function Table(props: TableProps) {
                         <tr key={`${info.id}-${index}`}>
                             {registerType === "Lesson" ? (
                                 <>
+                                    {console.log(info)}
                                     <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.id}</td>
                                     <td className="p-1 text-start whitespace-nowrap border border-[#999]">{getNameTeacher(info.cadastroProfessor)}</td>
                                     <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.horaAulas}</td>
                                     <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.titularidade}</td>
                                     <td className="p-1 text-start whitespace-nowrap border border-[#999]">{getNameSchool(info.cadastroEscola)}</td>
                                     <td className='p-1 text-start whitespace-nowrap border border-[#999]'>
-                                        <span className='whitespace-nowrap'>{format(new Date(info.diaAula.toString()), "dd/MM/yyyy")}</span>
+                                        <span className='whitespace-nowrap'>{format(new Date(info.diaAula?.toString()), "dd/MM/yyyy")}</span>
                                     </td>
                                 </>
                             ) : registerType === "School" ? (
