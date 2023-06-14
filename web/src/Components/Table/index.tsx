@@ -1,16 +1,16 @@
 import { format, isValid, parseISO } from "date-fns";
 import { Pencil, Trash } from "lucide-react";
 import React, { Key } from "react";
-import { LessonsInfos, SchoolInfos } from "@/slice";
+import { LessonsInfos, SchoolInfos, TeacherInfos } from "@/slice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../system";
 import { getIdSchool } from "@/api";
 
 type TableProps = {
     tableHead: string[],
-    editInfo: (info: LessonsInfos | SchoolInfos) => void,
-    deleteInfo: (info: LessonsInfos | SchoolInfos) => void,
-    infosAll: LessonsInfos[] | SchoolInfos[],
+    editInfo: (info: LessonsInfos | SchoolInfos | TeacherInfos) => void,
+    deleteInfo: (info: LessonsInfos | SchoolInfos | TeacherInfos) => void,
+    infosAll: LessonsInfos[] | SchoolInfos[] | TeacherInfos[],
     search: string,
 }
 
@@ -51,7 +51,12 @@ export default function Table(props: TableProps) {
                                     <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.name}</td>
                                     <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.diretor}</td>
                                 </>
-                            ) : null}
+                            ) : (
+                                <>
+                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.id}</td>
+                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.name}</td>
+                                </>
+                            )}
                             <td className="p-1 text-start border-x border-y border-[#999]">
                                 <div className="flex flex-row gap-4 items-center justify-between">
                                     <div className="flex items-center gap-2 px-2 py-1 border border-blue-500 text-blue-500 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white transition-colors" onClick={() => editInfo(info)}>

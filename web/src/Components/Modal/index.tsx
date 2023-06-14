@@ -9,10 +9,12 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../system";
 import FormRegisterSchool from "./FormRegisterSchool";
 import FormRegisterLesson from "./FormRegisterLesson";
+import FormRegisterTeacher from "./FormRegisterTeacher";
+import { TeacherInfos } from "../../../slice";
 
 type ModalProps = {
-	setInfosInput: (infosInput: LessonsInfos | SchoolInfos) => void;
-	infosInput: LessonsInfos | SchoolInfos;
+	setInfosInput: (infosInput: LessonsInfos | SchoolInfos | TeacherInfos) => void;
+	infosInput: LessonsInfos | SchoolInfos | TeacherInfos;
 	setModal: (modal: boolean) => void;
 	submitInfos: (e) => void;
 }
@@ -48,7 +50,7 @@ export default function Modal(props: ModalProps){
 						<FormRegisterSchool infosInput={infosInput} submit={submit} setModal={setModal} />					
 					</div>
 				) : (
-					<FormRegisterLesson infosInput={infosInput} submit={submit} setModal={setModal} />
+					<FormRegisterTeacher infosInput={infosInput} submit={submit} setModal={setModal} />
 				)}
 			</div>
 		</div>

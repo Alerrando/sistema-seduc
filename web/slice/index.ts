@@ -30,7 +30,7 @@ const registerTypes = {
 
   School: {},
 
-  Director: {},
+  Teacher: {},
 
 }
 
@@ -81,6 +81,9 @@ export const Slice = createSlice({
     refreshInfosSchool: (state, action: PayloadAction<SchoolInfos[]>) => {
       state.allInfosSchool = action.payload;
     },
+    refreshInfosTeacher: (state, action: PayloadAction<TeacherInfos[]>) => {
+      state.allInfosTeacher = action.payload;
+    },
     changeRegisterType: (state, action: PayloadAction<keyof typeof registerTypes>) => {
       state.registerType = action.payload;
     },
@@ -100,6 +103,6 @@ export function objectEmptyValue(obj: LessonsInfos | SchoolInfos | TeacherInfos)
   return false;
 };
 
-export const { refreshInfosLesson, refreshInfosSchool, changeRegisterType } = Slice.actions;
+export const { refreshInfosLesson, refreshInfosSchool, refreshInfosTeacher, changeRegisterType } = Slice.actions;
 
 export default Slice.reducer;
