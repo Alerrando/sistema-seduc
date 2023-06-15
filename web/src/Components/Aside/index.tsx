@@ -4,7 +4,8 @@ import React, { useState } from "react";
 
 export default function Aside() {
   const [menu, setMenu] = useState<boolean>(false);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [showDropdownRegister, setShowDropdownRegister] = useState(false);
+  const [showDropDownReport, setShowDropdownReport] = useState(false);
 
   return (
     <>
@@ -34,12 +35,12 @@ export default function Aside() {
                 </li>
               </Link>
 
-              <div className="w-full h-full flex flex-col gap-4 cursor-pointer" onClick={() => setShowDropdown(!showDropdown)}>
+              <div className="w-full h-full flex flex-col gap-4 cursor-pointer" onClick={() => setShowDropdownRegister(!showDropdownRegister)}>
                 <li className="w-full h-full flex flex-row items-center gap-3 py-3 px-5 text-white hover:bg-[#458ACE]">
                   <Users size={26} />
                   <span>Cadastro</span>
                 </li>
-                {showDropdown && (
+                {showDropdownRegister && (
                     <ul className="flex flex-col gap-4">
                         <Link href="/cadastro-aula" className="w-full block py-3 hover:bg-[#458ACE]">
                             <li className="w-max flex flex-row items-center gap-3 px-10 text-white">
@@ -66,12 +67,37 @@ export default function Aside() {
               </div>
 
 
-              <Link href="/" className="w-full block py-3 hover:bg-[#458ACE]">
-                <li className="w-full flex flex-row items-center gap-3 px-5 text-white">
+              <div className="w-full h-full flex flex-col gap-4 cursor-pointer" onClick={() => setShowDropdownReport(!showDropDownReport)}>
+                <li className="w-full h-full flex flex-row items-center gap-3 py-3 px-5 text-white hover:bg-[#458ACE]">
                   <MenuSquare size={26} />
                   <span>Relátorio</span>
                 </li>
-              </Link>
+
+                {showDropDownReport && (
+                    <ul className="flex flex-col gap-4">
+                        <Link href="/cadastro-aula" className="w-full block py-3 hover:bg-[#458ACE]">
+                            <li className="w-max flex flex-row items-center gap-3 px-10 text-white">
+                                <Book size={22} />
+                                <span>Aulas</span>
+                            </li>
+                        </Link>
+
+                        <Link href="/cadastro-escola" className="w-full block py-3 hover:bg-[#458ACE]">
+                            <li className="w-max flex flex-row items-center gap-3 px-10 text-white">
+                                <School2 size={22} />
+                                <span>Escolas</span>
+                            </li>
+                        </Link>
+
+                        <Link href="/cadastro-professor" className="w-full block py-3 hover:bg-[#458ACE]">
+                            <li className="w-max flex flex-row items-center gap-3 px-10 text-white">
+                                <GraduationCap size={22} />
+                                <span>Professores</span>
+                            </li>
+                        </Link>
+                    </ul>
+                )}
+              </div>
             </ul>
           </section>
         </div>
