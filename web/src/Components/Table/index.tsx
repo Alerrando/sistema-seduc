@@ -27,44 +27,44 @@ export default function Table(props: TableProps) {
     }, [])
 
     return (
-        <div className="overflow-x-auto">
-            <table className="w-full">
-                <thead>
+        <div className="overflow-x-auto rounded-lg border border-gray-200">
+            <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                <thead className="ltr:text-left rtl:text-right">
                     <tr>
-                        {tableHead.map(head => <th key={head} scope="col" className="px-2 py-1 text-start whitespace-nowrap border border-[#999]">{head}</th>)}
+                        {tableHead.map(head => <th key={head} scope="col" className="whitespace-nowrap text-start px-4 py-2 font-medium text-gray-900">{head}</th>)}
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody className="divide-y divide-gray-200">
                 {infosAll != undefined && infosAll.map((info: LessonsInfos | SchoolInfos | TeacherInfos, index: Key) => {
 
                         return (
                         <tr key={`${info.id}-${index}`}>
                             {registerType === "Lesson" ? (
                                 <>
-                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.id}</td>
-                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{getNameTeacher(info.cadastroProfessor)}</td>
-                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.horaAulas}</td>
-                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.titularidade}</td>
-                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{getNameSchool(info.cadastroEscola)}</td>
-                                    <td className='p-1 text-start whitespace-nowrap border border-[#999]'>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{getNameTeacher(info.cadastroProfessor)}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.horaAulas}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.titularidade}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{getNameSchool(info.cadastroEscola)}</td>
+                                    <td className='whitespace-nowrap px-4 py-2 font-medium text-gray-900'>
                                         <span className='whitespace-nowrap'>{isValid(new Date(info.diaAula)) ? format(new Date(info.diaAula?.toString()), "dd/MM/yyyy") : ""}</span>
                                     </td>
                                 </>
                             ) : registerType === "School" ? (
                                 <>
-                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.id}</td>
-                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.name}</td>
-                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.diretor}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.diretor}</td>
                                 </>
                             ) : (
                                 <>
-                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.id}</td>
-                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.name}</td>
-                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.cpf}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.cpf}</td>
                                 </>
                             )}
-                            <td className="p-1 text-start border-x border-y border-[#999]">
+                            <td className="">
                                 <div className="flex flex-row gap-4 items-center justify-between">
                                     <div className="flex items-center gap-2 px-2 py-1 border border-blue-500 text-blue-500 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white transition-colors" onClick={() => editInfo(info)}>
                                         <Pencil size={18} />

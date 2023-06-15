@@ -43,7 +43,7 @@ export default function CadastroAula() {
 
   useEffect(() => {
     (async () => {
-      dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
+      dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 10)));
       setLessonsLengthall(await readAllLesson().then((data) => data.length));
     })();
   }, [pagination]);

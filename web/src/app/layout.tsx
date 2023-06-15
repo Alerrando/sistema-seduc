@@ -9,11 +9,6 @@ import Header from "@/Components/Header";
 
 const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 
-export const metadata = {
-	title: "sistema-gerenciamento-escolar",
-	description: "Um sistema de gerenciamento de escolas, usando NextJS, Spring Boot, Typescript",
-};
-
 export default function RootLayout({
 	children,
 }: {

@@ -1,4 +1,4 @@
-import { Book, School2, Siren, BookOpen, Users, PieChart, MenuSquare, AlignJustify, X, GraduationCap } from "lucide-react";
+import { Book, School2, Siren, BookOpen, Users, PieChart, MenuSquare, AlignJustify, X, GraduationCap, School } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 
@@ -75,16 +75,9 @@ export default function Aside() {
 
                 {showDropDownReport && (
                     <ul className="flex flex-col gap-4">
-                        <Link href="/cadastro-aula" className="w-full block py-3 hover:bg-[#458ACE]">
+                        <Link href="/relatorio-escola" className="w-full block py-3 hover:bg-[#458ACE]">
                             <li className="w-max flex flex-row items-center gap-3 px-10 text-white">
-                                <Book size={22} />
-                                <span>Aulas</span>
-                            </li>
-                        </Link>
-
-                        <Link href="/cadastro-escola" className="w-full block py-3 hover:bg-[#458ACE]">
-                            <li className="w-max flex flex-row items-center gap-3 px-10 text-white">
-                                <School2 size={22} />
+                                <School size={22} />
                                 <span>Escolas</span>
                             </li>
                         </Link>
