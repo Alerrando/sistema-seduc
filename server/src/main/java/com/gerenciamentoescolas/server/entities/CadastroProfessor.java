@@ -15,13 +15,14 @@ public class CadastroProfessor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-
+    private String titularidade;
     public CadastroProfessor(){
     }
 
-    public CadastroProfessor(Integer id, String name){
+    public CadastroProfessor(Integer id, String name, String titularidade){
         this.id = id;
         this.name = name;
+        this.titularidade = titularidade;
     }
 
     public Integer getId() {
@@ -39,6 +40,10 @@ public class CadastroProfessor {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getTitularidade(){ return titularidade; }
+
+    public void setTitularidade(String titularidade) { this.titularidade = titularidade;}
 
     @Override
     public boolean equals(Object o) {
