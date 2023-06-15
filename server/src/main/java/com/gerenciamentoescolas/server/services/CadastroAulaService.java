@@ -3,6 +3,7 @@ package com.gerenciamentoescolas.server.services;
 import com.gerenciamentoescolas.server.entities.CadastroAulas;
 import com.gerenciamentoescolas.server.entities.CadastroEscola;
 import com.gerenciamentoescolas.server.entities.CadastroProfessor;
+import com.gerenciamentoescolas.server.exception.AulasJaCadastradaException;
 import com.gerenciamentoescolas.server.repository.CadastroAulaRepository;
 import com.gerenciamentoescolas.server.repository.CadastroEscolaRepository;
 
@@ -13,6 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,10 +49,18 @@ public class CadastroAulaService {
     }
 
     public CadastroAulas create(CadastroAulas cadastroAulas, Integer escolaId, Integer professorId) {
-        CadastroEscola escola = cadastroEscolaRepository.findById(escolaId)
-                .orElseThrow(() -> new RuntimeException("Escola não encontrada"));
-        CadastroProfessor professor = cadastroProfessorRepository.findById(professorId)
-                .orElseThrow(() -> new RuntimeException("Professor não encontrado"));
+        List<CadastroAulas> aulas = cadastroAulaRepository.findAll();
+        LocalDate localDateCadastroAula = cadastroAulas.getDiaAula().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        for (CadastroAulas aula : aulas){
+            LocalDate localDateAula = aula.getDiaAula().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            if(localDateCadastroAula.equals(localDateAula) && cadastroAulas.getCadastroProfessor() == aula.getCadastroProfessor() && cadastroAulas.getCadastroEscola() == aula.getCadastroEscola()){
+                throw new AulasJaCadastradaException("Aula já cadastrada");
+            }
+        }
+
+        CadastroEscola escola = cadastroEscolaRepository.findById(escolaId).orElseThrow(() -> new RuntimeException("Escola não encontrada"));
+        CadastroProfessor professor = cadastroProfessorRepository.findById(professorId).orElseThrow(() -> new RuntimeException("Professor não encontrado"));
 
         cadastroAulas.setCadastroEscola(escola.getId());
         cadastroAulas.setCadastroProfessor(professor.getId());
