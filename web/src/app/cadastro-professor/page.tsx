@@ -15,7 +15,7 @@ export default function CadastroProfessor(){
     const [infosInput, setInfosInput] = useState<TeacherInfos>(SchoolValuesDefault);
     const [search, setSearch] = useState("");
     const [modal, setModal] = useState<boolean>(false);
-    const thead = ["Id", "Nome do Professor(a)", "Titularidade","Ações"];
+    const thead = ["Id", "Nome do Professor(a)", "Cpf","Ações"];
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -51,7 +51,7 @@ export default function CadastroProfessor(){
             edit: -1,
             name: event.name,
             id: infosInput.id,
-            titularidade: event.titularidade,
+            cpf: event.cpf.replaceAll(".", "").replaceAll("-", ""),
         }
 		if(infosInput.edit === -1){
             if(!objectEmptyValue(aux)){

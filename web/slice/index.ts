@@ -7,6 +7,7 @@ export type LessonsInfos = {
   horaAulas: number;
   diaAula: Date;
   cadastroEscola: number;
+  titularidade: string;
   edit: number;
 };
 
@@ -21,7 +22,7 @@ export type SchoolInfos = {
 export type TeacherInfos = {
   id: number,
   name: string,
-  titularidade: string;
+  cpf: string;
   edit: number,
 }
 
@@ -39,6 +40,7 @@ export const HorasValuesDefault = {
   edit: -1,
   horaAulas: 0,
   id: 0,
+  titularidade: "",
   cadastroProfessor: "",
   cadastroEscola: 0,
 };
@@ -47,7 +49,7 @@ export const SchoolValuesDefault = {
   id: 0,
   diretor: "",
   name: "",
-  titularidade: "",
+  cpf: "",
   edit: -1,
 }
 

@@ -28,6 +28,7 @@ export default function CadastroAula() {
     "Id",
     "Nome Completo",
     "Horas de aulas dadas",
+    "Titulariade",
     "Escola",
     "Dia das aulas",
     "Ações",
@@ -50,13 +51,6 @@ export default function CadastroAula() {
   return (
     <section className="w-full sm:w-5/6 h-max ml-auto">
       <div className="w-full flex flex-col gap-4 px-6 py-3">
-        <Calendar
-          className="w-[100%!important] h-1/2 calendar shadow-md rounded-md"
-          value={date}
-          onChange={(e) =>
-            setDate(e)
-          }
-        />
         <h1 className="text-[42px]">Aulas</h1>
 
         {allInfosLesson != undefined ? (
@@ -114,6 +108,7 @@ export default function CadastroAula() {
       diaAula: infos.diaAula,
       edit: 1,
       horaAulas: infos.horaAulas,
+      titularidade: info.titularidade,
       id: infos.id,
       id_escola: infos.id_escola,
       cadastroProfessor: infos.cadastroProfessor,
@@ -125,6 +120,7 @@ export default function CadastroAula() {
     const aux: LessonsInfos = {
       diaAula: new Date(infosInput.diaAula),
       horaAulas: event.horaAulas,
+      titularidade: event.titularidade,
       cadastroProfessor: event.cadastroProfessor,
       cadastroEscola: event.cadastroEscola,
     };

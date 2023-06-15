@@ -3,6 +3,46 @@ import { TeacherInfos } from "../../../../slice";
 import { Plus } from "lucide-react";
 import Input from "@/Components/Input";
 import { useForm } from "react-hook-form";
+import { z } from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const createFormSchema = z.object({
+  name: z.string().nonempty("Nome é obrigatório!"),
+  cpf: z.string().max(15).refine((value) => isValidCPF(value), {
+    message: 'CPF inválido',
+  }),
+})
+
+function isValidCPF(cpf: string): boolean {
+  const cleanedCPF = cpf.replace(/\D/g, '');
+
+  if (cleanedCPF.length !== 11) {
+    return false;
+  }
+
+  if (/^(\d)\1{10}$/.test(cleanedCPF)) {
+    return false;
+  }
+
+  let sum = 0;
+  for (let i = 0; i < 9; i++) {
+    sum += parseInt(cleanedCPF.charAt(i)) * (10 - i);
+  }
+  let mod = sum % 11;
+  const digit1 = mod < 2 ? 0 : 11 - mod;
+
+  sum = 0;
+  for (let i = 0; i < 10; i++) {
+    sum += parseInt(cleanedCPF.charAt(i)) * (11 - i);
+  }
+  mod = sum % 11;
+  const digit2 = mod < 2 ? 0 : 11 - mod;
+
+  return (
+    cleanedCPF.charAt(9) === digit1.toString() &&
+    cleanedCPF.charAt(10) === digit2.toString()
+  );
+}
 
 type FormRegisterTeacherProps = {
   infosInput: TeacherInfos;
@@ -10,43 +50,51 @@ type FormRegisterTeacherProps = {
   setModal: (modal: boolean) => void;
 };
 
+type CreateFormData = z.infer<typeof createFormSchema>
+
 export default function FormRegisterTeacher(props: FormRegisterTeacherProps) {
   const { infosInput, setModal, submit } = props;
-  const { register, handleSubmit, setValue } = useForm<TeacherInfos>();
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<CreateFormData>({
+    resolver: zodResolver(createFormSchema)
+  });
 
   useEffect(() => {
     if (infosInput.edit !== -1) {
       setValue("name", infosInput.name);
-      setValue("titularidade", infosInput.titularidade);
+      setValue("cpf", infosInput.cpf);
     }
   }, [infosInput.edit]);
 
   return (
     <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(submit)}>
-      <div className="w-full flex flex-col">
-          <div className="w-full flex flex-row items-center justify-between">
-              <div className="w-auto flex flex-row items-center gap-2">
-                  <input type="radio" name="titularidade" className="w-4 h-4" id="titular" value="Titular" { ...register("titularidade", { value: "" }) } />
-                  <span className="text-xl font-bold">Titular</span>
-              </div>
-
-              <div className="w-auto flex flex-row items-center gap-2">
-                  <input type="radio" name="titularidade" className="w-4 h-4" id="titular" value="Substituo" { ...register("titularidade", { value: "" }) } />
-                  <span className="text-xl font-bold">Substituo</span>
-              </div>
-          </div>
-      </div>
-
+    
       <div className="w-full flex flex-col gap-3">
-        <Input
-          htmlFor="name"
-          label="Nome do Professor"
-          name="name"
-          placeholder="Ana Laura"
-          register={register}
-          type="text"
-          key={"name-professor-input"}
-        />
+        <div className="w-full flex flex-col gap-2">
+          <Input
+            htmlFor="name"
+            label="Nome do Professor"
+            name="name"
+            placeholder="Ana Laura"
+            register={register}
+            type="text"
+            key={"name-professor-input"}
+          />
+          {errors.name && <span className="text-red-600">{errors.name.message}</span>}
+        </div>
+
+        <div className="w-full flex flex-col gap-2">
+          <Input 
+            htmlFor="cpf"
+            label="Cpf do Professor"
+            name="cpf"
+            placeholder="000.000.000-00"
+            register={register}
+            type="text"
+            key={"cpf-professor-input"}
+          />
+          {errors.cpf && <span className="text-red-600">{errors.cpf.message}</span>}
+        </div>
+
       </div>
 
       <div className="w-full flex items-center justify-end">

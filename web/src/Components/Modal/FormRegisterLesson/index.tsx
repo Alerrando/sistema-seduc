@@ -12,6 +12,7 @@ import { parse } from 'date-fns';
 const createFormSchema = z.object({
     horaAulas: z.string().nonempty("Digite a quantidade de aulas!"),
     cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),
+    titularidade: z.string().nonempty("Selecione uma titularidade!"),
     cadastroEscola: z.string().nonempty("Selecione uma escola ou adicione!"),
 })
 
@@ -37,6 +38,7 @@ export default function FormRegisterLesson(props: FormRegisterLessonProps){
 			setValue("diaAula", parsedDate);
 			setValue("horaAulas", infosInput.horaAulas);
 			setValue("cadastroProfessor", infosInput.cadastroProfessor);
+            setValue("titularidade", infosInput.titularidade);
 			setValue("cadastroEscola", infosInput.cadastroEscola);
 		}
 	}, [infosInput.edit]);
@@ -44,6 +46,20 @@ export default function FormRegisterLesson(props: FormRegisterLessonProps){
     return(
         <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(submit)}>
             <div className="w-full flex flex-col gap-3">
+                <div className="w-full flex flex-col">
+                    <div className="w-full flex flex-row items-center justify-between">
+                        <div className="w-auto flex flex-row items-center gap-2">
+                            <input type="radio" name="titularidade" className="w-4 h-4" id="titular" value="Titular" { ...register("titularidade", { value: "" }) } />
+                            <span className="text-xl font-bold">Titular</span>
+                        </div>
+
+                        <div className="w-auto flex flex-row items-center gap-2">
+                            <input type="radio" name="titularidade" className="w-4 h-4" id="titular" value="Substituo" { ...register("titularidade", { value: "" }) } />
+                            <span className="text-xl font-bold">Substituo</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="w-full flex flex-col gap-2 px-2">
                     <label htmlFor="professores" className="font-bold">Professores</label>
                     <select name="cadastroProfessor" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cadastroProfessor") }>
