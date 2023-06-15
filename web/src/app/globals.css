@@ -6,24 +6,24 @@
     border: none!important;
 }
 
-.calendar-home .react-calendar__viewContainer{
-    height: 85%;
+.calendar-modal .react-calendar__viewContainer{
+    height: 75%;
 }
 
-.calendar-home .react-calendar__viewContainer .react-calendar__month-view{
+.calendar-modal .react-calendar__viewContainer .react-calendar__month-view{
     height: 100%;
 }
 
-.calendar-home .react-calendar__viewContainer .react-calendar__month-view > div{
+.calendar-modal .react-calendar__viewContainer .react-calendar__month-view > div{
     align-items: flex-start!important;
     height: 100%;
 }
 
-.calendar-home .react-calendar__viewContainer .react-calendar__month-view > div > div{
+.calendar-modal .react-calendar__viewContainer .react-calendar__month-view > div > div{
     height: 100%;
 }
 
-.calendar-home .react-calendar__viewContainer .react-calendar__month-view > div > div .react-calendar__month-view__days{
+.calendar-modal .react-calendar__viewContainer .react-calendar__month-view > div > div .react-calendar__month-view__days{
     height: 100%;
 }
 

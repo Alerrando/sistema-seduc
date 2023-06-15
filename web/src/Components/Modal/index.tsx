@@ -31,7 +31,7 @@ export default function Modal(props: ModalProps){
 	
 	return(
 		<div className="w-screen h-auto flex items-center justify-center bg-modal fixed inset-0">
-			<div className="w-3/5 h-auto p-3 bg-white">
+			<div className="w-auto sm:w-3/5 max-h-[90%] sm:h-auto p-3 bg-white overflow-y-auto">
 				<header className="w-full h-auto flex flex-col gap-2 p-2 after:block after:border-b after:border-[#999]">
 					<div className="w-full flex flex-row items-center justify-between">
 						<h2 className="text-3xl font-bold">Cadastro</h2>
@@ -42,7 +42,7 @@ export default function Modal(props: ModalProps){
 
 				{registerType === "Lesson" ? (
 					<div className="w-full flex flex-col sm:grid sm:grid-cols-2">
-						<Calendar className="w-[100%!important] calendar shadow-md rounded-md" value={infosInput.diaAula} onChange={e => setInfosInput({ ...infosInput, diaAula: new Date(e)})}  />
+						<Calendar className="w-[100%!important] calendar shadow-md rounded-md calendar" value={infosInput.diaAula} onChange={e => setInfosInput({ ...infosInput, diaAula: new Date(e)})}  />
 						<FormRegisterLesson infosInput={infosInput} submit={submit} setModal={setModal} />
 					</div>
 				) : registerType === "School" ? (
