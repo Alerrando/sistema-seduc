@@ -55,7 +55,6 @@ export default function Table(props: TableProps) {
                                 <>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
-                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.diretor}</td>
                                 </>
                             ) : (
                                 <>

@@ -1,12 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import CreateHeader from "@/Components/CreateHeader";
+import CreateHeaderRegisters from '@/Components/CreateHeaderRegisters';
 import Modal from "@/Components/Modal";
 import Table from "@/Components/Table";
 import { createLesson, deleteLesson, editLesson, readAllLesson, readPaginationLesson } from "@/api";
 import { RootState } from "@/system";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { Calendar } from 'react-calendar';
+import { useEffect, useState } from "react";
 import "react-calendar/dist/Calendar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
@@ -54,7 +53,7 @@ export default function CadastroAula() {
         <h1 className="text-[42px]">Aulas</h1>
 
         {allInfosLesson != undefined ? (
-          <CreateHeader
+          <CreateHeaderRegisters
             setModal={setModal}
             setSearch={setSearch}
             totalRegiter={lessonsLengthall}

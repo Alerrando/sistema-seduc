@@ -7,7 +7,7 @@ type CreateHeaderProps = {
     totalRegiter: number,
 }
 
-export default function CreateHeader(props: CreateHeaderProps) {
+export default function CreateHeaderRegisters(props: CreateHeaderProps) {
     const { setModal, setSearch, totalRegiter } = props;
 
   return (

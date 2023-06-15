@@ -1,9 +1,9 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import CreateHeader from '@/Components/CreateHeader';
+import CreateHeaderRegisters from '@/Components/CreateHeaderRegisters';
 import Modal from '@/Components/Modal';
 import Table from '@/Components/Table';
 import { createSchool, deleteSchool, editSchool, readAllSchool } from '@/api';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,7 +15,7 @@ export default function CadastroEscola(){
     const [infosInput, setInfosInput] = useState<SchoolInfos>(SchoolValuesDefault);
     const [search, setSearch] = useState("");
     const [modal, setModal] = useState<boolean>(false);
-    const thead = ["Id", "Nome da Escola", "Diretor", "Ações"];
+    const thead = ["Id", "Nome da Escola", "Ações"];
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -32,7 +32,7 @@ export default function CadastroEscola(){
                 <h1 className="text-[42px]">Cadastro de Escolas</h1>
 
                 {allInfosSchool != undefined ? (
-                    <CreateHeader setModal={setModal} setSearch={setSearch} totalRegiter={allInfosSchool.length} key={"create-header-school"} />
+                    <CreateHeaderRegisters setModal={setModal} setSearch={setSearch} totalRegiter={allInfosSchool.length} key={"create-header-school"} />
                 ) : null}
 
                 <Table tableHead={thead} infosAll={allInfosSchool} editInfo={editInfo} deleteInfo={deleteInfo} search={search} key={"Table-Escola"} />
@@ -48,7 +48,6 @@ export default function CadastroEscola(){
 
     async function submitSchool(event){
         const aux: SchoolInfos = {
-            diretor: event.diretor,
             edit: -1,
             name: `${event.classificação} ${event.name}`,
             id: infosInput.id,

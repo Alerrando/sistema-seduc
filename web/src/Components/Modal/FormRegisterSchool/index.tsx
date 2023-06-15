@@ -16,7 +16,6 @@ export default function FormRegisterSchool(props: FormRegisterSchoolProps) {
 
   useEffect(() => {
     if (infosInput.edit !== -1) {
-      setValue("diretor", infosInput.diretor);
       setValue("classificação", getClassificacaoFromName(infosInput.name));
     }
   }, [infosInput.edit]);
@@ -87,23 +86,6 @@ export default function FormRegisterSchool(props: FormRegisterSchoolProps) {
           type="text"
           key={"name-escola-input"}
         />
-
-        <div className="w-full flex flex-col gap-2 px-2">
-          <label htmlFor="diretor" className="font-bold">
-            Diretor
-          </label>
-          <select name="nameDirector" id="name" className="border border-[#999] rounded-lg p-2 outline-none" {...register("diretor")}>
-            <option value="" defaultChecked className="outline-none border-none">
-              Selecione um Diretor
-            </option>
-            <option value="Alerrando" className="outline-none border-none">
-              Alerrando
-            </option>
-            <option value="Breno" className="outline-none border-none">
-              Breno
-            </option>
-          </select>
-        </div>
       </div>
 
       <div className="w-full flex items-center justify-end">

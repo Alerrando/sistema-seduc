@@ -1,9 +1,9 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import CreateHeader from '@/Components/CreateHeader';
+import CreateHeaderRegisters from '@/Components/CreateHeaderRegisters';
 import Modal from '@/Components/Modal';
 import Table from '@/Components/Table';
 import { createTeacher, deleteTeacher, editTeacher, readAllTeacher } from '@/api';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -32,7 +32,7 @@ export default function CadastroProfessor(){
                 <h1 className="text-[42px]">Cadastro de Professor</h1>
 
                 {allInfosTeacher != undefined ? (
-                    <CreateHeader setModal={setModal} setSearch={setSearch} totalRegiter={allInfosTeacher.length} key={"create-header-school"} />
+                    <CreateHeaderRegisters setModal={setModal} setSearch={setSearch} totalRegiter={allInfosTeacher.length} key={"create-header-school"} />
                 ) : null}
 
                 <Table tableHead={thead} infosAll={allInfosTeacher} editInfo={editInfo} deleteInfo={deleteInfo} search={search} key={"Table-Escola"} />
