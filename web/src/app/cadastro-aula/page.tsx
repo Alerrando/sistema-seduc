@@ -28,7 +28,6 @@ export default function CadastroAula() {
     "Id",
     "Nome Completo",
     "Horas de aulas dadas",
-    "Titularidade",
     "Escola",
     "Dia das aulas",
     "Ações",
@@ -116,7 +115,6 @@ export default function CadastroAula() {
       edit: 1,
       horaAulas: infos.horaAulas,
       id: infos.id,
-      titularidade: infos.titularidade,
       id_escola: infos.id_escola,
       cadastroProfessor: infos.cadastroProfessor,
     });
@@ -128,7 +126,6 @@ export default function CadastroAula() {
       diaAula: new Date(infosInput.diaAula),
       horaAulas: event.horaAulas,
       cadastroProfessor: event.cadastroProfessor,
-      titularidade: event.titularidade,
       cadastroEscola: event.cadastroEscola,
     };
 

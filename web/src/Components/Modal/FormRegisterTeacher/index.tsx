@@ -17,11 +17,26 @@ export default function FormRegisterTeacher(props: FormRegisterTeacherProps) {
   useEffect(() => {
     if (infosInput.edit !== -1) {
       setValue("name", infosInput.name);
+      setValue("titularidade", infosInput.titularidade);
     }
   }, [infosInput.edit]);
 
   return (
     <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(submit)}>
+      <div className="w-full flex flex-col">
+          <div className="w-full flex flex-row items-center justify-between">
+              <div className="w-auto flex flex-row items-center gap-2">
+                  <input type="radio" name="titularidade" className="w-4 h-4" id="titular" value="Titular" { ...register("titularidade", { value: "" }) } />
+                  <span className="text-xl font-bold">Titular</span>
+              </div>
+
+              <div className="w-auto flex flex-row items-center gap-2">
+                  <input type="radio" name="titularidade" className="w-4 h-4" id="titular" value="Substituo" { ...register("titularidade", { value: "" }) } />
+                  <span className="text-xl font-bold">Substituo</span>
+              </div>
+          </div>
+      </div>
+
       <div className="w-full flex flex-col gap-3">
         <Input
           htmlFor="name"

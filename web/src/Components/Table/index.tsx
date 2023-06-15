@@ -45,7 +45,6 @@ export default function Table(props: TableProps) {
                                     <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.id}</td>
                                     <td className="p-1 text-start whitespace-nowrap border border-[#999]">{getNameTeacher(info.cadastroProfessor)}</td>
                                     <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.horaAulas}</td>
-                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.titularidade}</td>
                                     <td className="p-1 text-start whitespace-nowrap border border-[#999]">{getNameSchool(info.cadastroEscola)}</td>
                                     <td className='p-1 text-start whitespace-nowrap border border-[#999]'>
                                         <span className='whitespace-nowrap'>{format(new Date(info.diaAula?.toString()), "dd/MM/yyyy")}</span>
@@ -61,6 +60,7 @@ export default function Table(props: TableProps) {
                                 <>
                                     <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.id}</td>
                                     <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.name}</td>
+                                    <td className="p-1 text-start whitespace-nowrap border border-[#999]">{info.titularidade}</td>
                                 </>
                             )}
                             <td className="p-1 text-start border-x border-y border-[#999]">
