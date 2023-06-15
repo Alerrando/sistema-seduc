@@ -15,14 +15,14 @@ public class CadastroProfessor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private String titularidade;
+    private String cpf;
     public CadastroProfessor(){
     }
 
-    public CadastroProfessor(Integer id, String name, String titularidade){
+    public CadastroProfessor(Integer id, String name, String cpf){
         this.id = id;
         this.name = name;
-        this.titularidade = titularidade;
+        this.cpf = cpf;
     }
 
     public Integer getId() {
@@ -41,20 +41,24 @@ public class CadastroProfessor {
         this.name = name;
     }
 
-    public String getTitularidade(){ return titularidade; }
+    public String getCpf() {
+        return cpf;
+    }
 
-    public void setTitularidade(String titularidade) { this.titularidade = titularidade;}
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CadastroProfessor that = (CadastroProfessor) o;
-        return Objects.equals(name, that.name);
+        return Objects.equals(cpf, that.cpf);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(cpf);
     }
 }

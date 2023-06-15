@@ -9,8 +9,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CadastroProfessorRepository extends JpaRepository<CadastroProfessor, Integer> {
-    boolean existsByName(String name);
+    boolean existsByCpf(String cpf);
 
-    @Query("SELECT p FROM CadastroProfessor p WHERE p.name = :name")
+    @Query("SELECT p FROM CadastroProfessor p WHERE p.name LIKE %:name%")
     List<CadastroProfessor> filterByName(@Param("name") String name);
 }
