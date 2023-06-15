@@ -11,15 +11,13 @@ public class CadastroEscola {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private String diretor;
 
     public CadastroEscola(){
     }
 
-    public CadastroEscola(Integer id, String name, String diretor) {
+    public CadastroEscola(Integer id, String name) {
         this.id = id;
         this.name = name;
-        this.diretor = diretor;
     }
 
     public Integer getId() {
@@ -38,25 +36,19 @@ public class CadastroEscola {
         this.name = name;
     }
 
-    public String getDiretor() {
-        return diretor;
-    }
 
-    public void setDiretor(String diretor) {
-        this.diretor = diretor;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CadastroEscola that = (CadastroEscola) o;
-        return Objects.equals(name, that.name) || Objects.equals(diretor, that.diretor);
+        return Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, diretor);
+        return Objects.hash(name);
     }
 
 }

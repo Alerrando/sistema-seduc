@@ -21,7 +21,7 @@ public class CadastroEscolaService {
     public CadastroEscola create(CadastroEscola cadastroEscola){
         List<CadastroEscola> escolas = cadastroEscolaRepository.findAll();
         for(CadastroEscola escola : escolas){
-            if(cadastroEscolaRepository.existsByNameOrDiretor(cadastroEscola.getName(), cadastroEscola.getDiretor())){
+            if(cadastroEscolaRepository.existsByName(cadastroEscola.getName())){
                 throw new EscolaJaCadastradaException("Escola já cadastrada!");
             }
         }

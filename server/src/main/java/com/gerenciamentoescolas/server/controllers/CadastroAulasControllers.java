@@ -22,7 +22,7 @@ public class CadastroAulasControllers {
     }
 
     @GetMapping("/page")
-    public Page<CadastroAulas> findPageable(@RequestParam int pageNumber, @RequestParam(defaultValue = "5") int pageSize){
+    public Page<CadastroAulas> findPageable(@RequestParam int pageNumber, @RequestParam(defaultValue = "10") int pageSize){
         Page<CadastroAulas> result = cadastroAulaService.findAllPageable(pageNumber, pageSize);
         return result;
     }
