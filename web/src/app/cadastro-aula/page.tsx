@@ -12,7 +12,6 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { HorasValuesDefault, LessonsInfos, changeRegisterType, refreshInfosLesson } from "../../../slice";
 
-
 export default function CadastroAula() {
   const [infosInput, setInfosInput] =
     useState<LessonsInfos>(HorasValuesDefault);
@@ -29,7 +28,7 @@ export default function CadastroAula() {
     "Horas de aulas dadas",
     "Titulariade",
     "Escola",
-    "Dia das aulas",
+    "Dia da aula",
     "Ações",
   ];
 
