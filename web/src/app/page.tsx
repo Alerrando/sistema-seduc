@@ -73,7 +73,7 @@ export default function Home() {
             </section>
           </div>
 
-          <div className="w-full h-auto">
+          <div className="w-full h-auto sm:h-full">
             <Image src="/img-dashboard.png" alt="img-dashboard" fill className="object-cover" />
           </div>
         </section>

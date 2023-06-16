@@ -37,9 +37,9 @@ export default function FormRegisterLesson(props: FormRegisterLessonProps){
 			const parsedDate = parse(infosInput.diaAula, "dd/MM/yyyy", new Date());
 			setValue("diaAula", parsedDate);
 			setValue("horaAulas", infosInput.horaAulas);
-			setValue("cadastroProfessor", infosInput.cadastroProfessor);
+			setValue("cadastroProfessor", String(infosInput.cadastroProfessor));
             setValue("titularidade", infosInput.titularidade);
-			setValue("cadastroEscola", infosInput.cadastroEscola);
+			setValue("cadastroEscola", String(infosInput.cadastroEscola));
 		}
 	}, [infosInput.edit]);
 
@@ -60,7 +60,7 @@ export default function FormRegisterLesson(props: FormRegisterLessonProps){
                     </div>
                 </div>
 
-                <div className="w-full flex flex-col gap-2 px-2">
+                <div className="w-full flex flex-col gap-2">
                     <label htmlFor="professores" className="font-bold">Professores</label>
                     <select name="cadastroProfessor" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cadastroProfessor") }>
                         <option value="" defaultChecked className="outline-none border-none">Selecione um Professor</option>
@@ -72,7 +72,7 @@ export default function FormRegisterLesson(props: FormRegisterLessonProps){
                     {errors.cadastroProfessor && <span className='text-red-600'>{errors.cadastroProfessor.message}</span>}
                 </div>
 
-                <div className="w-full flex flex-col gap-2 px-2">
+                <div className="w-full flex flex-col gap-2">
                     <label htmlFor="cadastroEscola" className="font-bold">Escola</label>
                     <select name="cadastroEscola" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cadastroEscola") }>
                         <option value="" defaultChecked className="outline-none border-none">Selecione uma Escola</option>
@@ -84,7 +84,7 @@ export default function FormRegisterLesson(props: FormRegisterLessonProps){
                     {errors.cadastroEscola && <span className='text-red-600'>{errors.cadastroEscola.message}</span>}
                 </div>
 
-                <Input htmlFor="horas-aulas" label="Horas de aula dadas" name="horaAulas" placeholder="1" register={register} type="number" key={"horaAulas-input"} />
+                <Input htmlFor="horas-aulas" label="Horas de aula dadas" name="horaAulas" placeholder="1" register={register} type="string" key={"horaAulas-input"} />
                 {errors.horaAulas && <span className='text-red-600'>{errors.horaAulas.message}</span>}
 
             </div>

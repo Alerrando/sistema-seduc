@@ -107,9 +107,9 @@ export default function CadastroAula() {
       diaAula: infos.diaAula,
       edit: 1,
       horaAulas: infos.horaAulas,
-      titularidade: info.titularidade,
+      titularidade: infos.titularidade,
       id: infos.id,
-      id_escola: infos.id_escola,
+      cadastroEscola: infos.cadastroEscola,
       cadastroProfessor: infos.cadastroProfessor,
     });
     setModal(true);
@@ -140,6 +140,7 @@ export default function CadastroAula() {
       }
 
       setModal(false);
+      setLessonsLengthall(await readAllLesson().then((data) => data.length));
     }
   }
 

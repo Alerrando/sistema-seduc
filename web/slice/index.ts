@@ -6,7 +6,7 @@ export type LessonsInfos = {
   cadastroProfessor: string;
   horaAulas: number;
   diaAula: Date;
-  cadastroEscola: number;
+  cadastroEscola: string;
   titularidade: string;
   edit: number;
 };
