@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { readAll } from "../src/api";
 
 export type LessonsInfos = {
   id: number;
@@ -44,7 +43,12 @@ const registerTypes = {
   School: {},
 
   Teacher: {},
+}
 
+const reportsTypes = {
+  School: {},
+
+  Teacher: {},
 }
 
 export const HorasValuesDefault = {
@@ -75,6 +79,7 @@ export type StateProps = {
   allInfosSchool: SchoolInfos[];
   allInfosTeacher: TeacherInfos[];
   registerType: keyof typeof registerTypes;
+  reportsTypes: keyof typeof reportsTypes;
 };
 
 const initialState: StateProps = {
@@ -100,6 +105,9 @@ export const Slice = createSlice({
     changeRegisterType: (state, action: PayloadAction<keyof typeof registerTypes>) => {
       state.registerType = action.payload;
     },
+    changeReportsType: (state, action: PayloadAction<keyof typeof reportsTypes>) => {
+      state.reportsTypes = action.payload;
+    }
   },
 });
 
@@ -116,6 +124,6 @@ export function objectEmptyValue(obj: LessonsInfos | SchoolInfos | TeacherInfos)
   return false;
 };
 
-export const { refreshInfosLesson, refreshInfosSchool, refreshInfosTeacher, changeRegisterType } = Slice.actions;
+export const { refreshInfosLesson, refreshInfosSchool, refreshInfosTeacher, changeRegisterType, changeReportsType } = Slice.actions;
 
 export default Slice.reducer;

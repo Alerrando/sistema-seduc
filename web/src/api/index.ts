@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LessonsInfos, SchoolInfos, TeacherInfos } from "../../slice";
+import { LessonsInfos, SchoolDTOInfos, SchoolInfos, TeacherInfos } from "../../slice";
 const urlLesson = "http://localhost:8080/cadastro-aulas";
 const urlSchool = "http://localhost:8080/cadastro-escola";
 const urlTeacher = "http://localhost:8080/cadastro-professor";
@@ -176,7 +176,6 @@ export async function deleteTeacher(id: number) {
 
 export async function getIdTeacher(id: string) {
   let aux: TeacherInfos = {};
-  console.log(id);
   
   await axios.get(`${urlTeacher}/${id}}`)
   .then((res) => (aux = res.data))
@@ -187,5 +186,10 @@ export async function getIdTeacher(id: string) {
 
 // ----------------------------- ROUTER REPORTS ----------------------------- //]
 export async function getReportsSchool() {
-  let aux = {};
+  let aux:SchoolDTOInfos = {};
+  await axios.get(`${urlSchool}/relatorio`)
+  .then((res) => (aux = res.data))
+  .catch((err) => console.log(err))
+
+  return aux;
 }
