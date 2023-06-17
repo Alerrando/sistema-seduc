@@ -1,11 +1,13 @@
 package com.gerenciamentoescolas.server.services;
 
+import com.gerenciamentoescolas.server.dto.CadastroEscolaDTO;
 import com.gerenciamentoescolas.server.entities.CadastroEscola;
 import com.gerenciamentoescolas.server.exception.EscolaJaCadastradaException;
 import com.gerenciamentoescolas.server.repository.CadastroEscolaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,6 +18,19 @@ public class CadastroEscolaService {
     public List<CadastroEscola> findAll(){
         List<CadastroEscola> result = cadastroEscolaRepository.findAll();
         return result;
+    }
+
+    public List<CadastroEscolaDTO> findEscolasAulas() {
+        List<Object[]> results = cadastroEscolaRepository.findEscolasAulas();
+        List<CadastroEscolaDTO> escolasAulas = new ArrayList<>();
+        for (Object[] result : results) {
+            Integer id = (Integer) result[0];
+            String name = (String) result[1];
+            Long quantidadeAulas = (Long) result[2];
+            CadastroEscolaDTO escolaAula = new CadastroEscolaDTO(id, name, quantidadeAulas.intValue());
+            escolasAulas.add(escolaAula);
+        }
+        return escolasAulas;
     }
 
     public CadastroEscola create(CadastroEscola cadastroEscola){

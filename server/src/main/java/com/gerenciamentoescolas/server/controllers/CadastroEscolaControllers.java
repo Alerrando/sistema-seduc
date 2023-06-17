@@ -1,5 +1,6 @@
 package com.gerenciamentoescolas.server.controllers;
 
+import com.gerenciamentoescolas.server.dto.CadastroEscolaDTO;
 import com.gerenciamentoescolas.server.entities.CadastroEscola;
 import com.gerenciamentoescolas.server.services.CadastroEscolaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,12 @@ public class CadastroEscolaControllers {
     @GetMapping
     public List<CadastroEscola> findAll(){
         List<CadastroEscola> result = cadastroEscolaService.findAll();
+        return result;
+    }
+
+    @GetMapping("/relatorio")
+    public List<CadastroEscolaDTO> findEscolasAulas(){
+        List<CadastroEscolaDTO> result = cadastroEscolaService.findEscolasAulas();
         return result;
     }
 
