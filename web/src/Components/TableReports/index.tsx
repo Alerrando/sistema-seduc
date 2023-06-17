@@ -13,7 +13,7 @@ type TableReportsProps = {
 
 export default function TableReports(props: TableReportsProps) {
     const { tableHead, infosAll, search } = props;
-    const { reportsTypes } = useSelector((root: RootState) => root.Slice)
+    const { reportsTypes } = useSelector((root: RootState) => root.Slice);
 
 
     return (

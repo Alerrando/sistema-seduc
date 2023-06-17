@@ -78,8 +78,8 @@ export type StateProps = {
   allInfosLesson: LessonsInfos[];
   allInfosSchool: SchoolInfos[];
   allInfosTeacher: TeacherInfos[];
-  registerType: keyof typeof registerTypes;
-  reportsTypes: keyof typeof reportsTypes;
+  registerType: keyof typeof registerTypes | null;
+  reportsTypes: keyof typeof reportsTypes | null;
 };
 
 const initialState: StateProps = {
@@ -87,6 +87,7 @@ const initialState: StateProps = {
   allInfosSchool: [],
   allInfosTeacher: [],
   registerType: null,
+  reportsTypes: null,
 };
 
 export const Slice = createSlice({

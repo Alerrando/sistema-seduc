@@ -27,7 +27,7 @@ export default function RelatorioEscola(){
             <div className="w-full flex flex-col gap-4 px-6 py-3">
                 <h1 className="text-[42px]">Relatório de Escolas</h1>
 
-                <CreateHeaderReports />
+                <CreateHeaderReports setSearch={setSearch} totalRegister={allReportsInfos.length} key="create-header-reports-school" />
 
                 <TableReports infosAll={allReportsInfos} search={search} tableHead={tableHead} key={"table-reports-school"} />
             </div>
