@@ -1,6 +1,6 @@
 'use client';
 
-import CreateHeaderReports from "@/Components/CreateHeaderReports";
+import CreateHeaderReports from "../../Components/CreateHeaderReports";
 import { Search, SlidersHorizontal } from "lucide-react";
 
 export default function RelatorioEscola(){

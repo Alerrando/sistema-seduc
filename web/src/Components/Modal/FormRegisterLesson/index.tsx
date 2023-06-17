@@ -1,10 +1,10 @@
 import React, { Key, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
-import { LessonsInfos, SchoolInfos, TeacherInfos } from '@/slice';
-import Input from '@/Components/Input';
+import { LessonsInfos, SchoolInfos, TeacherInfos } from '../../../../slice';
+import Input from '../../../Components/Input';
 import { Plus } from 'lucide-react';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/system';
+import { RootState } from '../../../../system';
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { parse } from 'date-fns';

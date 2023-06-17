@@ -1,9 +1,4 @@
 "use client";
-import CreateHeaderRegisters from '@/Components/CreateHeaderRegisters';
-import Modal from "@/Components/Modal";
-import Table from "@/Components/Table";
-import { createLesson, deleteLesson, editLesson, readAllLesson, readPaginationLesson } from "@/api";
-import { RootState } from "@/system";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import "react-calendar/dist/Calendar.css";
@@ -11,6 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { HorasValuesDefault, LessonsInfos, changeRegisterType, refreshInfosLesson } from "../../../slice";
+import { RootState } from "../../../system";
+import CreateHeaderRegisters from '../../Components/CreateHeaderRegisters';
+import Modal from "../../Components/Modal";
+import TableRegisters from "../../Components/TableRegisters";
+import { createLesson, deleteLesson, editLesson, readAllLesson, readPaginationLesson } from "../../api";
 
 export default function CadastroAula() {
   const [infosInput, setInfosInput] =
@@ -77,14 +77,7 @@ export default function CadastroAula() {
         </div>
 
         <div className="w-full border border-[#999]">
-          <Table
-            tableHead={tableHead}
-            editInfo={editInfo}
-            deleteInfo={deleteInfo}
-            infosAll={allInfosLesson}
-            search={search}
-            key={"Table-Cadastro"}
-          />
+          <TableRegisters tableHead={tableHead} editInfo={editInfo} deleteInfo={deleteInfo} infosAll={allInfosLesson} search={search} key={"Table-Cadastro"} />
         </div>
       </div>
 

@@ -3,7 +3,7 @@ import { parse } from "date-fns";
 import { Plus, X } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import { LessonInfos, SchoolInfos } from "@/slice";
+import { LessonInfos, SchoolInfos } from "../../../slice";
 import Input from "../Input";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../system";

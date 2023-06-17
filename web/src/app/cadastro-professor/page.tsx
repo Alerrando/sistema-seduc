@@ -1,14 +1,14 @@
 'use client';
-import CreateHeaderRegisters from '@/Components/CreateHeaderRegisters';
-import Modal from '@/Components/Modal';
-import Table from '@/Components/Table';
-import { createTeacher, deleteTeacher, editTeacher, readAllTeacher } from '@/api';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { SchoolValuesDefault, TeacherInfos, changeRegisterType, objectEmptyValue, refreshInfosTeacher } from '../../../slice';
 import { RootState } from '../../../system';
+import CreateHeaderRegisters from '../../Components/CreateHeaderRegisters';
+import Modal from '../../Components/Modal';
+import TableRegisters from '../../Components/TableRegisters';
+import { createTeacher, deleteTeacher, editTeacher, readAllTeacher } from '../../api';
 
 export default function CadastroProfessor(){
     const { allInfosTeacher, registerType } = useSelector((root: RootState) => root.Slice);
@@ -35,7 +35,7 @@ export default function CadastroProfessor(){
                     <CreateHeaderRegisters setModal={setModal} setSearch={setSearch} totalRegiter={allInfosTeacher.length} key={"create-header-school"} />
                 ) : null}
 
-                <Table tableHead={thead} infosAll={allInfosTeacher} editInfo={editInfo} deleteInfo={deleteInfo} search={search} key={"Table-Escola"} />
+                <TableRegisters tableHead={thead} infosAll={allInfosTeacher} editInfo={editInfo} deleteInfo={deleteInfo} search={search} key={"Table-Escola"} />
 
             </div>
             {modal ? (

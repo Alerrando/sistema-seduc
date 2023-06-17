@@ -4,9 +4,9 @@ import React, { Key, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../system";
 import { refreshInfosSchool, refreshInfosTeacher, LessonsInfos, SchoolInfos, TeacherInfos } from "../../../slice";
-import { readAllSchool, readAllTeacher } from "@/api";
+import { readAllSchool, readAllTeacher } from "../../api";
 
-type TableProps = {
+type TableRegistersProps = {
     tableHead: string[],
     editInfo: (info: LessonsInfos | SchoolInfos | TeacherInfos) => void,
     deleteInfo: (info: LessonsInfos | SchoolInfos | TeacherInfos) => void,
@@ -14,7 +14,7 @@ type TableProps = {
     search: string,
 }
 
-export default function Table(props: TableProps) {
+export default function TableRegisters(props: TableRegistersProps) {
     const { tableHead, editInfo, deleteInfo, infosAll, search } = props;
     const { registerType, allInfosSchool, allInfosTeacher } = useSelector((root: RootState) => root.Slice);
     const dispatch = useDispatch();

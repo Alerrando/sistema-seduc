@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { readAllLesson, readAllSchool } from "@/api";
+import { readAllLesson, readAllSchool } from "../api";
 import dynamic from "next/dynamic";
 import { refreshInfosSchool } from "../../slice";
 import "react-calendar/dist/Calendar.css";
@@ -73,8 +73,8 @@ export default function Home() {
             </section>
           </div>
 
-          <div className="w-full h-auto sm:h-full">
-            <Image src="/img-dashboard.png" alt="img-dashboard" fill className="object-cover" />
+          <div className="w-full h-auto">
+            <Image src="/dashboard.png" alt="img-dashboard" fill className="object-cover" />
           </div>
         </section>
       </div>
