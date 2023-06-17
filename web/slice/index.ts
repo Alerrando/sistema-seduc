@@ -114,8 +114,8 @@ export const Slice = createSlice({
 
 export function objectEmptyValue(obj: LessonsInfos | SchoolInfos | TeacherInfos){
   for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      const value = obj[key];
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      const value = obj[key as keyof (LessonsInfos | SchoolInfos | TeacherInfos)];
       if (value === "" || value === null || value === undefined) {
         return true;
       }
