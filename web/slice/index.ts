@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { readAll } from "@/api";
+import { readAll } from "../src/api";
 
 export type LessonsInfos = {
   id: number;
@@ -23,6 +23,19 @@ export type TeacherInfos = {
   name: string,
   cpf: string;
   edit: number,
+}
+
+export type SchoolDTOInfos = {
+  id: number,
+  name: string,
+  quantidadeAulas: number,
+}
+
+export type TeacherDTOInfos = {
+  id: number,
+  name: string,
+  horaAulas: number,
+  datasAulas: String[],
 }
 
 const registerTypes = {

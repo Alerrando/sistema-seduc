@@ -184,3 +184,8 @@ export async function getIdTeacher(id: string) {
 
   return aux.name;
 }
+
+// ----------------------------- ROUTER REPORTS ----------------------------- //]
+export async function getReportsSchool() {
+  let aux = {};
+}
