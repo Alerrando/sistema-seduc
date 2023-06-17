@@ -1,7 +1,8 @@
 package com.gerenciamentoescolas.server.services;
 
-import java.util.List;
+import java.util.*;
 
+import com.gerenciamentoescolas.server.dto.CadastroProfessorDTO;
 import com.gerenciamentoescolas.server.exception.ProfessorJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,31 @@ public class CadastorProfessorService {
     public List<CadastroProfessor> findAll(){
         List <CadastroProfessor> result = cadastroProfessorRepository.findAll();
         return result;
+    }
+
+    public List<CadastroProfessorDTO> findProfessorAulas() {
+        List<Object[]> results = cadastroProfessorRepository.findProfessorAulas();
+        Map<Integer, CadastroProfessorDTO> professoresMap = new HashMap<>();
+
+        for (Object[] result : results) {
+            Integer id = (Integer) result[0];
+            String name = (String) result[1];
+            Date diaAula = (Date) result[2];
+            Long quantidadeAulas = (Long) result[3];
+
+            CadastroProfessorDTO professorDTO = professoresMap.get(id);
+
+            if (professorDTO == null) {
+                professorDTO = new CadastroProfessorDTO(id.longValue(), name, quantidadeAulas, new ArrayList<>());
+                professoresMap.put(id, professorDTO);
+            } else {
+                professorDTO.setHoraAulas(professorDTO.getHoraAulas() + quantidadeAulas);
+            }
+
+            professorDTO.getDatasAulas().add(diaAula);
+        }
+
+        return new ArrayList<>(professoresMap.values());
     }
 
     public CadastroProfessor create(CadastroProfessor cadastroProfessor){

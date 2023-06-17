@@ -2,6 +2,7 @@ package com.gerenciamentoescolas.server.controllers;
 
 import java.util.List;
 
+import com.gerenciamentoescolas.server.dto.CadastroProfessorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,6 +28,12 @@ public class CadastroProfessorControllers {
     @GetMapping
     public List<CadastroProfessor> findAll(){
         List<CadastroProfessor> result = cadastorProfessorService.findAll();
+        return result;
+    }
+
+    @GetMapping("/relatorio")
+    public List<CadastroProfessorDTO> findProfessorAulas(){
+        List<CadastroProfessorDTO> result = cadastorProfessorService.findProfessorAulas();
         return result;
     }
 
