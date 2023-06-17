@@ -3,11 +3,11 @@ import { Pencil, Trash } from "lucide-react";
 import React, { Key, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../system";
-import { SchoolDTOInfos } from "../../../slice";
+import { SchoolDTOInfos, TeacherDTOInfos } from "../../../slice";
 
 type TableReportsProps = {
     tableHead: string[],
-    infosAll: SchoolDTOInfos[],
+    infosAll: SchoolDTOInfos[] | TeacherDTOInfos[],
     search: string,
 }
 
@@ -26,7 +26,7 @@ export default function TableReports(props: TableReportsProps) {
                 </thead>
 
                 <tbody className="divide-y divide-gray-200">
-                {infosAll != undefined && infosAll.map((info: SchoolDTOInfos, index: Key) => {
+                {infosAll != undefined && infosAll.map((info: SchoolDTOInfos | TeacherDTOInfos, index: Key) => {
 
                     return (
                         <tr key={`${info.id}-${index}`}>
@@ -38,12 +38,22 @@ export default function TableReports(props: TableReportsProps) {
                                 </>
                             ) : (
                                 <>
-                                    <td className='whitespace-nowrap px-4 py-2 font-medium text-gray-900'>
-                                        <span className='whitespace-nowrap'>{isValid(new Date(info.diaAula)) ? format(new Date(info.diaAula?.toString()), "dd/MM/yyyy") : ""}</span>
-                                    </td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.id}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
-                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.cpf}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.horaAulas}</td>
+                                    <td className='flex flex-row gap-4 whitespace-nowrap px-4 py-2 font-medium text-gray-900'>
+                                        {info.datasAulas.map((data) => {
+                                                const date = parseISO(data);
+                                                const dataFormatada = format(date, 'dd/MM/yyyy');
+
+                                                return(
+                                                    <>
+                                                        <span className='whitespace-nowrap'>{dataFormatada}</span>
+                                                    </>
+                                                )
+                                            }
+                                        )}
+                                    </td>
                                 </>
                             )}
                         </tr>

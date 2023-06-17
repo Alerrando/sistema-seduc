@@ -116,7 +116,7 @@ export function objectEmptyValue(obj: LessonsInfos | SchoolInfos | TeacherInfos)
   for (const key in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) {
       const value = obj[key as keyof (LessonsInfos | SchoolInfos | TeacherInfos)];
-      if (value === "" || value === null || value === undefined) {
+      if (typeof value === "string" && (value === "" || value === null || value === undefined)) {
         return true;
       }
     }
