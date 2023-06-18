@@ -34,7 +34,7 @@ public class CadastroAulasControllers {
     }
 
     @PostMapping("/{escolaId}&{professorId}")
-    public CadastroAulas create(@RequestBody CadastroAulas cadastroAulas, @PathVariable Integer escolaId, @PathVariable Integer professorId) {
+    public CadastroAulas create(@PathVariable Integer escolaId, @PathVariable Integer professorId, @RequestBody CadastroAulas cadastroAulas) {
         return cadastroAulaService.create(cadastroAulas, escolaId, professorId);
     }
 

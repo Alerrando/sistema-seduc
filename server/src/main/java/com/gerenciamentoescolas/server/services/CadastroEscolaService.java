@@ -26,7 +26,10 @@ public class CadastroEscolaService {
         for (Object[] result : results) {
             Integer id = (Integer) result[0];
             String name = (String) result[1];
-            Long quantidadeAulas = (Long) result[2];
+            Long quantidadeAulas = Long.valueOf("0");
+            if(result[2] != null){
+                quantidadeAulas = (Long) result[2];
+            }
             CadastroEscolaDTO escolaAula = new CadastroEscolaDTO(id, name, quantidadeAulas.intValue());
             escolasAulas.add(escolaAula);
         }
