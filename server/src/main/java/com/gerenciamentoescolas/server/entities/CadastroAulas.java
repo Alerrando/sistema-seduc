@@ -14,7 +14,6 @@ public class CadastroAulas {
     @JoinColumn(name = "professor")
     private Integer cadastroProfessor;
     private Integer horaAulas;
-    private String titularidade;
     @Temporal(TemporalType.TIMESTAMP)
     private Date diaAula;
     @JoinColumn(name = "escola")
@@ -23,12 +22,11 @@ public class CadastroAulas {
     public CadastroAulas(){
     }
 
-    public CadastroAulas(Integer id, Integer cadastroProfessor, Integer horaAulas, String titularidade, Date diaAula, Integer cadastroEscola) {
+    public CadastroAulas(Integer id, Integer cadastroProfessor, Integer horaAulas, Date diaAula, Integer cadastroEscola) {
         this.id = id;
         this.cadastroProfessor = cadastroProfessor;
         this.horaAulas = horaAulas;
         this.diaAula = diaAula;
-        this.titularidade = titularidade;
         this.cadastroEscola = cadastroEscola;
     }
 
@@ -55,9 +53,6 @@ public class CadastroAulas {
     public void setHoraAulas(Integer horaAulas) {
         this.horaAulas = horaAulas;
     }
-    public String getTitularidade(){ return titularidade; }
-
-    public void setTitularidade(String titularidade) { this.titularidade = titularidade;}
 
     public Date getDiaAula() {
         return diaAula;

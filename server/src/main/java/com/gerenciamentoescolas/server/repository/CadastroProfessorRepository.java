@@ -2,6 +2,7 @@ package com.gerenciamentoescolas.server.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.gerenciamentoescolas.server.entities.CadastroAulas;
 import com.gerenciamentoescolas.server.entities.CadastroProfessor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

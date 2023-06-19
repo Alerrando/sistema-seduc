@@ -7,13 +7,18 @@ import com.gerenciamentoescolas.server.exception.ProfessorJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gerenciamentoescolas.server.entities.CadastroEscola;
 import com.gerenciamentoescolas.server.entities.CadastroProfessor;
+import com.gerenciamentoescolas.server.repository.CadastroEscolaRepository;
 import com.gerenciamentoescolas.server.repository.CadastroProfessorRepository;
 
 @Service
 public class CadastorProfessorService {
     @Autowired
     private CadastroProfessorRepository cadastroProfessorRepository;
+
+    @Autowired
+    private CadastroEscolaRepository cadastroEscolaRepository;
 
     public List<CadastroProfessor> findAll(){
         List <CadastroProfessor> result = cadastroProfessorRepository.findAll();
@@ -45,18 +50,23 @@ public class CadastorProfessorService {
         return new ArrayList<>(professoresMap.values());
     }
 
-    public CadastroProfessor create(CadastroProfessor cadastroProfessor){
+    public CadastroProfessor create(CadastroProfessor cadastroProfessor, Integer escolaId){
         List<CadastroProfessor> professores = cadastroProfessorRepository.findAll();
         for(CadastroProfessor professor : professores){
             if(cadastroProfessorRepository.existsByCpf(cadastroProfessor.getCpf())){
                 throw new ProfessorJaCadastradoException("Professor já cadastrado!");
             }
         }
+        CadastroEscola escola = cadastroEscolaRepository.findById(escolaId).orElseThrow(() -> new RuntimeException("Escola não encontrada"));
+        cadastroProfessor.setCadastroEscola(escola.getId());
+
         return cadastroProfessorRepository.save(cadastroProfessor);
     }
 
-    public CadastroProfessor edit(CadastroProfessor cadastroProfessor, Integer id){
-        cadastroProfessor.setId(id);
+    public CadastroProfessor edit(CadastroProfessor cadastroProfessor, Integer escolaId){
+        CadastroEscola escola = cadastroEscolaRepository.findById(escolaId).orElseThrow(() -> new RuntimeException("Escola não encontrada"));
+        
+        cadastroProfessor.setCadastroEscola(escola.getId());
         return cadastroProfessorRepository.save(cadastroProfessor);
     }
 

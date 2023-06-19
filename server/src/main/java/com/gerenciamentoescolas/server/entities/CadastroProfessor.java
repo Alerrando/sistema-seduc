@@ -16,13 +16,17 @@ public class CadastroProfessor {
     private Integer id;
     private String name;
     private String cpf;
+    private Integer cadastroEscola;
+    private String sede;
     public CadastroProfessor(){
     }
 
-    public CadastroProfessor(Integer id, String name, String cpf){
+    public CadastroProfessor(Integer id, String name, String cpf, Integer cadastroEscola, String sede){
         this.id = id;
         this.name = name;
         this.cpf = cpf;
+        this.cadastroEscola = cadastroEscola;
+        this.sede = sede;
     }
 
     public Integer getId() {
@@ -47,6 +51,22 @@ public class CadastroProfessor {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public Integer getCadastroEscola(){
+        return cadastroEscola;
+    }
+
+    public void setCadastroEscola(Integer cadastroEscola){
+        this.cadastroEscola = cadastroEscola;
+    }
+
+    public String getSede(){
+        return sede;
+    }
+
+    public void setSede(String sede){
+        this.sede = sede;
     }
 
     @Override
