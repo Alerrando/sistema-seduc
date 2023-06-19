@@ -6,14 +6,13 @@ export type LessonsInfos = {
   horaAulas: number;
   diaAula: Date;
   cadastroEscola: string;
-  titularidade: string;
   edit: number;
 };
 
 export type SchoolInfos = {
   id: number;
   name: string;
-  classificação?: string,
+  classificação: string,
   edit: number;
 }
 
@@ -21,6 +20,8 @@ export type TeacherInfos = {
   id: number,
   name: string,
   cpf: string;
+  sede: string;
+  cargo: string;
   edit: number,
 }
 
@@ -51,26 +52,28 @@ const reportsTypes = {
   Teacher: {},
 }
 
-export const HorasValuesDefault = {
+export const HorasValuesDefault: LessonsInfos = {
   diaAula: new Date().toString(),
   edit: -1,
   horaAulas: 0,
   id: 0,
-  titularidade: "",
   cadastroProfessor: "",
   cadastroEscola: 0,
 };
 
-export const SchoolValuesDefault = {
+export const SchoolValuesDefault: SchoolInfos = {
   id: 0,
   name: "",
-  cpf: "",
+  classificação: "",
   edit: -1,
 }
 
-export const TeacherValuesDefault = {
+export const TeacherValuesDefault: TeacherInfos = {
   id: 0,
   name: "",
+  cpf: "",
+  cargo: "",
+  sede: "",
   edit: -1,
 }
 

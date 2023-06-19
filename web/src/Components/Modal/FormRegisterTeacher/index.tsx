@@ -5,12 +5,16 @@ import Input from "../../../Components/Input";
 import { useForm } from "react-hook-form";
 import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../system";
 
 const createFormSchema = z.object({
   name: z.string().nonempty("Nome é obrigatório!"),
   cpf: z.string().max(15).refine((value) => isValidCPF(value), {
     message: 'CPF inválido',
   }),
+  sede: z.string().nonempty("Selecione qual a sede"),
+  cargo: z.string().nonempty("Selecione qual o cargo"),
 })
 
 function isValidCPF(cpf: string): boolean {
@@ -57,11 +61,14 @@ export default function FormRegisterTeacher(props: FormRegisterTeacherProps) {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<CreateFormData>({
     resolver: zodResolver(createFormSchema)
   });
+  const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
 
   useEffect(() => {
     if (infosInput.edit !== -1) {
       setValue("name", infosInput.name);
       setValue("cpf", infosInput.cpf);
+      setValue("cargo", infosInput.cargo);
+      setValue("sede", infosInput.sede);
     }
   }, [infosInput.edit]);
 
@@ -93,6 +100,31 @@ export default function FormRegisterTeacher(props: FormRegisterTeacherProps) {
             key={"cpf-professor-input"}
           />
           {errors.cpf && <span className="text-red-600">{errors.cpf.message}</span>}
+        </div>
+
+        <div className="w-full flex flex-col gap-2">
+            <label htmlFor="sede" className="font-bold">Escola</label>
+            <select name="sede" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("sede") }>
+                <option value="" defaultChecked className="outline-none border-none">Selecione uma Sede</option>
+                {allInfosSchool?.map((school: SchoolInfos, index: Key) => (
+                    <option key={`escola-${school.name}`} value={school.id} className="outline-none border-none">{school.name}</option>
+                ))}
+            </select>
+
+            {errors.sede && <span className='text-red-600'>{errors.sede.message}</span>}
+        </div>
+
+        <div className="w-full flex flex-col gap-2">
+            <label htmlFor="cargo" className="font-bold">Cargo</label>
+            <select name="cargo" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cargo") }>
+                <option value="" defaultChecked className="outline-none border-none">Selecione um Cargo</option>
+                <option key={`peb-I`} value={"PEB I - Pedagogia"} className="outline-none border-none">PEB I - Pedagogia</option>
+                <option key={`peb-II-artes`} value={"PEB II - Artes"} className="outline-none border-none">PEB II - Artes</option>
+                <option key={`peb-II-edFisica`} value={"PEB II - Educação Física"} className="outline-none border-none">PEB II - Educação Física</option>
+                <option key={`peb-II-ingles`} value={"PEB II - Inglês"} className="outline-none border-none">PEB II - Inglês</option>
+            </select>
+
+            {errors.cargo && <span className='text-red-600'>{errors.cargo.message}</span>}
         </div>
 
       </div>

@@ -26,7 +26,6 @@ export default function CadastroAula() {
     "Id",
     "Nome Completo",
     "Horas de aulas dadas",
-    "Titulariade",
     "Escola",
     "Dia da aula",
     "Ações",
@@ -99,7 +98,6 @@ export default function CadastroAula() {
       diaAula: infos.diaAula,
       edit: 1,
       horaAulas: infos.horaAulas,
-      titularidade: infos.titularidade,
       id: infos.id,
       cadastroEscola: infos.cadastroEscola,
       cadastroProfessor: infos.cadastroProfessor,
@@ -111,7 +109,6 @@ export default function CadastroAula() {
     const aux: LessonsInfos = {
       diaAula: new Date(infosInput.diaAula),
       horaAulas: event.horaAulas,
-      titularidade: event.titularidade,
       cadastroProfessor: event.cadastroProfessor,
       cadastroEscola: event.cadastroEscola,
     };

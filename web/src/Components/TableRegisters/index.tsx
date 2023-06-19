@@ -45,7 +45,6 @@ export default function TableRegisters(props: TableRegistersProps) {
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.id}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{getNameTeacher(info.cadastroProfessor)}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.horaAulas}</td>
-                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.titularidade}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{getNameSchool(info.cadastroEscola)}</td>
                                     <td className='whitespace-nowrap px-4 py-2 font-medium text-gray-900'>
                                         <span className='whitespace-nowrap'>{isValid(new Date(info.diaAula)) ? format(new Date(info.diaAula?.toString()), "dd/MM/yyyy") : ""}</span>
@@ -61,6 +60,8 @@ export default function TableRegisters(props: TableRegistersProps) {
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.id}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.cpf}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{getNameSchool(info.sede)}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.cargo}</td>
                                 </>
                             )}
                             <td className="">
@@ -87,7 +88,7 @@ export default function TableRegisters(props: TableRegistersProps) {
 
     function getNameSchool(id: string){
         let aux = ""
-        allInfosSchool.forEach((school: SchoolInfos) => {
+        allInfosSchool?.forEach((school: SchoolInfos) => {
             if(school.id == id){
                 aux = school.name;
             }
@@ -98,7 +99,7 @@ export default function TableRegisters(props: TableRegistersProps) {
 
     function getNameTeacher(id: string){
         let aux = "";
-        allInfosTeacher.forEach((teacher: TeacherInfos) => {
+        allInfosTeacher?.forEach((teacher: TeacherInfos) => {
             if(teacher.id == id){
                 aux = teacher.name;
             }

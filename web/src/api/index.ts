@@ -138,9 +138,9 @@ export async function readAllTeacher() {
   }
 }
 
-export async function createTeacher(info: TeacherInfos){
+export async function createTeacher(info: TeacherInfos, idEscola: string){
   try {
-    const message = await axios.post(urlTeacher, info)
+    const message = await axios.post(`${urlTeacher}/${idEscola}`, info)
     .then((response) => "Escola cadastrada com sucesso")
     .catch((err) => err)
 
@@ -150,9 +150,9 @@ export async function createTeacher(info: TeacherInfos){
   }
 }
 
-export async function editTeacher(info: TeacherInfos, id: number) {
+export async function editTeacher(info: TeacherInfos, idEscola: string) {
   try {
-    const message = await axios.put(`${urlTeacher}/${id}`, info)
+    const message = await axios.put(`${urlTeacher}/${idEscola}`, info)
     .then((response) => "Escola editada com sucesso")
     .catch((err) => err);
 
