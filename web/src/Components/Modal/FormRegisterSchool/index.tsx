@@ -32,17 +32,21 @@ export default function FormRegisterSchool(props: FormRegisterSchoolProps) {
   }, [infosInput.edit]);
 
   function getClassificacaoFromName(name: string) {
-    if (name.includes("Escola Municipal")) {
-      setValue("name", name.replace("Escola Municipal", "").trim());
-      return "Escola Municipal";
-    }
-    else if (name.includes("Escola Estadual")) {
+    if (name.includes("Escola Estadual")) {
       setValue("name", name.replace("Escola Estadual", "").trim());
       return "Escola Estadual";
     }
     else if (name.includes("Creche")) {
       setValue("name", name.replace("Creche", "").trim());
       return "Creche";
+    }
+    else if(name.includes("Pré-Escola")){
+      setValue("name", name.replace("Pré-Escola", "").trim());
+      return "Pré-Escola";
+    }
+    else if(name.includes("Distrito")){
+      setValue("name", name.replace("Distrito", "").trim());
+      return "Distrito";
     }
     return "";
   }
@@ -69,11 +73,11 @@ export default function FormRegisterSchool(props: FormRegisterSchoolProps) {
                 type="radio"
                 name="classificação"
                 className="w-4 h-4"
-                id="escola-estadual"
-                value="Escola Estadual"
+                id="creche"
+                value="Creche"
                 {...register("classificação", { value: "" })}
               />
-              <span className="text-xl font-bold">Escola Estadual</span>
+              <span className="text-xl font-bold">Creche</span>
             </div>
 
             <div className="w-auto flex flex-row items-center gap-2">
@@ -81,11 +85,23 @@ export default function FormRegisterSchool(props: FormRegisterSchoolProps) {
                 type="radio"
                 name="classificação"
                 className="w-4 h-4"
-                id="creche"
-                value="Creche"
+                id="pre-escola"
+                value="Pré Escola"
                 {...register("classificação", { value: "" })}
               />
-              <span className="text-xl font-bold">Creche</span>
+              <span className="text-xl font-bold">Pré Escola</span>
+            </div>
+
+            <div className="w-auto flex flex-row items-center gap-2">
+              <input
+                type="radio"
+                name="classificação"
+                className="w-4 h-4"
+                id="distrito"
+                value="Distrito"
+                {...register("classificação", { value: "" })}
+              />
+              <span className="text-xl font-bold">Distrito</span>
             </div>
           </div>
           {errors.classificação && <span className="text-red-600">{errors.classificação.message}</span>}
