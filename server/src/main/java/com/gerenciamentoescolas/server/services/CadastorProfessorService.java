@@ -58,15 +58,15 @@ public class CadastorProfessorService {
             }
         }
         CadastroEscola escola = cadastroEscolaRepository.findById(escolaId).orElseThrow(() -> new RuntimeException("Escola não encontrada"));
-        cadastroProfessor.setCadastroEscola(escola.getId());
+        cadastroProfessor.setSede(escola.getId());
 
         return cadastroProfessorRepository.save(cadastroProfessor);
     }
 
     public CadastroProfessor edit(CadastroProfessor cadastroProfessor, Integer escolaId){
         CadastroEscola escola = cadastroEscolaRepository.findById(escolaId).orElseThrow(() -> new RuntimeException("Escola não encontrada"));
-        
-        cadastroProfessor.setCadastroEscola(escola.getId());
+
+        cadastroProfessor.setSede(escola.getId());
         return cadastroProfessorRepository.save(cadastroProfessor);
     }
 

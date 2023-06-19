@@ -16,17 +16,17 @@ public class CadastroProfessor {
     private Integer id;
     private String name;
     private String cpf;
-    private Integer cadastroEscola;
-    private String sede;
+    private String cargo;
+    private Integer sede;
     public CadastroProfessor(){
     }
 
-    public CadastroProfessor(Integer id, String name, String cpf, Integer cadastroEscola, String sede){
+    public CadastroProfessor(Integer id, String name, String cpf, Integer sede, String cargo){
         this.id = id;
         this.name = name;
         this.cpf = cpf;
-        this.cadastroEscola = cadastroEscola;
         this.sede = sede;
+        this.cargo = cargo;
     }
 
     public Integer getId() {
@@ -53,20 +53,20 @@ public class CadastroProfessor {
         this.cpf = cpf;
     }
 
-    public Integer getCadastroEscola(){
-        return cadastroEscola;
-    }
-
-    public void setCadastroEscola(Integer cadastroEscola){
-        this.cadastroEscola = cadastroEscola;
-    }
-
-    public String getSede(){
+    public Integer getSede(){
         return sede;
     }
 
-    public void setSede(String sede){
+    public void setSede(Integer sede){
         this.sede = sede;
+    }
+
+    public String getCargo(){
+        return cargo;
+    }
+
+    public void setCargo(String cargo){
+        this.cargo = cargo;
     }
 
     @Override
