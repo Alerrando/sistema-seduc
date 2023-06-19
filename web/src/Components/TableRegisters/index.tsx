@@ -42,6 +42,7 @@ export default function TableRegisters(props: TableRegistersProps) {
                         <tr key={`${info.id}-${index}`}>
                             {registerType === "Lesson" ? (
                                 <>
+                                {console.log(info)}
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.id}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{getNameTeacher(info.cadastroProfessor)}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.horaAulas}</td>

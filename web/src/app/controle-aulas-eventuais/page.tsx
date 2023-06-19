@@ -12,7 +12,7 @@ import Modal from "../../Components/Modal";
 import TableRegisters from "../../Components/TableRegisters";
 import { createLesson, deleteLesson, editLesson, readAllLesson, readPaginationLesson } from "../../api";
 
-export default function CadastroAula() {
+export default function ControleAulasEventuais() {
   const [infosInput, setInfosInput] =
     useState<LessonsInfos>(HorasValuesDefault);
   const [lessonsLengthall, setLessonsLengthall] = useState(0);
@@ -48,7 +48,7 @@ export default function CadastroAula() {
   return (
     <section className="w-full sm:w-5/6 h-max ml-auto">
       <div className="w-full flex flex-col gap-4 px-6 py-3">
-        <h1 className="text-[42px]">Aulas</h1>
+        <h1 className="text-[27px] md:text-[42px]">Controle de Aulas Eventuais</h1>
 
         {allInfosLesson != undefined ? (
           <CreateHeaderRegisters
@@ -86,6 +86,7 @@ export default function CadastroAula() {
           setInfosInput={setInfosInput}
           setModal={setModal}
           submitInfos={submitLesson}
+          title="Controle de Aulas Eventuais"
         />
       ) : null}
 

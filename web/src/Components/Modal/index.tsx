@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { parse } from "date-fns";
 import { Plus, X } from "lucide-react";
-import dynamic from "next/dynamic";
 import { useState } from "react";
 import { LessonInfos, SchoolInfos } from "../../../slice";
 import Input from "../Input";
@@ -17,12 +16,11 @@ type ModalProps = {
 	infosInput: LessonsInfos | SchoolInfos | TeacherInfos;
 	setModal: (modal: boolean) => void;
 	submitInfos: (e) => void;
+	title: string,
 }
 
-const Calendar = dynamic(() => import("react-calendar"), { ssr: false });
-
 export default function Modal(props: ModalProps){
-	const { setInfosInput, infosInput, setModal, submitInfos } = props;
+	const { setInfosInput, infosInput, setModal, submitInfos, title } = props;
 	const { registerType } = useSelector((slice: RootState) => slice.Slice)
 
 	async function submit(event){
@@ -34,7 +32,7 @@ export default function Modal(props: ModalProps){
 			<div className="w-auto sm:w-3/5 max-h-[90%] sm:h-auto p-3 bg-white overflow-y-auto">
 				<header className="w-full h-auto flex flex-col gap-2 p-2 after:block after:border-b after:border-[#999]">
 					<div className="w-full flex flex-row items-center justify-between">
-						<h2 className="text-3xl font-bold">Cadastro</h2>
+						<h2 className="text-xl md:text-3xl font-bold">{title}</h2>
 						<X size={32} className="cursor-pointer" onClick={() => setModal(false)} />
 					</div>
 				</header>
@@ -42,7 +40,6 @@ export default function Modal(props: ModalProps){
 
 				{registerType === "Lesson" ? (
 					<div className="w-full flex flex-col sm:grid sm:grid-cols-2">
-						<Calendar className="w-[100%!important] calendar shadow-md rounded-md calendar" value={infosInput.diaAula} onChange={e => setInfosInput({ ...infosInput, diaAula: new Date(e)})}  />
 						<FormRegisterLesson infosInput={infosInput} submit={submit} setModal={setModal} />
 					</div>
 				) : registerType === "School" ? (

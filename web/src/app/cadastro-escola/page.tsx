@@ -27,9 +27,9 @@ export default function CadastroEscola(){
 
 
     return(
-        <main className='w-5/6 ml-auto px-6 overflow-y-auto'>
+        <main className='w-full sm:w-5/6 h-max ml-auto'>
             <div className="w-full flex flex-col gap-4 px-6 py-3">
-                <h1 className="text-[42px]">Cadastro de Escolas</h1>
+                <h1 className="text-3xl md:text-[42px]">Cadastro de Escolas</h1>
 
                 {allInfosSchool != undefined ? (
                     <CreateHeaderRegisters setModal={setModal} setSearch={setSearch} totalRegiter={allInfosSchool.length} key={"create-header-school"} />
@@ -39,7 +39,13 @@ export default function CadastroEscola(){
 
             </div>
             {modal ? (
-                <Modal infosInput={infosInput} setInfosInput={setInfosInput} setModal={setModal} submitInfos={submitSchool} key={"modal-cadastro-escola"} />
+                <Modal 
+                infosInput={infosInput} 
+                setInfosInput={setInfosInput} 
+                setModal={setModal} 
+                submitInfos={submitSchool} 
+                title="Cadastro de Escolas"
+                key={"modal-cadastro-escola"} />
             ) : null}
 
             <ToastContainer />

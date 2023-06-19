@@ -1,4 +1,5 @@
 import React, { Key, useEffect } from 'react'
+import dynamic from "next/dynamic";
 import { useForm } from 'react-hook-form';
 import { LessonsInfos, SchoolInfos, TeacherInfos } from '../../../../slice';
 import Input from '../../../Components/Input';
@@ -23,6 +24,7 @@ type FormRegisterLessonProps = {
 
 type CreateFormData = z.infer<typeof createFormSchema>
 
+const Calendar = dynamic(() => import("react-calendar"), { ssr: false });
 
 export default function FormRegisterLesson(props: FormRegisterLessonProps){
     const { infosInput, setModal, submit } = props;
@@ -42,43 +44,45 @@ export default function FormRegisterLesson(props: FormRegisterLessonProps){
 	}, [infosInput.edit]);
 
     return(
-        <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(submit)}>
-            <div className="w-full flex flex-col gap-3">
-                <div className="w-full flex flex-col gap-2">
-                    <label htmlFor="professores" className="font-bold">Professores</label>
-                    <select name="cadastroProfessor" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cadastroProfessor") }>
-                        <option value="" defaultChecked className="outline-none border-none">Selecione um Professor</option>
-                        {allInfosTeacher?.map((teacher: TeacherInfos, index: Key) => (
-                            <option key={`professor-${teacher.name}`} value={teacher.id} className="outline-none border-none">{teacher.name}</option>
-                        ))}
-                    </select>
+        <>
+            <Calendar className="w-[100%!important] calendar shadow-md rounded-md calendar" value={infosInput.diaAula} onChange={e => setInfosInput({ ...infosInput, diaAula: new Date(e)})}  />
+            <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(submit)}>
+                <div className="w-full flex flex-col gap-3">
+                    <div className="w-full flex flex-col gap-2">
+                        <label htmlFor="professores" className="font-bold">Professores</label>
+                        <select name="cadastroProfessor" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cadastroProfessor") }>
+                            <option value="" defaultChecked className="outline-none border-none">Selecione um Professor</option>
+                            {allInfosTeacher?.map((teacher: TeacherInfos, index: Key) => (
+                                <option key={`professor-${teacher.name}`} value={teacher.id} className="outline-none border-none">{teacher.name}</option>
+                            ))}
+                        </select>
 
-                    {errors.cadastroProfessor && <span className='text-red-600'>{errors.cadastroProfessor.message}</span>}
+                        {errors.cadastroProfessor && <span className='text-red-600'>{errors.cadastroProfessor.message}</span>}
+                    </div>
+
+                    <div className="w-full flex flex-col gap-2">
+                        <label htmlFor="cadastroEscola" className="font-bold">Escola</label>
+                        <select name="cadastroEscola" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cadastroEscola") }>
+                            <option value="" defaultChecked className="outline-none border-none">Selecione uma Escola</option>
+                            {allInfosSchool?.map((school: SchoolInfos, index: Key) => (
+                                <option key={`escola-${school.name}`} value={school.id} className="outline-none border-none">{school.name}</option>
+                            ))}
+                        </select>
+
+                        {errors.cadastroEscola && <span className='text-red-600'>{errors.cadastroEscola.message}</span>}
+                    </div>
+
+                    <Input htmlFor="horas-aulas" label="Horas de aula dadas" name="horaAulas" placeholder="1" register={register} type="string" key={"horaAulas-input"} />
+                    {errors.horaAulas && <span className='text-red-600'>{errors.horaAulas.message}</span>}
+
                 </div>
 
-                <div className="w-full flex flex-col gap-2">
-                    <label htmlFor="cadastroEscola" className="font-bold">Escola</label>
-                    <select name="cadastroEscola" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cadastroEscola") }>
-                        <option value="" defaultChecked className="outline-none border-none">Selecione uma Escola</option>
-                        {allInfosSchool?.map((school: SchoolInfos, index: Key) => (
-                            <option key={`escola-${school.name}`} value={school.id} className="outline-none border-none">{school.name}</option>
-                        ))}
-                    </select>
-
-                    {errors.cadastroEscola && <span className='text-red-600'>{errors.cadastroEscola.message}</span>}
+                <div className="w-full flex items-center justify-end">
+                    <button type="submit" className="w-20 flex flex-row items-center justify-center py-2 px-4 border border-[#22C55E] text-[#22C55E] cursor-pointer rounded-lg group hover:bg-[#22C55E] transition-colors" onClick={() => setModal(true)}>
+                        <span className="text-lg group-hover:text-white">Ok</span>
+                    </button>
                 </div>
-
-                <Input htmlFor="horas-aulas" label="Horas de aula dadas" name="horaAulas" placeholder="1" register={register} type="string" key={"horaAulas-input"} />
-                {errors.horaAulas && <span className='text-red-600'>{errors.horaAulas.message}</span>}
-
-            </div>
-
-            <div className="w-full flex items-center justify-end">
-                <button type="submit" className="flex flex-row items-center gap-2 py-2 px-4 border border-[#22C55E] text-[#22C55E] cursor-pointer rounded-lg group hover:bg-[#22C55E] transition-colors" onClick={() => setModal(true)}>
-                    <Plus size={26} className="group-hover:text-white" />
-                    <span className="text-lg group-hover:text-white">Cadastro</span>
-                </button>
-            </div>
-        </form>
+            </form>
+        </>
     )
 }

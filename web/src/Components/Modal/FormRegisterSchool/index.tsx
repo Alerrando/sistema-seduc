@@ -55,7 +55,7 @@ export default function FormRegisterSchool(props: FormRegisterSchoolProps) {
     <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(submit)}>
       <div className="w-full flex flex-col gap-3">
         <div className="w-full flex flex-col gap-2">
-          <div className="w-full flex flex-row items-center justify-between">
+          <div className="w-full grid grid-cols-2 grid-rows-2 md:flex md:flex-row items-center md:justify-between">
             <div className="w-auto flex flex-row items-center gap-2">
               <input
                 type="radio"
@@ -65,10 +65,10 @@ export default function FormRegisterSchool(props: FormRegisterSchoolProps) {
                 value="Escola Municipal"
                 {...register("classificação", { value: "" })}
               />
-              <span className="text-xl font-bold">Escola Municipal</span>
+              <span className="text-lg md:text-xl font-bold">Escola Municipal</span>
             </div>
 
-            <div className="w-auto flex flex-row items-center gap-2">
+            <div className="w-auto flex flex-row items-center justify-end gap-2">
               <input
                 type="radio"
                 name="classificação"
@@ -77,7 +77,7 @@ export default function FormRegisterSchool(props: FormRegisterSchoolProps) {
                 value="Creche"
                 {...register("classificação", { value: "" })}
               />
-              <span className="text-xl font-bold">Creche</span>
+              <span className="text-lg md:text-xl font-bold">Creche</span>
             </div>
 
             <div className="w-auto flex flex-row items-center gap-2">
@@ -89,10 +89,10 @@ export default function FormRegisterSchool(props: FormRegisterSchoolProps) {
                 value="Pré Escola"
                 {...register("classificação", { value: "" })}
               />
-              <span className="text-xl font-bold">Pré Escola</span>
+              <span className="text-lg md:text-xl font-bold">Pré Escola</span>
             </div>
 
-            <div className="w-auto flex flex-row items-center gap-2">
+            <div className="w-auto flex flex-row items-center justify-end gap-2">
               <input
                 type="radio"
                 name="classificação"
@@ -101,7 +101,7 @@ export default function FormRegisterSchool(props: FormRegisterSchoolProps) {
                 value="Distrito"
                 {...register("classificação", { value: "" })}
               />
-              <span className="text-xl font-bold">Distrito</span>
+              <span className="text-lg md:text-xl font-bold">Distrito</span>
             </div>
           </div>
           {errors.classificação && <span className="text-red-600">{errors.classificação.message}</span>}
@@ -124,11 +124,10 @@ export default function FormRegisterSchool(props: FormRegisterSchoolProps) {
       <div className="w-full flex items-center justify-end">
         <button
           type="submit"
-          className="flex flex-row items-center gap-2 py-2 px-4 border border-[#22C55E] text-[#22C55E] cursor-pointer rounded-lg group hover:bg-[#22C55E] transition-colors"
+          className="w-20 flex flex-row items-center justify-center gap-2 py-2 px-4 border border-[#22C55E] text-[#22C55E] cursor-pointer rounded-lg group hover:bg-[#22C55E] transition-colors"
           onClick={() => setModal(true)}
         >
-          <Plus size={26} className="group-hover:text-white" />
-          <span className="text-lg group-hover:text-white">Cadastro</span>
+          <span className="text-lg group-hover:text-white">Ok</span>
         </button>
       </div>
     </form>

@@ -105,9 +105,9 @@ export default function FormRegisterTeacher(props: FormRegisterTeacherProps) {
         <div className="w-full flex flex-col gap-2">
             <label htmlFor="sede" className="font-bold">Escola</label>
             <select name="sede" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("sede") }>
-                <option value="" defaultChecked className="outline-none border-none">Selecione uma Sede</option>
+                <option value="" defaultChecked className="text-[12px] md:text-base outline-none border-none">Selecione uma Sede</option>
                 {allInfosSchool?.map((school: SchoolInfos, index: Key) => (
-                    <option key={`escola-${school.name}`} value={school.id} className="outline-none border-none">{school.name}</option>
+                    <option key={`escola-${school.name}`} value={school.id} className="text-[12px] md:text-base outline-none border-none">{school.name}</option>
                 ))}
             </select>
 
@@ -117,11 +117,11 @@ export default function FormRegisterTeacher(props: FormRegisterTeacherProps) {
         <div className="w-full flex flex-col gap-2">
             <label htmlFor="cargo" className="font-bold">Cargo</label>
             <select name="cargo" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cargo") }>
-                <option value="" defaultChecked className="outline-none border-none">Selecione um Cargo</option>
-                <option key={`peb-I`} value={"PEB I - Pedagogia"} className="outline-none border-none">PEB I - Pedagogia</option>
-                <option key={`peb-II-artes`} value={"PEB II - Artes"} className="outline-none border-none">PEB II - Artes</option>
-                <option key={`peb-II-edFisica`} value={"PEB II - Educação Física"} className="outline-none border-none">PEB II - Educação Física</option>
-                <option key={`peb-II-ingles`} value={"PEB II - Inglês"} className="outline-none border-none">PEB II - Inglês</option>
+                <option value="" defaultChecked className="text-[12px] md:text-base outline-none border-none">Selecione um Cargo</option>
+                <option key={`peb-I`} value={"PEB I - Pedagogia"} className="text-[12px] md:text-base outline-none border-none">PEB I - Pedagogia</option>
+                <option key={`peb-II-artes`} value={"PEB II - Artes"} className="text-[12px] md:text-base outline-none border-none">PEB II - Artes</option>
+                <option key={`peb-II-edFisica`} value={"PEB II - Educação Física"} className="text-[12px] md:text-base outline-none border-none">PEB II - Educação Física</option>
+                <option key={`peb-II-ingles`} value={"PEB II - Inglês"} className="text-[12px] md:text-base outline-none border-none">PEB II - Inglês</option>
             </select>
 
             {errors.cargo && <span className='text-red-600'>{errors.cargo.message}</span>}
@@ -132,11 +132,10 @@ export default function FormRegisterTeacher(props: FormRegisterTeacherProps) {
       <div className="w-full flex items-center justify-end">
         <button
           type="submit"
-          className="flex flex-row items-center gap-2 py-2 px-4 border border-[#22C55E] text-[#22C55E] cursor-pointer rounded-lg group hover:bg-[#22C55E] transition-colors"
+          className="w-20 flex flex-row items-center justify-center gap-2 py-2 px-4 border border-[#22C55E] text-[#22C55E] cursor-pointer rounded-lg group hover:bg-[#22C55E] transition-colors"
           onClick={() => setModal(true)}
         >
-          <Plus size={26} className="group-hover:text-white" />
-          <span className="text-lg group-hover:text-white">Cadastro</span>
+          <span className="text-lg group-hover:text-white">Ok</span>
         </button>
       </div>
     </form>
