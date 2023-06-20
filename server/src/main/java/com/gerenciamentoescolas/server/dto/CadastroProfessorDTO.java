@@ -12,15 +12,17 @@ public class CadastroProfessorDTO {
     private Long horaAulas;
     @Temporal(TemporalType.TIMESTAMP)
     private List<Date> datasAulas;
+    private String cadastroEscola;
 
     public CadastroProfessorDTO(){
     }
 
-    public CadastroProfessorDTO(Long id, String name, Long horaAulas, List<Date> datasAulas) {
+    public CadastroProfessorDTO(Long id, String name, Long horaAulas, List<Date> datasAulas, String cadastroEscola) {
         this.id = id;
         this.name = name;
         this.horaAulas = horaAulas;
         this.datasAulas = datasAulas;
+        this.cadastroEscola = cadastroEscola;
     }
 
     public Long getId() {
@@ -53,5 +55,13 @@ public class CadastroProfessorDTO {
 
     public void setDatasAulas(List<Date> datasAulas) {
         this.datasAulas = datasAulas;
+    }
+
+    public String getCadastroEscola(){
+        return cadastroEscola;
+    }
+
+    public void setCadastroEscola(String cadastroEscola){
+        this.cadastroEscola = cadastroEscola;
     }
 }

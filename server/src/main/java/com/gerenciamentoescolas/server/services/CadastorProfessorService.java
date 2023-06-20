@@ -25,8 +25,8 @@ public class CadastorProfessorService {
         return result;
     }
 
-    public List<CadastroProfessorDTO> findProfessorAulas() {
-        List<Object[]> results = cadastroProfessorRepository.findProfessorAulas();
+    public List<CadastroProfessorDTO> findProfessorAulas(String professorId, Date dataInicial, Date dataFinal) {
+        List<Object[]> results = cadastroProfessorRepository.findProfessorAulas(professorId, dataInicial, dataFinal);
         Map<Integer, CadastroProfessorDTO> professoresMap = new HashMap<>();
 
         for (Object[] result : results) {
@@ -34,11 +34,12 @@ public class CadastorProfessorService {
             String name = (String) result[1];
             Date diaAula = (Date) result[2];
             Long quantidadeAulas = (Long) result[3];
+            String cadastroEscola = (String) result[4];
 
             CadastroProfessorDTO professorDTO = professoresMap.get(id);
 
             if (professorDTO == null) {
-                professorDTO = new CadastroProfessorDTO(id.longValue(), name, quantidadeAulas, new ArrayList<>());
+                professorDTO = new CadastroProfessorDTO(id.longValue(), name, quantidadeAulas, new ArrayList<>(), cadastroEscola);
                 professoresMap.put(id, professorDTO);
             } else {
                 professorDTO.setHoraAulas(professorDTO.getHoraAulas() + quantidadeAulas);

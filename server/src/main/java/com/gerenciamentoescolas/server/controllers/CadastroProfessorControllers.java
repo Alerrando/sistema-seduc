@@ -1,5 +1,6 @@
 package com.gerenciamentoescolas.server.controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import com.gerenciamentoescolas.server.dto.CadastroProfessorDTO;
@@ -31,9 +32,9 @@ public class CadastroProfessorControllers {
         return result;
     }
 
-    @GetMapping("/relatorio")
-    public List<CadastroProfessorDTO> findProfessorAulas(){
-        List<CadastroProfessorDTO> result = cadastorProfessorService.findProfessorAulas();
+    @GetMapping("/relatorio/{professorId}&{dataInicial}&{dataFinal}")
+    public List<CadastroProfessorDTO> findProfessorAulas(@PathVariable String professorId, @PathVariable Date dataInicial, @PathVariable Date dataFinal){
+        List<CadastroProfessorDTO> result = cadastorProfessorService.findProfessorAulas(professorId, dataInicial, dataFinal);
         return result;
     }
 
