@@ -50,7 +50,7 @@ export default function FormRegisterLesson(props: FormRegisterLessonProps){
                 <div className="w-full flex flex-col gap-3">
                     <div className="w-full flex flex-col gap-2">
                         <label htmlFor="professores" className="font-bold">Professores</label>
-                        <select name="cadastroProfessor" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cadastroProfessor") }>
+                        <select id="cadastroProfessor" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cadastroProfessor") }>
                             <option value="" defaultChecked className="outline-none border-none">Selecione um Professor</option>
                             {allInfosTeacher?.map((teacher: TeacherInfos, index: Key) => (
                                 <option key={`professor-${teacher.name}`} value={teacher.id} className="outline-none border-none">{teacher.name}</option>
@@ -62,7 +62,7 @@ export default function FormRegisterLesson(props: FormRegisterLessonProps){
 
                     <div className="w-full flex flex-col gap-2">
                         <label htmlFor="cadastroEscola" className="font-bold">Escola</label>
-                        <select name="cadastroEscola" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cadastroEscola") }>
+                        <select id="cadastroEscola" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cadastroEscola") }>
                             <option value="" defaultChecked className="outline-none border-none">Selecione uma Escola</option>
                             {allInfosSchool?.map((school: SchoolInfos, index: Key) => (
                                 <option key={`escola-${school.name}`} value={school.id} className="outline-none border-none">{school.name}</option>

@@ -39,6 +39,8 @@ export default function Filter({ setFilter }: FilterProps){
         })()
     }, [])
 
+    console.log(datas);
+
     return(
         <div className="w-screen h-full fixed flex items-center justify-end bg-modal top-0 left-0 ">
             <form className="w-[35%] h-full flex flex-col gap-6 bg-white p-3 overflow-y-auto" onSubmit={handleSubmit(submit)}>
@@ -51,7 +53,7 @@ export default function Filter({ setFilter }: FilterProps){
                 <div className="w-full h-auto flex flex-col gap-1">                    
                     <div className="w-full flex flex-col gap-2">
                         <label htmlFor="professores" className="text-lg font-bold">Professores</label>
-                        <select name="cadastroProfessor" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cadastroProfessor") }>
+                        <select id="cadastroProfessor" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cadastroProfessor") }>
                             <option value="" defaultChecked className="outline-none border-none">Selecione um Professor</option>
                             {allInfosTeacher?.map((teacher: TeacherInfos, index: Key) => (
                                 <option key={`professor-${teacher.name}`} value={teacher.id} className="outline-none border-none">{teacher.name}</option>
@@ -82,6 +84,7 @@ export default function Filter({ setFilter }: FilterProps){
     );
 
     async function submit(e){
-        console.log(await getReportsTeacher(e.cadastroProfessor, datas.dataInicial, datas.dataFinal));
+        const aux = await getReportsTeacher(e.cadastroProfessor, datas.dataInicial, datas.dataFinal);
+        console.log(aux);
     }
 }
