@@ -9,6 +9,7 @@ import { RootState } from '../../../../system';
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { parse } from 'date-fns';
+import Calendar from 'react-calendar';
 
 const createFormSchema = z.object({
     horaAulas: z.string().nonempty("Digite a quantidade de aulas!"),
@@ -24,8 +25,6 @@ type FormRegisterLessonProps = {
 }
 
 type CreateFormData = z.infer<typeof createFormSchema>
-
-const Calendar = dynamic(() => import("react-calendar"), { ssr: false });
 
 export default function FormRegisterLesson(props: FormRegisterLessonProps){
     const { infosInput, setInfosInput, setModal, submit } = props;

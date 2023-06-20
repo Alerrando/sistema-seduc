@@ -194,9 +194,9 @@ export async function getReportsSchool() {
   return aux;
 }
 
-export async function getReportsTeacher() {
+export async function getReportsTeacher(idProfessor: string, dataInicial: Date, dataFinal: Date) {
   let aux:TeacherDTOInfos = {};
-  await axios.get(`${urlTeacher}/relatorio`)
+  await axios.get(`${urlTeacher}/relatorio/${idProfessor}&${dataInicial}&${dataFinal}`)
   .then((res) => (aux = res.data))
   .catch((err) => console.log(err))
 
