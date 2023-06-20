@@ -58,7 +58,7 @@ export const HorasValuesDefault: LessonsInfos = {
   horaAulas: 0,
   id: 0,
   cadastroProfessor: "",
-  cadastroEscola: 0,
+  cadastroEscola: "",
 };
 
 export const SchoolValuesDefault: SchoolInfos = {
