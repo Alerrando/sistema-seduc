@@ -18,6 +18,11 @@ type FilterProps = {
     setFilter: (filter: boolean) => void;
 }
 
+type DatasTypes = {
+    dataInicial: Date | string | null,
+    dataFinal: Date | string | null,
+}
+
 type CreateFormData = z.infer<typeof createFormSchema>
 
 export default function Filter({ setFilter }: FilterProps){
@@ -25,10 +30,7 @@ export default function Filter({ setFilter }: FilterProps){
     const { register, handleSubmit, formState: { errors } } = useForm<CreateFormData>({
         resolver: zodResolver(createFormSchema),
     })
-    const [datas, setDatas] = useState<Date | string | null>({
-        dataInicial: null,
-        dataFinal: null,
-    });
+    const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -39,7 +41,7 @@ export default function Filter({ setFilter }: FilterProps){
 
     return(
         <div className="w-screen h-full fixed flex items-center justify-end bg-modal top-0 left-0 ">
-            <form className="w-[35%] h-full flex flex-col gap-6 bg-white p-3 overflow-y-auto">
+            <form className="w-[35%] h-full flex flex-col gap-6 bg-white p-3 overflow-y-auto" onSubmit={handleSubmit(submit)}>
                 <header className="w-full h-auto grid grid-cols-2 items-center justify-between gap-1 after:block after:w-full after:h-1 after:border-b after:border-[#E0E0E0] after:col-span-2">
                     <h2 className="text-3xl font-bold">Filtro</h2>
 
@@ -79,7 +81,7 @@ export default function Filter({ setFilter }: FilterProps){
         </div>
     );
 
-    async function sumit(){
-        console.log(await getReportsTeacher())
+    async function submit(e){
+        console.log(await getReportsTeacher(e.cadastroProfessor, datas.dataInicial, datas.dataFinal));
     }
 }

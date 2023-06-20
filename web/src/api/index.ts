@@ -195,6 +195,7 @@ export async function getReportsSchool() {
 }
 
 export async function getReportsTeacher(idProfessor: string, dataInicial: Date, dataFinal: Date) {
+  console.log(idProfessor, dataInicial, dataFinal);
   let aux:TeacherDTOInfos = {};
   await axios.get(`${urlTeacher}/relatorio/${idProfessor}&${dataInicial}&${dataFinal}`)
   .then((res) => (aux = res.data))
