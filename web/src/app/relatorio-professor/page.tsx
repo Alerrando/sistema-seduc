@@ -18,7 +18,6 @@ export default function RelatorioProfessor(){
         (async () => {
             setAllReportsInfos(await getReportsTeacher());
             dispatch(changeReportsType("Teacher"));
-            
         })()
     }, [])
 
@@ -32,7 +31,7 @@ export default function RelatorioProfessor(){
 
             </main>
             {filter ? (
-                <Filter />
+                <Filter setFilter={setFilter} />
             ) : null}
         </>
     )
