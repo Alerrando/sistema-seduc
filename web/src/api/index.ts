@@ -141,7 +141,7 @@ export async function readAllTeacher() {
 export async function createTeacher(info: TeacherInfos, idEscola: string){
   try {
     const message = await axios.post(`${urlTeacher}/${idEscola}`, info)
-    .then((response) => "Escola cadastrada com sucesso")
+    .then((response) => "Professor cadastrada com sucesso")
     .catch((err) => err)
 
     return message;
@@ -153,7 +153,7 @@ export async function createTeacher(info: TeacherInfos, idEscola: string){
 export async function editTeacher(info: TeacherInfos, idEscola: string) {
   try {
     const message = await axios.put(`${urlTeacher}/${idEscola}`, info)
-    .then((response) => "Escola editada com sucesso")
+    .then((response) => "Professor editada com sucesso")
     .catch((err) => err);
 
     return message;
@@ -165,7 +165,7 @@ export async function editTeacher(info: TeacherInfos, idEscola: string) {
 export async function deleteTeacher(id: number) {
   try {
     const message = await axios.delete(`${urlTeacher}/${id}`)
-    .then((response) => "Escola deletada com sucesso")
+    .then((response) => "Professor deletada com sucesso")
     .catch((err) => err);
 
     return message;

@@ -26,33 +26,13 @@ export default function FormRegisterSchool(props: FormRegisterSchoolProps) {
   });
 
   useEffect(() => {
-    if (infosInput.edit !== -1) {
+    if (infosInput.edit) {
       setValue("classificação", getClassificacaoFromName(infosInput.name));
     }
   }, [infosInput.edit]);
 
-  function getClassificacaoFromName(name: string) {
-    if (name.includes("Escola Estadual")) {
-      setValue("name", name.replace("Escola Estadual", "").trim());
-      return "Escola Estadual";
-    }
-    else if (name.includes("Creche")) {
-      setValue("name", name.replace("Creche", "").trim());
-      return "Creche";
-    }
-    else if(name.includes("Pré-Escola")){
-      setValue("name", name.replace("Pré-Escola", "").trim());
-      return "Pré-Escola";
-    }
-    else if(name.includes("Distrito")){
-      setValue("name", name.replace("Distrito", "").trim());
-      return "Distrito";
-    }
-    return "";
-  }
-
   return (
-    <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(submit)}>
+    <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(submitFormSchool)}>
       <div className="w-full flex flex-col gap-3">
         <div className="w-full flex flex-col gap-2">
           <div className="w-full grid grid-cols-2 grid-rows-2 md:flex md:flex-row items-center md:justify-between">
@@ -132,4 +112,32 @@ export default function FormRegisterSchool(props: FormRegisterSchoolProps) {
       </div>
     </form>
   );
+
+  function submitFormSchool(e){
+    if(!infosInput.edit){
+      setValue("name", "");
+    }
+
+    submit(e);
+  }
+
+  function getClassificacaoFromName(name: string) {
+    if (name.includes("Escola Estadual")) {
+      setValue("name", name.replace("Escola Estadual", "").trim());
+      return "Escola Estadual";
+    }
+    else if (name.includes("Creche")) {
+      setValue("name", name.replace("Creche", "").trim());
+      return "Creche";
+    }
+    else if(name.includes("Pré-Escola")){
+      setValue("name", name.replace("Pré-Escola", "").trim());
+      return "Pré-Escola";
+    }
+    else if(name.includes("Distrito")){
+      setValue("name", name.replace("Distrito", "").trim());
+      return "Distrito";
+    }
+    return "";
+  }
 }

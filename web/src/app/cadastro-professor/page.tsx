@@ -54,16 +54,12 @@ export default function CadastroProfessor(){
     )
 
     async function submitTeacher(event){
-        const aux: TeacherInfos = {
-            edit: -1,
-            name: event.name,
-            id: infosInput.id,
-            cpf: event.cpf.replaceAll(".", "").replaceAll("-", ""),
-            cargo: event.cargo,
-            sede: event.sede,
-        }
-        console.log(event, aux);
-		if(infosInput.edit === -1){
+        const aux: TeacherInfos = event;
+        aux.edit = false;
+        aux.id = infosInput.id;
+        aux.cpf = event.cpf.replaceAll(".", "").replaceAll("-", "");
+
+		if(!infosInput.edit){
             if(!objectEmptyValue(aux)){
                 const message: object | string = await createTeacher(aux, aux.sede);
                 messageToast(message);
@@ -74,10 +70,10 @@ export default function CadastroProfessor(){
 			const message: object | string = await editTeacher(aux, aux.sede);
             messageToast(message);
 			dispatch(refreshInfosTeacher(await readAllTeacher()));
-			setInfosInput(SchoolValuesDefault);
+            setModal(false);
 		}
-
-		setModal(false);
+        
+        setInfosInput(SchoolValuesDefault);
 	}
 
     async function editInfo(info: TeacherInfos) {

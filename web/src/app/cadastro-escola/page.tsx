@@ -53,26 +53,28 @@ export default function CadastroEscola(){
     )
 
     async function submitSchool(event){
+        let message: object | string;
+
         const aux: SchoolInfos = {
-            edit: -1,
+            edit: false,
             name: `${event.classificação} ${event.name}`,
             id: infosInput.id,
         }
-		if(infosInput.edit === -1){
+
+		if(!infosInput.edit){
             if(!objectEmptyValue(aux)){
-                const message: object | string = await createSchool(aux);
-                messageToast(message);
+                message = await createSchool(aux);
                 dispatch(refreshInfosSchool(await readAllSchool()));
             }
 		}
 		else{
-			const message: object | string = await editSchool(aux, aux.id);
-            messageToast(message);
+            message = await editSchool(aux, aux.id);
 			dispatch(refreshInfosSchool(await readAllSchool()));
-			setInfosInput(SchoolValuesDefault);
+            setModal(false);
 		}
-
-		setModal(false);
+        
+        setInfosInput(SchoolValuesDefault);
+        messageToast(message);
 	}
 
     async function editInfo(info: SchoolInfos) {

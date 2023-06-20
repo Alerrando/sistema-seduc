@@ -64,7 +64,7 @@ export default function FormRegisterTeacher(props: FormRegisterTeacherProps) {
   const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
 
   useEffect(() => {
-    if (infosInput.edit !== -1) {
+    if (infosInput.edit) {
       setValue("name", infosInput.name);
       setValue("cpf", infosInput.cpf);
       setValue("cargo", infosInput.cargo);
@@ -73,7 +73,7 @@ export default function FormRegisterTeacher(props: FormRegisterTeacherProps) {
   }, [infosInput.edit]);
 
   return (
-    <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(submit)}>
+    <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(submitFormTeacher)}>
     
       <div className="w-full flex flex-col gap-3">
         <div className="w-full flex flex-col gap-2">
@@ -140,4 +140,14 @@ export default function FormRegisterTeacher(props: FormRegisterTeacherProps) {
       </div>
     </form>
   );
+
+  function submitFormTeacher(e){
+    if(!infosInput.edit){
+      setValue("name", "");
+      setValue("cpf", "");
+      setValue("cargo", "");
+    }
+
+    submit(e);
+  }
 }

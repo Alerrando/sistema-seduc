@@ -11,6 +11,7 @@ import CreateHeaderRegisters from '../../Components/CreateHeaderRegisters';
 import Modal from "../../Components/Modal";
 import TableRegisters from "../../Components/TableRegisters";
 import { createLesson, deleteLesson, editLesson, readAllLesson, readPaginationLesson } from "../../api";
+import { format } from "date-fns";
 
 export default function ControleAulasEventuais() {
   const [infosInput, setInfosInput] =
@@ -18,7 +19,7 @@ export default function ControleAulasEventuais() {
   const [lessonsLengthall, setLessonsLengthall] = useState(0);
   const [date, setDate ] = useState<Date>(new Date());
   const [pagination, setPagination] = useState(0);
-  const { allInfosLesson, allInfosSchool, registerType } = useSelector((slice: RootState) => slice.Slice);
+  const { allInfosLesson, allInfosSchool, allInfosTeacher, registerType } = useSelector((slice: RootState) => slice.Slice);
   const dispatch = useDispatch();
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState(false);
@@ -34,14 +35,14 @@ export default function ControleAulasEventuais() {
   useEffect(() => {
     (async () => {
       dispatch(changeRegisterType("Lesson"));
-      setLessonsLengthall(await readAllLesson().then((data) => data.length));
+      setLessonsLengthall(await readAllLesson().then((data) => data?.length));
     })();
   }, []);
 
   useEffect(() => {
     (async () => {
       dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 10)));
-      setLessonsLengthall(await readAllLesson().then((data) => data.length));
+      setLessonsLengthall(await readAllLesson().then((data) => data?.length));
     })();
   }, [pagination]);
 
@@ -95,49 +96,39 @@ export default function ControleAulasEventuais() {
   );
 
   function editInfo(infos: LessonsInfos) {
-    setInfosInput({
-      diaAula: infos.diaAula,
-      edit: 1,
-      horaAulas: infos.horaAulas,
-      id: infos.id,
-      cadastroEscola: infos.cadastroEscola,
-      cadastroProfessor: infos.cadastroProfessor,
-    });
+    const aux = infos;
+    aux.edit = true;
+    
+    setInfosInput(aux);
     setModal(true);
   }
 
   async function submitLesson(event) {
-    const aux: LessonsInfos = {
-      diaAula: new Date(infosInput.diaAula),
-      horaAulas: event.horaAulas,
-      cadastroProfessor: event.cadastroProfessor,
-      cadastroEscola: event.cadastroEscola,
-    };
+    let message: object | string;
+    const aux: LessonsInfos = event;
+    aux.diaAula = new Date(infosInput.diaAula);
 
-    if (aux.cadastroEscola == "0" || aux.cadastroProfessor == "0") {
-      alert("Selecione uma escola ou um professor, caso não existam, cadastreos!");
+    if (!infosInput.edit) {
+        message = await createLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
+        dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
     } else {
-      if (infosInput.edit === -1) {
-        const message = await createLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
-        messageToast(message);
-        dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
-      } else {
-        aux.id = infosInput.id;
-        const message = await editLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
-        messageToast(message);
-        dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
-        setInfosInput(HorasValuesDefault);
-      }
-
+      aux.id = infosInput.id;
+      message = await editLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
+      dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
       setModal(false);
-      setLessonsLengthall(await readAllLesson().then((data) => data.length));
     }
+    
+    messageToast(message);
+    setInfosInput(HorasValuesDefault);
+    setLessonsLengthall(await readAllLesson().then((data) => data.length));
   }
 
   async function deleteInfo(infos: LessonsInfos) {
-    const message = await deleteLesson(infos.id);
-    messageToast(message);
-    dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
+    if(window.confirm(`Deseja deletar a aula do professor ${getNameTeacher(infos.cadastroProfessor)} no dia ${format(new Date(infos.diaAula.toString()), "dd/MM/yyyy")}?`)){
+      const message = await deleteLesson(infos.id);
+      messageToast(message);
+      dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
+    }
   }
 
   function changePagination(type: string) {
@@ -150,6 +141,17 @@ export default function ControleAulasEventuais() {
         else setPagination((prev) => prev + 1);
       }
     };
+  }
+
+  function getNameTeacher(id: string){
+    let aux = "";
+    allInfosTeacher?.forEach((teacher: TeacherInfos) => {
+        if(teacher.id == id){
+            aux = teacher.name;
+        }
+    })
+
+    return aux;
   }
 
   function messageToast(message){

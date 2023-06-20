@@ -40,7 +40,7 @@ export default function Modal(props: ModalProps){
 
 				{registerType === "Lesson" ? (
 					<div className="w-full flex flex-col sm:grid sm:grid-cols-2">
-						<FormRegisterLesson infosInput={infosInput} submit={submit} setModal={setModal} />
+						<FormRegisterLesson infosInput={infosInput} setInfosInput={setInfosInput} submit={submit} setModal={setModal} />
 					</div>
 				) : registerType === "School" ? (
 					<div className="w-full flex flex-col sm:grid">

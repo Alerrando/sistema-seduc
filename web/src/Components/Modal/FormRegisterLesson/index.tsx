@@ -18,6 +18,7 @@ const createFormSchema = z.object({
 
 type FormRegisterLessonProps = {
     infosInput: LessonsInfos,
+    setInfosInput: (infosInput: LessonsInfos) => void,
     submit: (e) => void,
     setModal: (modal: boolean) => void,
 }
@@ -27,14 +28,14 @@ type CreateFormData = z.infer<typeof createFormSchema>
 const Calendar = dynamic(() => import("react-calendar"), { ssr: false });
 
 export default function FormRegisterLesson(props: FormRegisterLessonProps){
-    const { infosInput, setModal, submit } = props;
+    const { infosInput, setInfosInput, setModal, submit } = props;
     const { register, handleSubmit, setValue, formState: { errors } } = useForm<CreateFormData>({
         resolver: zodResolver(createFormSchema)
     });
     const { allInfosSchool, allInfosTeacher } = useSelector((root: RootState) => root.Slice);
 
     useEffect(() => {
-		if (infosInput.edit !== -1) {
+		if (infosInput.edit) {
 			const parsedDate = parse(infosInput.diaAula, "dd/MM/yyyy", new Date());
 			setValue("diaAula", parsedDate);
 			setValue("horaAulas", infosInput.horaAulas);
@@ -45,8 +46,8 @@ export default function FormRegisterLesson(props: FormRegisterLessonProps){
 
     return(
         <>
-            <Calendar className="w-[100%!important] calendar shadow-md rounded-md calendar" value={infosInput.diaAula} onChange={e => setInfosInput({ ...infosInput, diaAula: new Date(e)})}  />
-            <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(submit)}>
+            <Calendar className="w-[100%!important] calendar shadow-md rounded-md calendar" value={infosInput.diaAula} onChange={e => setInfosInput({ ...infosInput, diaAula: new Date(e).toString()})}  />
+            <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(submitFormLesson)}>
                 <div className="w-full flex flex-col gap-3">
                     <div className="w-full flex flex-col gap-2">
                         <label htmlFor="professores" className="font-bold">Professores</label>
@@ -84,5 +85,14 @@ export default function FormRegisterLesson(props: FormRegisterLessonProps){
                 </div>
             </form>
         </>
-    )
+    );
+
+    function submitFormLesson(e){
+        if (infosInput.edit === -1) {
+            setValue("cadastroEscola", "");
+            setValue("horaAulas", "");
+        }
+
+        submit(e);
+    }
 }

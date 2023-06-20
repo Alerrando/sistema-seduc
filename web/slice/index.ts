@@ -4,16 +4,16 @@ export type LessonsInfos = {
   id: number;
   cadastroProfessor: string;
   horaAulas: number;
-  diaAula: Date;
+  diaAula: Date | string;
   cadastroEscola: string;
-  edit: number;
+  edit: boolean;
 };
 
 export type SchoolInfos = {
   id: number;
   name: string;
   classificação: string,
-  edit: number;
+  edit: boolean;
 }
 
 export type TeacherInfos = {
@@ -22,7 +22,7 @@ export type TeacherInfos = {
   cpf: string;
   sede: string;
   cargo: string;
-  edit: number,
+  edit: boolean;
 }
 
 export type SchoolDTOInfos = {
@@ -54,7 +54,7 @@ const reportsTypes = {
 
 export const HorasValuesDefault: LessonsInfos = {
   diaAula: new Date().toString(),
-  edit: -1,
+  edit: false,
   horaAulas: 0,
   id: 0,
   cadastroProfessor: "",
@@ -65,7 +65,7 @@ export const SchoolValuesDefault: SchoolInfos = {
   id: 0,
   name: "",
   classificação: "",
-  edit: -1,
+  edit: false,
 }
 
 export const TeacherValuesDefault: TeacherInfos = {
@@ -74,7 +74,7 @@ export const TeacherValuesDefault: TeacherInfos = {
   cpf: "",
   cargo: "",
   sede: "",
-  edit: -1,
+  edit: false,
 }
 
 export type StateProps = {
