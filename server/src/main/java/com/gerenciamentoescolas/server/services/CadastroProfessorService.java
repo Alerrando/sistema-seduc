@@ -13,7 +13,7 @@ import com.gerenciamentoescolas.server.repository.CadastroEscolaRepository;
 import com.gerenciamentoescolas.server.repository.CadastroProfessorRepository;
 
 @Service
-public class CadastorProfessorService {
+public class CadastroProfessorService {
     @Autowired
     private CadastroProfessorRepository cadastroProfessorRepository;
 
@@ -26,26 +26,21 @@ public class CadastorProfessorService {
     }
 
     public List<CadastroProfessorDTO> findProfessorAulas(String professorId, Date dataInicial, Date dataFinal) {
-        List<Object[]> results = cadastroProfessorRepository.findProfessorAulas(professorId, dataInicial, dataFinal);
-        Map<Integer, CadastroProfessorDTO> professoresMap = new HashMap<>();
+        Integer idProfessorInteger = Integer.parseInt(professorId);
+        List<Object[]> results = cadastroProfessorRepository.findProfessorAulas(idProfessorInteger, dataInicial, dataFinal);
+        Map<Date, CadastroProfessorDTO> professoresMap = new HashMap<>();
 
         for (Object[] result : results) {
-            Integer id = (Integer) result[0];
-            String name = (String) result[1];
-            Date diaAula = (Date) result[2];
-            Long quantidadeAulas = (Long) result[3];
-            String cadastroEscola = (String) result[4];
+            Integer quantidadeAulas = (Integer) result[0];
+            Date diaAula = (Date) result[1];
+            String cadastroEscola = (String) result[2].toString();
 
-            CadastroProfessorDTO professorDTO = professoresMap.get(id);
+            CadastroProfessorDTO professorDTO = professoresMap.get(diaAula);
 
             if (professorDTO == null) {
-                professorDTO = new CadastroProfessorDTO(id.longValue(), name, quantidadeAulas, new ArrayList<>(), cadastroEscola);
-                professoresMap.put(id, professorDTO);
-            } else {
-                professorDTO.setHoraAulas(professorDTO.getHoraAulas() + quantidadeAulas);
+                professorDTO = new CadastroProfessorDTO(quantidadeAulas, diaAula, cadastroEscola);
+                professoresMap.put(diaAula, professorDTO);
             }
-
-            professorDTO.getDatasAulas().add(diaAula);
         }
 
         return new ArrayList<>(professoresMap.values());

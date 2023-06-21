@@ -7,54 +7,36 @@ import java.util.Date;
 import java.util.List;
 
 public class CadastroProfessorDTO {
-    private Long id;
-    private String name;
-    private Long horaAulas;
+    private Integer horaAulas;
     @Temporal(TemporalType.TIMESTAMP)
-    private List<Date> datasAulas;
+    private Date dataAula;
     private String cadastroEscola;
 
     public CadastroProfessorDTO(){
     }
 
-    public CadastroProfessorDTO(Long id, String name, Long horaAulas, List<Date> datasAulas, String cadastroEscola) {
-        this.id = id;
-        this.name = name;
+    public CadastroProfessorDTO(Integer horaAulas, Date dataAula, String cadastroEscola) {
         this.horaAulas = horaAulas;
-        this.datasAulas = datasAulas;
+        this.dataAula = dataAula;
         this.cadastroEscola = cadastroEscola;
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getHoraAulas() {
+    public Integer getHoraAulas() {
         return horaAulas;
     }
 
-    public void setHoraAulas(Long horaAulas) {
+    public void setHoraAulas(Integer horaAulas) {
         this.horaAulas = horaAulas;
     }
 
-    public List<Date> getDatasAulas() {
-        return datasAulas;
+    public Date getDataAula() {
+        return dataAula;
     }
 
-    public void setDatasAulas(List<Date> datasAulas) {
-        this.datasAulas = datasAulas;
+    public void setDataAula(Date datasAula) {
+        this.dataAula = datasAula;
     }
 
     public String getCadastroEscola(){
