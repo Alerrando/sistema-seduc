@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import CreateHeaderReports from "../../Components/CreateHeaderReports";
 import { Search, SlidersHorizontal } from "lucide-react";
-import { TeacherDTOInfos, changeReportsType, refreshInfosSchool } from "../../../slice";
+import { TeacherDTOInfos, changeReportsType, refreshInfosSchool, refreshInfosTeacher } from "../../../slice";
 import TableReports from "../../Components/TableReports";
-import { getReportsTeacher, readAllSchool } from "../../api";
+import { getReportsTeacher, readAllSchool, readAllTeacher } from "../../api";
 import { useDispatch } from "react-redux";
 import Filter from "../../Components/Filter";
 
@@ -22,7 +22,8 @@ export default function BoletimControleAulasEventuais(){
 
     useEffect(() => {
         (async () => {
-            dispatch(refreshInfosSchool(await readAllSchool()))
+            dispatch(refreshInfosSchool(await readAllSchool()));
+            dispatch(refreshInfosTeacher(await readAllTeacher()));
             dispatch(changeReportsType("Teacher"));
         })()
     }, [])

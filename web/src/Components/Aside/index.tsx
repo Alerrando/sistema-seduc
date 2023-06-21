@@ -53,7 +53,7 @@ export default function Aside() {
                             </li>
                         </Link>
 
-                        <Link onClick={() => setMenu(false)} href="/boletim-controle-aulas-eventuais" className="w-full block py-3 hover:bg-[#458ACE]">
+                        <Link onClick={() => setMenu(false)} href="/cadastro-professor" className="w-full block py-3 hover:bg-[#458ACE]">
                             <li className="w-max flex flex-row items-center gap-3 px-10 text-white">
                                 <GraduationCap size={22} />
                                 <span>Professores</span>
@@ -79,7 +79,7 @@ export default function Aside() {
                             </li>
                         </Link>
 
-                        <Link onClick={() => setMenu(false)} href="/relatorio-professor" className="w-full block py-3 hover:bg-[#458ACE]">
+                        <Link onClick={() => setMenu(false)} href="/boletim-controle-aulas-eventuais" className="w-full block py-3 hover:bg-[#458ACE]">
                             <li className="w-max flex flex-row items-center gap-3 px-8 text-white">
                                 <GraduationCap size={22} />
                                 <span>Aulas Eventuais</span>
