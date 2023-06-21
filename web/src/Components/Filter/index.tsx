@@ -2,7 +2,7 @@ import React, { useState, useEffect, Key } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from 'react-hook-form'
 import { RootState } from "../../../system";
-import { TeacherInfos, refreshInfosTeacher } from '../../../slice';
+import { TeacherDTOInfos, TeacherInfos, refreshInfosTeacher } from '../../../slice';
 import { getReportsTeacher, readAllTeacher } from '../../api'
 import { X } from 'lucide-react';
 import Calendar from 'react-calendar';
@@ -17,16 +17,17 @@ const createFormSchema = z.object({
 
 type FilterProps = {
     setFilter: (filter: boolean) => void;
+    setAllReportsInfos: (allReportsInfos: TeacherDTOInfos) => void;
 }
 
 type DatasTypes = {
-    dataInicial: Date | string | null,
-    dataFinal: Date | string | null,
+    dataInicial: Date | string,
+    dataFinal: Date | string,
 }
 
 type CreateFormData = z.infer<typeof createFormSchema>
 
-export default function Filter({ setFilter }: FilterProps){
+export default function Filter({ setFilter, setAllReportsInfos }: FilterProps){
     const { allInfosTeacher } = useSelector((root: RootState) => root.Slice);
     const { register, handleSubmit, formState: { errors } } = useForm<CreateFormData>({
         resolver: zodResolver(createFormSchema),
@@ -40,11 +41,9 @@ export default function Filter({ setFilter }: FilterProps){
         })()
     }, [])
 
-    console.log(datas);
-
     return(
         <div className="w-screen h-full fixed flex items-center justify-end bg-modal top-0 left-0 ">
-            <form className="w-[35%] h-full flex flex-col gap-6 bg-white p-3 overflow-y-auto" onSubmit={handleSubmit(submit)}>
+            <form className="w-full md:w-[35%] h-full flex flex-col gap-6 bg-white p-3 overflow-y-auto" onSubmit={handleSubmit(submit)}>
                 <header className="w-full h-auto grid grid-cols-2 items-center justify-between gap-1 after:block after:w-full after:h-1 after:border-b after:border-[#E0E0E0] after:col-span-2">
                     <h2 className="text-3xl font-bold">Filtro</h2>
 
@@ -57,7 +56,7 @@ export default function Filter({ setFilter }: FilterProps){
                         <select id="cadastroProfessor" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cadastroProfessor") }>
                             <option value="" defaultChecked className="outline-none border-none">Selecione um Professor</option>
                             {allInfosTeacher?.map((teacher: TeacherInfos, index: Key) => (
-                                <option key={`professor-${teacher.name}`} value={teacher.id} className="outline-none border-none">{teacher.name}</option>
+                                <option key={`professor-${teacher.name}`} value={teacher.id} className="text-sm md:text-base outline-none border-none">{teacher.name}</option>
                             ))}
                         </select>
 
@@ -102,6 +101,10 @@ export default function Filter({ setFilter }: FilterProps){
     );
 
     async function submit(e){
-        const aux = await getReportsTeacher(e.cadastroProfessor, datas.dataInicial, datas.dataFinal);
+        const aux: TeacherDTOInfos[] = await getReportsTeacher(e.cadastroProfessor, datas.dataInicial, datas.dataFinal);
+        if(typeof aux === "object") {
+            setAllReportsInfos(aux.sort((data1: TeacherDTOInfos, data2: TeacherDTOInfos) => new Date(data1.dataAula) - new Date(data2.dataAula)))
+            setFilter(false);
+        }
     }
 }

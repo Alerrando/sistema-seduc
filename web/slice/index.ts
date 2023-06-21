@@ -32,10 +32,10 @@ export type SchoolDTOInfos = {
 }
 
 export type TeacherDTOInfos = {
-  id: number,
   name: string,
   horaAulas: number,
-  datasAulas: String[],
+  dataAula: Date | string,
+  cadastroEscola: string;
 }
 
 const registerTypes = {

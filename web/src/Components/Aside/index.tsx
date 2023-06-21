@@ -9,8 +9,8 @@ export default function Aside() {
 
   return (
     <>
-      <AlignJustify className="absolute text-white top-3 left-3 sm:hidden" onClick={() => setMenu(true)} size={24} />
-      <aside className={` ${menu ? "flex h-full w-full bg-modal" : "hidden sm:flex sm:w-1/6 sm:h-full bg-principal" } fixed top-0 left-0 flex flex-col gap-8 `}>
+      <AlignJustify className="absolute text-white top-3 left-3 md:hidden" onClick={() => setMenu(true)} size={24} />
+      <aside className={` ${menu ? "flex h-full w-full bg-modal" : "hidden md:flex md:w-1/6 md:h-full bg-principal" } fixed top-0 left-0 flex flex-col gap-8 `}>
         <div className={`${menu ? "w-[55%]" : "w-full"} h-full bg-principal `}>
           <header className={`w-full ${menu ? "flex" : "hidden sm:flex" } flex-col gap-2 items-center justify-start p-[22px] after:w-full after:h-1 after:border-b after:border-[#203F5C]`}>
             <div className="w-full flex flex-row items-center justify-between text-white">
@@ -53,7 +53,7 @@ export default function Aside() {
                             </li>
                         </Link>
 
-                        <Link onClick={() => setMenu(false)} href="/cadastro-professor" className="w-full block py-3 hover:bg-[#458ACE]">
+                        <Link onClick={() => setMenu(false)} href="/boletim-controle-aulas-eventuais" className="w-full block py-3 hover:bg-[#458ACE]">
                             <li className="w-max flex flex-row items-center gap-3 px-10 text-white">
                                 <GraduationCap size={22} />
                                 <span>Professores</span>
@@ -67,22 +67,22 @@ export default function Aside() {
               <div className="w-full h-full flex flex-col gap-4 cursor-pointer" onClick={() => setShowDropdownReport(!showDropDownReport)}>
                 <li className="w-full h-full flex flex-row items-center gap-3 py-3 px-5 text-white hover:bg-[#458ACE]">
                   <MenuSquare size={26} />
-                  <span>Relátorio</span>
+                  <span>Boletim</span>
                 </li>
 
                 {showDropDownReport && (
                     <ul className="flex flex-col gap-4">
                         <Link onClick={() => setMenu(false)} href="/relatorio-escola" className="w-full block py-3 hover:bg-[#458ACE]">
-                            <li className="w-max flex flex-row items-center gap-3 px-10 text-white">
+                            <li className="w-max flex flex-row items-center gap-3 px-8 text-white">
                                 <School size={22} />
                                 <span>Escolas</span>
                             </li>
                         </Link>
 
                         <Link onClick={() => setMenu(false)} href="/relatorio-professor" className="w-full block py-3 hover:bg-[#458ACE]">
-                            <li className="w-max flex flex-row items-center gap-3 px-10 text-white">
+                            <li className="w-max flex flex-row items-center gap-3 px-8 text-white">
                                 <GraduationCap size={22} />
-                                <span>Professores</span>
+                                <span>Aulas Eventuais</span>
                             </li>
                         </Link>
                     </ul>

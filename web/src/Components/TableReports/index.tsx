@@ -8,16 +8,14 @@ import { SchoolDTOInfos, TeacherDTOInfos } from "../../../slice";
 type TableReportsProps = {
     tableHead: string[],
     infosAll: SchoolDTOInfos[] | TeacherDTOInfos[],
-    search: string,
 }
 
 export default function TableReports(props: TableReportsProps) {
-    const { tableHead, infosAll, search } = props;
-    const { reportsTypes } = useSelector((root: RootState) => root.Slice);
-
+    const { tableHead, infosAll } = props;
+    const { reportsTypes, allInfosSchool } = useSelector((root: RootState) => root.Slice);
 
     return (
-        <div className="overflow-x-auto rounded-lg border border-gray-200">
+        <div className="max-h-[77%] overflow-x-auto rounded-lg border border-gray-200">
             <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                 <thead className="ltr:text-left rtl:text-right">
                     <tr>
@@ -25,42 +23,45 @@ export default function TableReports(props: TableReportsProps) {
                     </tr>
                 </thead>
 
+
                 <tbody className="divide-y divide-gray-200">
-                {infosAll != undefined && infosAll.map((info: SchoolDTOInfos | TeacherDTOInfos, index: Key) => {
+                    {infosAll != undefined && infosAll.map((info: SchoolDTOInfos | TeacherDTOInfos, index: Key) => {
 
-                    return (
-                        <tr key={`${info.id}-${index}`}>
-                            {reportsTypes == "School" ? (
-                                <>
-                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.id}</td>
-                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
-                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.quantidadeAulas}</td>
-                                </>
-                            ) : (
-                                <>
-                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.id}</td>
-                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
-                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.horaAulas}</td>
-                                    <td className='flex flex-row gap-4 whitespace-nowrap px-4 py-2 font-medium text-gray-900'>
-                                        {info.datasAulas.map((data) => {
-                                                const date = parseISO(data);
-                                                const dataFormatada = format(date, 'dd/MM/yyyy');
-
-                                                return(
-                                                    <>
-                                                        <span className='whitespace-nowrap'>{dataFormatada}</span>
-                                                    </>
-                                                )
-                                            }
-                                        )}
-                                    </td>
-                                </>
-                            )}
-                        </tr>
-                    );
-                })}
+                        return (
+                            <tr key={`${info.id}-${index}`}>
+                                {reportsTypes == "School" ? (
+                                    <>
+                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.id}</td>
+                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
+                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.quantidadeAulas}</td>
+                                    </>
+                                ) : (
+                                    <>
+                                        {console.log(info)}
+                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
+                                        <td className='whitespace-nowrap px-4 py-2 font-medium text-gray-900'>
+                                            <span className='whitespace-nowrap'>{isValid(new Date(info.dataAula)) ? format(new Date(info.dataAula?.toString()), "dd/MM/yyyy") : ""}</span>
+                                        </td>
+                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{getNameSchool(info.cadastroEscola)}</td>
+                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.horaAulas}</td>
+                                    </>
+                                )}
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </table>
         </div>
-    )
+    );
+
+    function getNameSchool(id: string){
+        let aux = ""
+        allInfosSchool?.forEach((school: SchoolInfos) => {
+            if(school.id == id){
+                aux = school.name;
+            }
+        })
+
+        return aux;
+    }
 }

@@ -2,22 +2,22 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { readAllLesson, readAllSchool } from "../api";
+import { readAllLesson, readAllSchool, readAllTeacher } from "../api";
 import dynamic from "next/dynamic";
-import { refreshInfosSchool } from "../../slice";
+import { refreshInfosLesson, refreshInfosSchool, refreshInfosTeacher } from "../../slice";
 import "react-calendar/dist/Calendar.css";
 import { Book, GraduationCap, School2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function Home() {
-  const [pagination, setPagination] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
-      setPagination(await readAllLesson().then((data) => data?.length))
+      dispatch(refreshInfosLesson(await readAllLesson()));
       dispatch(refreshInfosSchool(await readAllSchool()));
+      dispatch(refreshInfosTeacher(await readAllTeacher()));
     })()
   }, [])
 
@@ -38,8 +38,8 @@ export default function Home() {
                   <Book size={22} />
                 </div>
                 <div className="w-full h-full flex flex-col gap-3 text-[#4F4F4F]">
-                  <h2 className="text-2xl">Cadastro Aulas</h2>
-                  <span className="text-sm">O cadastro de aulas no dashboard permite registrar, editar e excluir
+                  <h2 className="text-2xl">Controle de Aulas Eventuais</h2>
+                  <span className="text-sm">O controle de aulas eventuais de aulas no dashboard permite registrar, editar e excluir
                     informações sobre as aulas.
                   </span>
                 </div>

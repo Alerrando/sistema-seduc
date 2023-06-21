@@ -24,7 +24,6 @@ export default function ControleAulasEventuais() {
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState(false);
   const tableHead = [
-    "Id",
     "Nome Completo",
     "Horas de aulas dadas",
     "Escola",
