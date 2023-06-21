@@ -32,7 +32,7 @@ public class CadastroProfessorControllers {
         return result;
     }
 
-    @GetMapping("/relatorio/{professorId}&{dataInicial}&{dataFinal}")
+    @GetMapping("/boletim/{professorId}&{dataInicial}&{dataFinal}")
     public List<CadastroProfessorDTO> findProfessorAulas(@PathVariable String professorId, @PathVariable Date dataInicial, @PathVariable Date dataFinal){
         List<CadastroProfessorDTO> result = cadastroProfessorService.findProfessorAulas(professorId, dataInicial, dataFinal);
         return result;

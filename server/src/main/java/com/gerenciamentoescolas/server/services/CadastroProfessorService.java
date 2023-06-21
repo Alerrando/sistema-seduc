@@ -32,13 +32,14 @@ public class CadastroProfessorService {
 
         for (Object[] result : results) {
             Integer quantidadeAulas = (Integer) result[0];
-            Date diaAula = (Date) result[1];
-            String cadastroEscola = (String) result[2].toString();
+            String name = (String) result[1];
+            Date diaAula = (Date) result[2];
+            String cadastroEscola = (String) result[3].toString();
 
             CadastroProfessorDTO professorDTO = professoresMap.get(diaAula);
 
             if (professorDTO == null) {
-                professorDTO = new CadastroProfessorDTO(quantidadeAulas, diaAula, cadastroEscola);
+                professorDTO = new CadastroProfessorDTO(quantidadeAulas, name, diaAula, cadastroEscola);
                 professoresMap.put(diaAula, professorDTO);
             }
         }

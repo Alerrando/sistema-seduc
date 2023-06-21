@@ -15,6 +15,6 @@ public interface CadastroProfessorRepository extends JpaRepository<CadastroProfe
     @Query("SELECT p FROM CadastroProfessor p WHERE p.name LIKE %:name%")
     List<CadastroProfessor> filterByName(@Param("name") String name);
 
-    @Query("SELECT a.horaAulas, a.diaAula, a.cadastroEscola FROM CadastroProfessor p LEFT JOIN CadastroAulas a ON a.cadastroProfessor = :idProfessor WHERE a.diaAula BETWEEN :dataInicial AND :dataFinal GROUP BY a.horaAulas, a.diaAula, a.cadastroEscola")
+    @Query("SELECT a.horaAulas, p.name,a.diaAula, a.cadastroEscola FROM CadastroProfessor p LEFT JOIN CadastroAulas a ON a.cadastroProfessor = :idProfessor WHERE a.diaAula BETWEEN :dataInicial AND :dataFinal GROUP BY a.horaAulas, p.name, a.diaAula, a.cadastroEscola")
     List<Object[]> findProfessorAulas(@Param("idProfessor") Integer idProfessor, @Param("dataInicial") Date dataInicial, @Param("dataFinal") Date dataFinal);
 }
