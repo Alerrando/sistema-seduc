@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, useEffect, Key } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from 'react-hook-form'
 import { RootState } from "../../../system";
@@ -9,6 +9,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod'
+import { format } from 'date-fns';
 
 const createFormSchema = z.object({
     cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),
@@ -85,6 +86,5 @@ export default function Filter({ setFilter }: FilterProps){
 
     async function submit(e){
         const aux = await getReportsTeacher(e.cadastroProfessor, datas.dataInicial, datas.dataFinal);
-        console.log(aux);
     }
 }
