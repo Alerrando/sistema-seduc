@@ -67,12 +67,29 @@ export default function Filter({ setFilter }: FilterProps){
 
                 <div className="w-full h-auto flex flex-col gap-1">
                     <span className='text-lg font-bold'>Data Inicial: </span>
-                    <Calendar className="w-[100%!important] calendar shadow-md rounded-md calendar" value={datas.dataInicial} onChange={e => setDatas({ ...datas, dataInicial: new Date(e).toString()})}  />
+                    <Calendar
+                        className="w-[100%!important] calendar shadow-md rounded-md calendar"
+                        value={datas.dataInicial}
+                        onChange={(e) => {
+                            if (e) {
+                            setDatas({ ...datas, dataInicial: new Date(e).toString() });
+                            }
+                        }}
+                    />
+
                 </div>
 
                 <div className="w-full h-auto flex flex-col gap-1">
                     <span className='text-lg font-bold'>Data Final: </span>
-                    <Calendar className="w-[100%!important] calendar shadow-md rounded-md calendar" value={datas.dataFinal} onChange={e => setDatas({ ...datas, dataFinal: new Date(e).toString()})}  />
+                    <Calendar
+                        className="w-[100%!important] calendar shadow-md rounded-md calendar"
+                        value={datas.dataFinal}
+                        onChange={(e) => {
+                            if (e) {
+                            setDatas({ ...datas, dataFinal: new Date(e).toString() });
+                            }
+                        }}
+                    />
                 </div>
 
                 <div className="w-full h-auto flex items-center justify-center">
