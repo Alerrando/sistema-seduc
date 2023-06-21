@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import Filter from "../../Components/Filter";
 
 export default function BoletimControleAulasEventuais(){
-    const [allReportsInfos, setAllReportsInfos] = useState<TeacherDTOInfos[]>([] as TeacherDTOInfos[])
+    const [allReportsInfos, setAllReportsInfos] = useState<TeacherDTOInfos[]>([] as TeacherDTOInfos[]);
     const [filter, setFilter] = useState<boolean>(false);
     const tableHead = [
         "Nome Professor",

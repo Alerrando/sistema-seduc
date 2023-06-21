@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import SliceReducer from "./slice";
+import SliceTeacher from "./slice/TeacherFilterSlice.ts";
 
 export const store = configureStore({
 	reducer: {
 		Slice: SliceReducer,
+		SliceTeacher: SliceTeacher,
 	},
 });
 
