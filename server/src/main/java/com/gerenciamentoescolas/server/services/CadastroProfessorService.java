@@ -7,8 +7,10 @@ import com.gerenciamentoescolas.server.exception.ProfessorJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gerenciamentoescolas.server.entities.CadastroAulas;
 import com.gerenciamentoescolas.server.entities.CadastroEscola;
 import com.gerenciamentoescolas.server.entities.CadastroProfessor;
+import com.gerenciamentoescolas.server.repository.CadastroAulaRepository;
 import com.gerenciamentoescolas.server.repository.CadastroEscolaRepository;
 import com.gerenciamentoescolas.server.repository.CadastroProfessorRepository;
 
@@ -19,6 +21,9 @@ public class CadastroProfessorService {
 
     @Autowired
     private CadastroEscolaRepository cadastroEscolaRepository;
+
+    @Autowired
+    private CadastroAulaRepository cadastroAulaRepository;
 
     public List<CadastroProfessor> findAll(){
         List <CadastroProfessor> result = cadastroProfessorRepository.findAll();
@@ -68,6 +73,13 @@ public class CadastroProfessorService {
     }
 
     public void delete(Integer id){
+        List<CadastroAulas> results = cadastroAulaRepository.filterById(id);
+        
+        for(CadastroAulas result : results){
+            if(result.getCadastroProfessor() == id){
+                cadastroAulaRepository.deleteById(result.getId());
+            }
+        }
         cadastroProfessorRepository.deleteById(id);
     }
 
