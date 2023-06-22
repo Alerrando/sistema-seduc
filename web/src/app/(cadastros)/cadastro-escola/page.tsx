@@ -9,6 +9,7 @@ import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal from '../../../Components/Modal';
 import TableRegisters from '../../../Components/TableRegisters';
 import { createSchool, deleteSchool, editSchool, readAllSchool } from '../../../api';
+import RootLayout from '../../../app/layout';
 
 export default function CadastroEscola(){
     const { allInfosSchool, registerType } = useSelector((root: RootState) => root.Slice);
@@ -27,29 +28,31 @@ export default function CadastroEscola(){
 
 
     return(
-        <main className='w-full sm:w-5/6 h-max ml-auto'>
-            <div className="w-full flex flex-col gap-4 px-6 py-3">
-                <h1 className="text-3xl md:text-[42px]">Cadastro de Escolas</h1>
+        <RootLayout showHeaderAside>
+            <main className='w-full sm:w-5/6 h-max ml-auto'>
+                <div className="w-full flex flex-col gap-4 px-6 py-3">
+                    <h1 className="text-3xl md:text-[42px]">Cadastro de Escolas</h1>
 
-                {allInfosSchool != undefined ? (
-                    <CreateHeaderRegisters setModal={setModal} setSearch={setSearch} totalRegiter={allInfosSchool.length} key={"create-header-school"} />
+                    {allInfosSchool != undefined ? (
+                        <CreateHeaderRegisters setModal={setModal} setSearch={setSearch} totalRegiter={allInfosSchool.length} key={"create-header-school"} />
+                    ) : null}
+
+                    <TableRegisters tableHead={thead} infosAll={allInfosSchool} editInfo={editInfo} deleteInfo={deleteInfo} search={search} key={"Table-Escola"} />
+
+                </div>
+                {modal ? (
+                    <Modal 
+                    infosInput={infosInput} 
+                    setInfosInput={setInfosInput} 
+                    setModal={setModal} 
+                    submitInfos={submitSchool} 
+                    title="Cadastro de Escolas"
+                    key={"modal-cadastro-escola"} />
                 ) : null}
 
-                <TableRegisters tableHead={thead} infosAll={allInfosSchool} editInfo={editInfo} deleteInfo={deleteInfo} search={search} key={"Table-Escola"} />
-
-            </div>
-            {modal ? (
-                <Modal 
-                infosInput={infosInput} 
-                setInfosInput={setInfosInput} 
-                setModal={setModal} 
-                submitInfos={submitSchool} 
-                title="Cadastro de Escolas"
-                key={"modal-cadastro-escola"} />
-            ) : null}
-
-            <ToastContainer />
-        </main>
+                <ToastContainer />
+            </main>
+        </RootLayout>
     )
 
     async function submitSchool(event){

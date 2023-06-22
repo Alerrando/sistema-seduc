@@ -14,7 +14,7 @@ type RootLayoutProps = {
 	showHeaderAside: boolean,
 }
 
-export default function RootLayout({ children, showHeaderAside = true }: RootLayoutProps) {
+export default function RootLayout({ children, showHeaderAside }: RootLayoutProps) {
 	return (
 		<html lang="pt-br" >
 			<body className={roboto.className}>

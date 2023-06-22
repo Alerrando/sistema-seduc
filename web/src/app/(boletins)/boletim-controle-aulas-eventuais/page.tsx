@@ -7,6 +7,7 @@ import Filter from "../../../Components/Filter";
 import TableReports from "../../../Components/TableReports";
 import { readAllSchool, readAllTeacher } from "../../../api";
 import Link from "next/link";
+import RootLayout from "../../../app/layout";
 
 export default function BoletimControleAulasEventuais(){
     const [allReportsInfos, setAllReportsInfos] = useState<TeacherDTOInfos[]>([] as TeacherDTOInfos[]);
@@ -28,7 +29,7 @@ export default function BoletimControleAulasEventuais(){
     }, [])
 
     return(
-        <>
+        <RootLayout showHeaderAside>
             <main className="w-full h-[88vh] md:h-[83vh] md:w-5/6 flex flex-col items-center justify-between ml-auto px-6 overflow-y-auto">
                 <div className="w-full h-100%">
                     <div className="w-full flex flex-row items-center justify-between gap-4 py-3">
@@ -40,7 +41,7 @@ export default function BoletimControleAulasEventuais(){
                 </div>
 
                 <div className="w-full flex items-center justify-end">
-                    <Link href="/imprimir-professor" className="w-36 py-2 border border-zinc-500 text-zinc-500 rounded-lg text-center hover:bg-zinc-500 hover:text-white transition-colors">
+                    <Link href="/imprimir-professor" target="_blank" className="w-36 py-2 border border-zinc-500 text-zinc-500 rounded-lg text-center hover:bg-zinc-500 hover:text-white transition-colors">
                         Imprimir
                     </Link>
                 </div>
@@ -49,7 +50,7 @@ export default function BoletimControleAulasEventuais(){
             {filter ? (
                 <Filter setFilter={setFilter} setAllReportsInfos={setAllReportsInfos} key="filter-boletim-controle-eventuais" />
             ) : null}
-        </>
+        </RootLayout>
     );
 
 }

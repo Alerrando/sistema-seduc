@@ -12,6 +12,7 @@ import Modal from "../../../Components/Modal";
 import TableRegisters from "../../../Components/TableRegisters";
 import { createLesson, deleteLesson, editLesson, readAllLesson, readPaginationLesson } from "../../../api";
 import { format } from "date-fns";
+import RootLayout from "../../../app/layout";
 
 export default function ControleAulasEventuais() {
   const [infosInput, setInfosInput] =
@@ -46,52 +47,54 @@ export default function ControleAulasEventuais() {
   }, [pagination]);
 
   return (
-    <section className="w-full sm:w-5/6 h-max ml-auto">
-      <div className="w-full flex flex-col gap-4 px-6 py-3">
-        <h1 className="text-[27px] md:text-[42px]">Controle de Aulas Eventuais</h1>
+    <RootLayout showHeaderAside>
+      <section className="w-full sm:w-5/6 h-max ml-auto">
+        <div className="w-full flex flex-col gap-4 px-6 py-3">
+          <h1 className="text-[27px] md:text-[42px]">Controle de Aulas Eventuais</h1>
 
-        {allInfosLesson != undefined ? (
-          <CreateHeaderRegisters
-            setModal={setModal}
-            setSearch={setSearch}
-            totalRegiter={lessonsLengthall}
-            key={"create-header-lesson"}
-          />
-        ) : null}
+          {allInfosLesson != undefined ? (
+            <CreateHeaderRegisters
+              setModal={setModal}
+              setSearch={setSearch}
+              totalRegiter={lessonsLengthall}
+              key={"create-header-lesson"}
+            />
+          ) : null}
 
-        <div className="w-full flex justify-end">
-          <div className="w-auto flex flex-row items-center gap-4">
-            <ArrowLeft
-              size={32}
-              className="cursor-pointer"
-              onClick={changePagination("Left")}
-            />
-            <span className="text-2xl font-bold">{pagination + 1}</span>
-            <ArrowRight
-              size={32}
-              className="cursor-pointer"
-              onClick={changePagination("Right")}
-            />
+          <div className="w-full flex justify-end">
+            <div className="w-auto flex flex-row items-center gap-4">
+              <ArrowLeft
+                size={32}
+                className="cursor-pointer"
+                onClick={changePagination("Left")}
+              />
+              <span className="text-2xl font-bold">{pagination + 1}</span>
+              <ArrowRight
+                size={32}
+                className="cursor-pointer"
+                onClick={changePagination("Right")}
+              />
+            </div>
+          </div>
+
+          <div className="w-full border border-[#999]">
+            <TableRegisters tableHead={tableHead} editInfo={editInfo} deleteInfo={deleteInfo} infosAll={allInfosLesson} search={search} key={"Table-Cadastro"} />
           </div>
         </div>
 
-        <div className="w-full border border-[#999]">
-          <TableRegisters tableHead={tableHead} editInfo={editInfo} deleteInfo={deleteInfo} infosAll={allInfosLesson} search={search} key={"Table-Cadastro"} />
-        </div>
-      </div>
+        {modal ? (
+          <Modal
+            infosInput={infosInput}
+            setInfosInput={setInfosInput}
+            setModal={setModal}
+            submitInfos={submitLesson}
+            title="Controle de Aulas Eventuais"
+          />
+        ) : null}
 
-      {modal ? (
-        <Modal
-          infosInput={infosInput}
-          setInfosInput={setInfosInput}
-          setModal={setModal}
-          submitInfos={submitLesson}
-          title="Controle de Aulas Eventuais"
-        />
-      ) : null}
-
-      <ToastContainer />
-    </section>
+        <ToastContainer />
+      </section>
+    </RootLayout>
   );
 
   function editInfo(infos: LessonsInfos) {
