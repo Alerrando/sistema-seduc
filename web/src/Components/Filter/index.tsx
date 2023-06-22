@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from 'react-hook-form'
 import { RootState } from "../../../system";
 import { TeacherDTOInfos, TeacherInfos, refreshInfosTeacher } from '../../../slice';
-import { getReportsTeacher, readAllTeacher } from '../../api'
+import { getNameByIdTeacher, getReportsTeacher, readAllTeacher } from '../../api'
 import { X } from 'lucide-react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns';
+import { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from '../../../slice/TeacherFilterSlice';
 
 const createFormSchema = z.object({
     cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),
@@ -17,18 +18,18 @@ const createFormSchema = z.object({
 
 type FilterProps = {
     setFilter: (filter: boolean) => void;
-    setAllReportsInfos: (allReportsInfos: TeacherDTOInfos) => void;
 }
 
 type DatasTypes = {
-    dataInicial: Date | string,
-    dataFinal: Date | string,
+    dataInicial: any,
+    dataFinal: any,
 }
 
 type CreateFormData = z.infer<typeof createFormSchema>
 
-export default function Filter({ setFilter, setAllReportsInfos }: FilterProps){
+export default function Filter({ setFilter }: FilterProps){
     const { allInfosTeacher } = useSelector((root: RootState) => root.Slice);
+    const { allFilterInfosTeacher, filterInfosTeacher } = useSelector((root: RootState) => root.SliceTeacher)
     const { register, handleSubmit, formState: { errors } } = useForm<CreateFormData>({
         resolver: zodResolver(createFormSchema),
     })
@@ -40,6 +41,8 @@ export default function Filter({ setFilter, setAllReportsInfos }: FilterProps){
             dispatch(refreshInfosTeacher(await readAllTeacher()));
         })()
     }, [])
+
+    console.log(filterInfosTeacher);
 
     return(
         <div className="w-screen h-full fixed flex items-center justify-end bg-modal top-0 left-0 ">
@@ -95,8 +98,9 @@ export default function Filter({ setFilter, setAllReportsInfos }: FilterProps){
     async function submit(e){
         const aux: TeacherDTOInfos[] = await getReportsTeacher(e.cadastroProfessor, datas.dataInicial, datas.dataFinal);
         if(typeof aux === "object") {
-            setAllReportsInfos(aux.sort((data1: TeacherDTOInfos, data2: TeacherDTOInfos) => new Date(data1.dataAula) - new Date(data2.dataAula)))
-            setFilter(false);
+            dispatch(refreshAllFilterInfosTeacher(aux.sort((data1: TeacherDTOInfos, data2: TeacherDTOInfos) => new Date(data1.dataAula) - new Date(data2.dataAula))))
+            dispatch(refreshFilterInfosTeacher(await getNameByIdTeacher(e.cadastroProfessor)));
         }
+        setFilter(false);
     }
 }

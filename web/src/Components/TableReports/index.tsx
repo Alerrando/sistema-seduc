@@ -7,12 +7,12 @@ import { SchoolDTOInfos, TeacherDTOInfos } from "../../../slice";
 
 type TableReportsProps = {
     tableHead: string[],
-    infosAll: SchoolDTOInfos[] | TeacherDTOInfos[],
 }
 
 export default function TableReports(props: TableReportsProps) {
-    const { tableHead, infosAll } = props;
+    const { tableHead } = props;
     const { reportsTypes, allInfosSchool } = useSelector((root: RootState) => root.Slice);
+    const { allFilterInfosTeacher } = useSelector((root: RootState) => root.SliceTeacher)
 
     return (
         <div className="max-h-[77%] overflow-x-auto rounded-lg border border-gray-200">
@@ -25,7 +25,7 @@ export default function TableReports(props: TableReportsProps) {
 
 
                 <tbody className="divide-y divide-gray-200">
-                    {infosAll != undefined && infosAll.map((info: SchoolDTOInfos | TeacherDTOInfos, index: Key) => {
+                    {allFilterInfosTeacher != undefined && allFilterInfosTeacher.map((info: SchoolDTOInfos | TeacherDTOInfos, index: Key) => {
 
                         return (
                             <tr key={`${info.id}-${index}`}>
@@ -37,7 +37,6 @@ export default function TableReports(props: TableReportsProps) {
                                     </>
                                 ) : (
                                     <>
-                                        {console.log(info)}
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
                                         <td className='whitespace-nowrap px-4 py-2 font-medium text-gray-900'>
                                             <span className='whitespace-nowrap'>{isValid(new Date(info.dataAula)) ? format(new Date(info.dataAula?.toString()), "dd/MM/yyyy") : ""}</span>

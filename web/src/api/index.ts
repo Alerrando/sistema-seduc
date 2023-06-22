@@ -174,14 +174,14 @@ export async function deleteTeacher(id: number) {
   }
 }
 
-export async function getIdTeacher(id: string) {
+export async function getNameByIdTeacher(id: string) {
   let aux: TeacherInfos = {};
   
-  await axios.get(`${urlTeacher}/${id}}`)
+  await axios.get(`${urlTeacher}/${id}`)
   .then((res) => (aux = res.data))
   .catch((err) => console.log(err))
 
-  return aux.name;
+  return aux;
 }
 
 // ----------------------------- ROUTER REPORTS ----------------------------- //]

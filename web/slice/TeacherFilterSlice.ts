@@ -7,8 +7,8 @@ type StateProps = {
 }
 
 const initialState: StateProps = {
-    allFilterInfosTeacher,
-    filterInfosTeacher,
+    allFilterInfosTeacher: [],
+    filterInfosTeacher: {},
 }
 
 export const SliceTeacher = createSlice({

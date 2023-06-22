@@ -1,5 +1,4 @@
 'use client';
-
 import { useEffect, useState } from "react";
 import CreateHeaderReports from "../../Components/CreateHeaderReports";
 import { Search, SlidersHorizontal } from "lucide-react";
@@ -37,7 +36,7 @@ export default function BoletimControleAulasEventuais(){
                         <SlidersHorizontal className="w-6 h-6 md:w-8 md:h-8 absolute top-3 right-3 text-white md:relative md:inset-0 md:text-black cursor-pointer" onClick={() => setFilter(!filter)} />
                     </div>
 
-                    <TableReports infosAll={allReportsInfos} tableHead={tableHead} />
+                    <TableReports tableHead={tableHead} />
                 </div>
 
                 <div className="w-full flex items-center justify-end">
@@ -46,6 +45,7 @@ export default function BoletimControleAulasEventuais(){
                     </button>
                 </div>
             </main>
+
             {filter ? (
                 <Filter setFilter={setFilter} setAllReportsInfos={setAllReportsInfos} key="filter-boletim-controle-eventuais" />
             ) : null}
