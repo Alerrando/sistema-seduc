@@ -1,12 +1,12 @@
 'use client';
+import { SlidersHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
-import CreateHeaderReports from "../../Components/CreateHeaderReports";
-import { Search, SlidersHorizontal } from "lucide-react";
-import { TeacherDTOInfos, changeReportsType, refreshInfosSchool, refreshInfosTeacher } from "../../../slice";
-import TableReports from "../../Components/TableReports";
-import { getReportsTeacher, readAllSchool, readAllTeacher } from "../../api";
 import { useDispatch } from "react-redux";
-import Filter from "../../Components/Filter";
+import { TeacherDTOInfos, changeReportsType, refreshInfosSchool, refreshInfosTeacher } from "../../../../slice";
+import Filter from "../../../Components/Filter";
+import TableReports from "../../../Components/TableReports";
+import { readAllSchool, readAllTeacher } from "../../../api";
+import Link from "next/link";
 
 export default function BoletimControleAulasEventuais(){
     const [allReportsInfos, setAllReportsInfos] = useState<TeacherDTOInfos[]>([] as TeacherDTOInfos[]);
@@ -40,9 +40,9 @@ export default function BoletimControleAulasEventuais(){
                 </div>
 
                 <div className="w-full flex items-center justify-end">
-                    <button className="w-36 py-2 border border-zinc-500 text-zinc-500 rounded-lg text-center hover:bg-zinc-500 hover:text-white transition-colors">
+                    <Link href="/imprimir-professor" className="w-36 py-2 border border-zinc-500 text-zinc-500 rounded-lg text-center hover:bg-zinc-500 hover:text-white transition-colors">
                         Imprimir
-                    </button>
+                    </Link>
                 </div>
             </main>
 
