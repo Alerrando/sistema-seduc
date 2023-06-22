@@ -5,12 +5,12 @@ import "react-calendar/dist/Calendar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { HorasValuesDefault, LessonsInfos, changeRegisterType, refreshInfosLesson } from "../../../slice";
-import { RootState } from "../../../system";
-import CreateHeaderRegisters from '../../Components/CreateHeaderRegisters';
-import Modal from "../../Components/Modal";
-import TableRegisters from "../../Components/TableRegisters";
-import { createLesson, deleteLesson, editLesson, readAllLesson, readPaginationLesson } from "../../api";
+import { HorasValuesDefault, LessonsInfos, changeRegisterType, refreshInfosLesson } from "../../../../slice";
+import { RootState } from "../../../../system";
+import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
+import Modal from "../../../Components/Modal";
+import TableRegisters from "../../../Components/TableRegisters";
+import { createLesson, deleteLesson, editLesson, readAllLesson, readPaginationLesson } from "../../../api";
 import { format } from "date-fns";
 
 export default function ControleAulasEventuais() {

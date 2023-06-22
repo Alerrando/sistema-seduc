@@ -1,11 +1,9 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import CreateHeaderReports from "../../Components/CreateHeaderReports";
 import { Search, SlidersHorizontal } from "lucide-react";
-import { SchoolDTOInfos, changeReportsType } from "../../../slice";
-import TableReports from "../../Components/TableReports";
-import { getReportsSchool } from "../../api";
+import { SchoolDTOInfos, changeReportsType } from "../../../../slice";
+import { getReportsSchool } from "../../../api";
 import { useDispatch } from "react-redux";
 
 export default function RelatorioEscola(){
@@ -27,9 +25,6 @@ export default function RelatorioEscola(){
             <div className="w-full flex flex-col gap-4 px-6 py-3">
                 <h1 className="text-[42px]">Relatório de Escolas</h1>
 
-                <CreateHeaderReports setSearch={setSearch} totalRegister={allReportsInfos.length} key="create-header-reports-school" />
-
-                <TableReports infosAll={allReportsInfos} search={search} tableHead={tableHead} key={"table-reports-school"} />
             </div>
         </main>
     )
