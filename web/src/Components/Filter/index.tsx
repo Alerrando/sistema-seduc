@@ -42,8 +42,6 @@ export default function Filter({ setFilter }: FilterProps){
         })()
     }, [])
 
-    console.log(filterInfosTeacher);
-
     return(
         <div className="w-screen h-full fixed flex items-center justify-end bg-modal top-0 left-0 ">
             <form className="w-full md:w-[35%] h-full flex flex-col gap-6 bg-white p-3 overflow-y-auto" onSubmit={handleSubmit(submit)}>
