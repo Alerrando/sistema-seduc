@@ -2,7 +2,7 @@ import React, { useState, useEffect, Key } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from 'react-hook-form'
 import { RootState } from "../../../system";
-import { TeacherDTOInfos, TeacherInfos, refreshInfosTeacher } from '../../../slice';
+import { TeacherDTOInfos, TeacherInfos, refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from '../../../slice/TeacherFilterSlice';
 import { getNameByIdTeacher, getReportsTeacher, readAllTeacher } from '../../api'
 import { X } from 'lucide-react';
 import Calendar from 'react-calendar';
@@ -10,7 +10,7 @@ import 'react-calendar/dist/Calendar.css';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns';
-import { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from '../../../slice/TeacherFilterSlice';
+import { refreshInfosTeacher } from '../../../slice';
 
 const createFormSchema = z.object({
     cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),
@@ -21,8 +21,8 @@ type FilterProps = {
 }
 
 type DatasTypes = {
-    dataInicial: any,
-    dataFinal: any,
+    dataInicial: string | Date,
+    dataFinal: string | Date,
 }
 
 type CreateFormData = z.infer<typeof createFormSchema>
@@ -41,6 +41,7 @@ export default function Filter({ setFilter }: FilterProps){
             dispatch(refreshInfosTeacher(await readAllTeacher()));
         })()
     }, [])
+
 
     return(
         <div className="w-screen h-full fixed flex items-center justify-end bg-modal top-0 left-0 ">
@@ -70,7 +71,7 @@ export default function Filter({ setFilter }: FilterProps){
                     <Calendar
                         className="w-[100%!important] calendar shadow-md rounded-md calendar"
                         value={datas.dataInicial}
-                        onChange={(e) => setDatas({...datas, dataInicial: new Date(e?.toString())})}
+                        onChange={(e) => setDatas({...datas, dataInicial: new Date(e).toString()})}
                     />
                 </div>
 
@@ -79,7 +80,7 @@ export default function Filter({ setFilter }: FilterProps){
                     <Calendar
                         className="w-[100%!important] calendar shadow-md rounded-md calendar"
                         value={datas.dataFinal}
-                        onChange={(e) => setDatas({...datas, dataFinal: new Date(e?.toString())})}
+                        onChange={(e) => setDatas({...datas, dataFinal: new Date(e).toString()})}
 
                     />
                 </div>

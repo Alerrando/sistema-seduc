@@ -74,8 +74,8 @@ export const TeacherValuesDefault: TeacherInfos = {
   cpf: "",
   cargo: "",
   sede: "",
-  edit: false,
-}
+  edit: false
+};
 
 export type StateProps = {
   allInfosLesson: LessonsInfos[];
@@ -97,21 +97,26 @@ export const Slice = createSlice({
   name: "Slice",
   initialState,
   reducers: {
+
     refreshInfosLesson: (state, action: PayloadAction<LessonsInfos[]>) => {
       state.allInfosLesson = action.payload;
     },
+
     refreshInfosSchool: (state, action: PayloadAction<SchoolInfos[]>) => {
       state.allInfosSchool = action.payload;
     },
+
     refreshInfosTeacher: (state, action: PayloadAction<TeacherInfos[]>) => {
       state.allInfosTeacher = action.payload;
     },
+
     changeRegisterType: (state, action: PayloadAction<keyof typeof registerTypes>) => {
       state.registerType = action.payload;
     },
+
     changeReportsType: (state, action: PayloadAction<keyof typeof reportsTypes>) => {
       state.reportsTypes = action.payload;
-    }
+    },
   },
 });
 

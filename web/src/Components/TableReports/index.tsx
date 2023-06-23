@@ -12,7 +12,7 @@ type TableReportsProps = {
 export default function TableReports(props: TableReportsProps) {
     const { tableHead } = props;
     const { reportsTypes, allInfosSchool } = useSelector((root: RootState) => root.Slice);
-    const { allFilterInfosTeacher } = useSelector((root: RootState) => root.SliceTeacher)
+    const { allFilterInfosTeacher } = useSelector((root: RootState) => root.SliceTeacher);
 
     return (
         <div className="max-h-[77%] overflow-x-auto rounded-lg border border-gray-200">

@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import { refreshInfosLesson, refreshInfosSchool, refreshInfosTeacher } from "../../slice";
 import "react-calendar/dist/Calendar.css";
 import { Book, GraduationCap, School2 } from "lucide-react";
+import { RootState } from "../../system";
 import Link from "next/link";
 import Image from "next/image";
 import RootLayout from "./layout"
@@ -34,7 +35,7 @@ export default function Home() {
                 <p className="text-base text-[#5a5a5a]">É bom vê-lo novamente.</p>
               </header>
 
-              <section className="w-full h-4/6 flex flex-col justify-center gap-16 lg:gap-24">
+              <section className="w-full h-auto xl:h-4/6 flex flex-col justify-center gap-16 xl:gap-24">
                 <Link href="/cadastro-aula" className="w-full h-auto flex flex-row px-2 gap-5 hover:shadow-xl">
                   <div className="w-9 h-9 flex justify-center items-center rounded-lg bg-[#EFF3FA]">
                     <Book size={22} />
@@ -74,7 +75,7 @@ export default function Home() {
                 </Link>
               </section>
 
-              <div className="hidden lg:block"></div>
+              <div className="hidden xl:block"></div>
             </div>
 
             <div className="w-full h-auto">

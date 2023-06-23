@@ -1,14 +1,22 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { TeacherDTOInfos, TeacherValuesDefault, TeacherInfos } from "."
+import { TeacherDTOInfos, TeacherValuesDefault } from "."
+
+type FilterInfosTeacher = {
+    id: number,
+    name: string,
+    cpf: string,
+    sede: string,
+    cargo: string,
+}
 
 type StateProps = {
     allFilterInfosTeacher: TeacherDTOInfos[],
-    filterInfosTeacher: TeacherInfos,
+    filterInfosTeacher: FilterInfosTeacher,
 }
 
 const initialState: StateProps = {
     allFilterInfosTeacher: [],
-    filterInfosTeacher: {} as TeacherInfos,
+    filterInfosTeacher: {} as FilterInfosTeacher,
 }
 
 export const SliceTeacher = createSlice({
@@ -19,7 +27,7 @@ export const SliceTeacher = createSlice({
             state.allFilterInfosTeacher = action.payload;
         },
 
-        refreshFilterInfosTeacher: (state, action: PayloadAction<TeacherInfos>) => {
+        refreshFilterInfosTeacher: (state, action: PayloadAction<FilterInfosTeacher>) => {
             state.filterInfosTeacher = action.payload;
         },
     }

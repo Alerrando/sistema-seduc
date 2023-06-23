@@ -41,7 +41,7 @@ export default function BoletimControleAulasEventuais(){
                 </div>
 
                 <div className="w-full flex items-center justify-end">
-                    <Link href="/imprimir-professor" target="_blank" className="w-36 py-2 border border-zinc-500 text-zinc-500 rounded-lg text-center hover:bg-zinc-500 hover:text-white transition-colors">
+                    <Link href="/imprimir-professor" className="w-36 py-2 border border-zinc-500 text-zinc-500 rounded-lg text-center hover:bg-zinc-500 hover:text-white transition-colors">
                         Imprimir
                     </Link>
                 </div>
