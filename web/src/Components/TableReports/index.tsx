@@ -13,6 +13,7 @@ export default function TableReports(props: TableReportsProps) {
     const { tableHead } = props;
     const { reportsTypes, allInfosSchool } = useSelector((root: RootState) => root.Slice);
     const { allFilterInfosTeacher } = useSelector((root: RootState) => root.SliceTeacher);
+    const dispatch = useDispatch();
 
     return (
         <div className="max-h-[77%] overflow-x-auto rounded-lg border border-gray-200">
@@ -41,7 +42,9 @@ export default function TableReports(props: TableReportsProps) {
                                         <td className='whitespace-nowrap px-4 py-2 font-medium text-gray-900'>
                                             <span className='whitespace-nowrap'>{isValid(new Date(info.dataAula)) ? format(new Date(info.dataAula?.toString()), "dd/MM/yyyy") : ""}</span>
                                         </td>
-                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{getNameSchool(info.cadastroEscola)}</td>
+                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                                            {allInfosSchool.find((school) => school.id == info.cadastroEscola)?.name}
+                                        </td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.horaAulas}</td>
                                     </>
                                 )}
@@ -52,15 +55,4 @@ export default function TableReports(props: TableReportsProps) {
             </table>
         </div>
     );
-
-    function getNameSchool(id: string){
-        let aux = ""
-        allInfosSchool?.forEach((school: SchoolInfos) => {
-            if(school.id == id){
-                aux = school.name;
-            }
-        })
-
-        return aux;
-    }
 }

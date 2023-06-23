@@ -2,7 +2,7 @@ import React, { useState, useEffect, Key } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from 'react-hook-form'
 import { RootState } from "../../../system";
-import { TeacherDTOInfos, TeacherInfos, refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from '../../../slice/TeacherFilterSlice';
+import { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from '../../../slice/TeacherFilterSlice';
 import { getNameByIdTeacher, getReportsTeacher, readAllTeacher } from '../../api'
 import { X } from 'lucide-react';
 import Calendar from 'react-calendar';
@@ -10,7 +10,7 @@ import 'react-calendar/dist/Calendar.css';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns';
-import { refreshInfosTeacher } from '../../../slice';
+import { refreshInfosTeacher, TeacherDTOInfos, TeacherInfos } from '../../../slice';
 
 const createFormSchema = z.object({
     cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),

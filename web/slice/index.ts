@@ -133,6 +133,8 @@ export function objectEmptyValue(obj: LessonsInfos | SchoolInfos | TeacherInfos)
   return false;
 };
 
+
+
 export const { refreshInfosLesson, refreshInfosSchool, refreshInfosTeacher, changeRegisterType, changeReportsType } = Slice.actions;
 
 export default Slice.reducer;

@@ -35,7 +35,7 @@ export default function Home() {
                 <p className="text-base text-[#5a5a5a]">É bom vê-lo novamente.</p>
               </header>
 
-              <section className="w-full h-auto xl:h-4/6 flex flex-col justify-center gap-16 xl:gap-24">
+              <section className="w-full h-auto xl:h-4/6 flex flex-col justify-center gap-16 md:gap-8 2xl:gap-24">
                 <Link href="/cadastro-aula" className="w-full h-auto flex flex-row px-2 gap-5 hover:shadow-xl">
                   <div className="w-9 h-9 flex justify-center items-center rounded-lg bg-[#EFF3FA]">
                     <Book size={22} />

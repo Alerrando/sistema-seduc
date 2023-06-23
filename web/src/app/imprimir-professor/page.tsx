@@ -1,18 +1,22 @@
 'use client';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Key } from "react";
+import { format, isValid } from 'date-fns'
+import { TeacherDTOInfos } from '../../slice'
 import RootLayout from "../layout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../system";
 
 export default function ImprimirProfessor(){
-    const { filterInfosTeacher, allFilterInfosTeacher } = useSelector((root: RootState) => root.SliceTeacher)
+    const { filterInfosTeacher, allFilterInfosTeacher } = useSelector((root: RootState) => root.SliceTeacher);
+    const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
+
 
     return(
         <RootLayout showHeaderAside={false}>
             <main className="w-full h-screen">
                 <section className="w-full-h-auto flex flex-col items-center justify-center gap-8 px-6 py-8 md:px-12 md:py-8">
-                    <header className="w-full h-auto flex flex-col items-center justify-center gap-8 md:gap-2">
-                        <div className="w-full md:w-[40%] xl:w-[24%] h-auto flex flex-col items-center justify-center after:block after:w-full after:h-[2px] after:bg-zinc-600">
+                    <header className="w-full h-auto flex flex-col items-center justify-center gap-8 md:gap-4">
+                        <div className="w-full md:w-[40%] 2xl:w-[24%] h-auto flex flex-col items-center justify-center after:block after:w-full after:h-[2px] after:bg-zinc-600">
                             <h1 className="text-2xl md:text-3xl">Controle de Aulas Eventuais</h1>
                         </div>
 
@@ -25,17 +29,17 @@ export default function ImprimirProfessor(){
                             </div>
 
                             <div className="w-full flex items-center justify-between">
-                                <div className="w-auto flex flex-row items-center gap-1 md:gap-4">
+                                <div className="w-auto flex flex-row items-center gap-1 md:gap-2">
                                     <h3 className="font-bold text-base md:text-xl">CARGO: </h3>
                                     <span className="font-bold text-sm md:text-lg">{filterInfosTeacher?.cargo}</span>
                                 </div>
 
-                                <div className="w-auto flex flex-row items-center gap-1 md:gap-4">
+                                <div className="w-auto flex flex-row items-center gap-1 md:gap-2">
                                     <h3 className="font-bold text-base md:text-xl">SEDE: </h3>
-                                    <span className="font-bold text-sm md:text-lg">{filterInfosTeacher?.sede}</span>
+                                    <span className="font-bold text-sm md:text-lg">{allInfosSchool.find((school) => school.id == filterInfosTeacher?.sede)?.name}</span>
                                 </div>
 
-                                <div className="w-auto flex flex-row items-center gap-1 md:gap-4">
+                                <div className="w-auto flex flex-row items-center gap-1 md:gap-2">
                                     <h3 className="font-bold text-base md:text-xl">ANO: </h3>
                                     <span className="font-bold text-sm md:text-lg">2023</span>
                                 </div>
@@ -53,8 +57,14 @@ export default function ImprimirProfessor(){
                         </thead>
 
 
-                        <tbody className="divide-y divide-gray-200">
-                            
+                        <tbody className="">
+                            {allFilterInfosTeacher.map((info: TeacherDTOInfos, index: Key) => (
+                                <tr className="border-b border-neutral-500" key={`imprimir-professor-tbody-${index}`}>
+                                    <td className="text-start whitespace-nowrap border-r px-3 py-2 font-medium border-neutral-500">{isValid(new Date(info.dataAula)) ? format(new Date(info.dataAula?.toString()), "dd/MM/yyyy") : ""}</td>
+                                    <td className="text-start whitespace-nowrap border-r px-3 py-2 font-medium border-neutral-500">{allInfosSchool.find((school) => school.id == info.cadastroEscola)?.name}</td>
+                                    <td className="text-start whitespace-nowrap border-r px-3 py-2 font-medium border-neutral-500">{`${info.horaAulas}h`}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </section>

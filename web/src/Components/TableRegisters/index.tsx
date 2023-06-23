@@ -3,7 +3,7 @@ import { Pencil, Trash } from "lucide-react";
 import React, { Key, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../system";
-import { refreshInfosSchool, refreshInfosTeacher, LessonsInfos, SchoolInfos, TeacherInfos } from "../../../slice";
+import { refreshInfosSchool, refreshInfosTeacher, LessonsInfos, SchoolInfos, TeacherInfos, getNameSchool, getNameTeacher } from "../../../slice";
 import { readAllSchool, readAllTeacher } from "../../api";
 
 type TableRegistersProps = {
@@ -42,9 +42,9 @@ export default function TableRegisters(props: TableRegistersProps) {
                         <tr key={`${info.id}-${index}`}>
                             {registerType === "Lesson" ? (
                                 <>
-                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{getNameTeacher(info.cadastroProfessor)}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{allInfosTeacher.find((teacher) => teacher.id == info.cadastroProfessor)?.name}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.horaAulas}</td>
-                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{getNameSchool(info.cadastroEscola)}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{allInfosSchool.find((school) => school.id == info.cadastroEscola)?.name}</td>
                                     <td className='whitespace-nowrap px-4 py-2 font-medium text-gray-900'>
                                         <span className='whitespace-nowrap'>{isValid(new Date(info.diaAula)) ? format(new Date(info.diaAula?.toString()), "dd/MM/yyyy") : ""}</span>
                                     </td>
@@ -57,7 +57,7 @@ export default function TableRegisters(props: TableRegistersProps) {
                                 <>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.cpf}</td>
-                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{getNameSchool(info.sede)}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{allInfosSchool.find((school) => school.id == info.sede)?.name}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.cargo}</td>
                                 </>
                             )}
@@ -82,26 +82,4 @@ export default function TableRegisters(props: TableRegistersProps) {
             </table>
         </div>
     )
-
-    function getNameSchool(id: string){
-        let aux = ""
-        allInfosSchool?.forEach((school: SchoolInfos) => {
-            if(school.id == id){
-                aux = school.name;
-            }
-        })
-
-        return aux;
-    }
-
-    function getNameTeacher(id: string){
-        let aux = "";
-        allInfosTeacher?.forEach((teacher: TeacherInfos) => {
-            if(teacher.id == id){
-                aux = teacher.name;
-            }
-        })
-
-        return aux;
-    }
 }
