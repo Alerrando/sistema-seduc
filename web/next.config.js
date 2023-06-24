@@ -4,7 +4,18 @@ const nextConfig = {
     webpack(config) {
         config.experiments = { ...config.experiments, topLevelAwait: true }
         return config
-    }
+    },
+    babel: {
+        presets: [
+          [
+            "next/babel",
+            {
+              "preset-env": {},
+              "preset-react": {},
+            },
+          ],
+        ],
+    },
 }
 
 module.exports = nextConfig
