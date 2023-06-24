@@ -83,7 +83,8 @@ public class CadastroProfessorService {
         cadastroProfessorRepository.deleteById(id);
     }
 
-    public CadastroProfessor findById(Integer id){
-        return cadastroProfessorRepository.findById(id).orElse(null);
+    public CadastroProfessor findById(String id){
+        Integer idProfessor = Integer.parseInt(id);
+        return cadastroProfessorRepository.findById(idProfessor).orElse(null);
     }
 }

@@ -54,10 +54,10 @@ public class CadastroProfessorControllers {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CadastroProfessor> findById(@PathVariable Integer id) {
-        CadastroProfessor escola = cadastroProfessorService.findById(id);
-        if (escola != null) {
-            return ResponseEntity.ok(escola);
+    public ResponseEntity<CadastroProfessor> findById(@PathVariable String id) {
+        CadastroProfessor professor = cadastroProfessorService.findById(id);
+        if (professor != null) {
+            return ResponseEntity.ok(professor);
         } else {
             return ResponseEntity.notFound().build();
         }
