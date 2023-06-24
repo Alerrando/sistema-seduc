@@ -1,3 +1,4 @@
 module.exports = {
-    presets: ["next/babel"]
+    presets: ["next/babel"],
+    ignore: ['node_modules/next/font'],
 }
