@@ -6,6 +6,7 @@ import Aside from "@/Components/Aside";
 import { Provider } from "react-redux";
 import { store } from "../../system";
 import Header from "@/Components/Header";
+import Home from "./page";
 
 const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 
@@ -25,9 +26,10 @@ export default function RootLayout({ children, showHeaderAside }: RootLayoutProp
 							<Header />
 						</>
 					) : null}
-					{children}
+					<Home />
 				</Provider>
 			</body>
 		</html>
 	);
 }
+	

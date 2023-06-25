@@ -77,7 +77,7 @@ export const TeacherValuesDefault: TeacherInfos = {
   edit: false
 };
 
-export type StateProps = {
+type StateProps = {
   allInfosLesson: LessonsInfos[];
   allInfosSchool: SchoolInfos[];
   allInfosTeacher: TeacherInfos[];
