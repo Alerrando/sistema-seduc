@@ -4,6 +4,7 @@ import Login from "./Login";
 import Register from "./Register";
 import { boolean } from "zod";
 import "./style.css"
+import RootLayout from "../layout";
 
 export default function LoginRegister() {
     const [pages, setPages] = useState<boolean>(false);
@@ -15,13 +16,15 @@ export default function LoginRegister() {
     };
   
     return (
-      <main className={`w-full h-screen flex flex-col ${ !pages ? "md:flex-row" : "md:flex-row-reverse" } overflow-x-hidden pr-4 md:py-9 ${animationClass}`}>
-        {!pages ? (
-          <Login pages={pages} setPages={handleTogglePages} />
-        ) : (
-          <Register pages={pages} setPages={handleTogglePages} />
-        )}
-      </main>
+      <RootLayout showHeaderAside={false}>
+        <main className={`w-full h-screen flex flex-col ${ !pages ? "md:flex-row" : "md:flex-row-reverse" } overflow-x-hidden pr-4 md:py-9 ${animationClass}`}>
+          {!pages ? (
+            <Login pages={pages} setPages={handleTogglePages} />
+          ) : (
+            <Register pages={pages} setPages={handleTogglePages} />
+          )}
+        </main>
+      </RootLayout>
     );
 }
   

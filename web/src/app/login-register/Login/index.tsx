@@ -5,6 +5,10 @@ import React from "react"
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Image from "next/image";
+import { getUserByEmail } from "../../../api";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
+import { changeLoginLogout } from "../../../../slice/LoginSlide";
 
 type LoginProps = {
     pages: boolean,
@@ -22,6 +26,8 @@ export default function Login({ pages, setPages }: LoginProps){
     const { register, handleSubmit, formState: { errors } } = useForm<CreateFormData>({
         resolver: zodResolver(createFormSchema)
     });
+    const dispatch = useDispatch();
+    const router = useRouter();
 
     return(
         <>
@@ -38,8 +44,8 @@ export default function Login({ pages, setPages }: LoginProps){
 
                     <form className="w-4/5 grid gap-4" onSubmit={handleSubmit(submit)}>
                         <div className="w-full flex flex-col gap-1">
-                            <Input htmlFor="name" label="Nome*" name="name" placeholder="Digite seu Nome" type="text" key={"name-login"} register={register} />
-                            <span className="text-red-600">{errors.name && errors.name.message}</span>
+                            <Input htmlFor="email" label="Email*" name="email" placeholder="Digite seu E-mail" type="email" key={"email-login"} register={register} />
+                            <span className="text-red-600">{errors.email && errors.email.message}</span>
                         </div>
 
                         <div className="w-full flex flex-col gap-1">
@@ -75,7 +81,42 @@ export default function Login({ pages, setPages }: LoginProps){
         </>
     );
 
-    function submit(e){
-        console.log(e);
+    async function submit(e){
+        let aux = await getUserByEmail(e.email);
+        messageToast(aux);
+        if(Object.values(aux).length > 0){
+            dispatch(changeLoginLogout(aux));
+            setTimeout(() => {
+                router.replace("/dashboard");
+            }, 3000)
+        }
+        
+    }
+
+    function messageToast(message: object){
+        if(Object.values(message).length > 0){
+            toast.success("Login feito com sucesso!", {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+        else{
+            toast.error("Login não existente!", {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
     }
 }

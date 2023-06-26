@@ -1,33 +1,20 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-import LoginRegister from "./login-register/page";
-import ProtectedRoute from "./ProtectedRoute";
-import Dashboard from "./dashboard/page";
-import CadastroEscola from "./(cadastros)/cadastro-escola/page";
-import CadastroProfessor from "./(cadastros)/cadastro-professor/page";
-import BoletimControleAulasEventuais from "./(boletins)/boletim-controle-aulas-eventuais/page";
+import { useSelector } from "react-redux";
+import { RootState } from "../../system";
 
-export default function Home() {
-  return (
-    <div>
-      <ProtectedRoute>
-        <Dashboard />
-      </ProtectedRoute>
+export default function Home({ children }: React.ReactNode) {
+  const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
+  const router = useRouter();
 
-      <ProtectedRoute>
-        <BoletimControleAulasEventuais />
-      </ProtectedRoute>
+  console.log(typeof window)
 
-      <ProtectedRoute>
-        <CadastroEscola />
-      </ProtectedRoute>
+  useEffect(() => {
+    if (typeof window !== "undefined" && Object.values(userInfos).length === 0) {
+      router.replace("/login-register");
+    }
+  }, [userInfos]);
 
-      <ProtectedRoute>
-        <CadastroProfessor />
-      </ProtectedRoute>
-
-      <LoginRegister />
-    </div>
-  );
+  return <>{children}</>;
 }
-

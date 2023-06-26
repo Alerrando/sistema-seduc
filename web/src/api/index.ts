@@ -206,8 +206,16 @@ export async function getReportsTeacher(idProfessor: string, dataInicial: Date, 
 }
 
 // ----------------------------- ROUTER USER ----------------------------- //]
-export async function getUsers(params:type) {
+export async function getUsers() {
   let aux = await axios.get(urlUser)
+  .then((res) => res.data)
+  .catch((err) => console.log(err))
+
+  return aux;
+}
+
+export async function getUserByEmail(email: string){
+  let aux = await axios.get(`${urlUser}/${email}`)
   .then((res) => res.data)
   .catch((err) => console.log(err))
 
@@ -217,7 +225,7 @@ export async function getUsers(params:type) {
 export async function createUser(user: UserInfos) {
   let aux = await axios.post(urlUser, user)
   .then((res) => res.data)
-  .catch((err) => console.log(err)))
+  .catch((err) => console.log(err))
 
   return aux;
 }

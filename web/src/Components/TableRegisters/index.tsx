@@ -27,7 +27,7 @@ export default function TableRegisters(props: TableRegistersProps) {
     }, [])
 
     return (
-        <div className="overflow-x-auto rounded-lg border border-gray-200">
+        <div className="overflow-x-auto border border-gray-200">
             <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                 <thead className="ltr:text-left rtl:text-right">
                     <tr>

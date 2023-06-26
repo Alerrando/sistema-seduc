@@ -1,11 +1,11 @@
 "use client";
-import React, { Fragment } from "react";
-import "./globals.css";
-import { Roboto } from "next/font/google";
 import Aside from "@/Components/Aside";
+import Header from "@/Components/Header";
+import { Roboto } from "next/font/google";
+import React from "react";
 import { Provider } from "react-redux";
 import { store } from "../../system";
-import Header from "@/Components/Header";
+import "./globals.css";
 import Home from "./page";
 
 const roboto = Roboto({ subsets: ["latin"], weight: "500" });
@@ -26,7 +26,7 @@ export default function RootLayout({ children, showHeaderAside }: RootLayoutProp
 							<Header />
 						</>
 					) : null}
-					<Home />
+					<Home children={children} />
 				</Provider>
 			</body>
 		</html>

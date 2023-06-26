@@ -3,6 +3,8 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 export type UserInfos = {
     id: number;
     name: string;
+    email: string;
+    password: string;
     rg: string;
     cadastroEscola: string;
     level: number;
@@ -11,7 +13,7 @@ export type UserInfos = {
 
 export const DefaultUserInfos: UserInfos = {
     id: 0,
-    name: "",
+    name: "Alerrando",
     rg: "",
     cadastroEscola: "",
     level: 2,

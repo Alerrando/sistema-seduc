@@ -6,6 +6,10 @@ import Input from "../../../Components/Input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { createUser } from "../../../api";
+import { UserInfos, changeLoginLogout } from "../../../../slice/LoginSlide";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 
 type RegisterProps = {
     pages: boolean,
@@ -16,7 +20,7 @@ const createFormSchema = z.object({
     name: z.string().nonempty("O campo Nome é obrigatório!"),
     email: z.string().nonempty("O campo Email é obrigatório!"),
     rg: z.string().nonempty("O campo Rg é obrigatório!"),
-    senha: z.string().nonempty("O campo Senha é obrigatório!")
+    password: z.string().nonempty("O campo Senha é obrigatório!")
 })
 
 type CreateFormData = z.infer<typeof createFormSchema>
@@ -25,6 +29,8 @@ export default function Register({ pages, setPages }: RegisterProps){
     const { register, handleSubmit, formState: { errors } } = useForm<CreateFormData>({
         resolver: zodResolver(createFormSchema)
     });
+    const dispatch = useDispatch();
+    const router = useRouter();
 
     return(
         <>
@@ -39,7 +45,7 @@ export default function Register({ pages, setPages }: RegisterProps){
                         <h1 className="text-2xl md:text-3xl">Crie sua conta</h1>
                     </div>
 
-                    <form className="w-4/5 grid gap-4">
+                    <form className="w-4/5 grid gap-4" onSubmit={handleSubmit(submit)}>
                         <div className="w-full flex flex-col gap-1">
                             <Input htmlFor="name" label="Nome*" name="name" placeholder="Digite seu Nome" type="text" key={"name-login"} register={register} />
                             <span className="text-red-600">{errors.name && errors.name.message}</span>
@@ -56,8 +62,8 @@ export default function Register({ pages, setPages }: RegisterProps){
                         </div>
 
                         <div className="w-full flex flex-col gap-1">
-                            <Input htmlFor="senha" label="Senha*" name="senha" placeholder="Digite seu senha" type="password" key={"password-login"} register={register} />
-                            <span className="text-red-600">{errors.senha && errors.senha.message}</span>
+                            <Input htmlFor="password" label="Senha*" name="password" placeholder="Digite seu senha" type="password" key={"password-login"} register={register} />
+                            <span className="text-red-600">{errors.password && errors.password.message}</span>
                         </div>
                     
                         <div className="w-full flex items-center">
@@ -69,7 +75,7 @@ export default function Register({ pages, setPages }: RegisterProps){
 
                         <div className="w-full flex">
                             <button className="w-full flex items-center justify-center mx-auto rounded-lg bg-zinc-600 text-white py-[6px] hover:bg-zinc-800 transition-colors">
-                                Logar
+                                Registrar
                             </button>
                         </div>
 
@@ -82,5 +88,22 @@ export default function Register({ pages, setPages }: RegisterProps){
                 <Image src="/register-background-img.png" alt="img-login-main" fill className="object-cover" />
             </div>
         </>
-    )
+    );
+
+    async function submit(e){
+        const aux:UserInfos = {
+            name: e.name,
+            email: e.email,
+            password: e.password,
+            rg: e.rg,
+            cadastroEscola: null,
+            level: 2,
+            permission: false,
+        }
+
+        const token = await createUser(aux);
+        localStorage.setItem("token", token);
+        dispatch(changeLoginLogout(aux));
+        router.replace("/dashboard");
+    }
 }
