@@ -1,6 +1,7 @@
 package com.gerenciamentoescolas.server.services;
 
 import com.gerenciamentoescolas.server.entities.User;
+import com.gerenciamentoescolas.server.exception.UserJaCadastradoException;
 import com.gerenciamentoescolas.server.repository.UserRepository;
 import com.gerenciamentoescolas.server.security.JWTTokenProvider;
 import org.apache.coyote.Response;
@@ -23,6 +24,14 @@ public class UserService {
     }
 
     public ResponseEntity<Object> create(User user){
+        List<User> results = userRepository.findAll();
+
+        for(User aux : results){
+            if(aux == user){
+                throw  new UserJaCadastradoException("Usuário já cadastrado!");
+            }
+        }
+
         User novoUsuario = userRepository.save(user);
         String token = JWTTokenProvider.createToken(novoUsuario);
         Map<String, Object> response = new HashMap<>();

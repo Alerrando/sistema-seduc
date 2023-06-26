@@ -32,4 +32,11 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         String message = excessão.getMessage();
         return handleExceptionInternal(excessão, message, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
+
+    @ExceptionHandler(UserJaCadastradoException.class)
+    public ResponseEntity<Object> handleUserJaCadastradoException(
+            UserJaCadastradoException excessão, WebRequest request){
+        String message = excessão.getMessage();
+        return handleExceptionInternal(excessão, message, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
 }

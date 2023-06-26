@@ -8,8 +8,8 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer name;
-    private Integer rg;
+    private String name;
+    private String rg;
     private Integer cadastroEscola;
     private Integer level;
     private boolean permission;
@@ -17,7 +17,7 @@ public class User {
     public User(){
     }
 
-    public User(Integer id, Integer name, Integer rg, Integer cadastroEscola, Integer level, boolean permission) {
+    public User(Integer id, String name, String rg, Integer cadastroEscola, Integer level, boolean permission) {
         this.id = id;
         this.name = name;
         this.rg = rg;
@@ -34,19 +34,19 @@ public class User {
         this.id = id;
     }
 
-    public Integer getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Integer name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Integer getRg() {
+    public String getRg() {
         return rg;
     }
 
-    public void setRg(Integer rg) {
+    public void setRg(String rg) {
         this.rg = rg;
     }
 
