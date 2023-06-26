@@ -1,8 +1,10 @@
 import axios from "axios";
 import { LessonsInfos, SchoolDTOInfos, SchoolInfos, TeacherDTOInfos, TeacherInfos } from "../../slice";
+import { UserInfos } from "../../slice/LoginSlide";
 const urlLesson = "http://localhost:8080/cadastro-aulas";
 const urlSchool = "http://localhost:8080/cadastro-escola";
 const urlTeacher = "http://localhost:8080/cadastro-professor";
+const urlUser = "http://localhost:8080/users";
 
 export async function readAllLesson() {
   try {
@@ -199,6 +201,23 @@ export async function getReportsTeacher(idProfessor: string, dataInicial: Date, 
   await axios.get(`${urlTeacher}/boletim/${idProfessor}&${dataInicial}&${dataFinal}`)
   .then((res) => (aux = res.data))
   .catch((err) => console.log(err))
+
+  return aux;
+}
+
+// ----------------------------- ROUTER USER ----------------------------- //]
+export async function getUsers(params:type) {
+  let aux = await axios.get(urlUser)
+  .then((res) => res.data)
+  .catch((err) => console.log(err))
+
+  return aux;
+}
+
+export async function createUser(user: UserInfos) {
+  let aux = await axios.post(urlUser, user)
+  .then((res) => res.data)
+  .catch((err) => console.log(err)))
 
   return aux;
 }

@@ -4,10 +4,10 @@ import { RootState } from "../../../system";
 import { useRouter } from "next/navigation";
 
 export default function ProtectedRoute({ childreen }: React.ReactNode){
-    const { LoginInfos } = useSelector((root: RootState) => root.SliceLogin);
+    const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
     const router = useRouter();
 
-    if(Object.values(LoginInfos).length == 0){
+    if(Object.values(userInfos).length == 0){
         router.replace("/login-register");
         return null;
     }

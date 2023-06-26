@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-export type LoginInfos = {
+export type UserInfos = {
     id: number;
     name: string;
     rg: string;
@@ -9,7 +9,7 @@ export type LoginInfos = {
     permission: boolean;
 }
 
-export const DefaultLoginInfos: LoginInfos = {
+export const DefaultUserInfos: UserInfos = {
     id: 0,
     name: "",
     rg: "",
@@ -19,19 +19,19 @@ export const DefaultLoginInfos: LoginInfos = {
 }
 
 type StateProps = {
-    LoginInfos: LoginInfos,
+    userInfos: UserInfos,
 }
 
 const initialState: StateProps = {
-    LoginInfos: {} as LoginInfos,
+    userInfos: {} as UserInfos,
 }
 
 export const SliceLogin = createSlice({
     name: "SliceLogin",
     initialState,
     reducers: {
-        changeLoginLogout: (state, action: PayloadAction<LoginInfos>) =>{
-            state.LoginInfos = action.payload;
+        changeLoginLogout: (state, action: PayloadAction<UserInfos>) =>{
+            state.userInfos = action.payload;
         }
     }
 })

@@ -71,8 +71,8 @@ export default function Filter({ setFilter }: FilterProps){
                     <Calendar
                         className="w-[100%!important] calendar shadow-md rounded-md calendar"
                         value={datas.dataInicial}
-                        onChange={(e) => setDatas({...datas, dataInicial: e ? new Date(e).toString() : ''})}
-                    />
+                        onChange={(e) => setDatas({...datas, dataInicial: e ? (typeof e === 'string' ? e : new Date(e).toString()) : ''})}
+                        />
                 </div>
 
                 <div className="w-full h-auto flex flex-col gap-1">
@@ -80,8 +80,7 @@ export default function Filter({ setFilter }: FilterProps){
                     <Calendar
                         className="w-[100%!important] calendar shadow-md rounded-md calendar"
                         value={datas.dataFinal}
-                        onChange={(e) => setDatas({...datas, dataFinal: e ? new Date(e).toString() : ''})}
-
+                        onChange={(e) => setDatas({...datas, dataFinal: e ? (typeof e === 'string' ? e : new Date(e).toString()) : ''})}
                     />
                 </div>
 
