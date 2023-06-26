@@ -4,14 +4,13 @@ import com.gerenciamentoescolas.server.entities.User;
 import com.gerenciamentoescolas.server.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
-@Controller
-@RequestMapping("/users")
+@RestController
+@RequestMapping(value = "/users")
 public class UserControllers {
     @Autowired
     UserService userService;
@@ -22,8 +21,14 @@ public class UserControllers {
         return result;
     }
 
+    @GetMapping("{email}")
+    public User getUserByEmail(@PathVariable String email){
+        return userService.getUserByEmail(email);
+    }
+
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody User user){
         return userService.create(user);
     }
+
 }

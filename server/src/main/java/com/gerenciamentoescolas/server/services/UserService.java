@@ -4,14 +4,12 @@ import com.gerenciamentoescolas.server.entities.User;
 import com.gerenciamentoescolas.server.exception.UserJaCadastradoException;
 import com.gerenciamentoescolas.server.repository.UserRepository;
 import com.gerenciamentoescolas.server.security.JWTTokenProvider;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -23,21 +21,19 @@ public class UserService {
         return result;
     }
 
+    public User getUserByEmail(String email){
+        Optional<User> userEmail = userRepository.findByEmail(email);
+        return userEmail.get();
+    }
+
     public ResponseEntity<Object> create(User user){
-        List<User> results = userRepository.findAll();
-
-        for(User aux : results){
-            if(aux == user){
-                throw  new UserJaCadastradoException("Usuário já cadastrado!");
-            }
+        if(userRepository.existsByRg(user.getRg())){
+            throw  new UserJaCadastradoException("Usuário já cadastrado!");
         }
-
+        
         User novoUsuario = userRepository.save(user);
         String token = JWTTokenProvider.createToken(novoUsuario);
-        Map<String, Object> response = new HashMap<>();
-        response.put("usuario", novoUsuario);
-        response.put("token", token);
 
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(token);
     }
 }

@@ -52,13 +52,11 @@ public class CadastroProfessorService {
         return new ArrayList<>(professoresMap.values());
     }
 
-    public CadastroProfessor create(CadastroProfessor cadastroProfessor, Integer escolaId){
-        List<CadastroProfessor> professores = cadastroProfessorRepository.findAll();
-        for(CadastroProfessor professor : professores){
-            if(cadastroProfessorRepository.existsByCpf(cadastroProfessor.getCpf())){
-                throw new ProfessorJaCadastradoException("Professor já cadastrado!");
-            }
+    public CadastroProfessor create(CadastroProfessor cadastroProfessor, Integer escolaId){        
+        if(cadastroProfessorRepository.existsByCpf(cadastroProfessor.getCpf())){
+            throw new ProfessorJaCadastradoException("Professor já cadastrado!");
         }
+        
         CadastroEscola escola = cadastroEscolaRepository.findById(escolaId).orElseThrow(() -> new RuntimeException("Escola não encontrada"));
         cadastroProfessor.setSede(escola.getId());
 
