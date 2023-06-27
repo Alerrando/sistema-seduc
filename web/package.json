@@ -19,6 +19,7 @@
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
     "chart.js": "^4.3.0",
+    "crypto-js": "^4.1.1",
     "date-fns": "^2.30.0",
     "eslint-config-next": "13.4.4",
     "lucide-react": "^0.221.0",

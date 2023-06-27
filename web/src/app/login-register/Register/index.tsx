@@ -10,6 +10,7 @@ import { createUser } from "../../../api";
 import { UserInfos, changeLoginLogout } from "../../../../slice/LoginSlide";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
 
 type RegisterProps = {
     pages: boolean,
@@ -87,6 +88,8 @@ export default function Register({ pages, setPages }: RegisterProps){
             <div className="w-1/2 h-full relative">
                 <Image src="/register-background-img.png" alt="img-login-main" fill className="object-cover" />
             </div>
+
+            <ToastContainer />
         </>
     );
 
@@ -102,8 +105,42 @@ export default function Register({ pages, setPages }: RegisterProps){
         }
 
         const token = await createUser(aux);
-        localStorage.setItem("token", token);
-        dispatch(changeLoginLogout(aux));
-        router.replace("/dashboard");
+        messageToast(token);
+
+        if(token !== undefined){
+            localStorage.setItem("token", token);
+            dispatch(changeLoginLogout(aux));
+            messageToast(token);
+            setTimeout(() => {
+                router.replace("/dashboard");
+            }, 3000)
+        }
+    }
+
+    function messageToast(message: object | undefined){
+        if(message !== undefined){
+            toast.success("Registro feito com sucesso!", {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+        else{
+            toast.error("Não foi possivel registrar o usuário!", {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
     }
 }

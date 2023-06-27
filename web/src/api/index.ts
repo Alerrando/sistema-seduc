@@ -215,9 +215,7 @@ export async function getUsers() {
 }
 
 export async function getUserByEmail(email: string, password: string){
-  let aux = await axios.get(urlUser, {
-    data: { email: email, password: password }
-  })
+  let aux = await axios.get(`${urlUser}/find/${email}&${password}`)
   .then((res) => res.data)
   .catch((err) => console.log(err))
 
@@ -225,7 +223,7 @@ export async function getUserByEmail(email: string, password: string){
 }
 
 export async function createUser(user: UserInfos) {
-  let aux = await axios.post(`${urlUser}/find`, user)
+  let aux = await axios.post(`${urlUser}`, user)
   .then((res) => res.data)
   .catch((err) => console.log(err))
 

@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { changeLoginLogout } from "../../../../slice/LoginSlide";
 import { ToastContainer, toast } from "react-toastify";
+import CryptoJS from 'crypto-js'
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -87,19 +88,20 @@ export default function Login({ pages, setPages }: LoginProps){
     );
 
     async function submit(e){
-        let aux = await getUserByEmail(e.email, e.password);
+        let aux = await getUserByEmail(e.email, e.senha);
         messageToast(aux);
-        if(Object.values(aux).length > 0){
-            dispatch(changeLoginLogout(aux));
+
+        
+        if(aux !== undefined){
+            messageToast(token);
             setTimeout(() => {
                 router.replace("/dashboard");
-            }, 3000)
+            }, 3000);
         }
-        
     }
 
-    function messageToast(message: object){
-        if(Object.values(message).length > 0){
+    function messageToast(message: object | undefined){
+        if(message !== undefined){
             toast.success("Login feito com sucesso!", {
                 position: "bottom-left",
                 autoClose: 5000,
@@ -112,7 +114,7 @@ export default function Login({ pages, setPages }: LoginProps){
             });
         }
         else{
-            toast.error("Login não existente!", {
+            toast.error("Login não existente ou a Senha e Email estão errados", {
                 position: "bottom-left",
                 autoClose: 5000,
                 hideProgressBar: false,

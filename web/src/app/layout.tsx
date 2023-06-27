@@ -17,7 +17,7 @@ type RootLayoutProps = {
 
 export default function RootLayout({ children, showHeaderAside }: RootLayoutProps) {
 	return (
-		<html lang="pt-br" >
+		<html lang="pt-br">
 			<body className={roboto.className}>
 				<Provider store={store}>
 					{showHeaderAside ? (
