@@ -9,6 +9,9 @@ import { getUserByEmail } from "../../../api";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { changeLoginLogout } from "../../../../slice/LoginSlide";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 type LoginProps = {
     pages: boolean,
@@ -78,11 +81,13 @@ export default function Login({ pages, setPages }: LoginProps){
             <div className="w-1/2 h-full relative">
                 <Image src="/login-img-background.png" alt="img-login-main" fill className="object-cover" />
             </div>
+
+            <ToastContainer />
         </>
     );
 
     async function submit(e){
-        let aux = await getUserByEmail(e.email);
+        let aux = await getUserByEmail(e.email, e.password);
         messageToast(aux);
         if(Object.values(aux).length > 0){
             dispatch(changeLoginLogout(aux));
