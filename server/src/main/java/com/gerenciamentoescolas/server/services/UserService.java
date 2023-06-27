@@ -21,9 +21,9 @@ public class UserService {
         return result;
     }
 
-    public User getUserByEmail(String email){
-        Optional<User> userEmail = userRepository.findByEmail(email);
-        return userEmail.get();
+    public User getUserByEmailPassword(String email, String password){
+        Optional<User> user = userRepository.findByEmailAndPassword(email, password);
+        return user.get();
     }
 
     public ResponseEntity<Object> create(User user){

@@ -21,9 +21,9 @@ public class UserControllers {
         return result;
     }
 
-    @GetMapping("{email}")
-    public User getUserByEmail(@PathVariable String email){
-        return userService.getUserByEmail(email);
+    @GetMapping("/find")
+    public User getUserByEmailPassword(@RequestBody String email, @RequestBody String password){
+        return userService.getUserByEmailPassword(email, password);
     }
 
     @PostMapping
