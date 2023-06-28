@@ -31,15 +31,8 @@ public class UserService {
         Optional<User> user = userRepository.findByEmailAndPassword(email, password);
         String token = JWTTokenProvider.createToken(user.get());
         Map<String, Object> response = new HashMap<>();
-        String encrpyData;
-        
-        try {
-            encrpyData = encryptedService.encryptorData(user.get());            
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criptografar os dados do usuário");
-        }
 
-        response.put("usuario", encrpyData);
+        response.put("usuario", user.get());
         response.put("token", token);
 
         return ResponseEntity.ok().body(response);
