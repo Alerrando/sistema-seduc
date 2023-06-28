@@ -93,7 +93,7 @@ export default function Login({ pages, setPages }: LoginProps){
 
         
         if(aux !== undefined){
-            messageToast(token);
+            dispatch(changeLoginLogout(aux.usuario));
             setTimeout(() => {
                 router.replace("/dashboard");
             }, 3000);

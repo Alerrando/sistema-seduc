@@ -3,7 +3,6 @@ import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../system";
-import { PageProps } from "your-page-props-type"; // Substitua pelo tipo de suas props de página
 
 type HomeProps = {
   children: React.ReactNode;

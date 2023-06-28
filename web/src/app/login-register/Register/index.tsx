@@ -110,7 +110,6 @@ export default function Register({ pages, setPages }: RegisterProps){
         if(token !== undefined){
             localStorage.setItem("token", token);
             dispatch(changeLoginLogout(aux));
-            messageToast(token);
             setTimeout(() => {
                 router.replace("/dashboard");
             }, 3000)

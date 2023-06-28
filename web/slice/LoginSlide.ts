@@ -13,7 +13,7 @@ export type UserInfos = {
 
 export const DefaultUserInfos: UserInfos = {
     id: 0,
-    name: "Alerrando",
+    name: "",
     rg: "",
     cadastroEscola: "",
     level: 2,
