@@ -1,9 +1,9 @@
 import axios from "axios";
 import { LessonsInfos, SchoolDTOInfos, SchoolInfos, TeacherDTOInfos, TeacherInfos } from "../../slice";
 import { UserInfos } from "../../slice/LoginSlide";
-const urlLesson = "http://localhost:8080/cadastro-aulas";
-const urlSchool = "http://localhost:8080/cadastro-escola";
-const urlTeacher = "http://localhost:8080/cadastro-professor";
+const urlLesson = "http://localhost:8080/security/cadastro-aulas";
+const urlSchool = "http://localhost:8080/security/cadastro-escola";
+const urlTeacher = "http://localhost:8080/security/cadastro-professor";
 const urlUser = "http://localhost:8080/users";
 
 export async function readAllLesson() {

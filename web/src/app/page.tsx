@@ -1,4 +1,3 @@
-"use client";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -8,7 +7,7 @@ type HomeProps = {
   children: React.ReactNode;
 };
 
-export default function Home({ children }: HomeProps) {
+function HomePage({ children }: HomeProps) {
   const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
   const router = useRouter();
 
@@ -20,3 +19,5 @@ export default function Home({ children }: HomeProps) {
 
   return <>{children}</>;
 }
+
+export default HomePage;
