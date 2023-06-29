@@ -4,13 +4,9 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../system";
 
-type HomeProps = {
-  children: React.ReactNode;
-};
 
-function Home(props: HomeProps) {
+function Home({ children }) {
   const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
-  const { children } = props;
   const router = useRouter();
 
   useEffect(() => {
