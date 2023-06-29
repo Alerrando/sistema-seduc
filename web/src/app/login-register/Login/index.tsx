@@ -8,7 +8,7 @@ import Image from "next/image";
 import { getUserByEmail } from "../../../api";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { changeLoginLogout } from "../../../../slice/LoginSlide";
+import { changeLoginLogout, setToken } from "../../../../slice/LoginSlide";
 import { ToastContainer, toast } from "react-toastify";
 import CryptoJS from 'crypto-js'
 import 'react-toastify/dist/ReactToastify.css';
@@ -93,6 +93,7 @@ export default function Login({ pages, setPages }: LoginProps){
 
         
         if(aux !== undefined){
+            localStorage.setItem("token", aux.token);
             dispatch(changeLoginLogout(aux.usuario));
             setTimeout(() => {
                 router.replace("/dashboard");

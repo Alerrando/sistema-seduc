@@ -8,8 +8,7 @@ type CreateHeaderProps = {
 }
 
 export default function CreateHeaderRegisters(props: CreateHeaderProps) {
-    const { setModal, setSearch, totalRegiter } = props;
-    console.log(totalRegiter);
+  const { setModal, setSearch, totalRegiter } = props;
 
   return (
     <div className="h-auto border border-[#DDD] rounded-lg">

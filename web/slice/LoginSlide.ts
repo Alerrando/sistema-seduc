@@ -34,7 +34,7 @@ export const SliceLogin = createSlice({
     reducers: {
         changeLoginLogout: (state, action: PayloadAction<UserInfos>) =>{
             state.userInfos = action.payload;
-        }
+        },
     }
 })
 

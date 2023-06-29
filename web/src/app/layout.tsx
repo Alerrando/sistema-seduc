@@ -26,7 +26,9 @@ export default function RootLayout({ children, showHeaderAside }: RootLayoutProp
 							<Header />
 						</>
 					) : null}
-					<Home children={children} />
+					<Home>
+						{children}
+					</Home>
 				</Provider>
 			</body>
 		</html>

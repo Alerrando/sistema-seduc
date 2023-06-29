@@ -43,7 +43,7 @@ export default function TableReports(props: TableReportsProps) {
                                             <span className='whitespace-nowrap'>{isValid(new Date(info.dataAula)) ? format(new Date(info.dataAula?.toString()), "dd/MM/yyyy") : ""}</span>
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                                            {allInfosSchool.find((school) => school.id == info.cadastroEscola)?.name}
+                                            {allInfosSchool?.find((school) => school.id == info.cadastroEscola)?.name}
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.horaAulas}</td>
                                     </>

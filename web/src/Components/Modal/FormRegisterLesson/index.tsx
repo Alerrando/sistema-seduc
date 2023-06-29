@@ -87,7 +87,7 @@ export default function FormRegisterLesson(props: FormRegisterLessonProps){
     );
 
     function submitFormLesson(e){
-        if (infosInput.edit === -1) {
+        if (infosInput.edit) {
             setValue("cadastroEscola", "");
             setValue("horaAulas", "");
         }

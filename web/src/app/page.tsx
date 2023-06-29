@@ -8,8 +8,9 @@ type HomeProps = {
   children: React.ReactNode;
 };
 
-function HomePage({ children }: HomeProps) {
+function Home(props: HomeProps) {
   const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
+  const { children } = props;
   const router = useRouter();
 
   useEffect(() => {
@@ -21,4 +22,4 @@ function HomePage({ children }: HomeProps) {
   return <>{children}</>;
 }
 
-export default HomePage;
+export default Home;

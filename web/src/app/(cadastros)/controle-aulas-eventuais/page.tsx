@@ -15,10 +15,8 @@ import { format } from "date-fns";
 import RootLayout from "../../../app/layout";
 
 export default function ControleAulasEventuais() {
-  const [infosInput, setInfosInput] =
-    useState<LessonsInfos>(HorasValuesDefault);
+  const [infosInput, setInfosInput] = useState<LessonsInfos>(HorasValuesDefault);
   const [lessonsLengthall, setLessonsLengthall] = useState(0);
-  const [date, setDate ] = useState<Date>(new Date());
   const [pagination, setPagination] = useState(0);
   const { allInfosLesson, allInfosSchool, allInfosTeacher, registerType } = useSelector((slice: RootState) => slice.Slice);
   const dispatch = useDispatch();
@@ -27,7 +25,7 @@ export default function ControleAulasEventuais() {
   const tableHead = [
     "Nome Completo",
     "Horas de aulas dadas",
-    "Escola",
+    "Escola", 
     "Dia da aula",
     "Ações",
   ];
@@ -53,27 +51,14 @@ export default function ControleAulasEventuais() {
           <h1 className="text-[27px] md:text-[42px]">Controle de Aulas Eventuais</h1>
 
           {allInfosLesson != undefined ? (
-            <CreateHeaderRegisters
-              setModal={setModal}
-              setSearch={setSearch}
-              totalRegiter={lessonsLengthall}
-              key={"create-header-lesson"}
-            />
+            <CreateHeaderRegisters setModal={setModal} setSearch={setSearch} totalRegiter={lessonsLengthall} key={"create-header-lesson"} />
           ) : null}
 
           <div className="w-full flex justify-end">
             <div className="w-auto flex flex-row items-center gap-4">
-              <ArrowLeft
-                size={32}
-                className="cursor-pointer"
-                onClick={changePagination("Left")}
-              />
+              <ArrowLeft size={32} className="cursor-pointer" onClick={changePagination("Left")} />
               <span className="text-2xl font-bold">{pagination + 1}</span>
-              <ArrowRight
-                size={32}
-                className="cursor-pointer"
-                onClick={changePagination("Right")}
-              />
+              <ArrowRight size={32} className="cursor-pointer" onClick={changePagination("Right")} />
             </div>
           </div>
 
@@ -83,13 +68,7 @@ export default function ControleAulasEventuais() {
         </div>
 
         {modal ? (
-          <Modal
-            infosInput={infosInput}
-            setInfosInput={setInfosInput}
-            setModal={setModal}
-            submitInfos={submitLesson}
-            title="Controle de Aulas Eventuais"
-          />
+          <Modal infosInput={infosInput} setInfosInput={setInfosInput} setModal={setModal} submitInfos={submitLesson} title="Controle de Aulas Eventuais" />
         ) : null}
 
         <ToastContainer />
@@ -112,14 +91,14 @@ export default function ControleAulasEventuais() {
 
     if (!infosInput.edit) {
         message = await createLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
-        dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
+        
     } else {
       aux.id = infosInput.id;
       message = await editLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
-      dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
       setModal(false);
     }
     
+    dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 10)));
     messageToast(message);
     setInfosInput(HorasValuesDefault);
     setLessonsLengthall(await readAllLesson().then((data) => data.length));
