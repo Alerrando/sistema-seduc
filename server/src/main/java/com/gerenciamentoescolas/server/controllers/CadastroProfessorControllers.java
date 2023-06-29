@@ -21,7 +21,7 @@ import com.gerenciamentoescolas.server.services.CadastroProfessorService;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(value = "/cadastro-professor")
+@RequestMapping(value = "/security/cadastro-professor")
 public class CadastroProfessorControllers {
     @Autowired
     private CadastroProfessorService cadastroProfessorService;

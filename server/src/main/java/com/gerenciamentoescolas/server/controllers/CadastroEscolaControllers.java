@@ -11,7 +11,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(value = "/cadastro-escola")
+@RequestMapping(value = "/security/cadastro-escola")
 public class CadastroEscolaControllers {
     @Autowired
     private CadastroEscolaService cadastroEscolaService;

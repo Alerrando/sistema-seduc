@@ -10,7 +10,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(value = "/cadastro-aulas")
+@RequestMapping(value = "/security/cadastro-aulas")
 public class CadastroAulasControllers {
     @Autowired
     private CadastroAulaService cadastroAulaService;
