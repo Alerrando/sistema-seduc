@@ -5,7 +5,8 @@ import { UserInfos } from "../../slice/LoginSlide";
 const urlLesson = "http://localhost:8080/security/cadastro-aulas";
 const urlSchool = "http://localhost:8080/security/cadastro-escola";
 const urlTeacher = "http://localhost:8080/security/cadastro-professor";
-const urlUser = "http://localhost:8080/users";
+const urlUser = "http://localhost:8080/security/users";
+const urlFree = "http://localhost:8080/free";
 
 export async function readAllLesson() {
   try {
@@ -241,7 +242,7 @@ export async function getReportsTeacher(idProfessor: string, dataInicial: Date, 
   return aux;
 }
 
-// ----------------------------- ROUTER USER ----------------------------- //]
+// ----------------------------- ROUTER USER ----------------------------- //
 export async function getUsers() {
   let aux = await axios.get(urlUser)
   .then((res) => res.data)
@@ -250,8 +251,10 @@ export async function getUsers() {
   return aux;
 }
 
-export async function getUserByEmail(email: string, password: string){
-  let aux = await axios.get(`${urlUser}/find/${email}&${password}`)
+export async function getUserByEmail(email: string, password: string, token: string){
+  let aux = await axios.get(`${urlUser}/find/${email}&${password}`, {
+    headers: { 'Authorization':  token },
+  })
   .then((res) => res.data)
   .catch((err) => console.log(err))
 
@@ -260,6 +263,15 @@ export async function getUserByEmail(email: string, password: string){
 
 export async function createUser(user: UserInfos) {
   let aux = await axios.post(`${urlUser}`, user)
+  .then((res) => res.data)
+  .catch((err) => console.log(err))
+
+  return aux;
+}
+
+// ----------------------------- ROUTER Free ----------------------------- //
+export async function createToken(){
+  let aux = await axios.get(urlFree)
   .then((res) => res.data)
   .catch((err) => console.log(err))
 

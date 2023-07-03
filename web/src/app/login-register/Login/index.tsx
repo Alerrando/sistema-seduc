@@ -1,11 +1,12 @@
+"use client";
 import { BookOpen } from "lucide-react";
 import Input from "../../../Components/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Image from "next/image";
-import { getUserByEmail } from "../../../api";
+import { createToken, getUserByEmail } from "../../../api";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { changeLoginLogout, setToken } from "../../../../slice/LoginSlide";
@@ -30,8 +31,15 @@ export default function Login({ pages, setPages }: LoginProps){
     const { register, handleSubmit, formState: { errors } } = useForm<CreateFormData>({
         resolver: zodResolver(createFormSchema)
     });
+    const [token, setToken] = useState("");
     const dispatch = useDispatch();
     const router = useRouter();
+
+    useEffect(() => {
+        (async () => {
+            setToken(await createToken());
+        })()
+    }, [])
 
     return(
         <>
@@ -88,12 +96,11 @@ export default function Login({ pages, setPages }: LoginProps){
     );
 
     async function submit(e){
-        let aux = await getUserByEmail(e.email, e.senha);
+        let aux = await getUserByEmail(e.email, e.senha, token);
         messageToast(aux);
-
         
         if(aux !== undefined){
-            localStorage.setItem("token", aux.token);
+            localStorage.setItem("token", token);
             dispatch(changeLoginLogout(aux.usuario));
             setTimeout(() => {
                 router.replace("/dashboard");

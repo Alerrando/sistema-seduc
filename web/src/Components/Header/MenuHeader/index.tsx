@@ -1,13 +1,15 @@
 'use client';
 import { Menu, Transition } from '@headlessui/react'
-import { LogOut, User } from 'lucide-react'
+import { LogOut, ShieldAlert, User } from 'lucide-react'
 import React, { Fragment, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../system';
 import { changeLoginLogout } from '../../../../slice/LoginSlide';
+import { useRouter } from 'next/navigation';
 
 export default function MenuHeader() {
   const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
+  const router = useRouter();
   const dispatch = useDispatch();
 
   return (
@@ -53,24 +55,21 @@ export default function MenuHeader() {
               </Menu.Item>
               <Menu.Item>
                 {({ active }) => (
-                  <button
-                    className={`${
-                      active ? 'bg-violet-500 text-white' : 'text-gray-900'
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                  >
-                    {active ? (
-                      <DuplicateActiveIcon
-                        className="mr-2 h-5 w-5"
-                        aria-hidden="true"
-                      />
-                    ) : (
-                      <DuplicateInactiveIcon
-                        className="mr-2 h-5 w-5"
-                        aria-hidden="true"
-                      />
-                    )}
-                    Duplicate
-                  </button>
+                  <>
+                    {userInfos.level === 2 ? (
+                      <>
+                        <button
+                          className={`${
+                            active ? 'bg-violet-500 text-white' : 'text-gray-900'
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          onClick={() => router.replace("/admin")}
+                        >
+                              <ShieldAlert className="mr-2 h-5 w-5 text-[#A78BFA]"/>
+                              Administrador
+                        </button>
+                      </>
+                    ) : null}
+                  </>
                 )}
               </Menu.Item>
             </div>

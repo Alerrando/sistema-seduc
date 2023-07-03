@@ -21,8 +21,6 @@ export default function Dashboard(){
     })()
   }, [])
 
-  console.log(userInfos);
-
     return(
         <RootLayout showHeaderAside>
             <main className="w-full md:w-5/6 h-[calc(100vh_-_64px)] ml-auto">
