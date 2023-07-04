@@ -20,7 +20,7 @@ type FilterProps = {
     setFilter: (filter: boolean) => void;
 }
 
-type DatasTypes = {
+export type DatasTypes = {
     dataInicial: string | Date,
     dataFinal: string | Date,
 }
@@ -70,17 +70,27 @@ export default function Filter({ setFilter }: FilterProps){
                     <span className='text-lg font-bold'>Data Inicial: </span>
                     <Calendar
                         className="w-[100%!important] calendar shadow-md rounded-md calendar"
-                        value={datas.dataInicial}
-                        onChange={(e) => setDatas({...datas, dataInicial: e ? (typeof e === 'string' ? e : new Date(e).toString()) : ''})}
-                        />
+                        value={datas.dataInicial ? new Date(datas.dataInicial) : null}
+                        onChange={(e) =>
+                            setDatas({
+                                ...datas,
+                                dataInicial: e ? (typeof e === "string" ? e : e.toISOString()) : "",
+                            })
+                        }
+                    />
                 </div>
 
                 <div className="w-full h-auto flex flex-col gap-1">
                     <span className='text-lg font-bold'>Data Final: </span>
                     <Calendar
                         className="w-[100%!important] calendar shadow-md rounded-md calendar"
-                        value={datas.dataFinal}
-                        onChange={(e) => setDatas({...datas, dataFinal: e ? (typeof e === 'string' ? e : new Date(e).toString()) : ''})}
+                        value={datas.dataFinal ? new Date(datas.dataFinal) : null}
+                        onChange={(e) =>
+                            setDatas({
+                                ...datas,
+                                dataFinal: e ? (typeof e === "string" ? e : e.toISOString()) : "",
+                            })
+                        }
                     />
                 </div>
 
@@ -94,7 +104,7 @@ export default function Filter({ setFilter }: FilterProps){
     );
 
     async function submit(e){
-        const aux: TeacherDTOInfos[] = await getReportsTeacher(e.cadastroProfessor, datas.dataInicial, datas.dataFinal);
+        const aux: TeacherDTOInfos[] = await getReportsTeacher(e.cadastroProfessor, new Date(datas.dataInicial), new Date(datas.dataFinal));
         if(typeof aux === "object") {
             dispatch(refreshAllFilterInfosTeacher(aux.sort((data1: TeacherDTOInfos, data2: TeacherDTOInfos) => new Date(data1.dataAula) - new Date(data2.dataAula))))
             dispatch(refreshFilterInfosTeacher(await getNameByIdTeacher(e.cadastroProfessor)));
