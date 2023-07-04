@@ -73,8 +73,8 @@ export default function Filter({ setFilter }: FilterProps){
                         value={datas.dataInicial ? new Date(datas.dataInicial) : null}
                         onChange={(e) =>
                             setDatas({
-                                ...datas,
-                                dataInicial: e ? (typeof e === "string" ? e : e.toISOString()) : "",
+                            ...datas,
+                            dataInicial: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.start.toString()) : "",
                             })
                         }
                     />
@@ -87,8 +87,8 @@ export default function Filter({ setFilter }: FilterProps){
                         value={datas.dataFinal ? new Date(datas.dataFinal) : null}
                         onChange={(e) =>
                             setDatas({
-                                ...datas,
-                                dataFinal: e ? (typeof e === "string" ? e : e.toISOString()) : "",
+                            ...datas,
+                            dataFinal: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.start.toString()) : "",
                             })
                         }
                     />
