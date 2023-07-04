@@ -18,6 +18,8 @@ export const DefaultUserInfos: UserInfos = {
     cadastroEscola: "",
     level: 2,
     permission: false,
+    email: "",
+    password: "",
 }
 
 type StateProps = {
