@@ -4,9 +4,10 @@ import Header from "@/Components/Header";
 import { Roboto } from "next/font/google";
 import React from "react";
 import { Provider } from "react-redux";
-import { store } from "../../system";
 import "./globals.css";
 import Home from "./page";
+import { PersistGate } from 'redux-persist/integration/react'
+import { persistor, store } from '../../configureStore'
 
 const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 
@@ -20,18 +21,19 @@ export default function RootLayout({ children, showHeaderAside }: RootLayoutProp
 		<html lang="pt-br">
 			<body className={roboto.className}>
 				<Provider store={store}>
-					{showHeaderAside ? (
-						<>
-							<Aside />
-							<Header />
-						</>
-					) : null}
-					<Home>
-						{children}
-					</Home>
+					<PersistGate loading={null} persistor={persistor}>
+						{showHeaderAside ? (
+							<>
+								<Aside />
+								<Header />
+							</>
+						) : null}
+						<Home>
+							{children}
+						</Home>
+					</PersistGate>
 				</Provider>
 			</body>
 		</html>
 	);
 }
-	
