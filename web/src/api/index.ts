@@ -244,31 +244,51 @@ export async function getReportsTeacher(idProfessor: string, dataInicial: Date, 
 
 // ----------------------------- ROUTER USER ----------------------------- //
 export async function getUsers() {
-  let aux = await axios.get(urlUser, {
+  let message = await axios.get(urlUser, {
     headers: { 'Authorization':  `${localStorage.getItem("token")}` },
   })
   .then((res) => res.data)
   .catch((err) => console.log(err))
 
-  return aux;
+  return message;
 }
 
 export async function getUserByEmail(email: string, password: string, token: string){
-  let aux = await axios.get(`${urlUser}/find/${email}&${password}`, {
+  let message = await axios.get(`${urlUser}/find/${email}&${password}`, {
     headers: { 'Authorization':  token },
   })
   .then((res) => res.data)
   .catch((err) => console.log(err))
 
-  return aux;
+  return message;
 }
 
 export async function createUser(user: UserInfos) {
-  let aux = await axios.post(`${urlUser}`, user)
+  let message = await axios.post(`${urlUser}`, user)
   .then((res) => res.data)
   .catch((err) => console.log(err))
 
-  return aux;
+  return message;
+}
+
+export async function editUser(user: UserInfos, id: number){
+  let message = await axios.post(`${urlUser}/${id}`, user, {
+    headers: { 'Authorization':  `${localStorage.getItem("token")}` },
+  })
+  .then((res) => res.data)
+  .catch((err) => err)
+
+  return message;
+}
+
+export async function deleteUser(id: number){
+  let message = await axios.delete(`${urlUser}/${id}`, {
+    headers: { 'Authorization':  `${localStorage.getItem("token")}` },
+  })
+  .then((res) => res.data)
+  .catch((err) => err);
+
+  return message;
 }
 
 // ----------------------------- ROUTER Free ----------------------------- //
