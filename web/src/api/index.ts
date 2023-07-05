@@ -244,7 +244,9 @@ export async function getReportsTeacher(idProfessor: string, dataInicial: Date, 
 
 // ----------------------------- ROUTER USER ----------------------------- //
 export async function getUsers() {
-  let aux = await axios.get(urlUser)
+  let aux = await axios.get(urlUser, {
+    headers: { 'Authorization':  `${localStorage.getItem("token")}` },
+  })
   .then((res) => res.data)
   .catch((err) => console.log(err))
 

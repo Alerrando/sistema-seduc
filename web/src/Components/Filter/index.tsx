@@ -74,7 +74,7 @@ export default function Filter({ setFilter }: FilterProps){
                         onChange={(e) =>
                             setDatas({
                             ...datas,
-                            dataInicial: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.start.toString()) : "",
+                            dataInicial: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.toString()) : "",
                             })
                         }
                     />
@@ -88,7 +88,7 @@ export default function Filter({ setFilter }: FilterProps){
                         onChange={(e) =>
                             setDatas({
                             ...datas,
-                            dataFinal: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.start.toString()) : "",
+                            dataFinal: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.toString()) : "",
                             })
                         }
                     />

@@ -5,10 +5,11 @@ import { store as systemStore } from './system';
 import SliceReducer from './slice';
 import SliceTeacher from './slice/TeacherFilterSlice';
 import SliceLogin from './slice/LoginSlide';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const persistConfig = {
   key: 'root',
-  storage,
+  storage: AsyncStorage,
 };
 
 const authPersistConfig = {
