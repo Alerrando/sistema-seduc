@@ -13,6 +13,7 @@ import TableRegisters from "../../../Components/TableRegisters";
 import { createLesson, deleteLesson, editLesson, readAllLesson, readPaginationLesson } from "../../../api";
 import { format } from "date-fns";
 import RootLayout from "../../../app/layout";
+import { CreateFormDataLesson } from "../../../Components/Modal/FormRegisterLesson";
 
 export default function ControleAulasEventuais() {
   const [infosInput, setInfosInput] = useState<LessonsInfos>(HorasValuesDefault);
@@ -84,7 +85,7 @@ export default function ControleAulasEventuais() {
     setModal(true);
   }
 
-  async function submitLesson(event) {
+  async function submitLesson(event: CreateFormDataLesson) {
     let message: object | string;
     const aux: LessonsInfos = event;
     aux.diaAula = new Date(infosInput.diaAula);

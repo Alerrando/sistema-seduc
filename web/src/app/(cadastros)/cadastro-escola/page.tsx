@@ -10,6 +10,7 @@ import Modal from '../../../Components/Modal';
 import TableRegisters from '../../../Components/TableRegisters';
 import { createSchool, deleteSchool, editSchool, readAllSchool } from '../../../api';
 import RootLayout from '../../../app/layout';
+import { CreateFormDataSchool } from '../../../Components/Modal/FormRegisterSchool';
 
 export default function CadastroEscola(){
     const { allInfosSchool, registerType } = useSelector((root: RootState) => root.Slice);
@@ -55,7 +56,7 @@ export default function CadastroEscola(){
         </RootLayout>
     )
 
-    async function submitSchool(event){
+    async function submitSchool(event: CreateFormDataSchool){
         let message: object | string;
 
         const aux: SchoolInfos = {

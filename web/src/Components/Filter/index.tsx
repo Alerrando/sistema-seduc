@@ -103,7 +103,7 @@ export default function Filter({ setFilter }: FilterProps){
         </div>
     );
 
-    async function submit(e){
+    async function submit(e: CreateFormData){
         const aux: TeacherDTOInfos[] = await getReportsTeacher(e.cadastroProfessor, new Date(datas.dataInicial), new Date(datas.dataFinal));
         if(typeof aux === "object") {
             dispatch(refreshAllFilterInfosTeacher(aux.sort((data1: TeacherDTOInfos, data2: TeacherDTOInfos) => new Date(data1.dataAula) - new Date(data2.dataAula))))

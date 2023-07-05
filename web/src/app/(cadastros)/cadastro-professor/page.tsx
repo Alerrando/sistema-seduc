@@ -10,6 +10,7 @@ import Modal from '../../../Components/Modal';
 import TableRegisters from '../../../Components/TableRegisters';
 import { createTeacher, deleteTeacher, editTeacher, readAllTeacher } from '../../../api';
 import RootLayout from '../../../app/layout';
+import { CreateFormDataTeacher } from '../../../Components/Modal/FormRegisterTeacher';
 
 export default function CadastroProfessor(){
     const { allInfosTeacher, registerType } = useSelector((root: RootState) => root.Slice);
@@ -56,7 +57,7 @@ export default function CadastroProfessor(){
         </RootLayout>
     )
 
-    async function submitTeacher(event){
+    async function submitTeacher(event: CreateFormDataTeacher){
         const aux: TeacherInfos = event;
         aux.edit = false;
         aux.id = infosInput.id;

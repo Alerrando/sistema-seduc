@@ -17,11 +17,11 @@ type FormRegisterSchoolProps = {
   setModal: (modal: boolean) => void;
 };
 
-type CreateFormData = z.infer<typeof createFormSchema>
+export type CreateFormDataSchool = z.infer<typeof createFormSchema>
 
 export default function FormRegisterSchool(props: FormRegisterSchoolProps) {
   const { infosInput, setModal, submit } = props;
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<CreateFormData>({
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<CreateFormDataSchool>({
     resolver: zodResolver(createFormSchema)
   });
 
@@ -113,12 +113,12 @@ export default function FormRegisterSchool(props: FormRegisterSchoolProps) {
     </form>
   );
 
-  function submitFormSchool(e){
+  function submitFormSchool(e: CreateFormDataSchool){
     if(!infosInput.edit){
       setValue("name", "");
     }
 
-    submit(e);
+    submit(e as CreateFormDataSchool);
   }
 
   function getClassificacaoFromName(name: string) {

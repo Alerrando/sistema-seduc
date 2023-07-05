@@ -24,11 +24,11 @@ type FormRegisterLessonProps = {
     setModal: (modal: boolean) => void,
 }
 
-type CreateFormData = z.infer<typeof createFormSchema>
+export type CreateFormDataLesson = z.infer<typeof createFormSchema>
 
 export default function FormRegisterLesson(props: FormRegisterLessonProps){
     const { infosInput, setInfosInput, setModal, submit } = props;
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm<CreateFormData>({
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm<CreateFormDataLesson>({
         resolver: zodResolver(createFormSchema)
     });
     const { allInfosSchool, allInfosTeacher } = useSelector((root: RootState) => root.Slice);
@@ -86,12 +86,12 @@ export default function FormRegisterLesson(props: FormRegisterLessonProps){
         </>
     );
 
-    function submitFormLesson(e){
+    function submitFormLesson(e: CreateFormDataLesson){
         if (infosInput.edit) {
             setValue("cadastroEscola", "");
             setValue("horaAulas", "");
         }
 
-        submit(e);
+        submit(e as CreateFormDataLesson);
     }
 }
