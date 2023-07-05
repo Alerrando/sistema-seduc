@@ -1,22 +1,24 @@
-import { combineReducers, createStore } from 'redux';
+import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import { store as systemStore } from './system';
+import { createWrapper } from 'next-redux-wrapper';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import SliceReducer from './slice';
 import SliceTeacher from './slice/TeacherFilterSlice';
 import SliceLogin from './slice/LoginSlide';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const persistConfig = {
-  key: 'root',
-  storage: AsyncStorage,
+const createNoopStorage = () => {
+  return {
+    getItem(_key) {
+      return Promise.resolve(null);
+    },
+    setItem(_key, value) {
+      return Promise.resolve(value);
+    },
+    removeItem(_key) {
+      return Promise.resolve();
+    },
+  };
 };
-
-const authPersistConfig = {
-  key: 'auth',
-  storage: storage,
-  blacklist: ['somethingTemporary'],
-}
 
 const rootReducer = combineReducers({
   Slice: SliceReducer,
@@ -24,7 +26,21 @@ const rootReducer = combineReducers({
   SliceLogin: SliceLogin,
 });
 
+const storage = typeof window !== 'undefined' ? createWebStorage('local') : createNoopStorage();
+
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const store = createStore(persistedReducer);
-export const persistor = persistStore(store);
+const makeStore = () =>
+  configureStore({
+    reducer: persistedReducer,
+    devTools: process.env.NODE_ENV !== 'production',
+  });
+
+export const wrapper = createWrapper(makeStore, { debug: false });
+
+export const persistor = persistStore(makeStore());

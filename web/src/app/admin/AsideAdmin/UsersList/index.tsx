@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { UserInfos } from "../../../../../slice/LoginSlide";
-import { getUsers } from "../../../../api";
+import { deleteUser, getUsers } from "../../../../api";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../system";
 import { Pencil, Trash } from "lucide-react";
@@ -50,7 +50,7 @@ export default function UsersList(){
                                                 </div>
 
                                                 <div className="flex items-center gap-2 px-2 py-1 border border-red-500 text-red-500 rounded-lg cursor-pointer hover:bg-red-500 hover:text-white transition-colors" onClick={() => deleteInfo(info)}>
-                                                    <Trash size={18} />
+                                                    <Trash size={18} onClick={() => deleteUserAside(info.id, info.name)} />
                                                     <span>Delete</span>
                                                 </div>
                                             </div>
@@ -70,5 +70,13 @@ export default function UsersList(){
         let aux = allInfosSchool?.find((school) => school.id == cadastroEscola)?.name;
 
         return aux === undefined ? "Não Atribuido" : aux;
+    }
+
+    async function deleteUserAside(id:number, name: string){
+        if(window.confirm(`Quer mesmo deletar o usuário ${name}?`)){
+            const message = await deleteUser(id);
+            setUsersAll(await getUsers());
+            console.log(message);
+        }
     }
 }

@@ -104,7 +104,7 @@ export default function Filter({ setFilter }: FilterProps){
     );
 
     async function submit(e: CreateFormData){
-        let aux: TeacherDTOInfos[] = [];
+        let aux = [];
         aux = await getReportsTeacher(e.cadastroProfessor, new Date(datas.dataInicial), new Date(datas.dataFinal));
 
         if(typeof aux === "object") {
