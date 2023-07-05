@@ -1,6 +1,5 @@
 package com.gerenciamentoescolas.server.repository;
 
-import com.gerenciamentoescolas.server.dto.CadastroEscolaDTO;
 import com.gerenciamentoescolas.server.entities.CadastroEscola;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -4,11 +4,10 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 import java.util.Date;
-import java.util.List;
 
 public class CadastroProfessorDTO {
-    private Integer horaAulas;
     private String name;
+    private Integer horaAulas;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataAula;
     private String cadastroEscola;
@@ -22,8 +21,6 @@ public class CadastroProfessorDTO {
         this.dataAula = dataAula;
         this.cadastroEscola = cadastroEscola;
     }
-
-
 
     public Integer getHoraAulas() {
         return horaAulas;

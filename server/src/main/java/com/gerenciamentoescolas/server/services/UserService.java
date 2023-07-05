@@ -46,4 +46,15 @@ public class UserService {
 
         return ResponseEntity.ok().body(token);
     }
+
+    public User ediUser(User user, Integer id){
+        User userEdit = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+        user.setId(userEdit.getId());
+
+        return userRepository.save(user);
+    }
+
+    public void delete(Integer id){
+        userRepository.deleteById(id);
+    }
 }
