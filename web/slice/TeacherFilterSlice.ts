@@ -19,8 +19,8 @@ const initialState: StateProps = {
     filterInfosTeacher: {} as FilterInfosTeacher,
 }
 
-export const SliceTeacher = createSlice({
-    name: "Slice Teacher",
+export const sliceTeacher = createSlice({
+    name: "sliceTeacher",
     initialState,
     reducers: {
         refreshAllFilterInfosTeacher: (state, action: PayloadAction<TeacherDTOInfos[]>) => {
@@ -33,6 +33,6 @@ export const SliceTeacher = createSlice({
     }
 });
 
-export const { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } = SliceTeacher.actions;
+export const { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } = sliceTeacher.actions;
 
-export default SliceTeacher.reducer;
+export default sliceTeacher.reducer;

@@ -105,8 +105,8 @@ const initialState: StateProps = {
   reportsTypes: null,
 };
 
-export const Slice = createSlice({
-  name: "Slice",
+export const slice = createSlice({
+  name: "slice",
   initialState,
   reducers: {
 
@@ -153,4 +153,4 @@ export function objectEmptyValue(obj: LessonsInfos | SchoolInfos | TeacherInfos)
 
 export const { refreshInfosLesson, refreshInfosSchool, refreshInfosTeacher, refreshDefinitionPeriods, changeRegisterType, changeReportsType } = Slice.actions;
 
-export default Slice.reducer;
+export default slice.reducer;

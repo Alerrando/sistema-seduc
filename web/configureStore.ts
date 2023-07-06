@@ -2,9 +2,9 @@ import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 import { persistStore, persistReducer } from 'redux-persist';
 import { createWrapper } from 'next-redux-wrapper';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import SliceReducer from './slice';
-import SliceTeacher from './slice/TeacherFilterSlice';
-import SliceLogin from './slice/LoginSlide';
+import sliceReducer from './slice';
+import sliceTeacher from './slice/TeacherFilterSlice';
+import sliceLogin from './slice/LoginSlide';
 
 const createNoopStorage = () => {
   return {
@@ -21,9 +21,9 @@ const createNoopStorage = () => {
 };
 
 const rootReducer = combineReducers({
-  Slice: SliceReducer,
-  SliceTeacher: SliceTeacher,
-  SliceLogin: SliceLogin,
+  Slice: sliceReducer,
+  SliceTeacher: sliceTeacher,
+  SliceLogin: sliceLogin,
 });
 
 const storage = typeof window !== 'undefined' ? createWebStorage('local') : createNoopStorage();

@@ -30,8 +30,8 @@ const initialState: StateProps = {
     userInfos: {} as UserInfos,
 }
 
-export const SliceLogin = createSlice({
-    name: "SliceLogin",
+export const sliceLogin = createSlice({
+    name: "sliceLogin",
     initialState,
     reducers: {
         changeLoginLogout: (state, action: PayloadAction<UserInfos>) =>{
@@ -40,6 +40,6 @@ export const SliceLogin = createSlice({
     }
 })
 
-export const { changeLoginLogout } = SliceLogin.actions;
+export const { changeLoginLogout } = sliceLogin.actions;
 
-export default SliceLogin.reducer;
+export default sliceLogin.reducer;
