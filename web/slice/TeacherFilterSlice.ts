@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, Slice, createSlice } from "@reduxjs/toolkit"
 import { TeacherDTOInfos, TeacherValuesDefault } from "."
 
 type FilterInfosTeacher = {
@@ -19,7 +19,7 @@ const initialState: StateProps = {
     filterInfosTeacher: {} as FilterInfosTeacher,
 }
 
-export const sliceTeacher = createSlice({
+export const sliceTeacher: Slice<StateProps> = createSlice({
     name: "sliceTeacher",
     initialState,
     reducers: {

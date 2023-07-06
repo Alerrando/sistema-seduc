@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, Slice } from "@reduxjs/toolkit";
 
 export type LessonsInfos = {
   id: number;
@@ -105,7 +105,7 @@ const initialState: StateProps = {
   reportsTypes: null,
 };
 
-export const slice = createSlice({
+export const slice: Slice<StateProps> = createSlice({
   name: "slice",
   initialState,
   reducers: {
@@ -151,6 +151,6 @@ export function objectEmptyValue(obj: LessonsInfos | SchoolInfos | TeacherInfos)
 
 
 
-export const { refreshInfosLesson, refreshInfosSchool, refreshInfosTeacher, refreshDefinitionPeriods, changeRegisterType, changeReportsType } = Slice.actions;
+export const { refreshInfosLesson, refreshInfosSchool, refreshInfosTeacher, refreshDefinitionPeriods, changeRegisterType, changeReportsType } = slice.actions;
 
 export default slice.reducer;

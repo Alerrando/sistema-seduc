@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, Slice, createSlice } from "@reduxjs/toolkit";
 
 export type UserInfos = {
     id: number;
@@ -30,7 +30,7 @@ const initialState: StateProps = {
     userInfos: {} as UserInfos,
 }
 
-export const sliceLogin = createSlice({
+export const sliceLogin: Slice<StateProps> = createSlice({
     name: "sliceLogin",
     initialState,
     reducers: {

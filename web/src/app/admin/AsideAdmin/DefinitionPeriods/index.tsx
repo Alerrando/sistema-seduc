@@ -6,6 +6,10 @@ import 'react-calendar/dist/Calendar.css';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { createDefinitionPeriods, getDefinitionPeriods } from "../../../../api";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../../../system";
+import { refreshDefinitionPeriods } from "../../../../../slice";
+import { format, isValid } from "date-fns";
 
 const createFormSchema = z.object({
     startDate: z.date({ invalid_type_error: "Não é uma data válida", required_error: "Selecione uma data" }),
@@ -15,15 +19,19 @@ const createFormSchema = z.object({
 type CreateFormData = z.infer<typeof createFormSchema>
 
 export default function DefinitionPeriods(){
+    const { infosDefinitionPeriods } = useSelector((root: RootState) => root.Slice);
     const { register, handleSubmit, formState: { errors }, setValue } = useForm<CreateFormData>({
         resolver: zodResolver(createFormSchema)
-    })
+    });
+    const dispatch = useDispatch();
 
     useEffect(() => {
         (async () => {
-            console.log(await getDefinitionPeriods())
+            dispatch(refreshDefinitionPeriods(await getDefinitionPeriods()));
         })()
     }, [])
+
+    console.log(infosDefinitionPeriods);
 
     return(
         <>
@@ -62,7 +70,7 @@ export default function DefinitionPeriods(){
                             <p className="text-base">Data Inicial Atual:</p>
 
                             <div className="w-auto h-full flex p-2 border border-[#cfcfcf] rounded shadow-lg">
-                                <span>06 / 07 / 2023</span>
+                                <span>{isValid(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length-1].startDate)) ? format(new Date(infosDefinitionPeriods[infosDefinitionPeriods?.length-1].startDate.toString()), "dd/MM/yyyy") : ""}</span>
                             </div>
                         </div>
 
@@ -72,7 +80,7 @@ export default function DefinitionPeriods(){
                             <p className="text-base">Data Final Atual:</p>
 
                             <div className="w-auto h-full flex p-2 border border-[#cfcfcf] rounded shadow-lg">
-                                <span>06 / 07 / 2023</span>
+                            <span>{isValid(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length-1].endDate)) ? format(new Date(infosDefinitionPeriods[infosDefinitionPeriods?.length-1].endDate.toString()), "dd/MM/yyyy") : ""}</span>
                             </div>
                         </div>
                     </div>
@@ -87,7 +95,7 @@ export default function DefinitionPeriods(){
 
     async function submit(e: CreateFormData){
         const message = await createDefinitionPeriods(e);
-        console.log(message);
+        dispatch(refreshDefinitionPeriods(await getDefinitionPeriods()));
     }
 
     function handleStartDateChange(date: Date){
