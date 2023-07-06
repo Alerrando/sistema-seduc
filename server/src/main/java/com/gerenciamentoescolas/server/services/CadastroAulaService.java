@@ -3,11 +3,15 @@ package com.gerenciamentoescolas.server.services;
 import com.gerenciamentoescolas.server.entities.CadastroAulas;
 import com.gerenciamentoescolas.server.entities.CadastroEscola;
 import com.gerenciamentoescolas.server.entities.CadastroProfessor;
+import com.gerenciamentoescolas.server.entities.DefinitionPeriods;
 import com.gerenciamentoescolas.server.exception.AulasJaCadastradaException;
+import com.gerenciamentoescolas.server.exception.DefinitionPeriodsException;
 import com.gerenciamentoescolas.server.repository.CadastroAulaRepository;
 import com.gerenciamentoescolas.server.repository.CadastroEscolaRepository;
 
 import com.gerenciamentoescolas.server.repository.CadastroProfessorRepository;
+import com.gerenciamentoescolas.server.repository.DefinitionPeriodsRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +34,9 @@ public class CadastroAulaService {
     @Autowired
     private CadastroProfessorRepository cadastroProfessorRepository;
 
+    @Autowired
+    private DefinitionPeriodsRepository definitionPeriodsRepository;
+
     public List<CadastroAulas> findAll(){
         List<CadastroAulas> result = cadastroAulaRepository.findAll();
         return result;
@@ -49,13 +56,23 @@ public class CadastroAulaService {
 
     public CadastroAulas create(CadastroAulas cadastroAulas, Integer escolaId, Integer professorId) {
         List<CadastroAulas> aulas = cadastroAulaRepository.findAll();
-        LocalDate localDateCadastroAula = cadastroAulas.getDiaAula().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        List<DefinitionPeriods> definitionsPeriods = definitionPeriodsRepository.findAll();
+        DefinitionPeriods lastDefinitionPeriods = definitionsPeriods.get(definitionsPeriods.size() - 1);
 
-        for (CadastroAulas aula : aulas){
-            LocalDate localDateAula = aula.getDiaAula().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            if(localDateCadastroAula.equals(localDateAula) && cadastroAulas.getCadastroProfessor() == aula.getCadastroProfessor() && cadastroAulas.getCadastroEscola() == aula.getCadastroEscola()){
-                throw new AulasJaCadastradaException("Aula já cadastrada");
+        LocalDate localDateCadastroAula = cadastroAulas.getDiaAula().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate startDatePeriod = lastDefinitionPeriods.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate endDatePeriod = lastDefinitionPeriods.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        if(localDateCadastroAula.compareTo(startDatePeriod) >= 0 && localDateCadastroAula.compareTo(endDatePeriod) <= 0){
+            for (CadastroAulas aula : aulas){
+                LocalDate localDateAula = aula.getDiaAula().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                if(localDateCadastroAula.equals(localDateAula) && cadastroAulas.getCadastroProfessor() == aula.getCadastroProfessor() && cadastroAulas.getCadastroEscola() == aula.getCadastroEscola()){
+                    throw new AulasJaCadastradaException("Aula já cadastrada");
+                }
             }
+        }
+        else{
+            throw new DefinitionPeriodsException("Não é possivel cadastrar uma aula depois ou antes da definição de período");
         }
 
         CadastroEscola escola = cadastroEscolaRepository.findById(escolaId).orElseThrow(() -> new RuntimeException("Escola não encontrada"));

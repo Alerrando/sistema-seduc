@@ -31,7 +31,7 @@ public class UserControllers {
         return userService.create(user);
     }
 
-    @PutMapping("/${id}")
+    @PutMapping("/{id}")
     public User editUser(@RequestBody User user, @PathVariable Integer id){
         return userService.ediUser(user, id);
     }

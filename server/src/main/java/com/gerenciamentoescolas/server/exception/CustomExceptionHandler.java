@@ -39,4 +39,11 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         String message = excessão.getMessage();
         return handleExceptionInternal(excessão, message, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
+
+    @ExceptionHandler(DefinitionPeriodsException.class)
+        public ResponseEntity<Object> handleDefinitionPeriodsException(DefinitionPeriodsException excessão, WebRequest request){
+            String message = excessão.getMessage();
+            return handleExceptionInternal(excessão, message, new HttpHeaders(), HttpStatus.BAD_REQUEST,request);
+        }
 }
+
