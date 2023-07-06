@@ -8,13 +8,13 @@ import SliceLogin from './slice/LoginSlide';
 
 const createNoopStorage = () => {
   return {
-    getItem(_key) {
+    getItem(_key: string): Promise<string | null> {
       return Promise.resolve(null);
     },
-    setItem(_key, value) {
-      return Promise.resolve(value);
+    setItem(_key: string, value: string): Promise<void> {
+      return Promise.resolve();
     },
-    removeItem(_key) {
+    removeItem(_key: string): Promise<void> {
       return Promise.resolve();
     },
   };

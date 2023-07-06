@@ -9,7 +9,7 @@ import Image from "next/image";
 import { createToken, getUserByEmail } from "../../../api";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { changeLoginLogout, setToken } from "../../../../slice/LoginSlide";
+import { changeLoginLogout } from "../../../../slice/LoginSlide";
 import { ToastContainer, toast } from "react-toastify";
 import CryptoJS from 'crypto-js'
 import 'react-toastify/dist/ReactToastify.css';

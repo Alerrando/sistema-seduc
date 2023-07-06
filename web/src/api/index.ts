@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LessonsInfos, SchoolDTOInfos, SchoolInfos, TeacherDTOInfos, TeacherInfos } from "../../slice";
+import { DefinitionPeriodsInfos, LessonsInfos, SchoolDTOInfos, SchoolInfos, TeacherDTOInfos, TeacherInfos } from "../../slice";
 import { UserInfos } from "../../slice/LoginSlide";
 
 const urlLesson = "http://localhost:8080/security/cadastro-aulas";
@@ -7,6 +7,7 @@ const urlSchool = "http://localhost:8080/security/cadastro-escola";
 const urlTeacher = "http://localhost:8080/security/cadastro-professor";
 const urlUser = "http://localhost:8080/security/users";
 const urlFree = "http://localhost:8080/free";
+const urlDefinitionPeriods = "http://localhost:8080/security/definition-periods";
 
 export async function readAllLesson() {
   try {
@@ -298,4 +299,26 @@ export async function createToken(){
   .catch((err) => console.log(err))
 
   return aux;
+}
+
+
+// ----------------------------- ROUTER DefinitionPeriods ---------------- //
+export async function getDefinitionPeriods(){
+  let message = await axios.get(urlDefinitionPeriods, {
+    headers: { 'Authorization': `${localStorage.getItem("token")}`},
+  })
+  .then((res) => res.data)
+  .catch((err) => err);
+
+  return message;
+}
+
+export async function createDefinitionPeriods(infos: DefinitionPeriodsInfos) {
+  let message = await axios.post(urlDefinitionPeriods, infos, {
+    headers: { 'Authorization': `${localStorage.getItem("token")}`},
+  })
+  .then((res) => res.data)
+  .catch((err) => err);
+
+  return message;
 }

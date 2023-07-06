@@ -11,8 +11,13 @@ function Home({ children }: RootLayoutProps) {
   const router = useRouter();
   const pathName = usePathname();
 
+  console.log(pathName);
+
   useEffect(() => {
     if (typeof window !== "undefined" && Object.values(userInfos).length === 0) {
+      if(pathName === "/admin" && userInfos.level === 1){
+          router.replace("/admin")
+      }
       router.replace("/login-register");
     }
   }, [userInfos]);

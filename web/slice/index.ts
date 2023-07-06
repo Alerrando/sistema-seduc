@@ -25,6 +25,11 @@ export type TeacherInfos = {
   edit: boolean;
 }
 
+export type DefinitionPeriodsInfos = {
+  startDate: Date | string,
+  endDate: Date | string,
+}
+
 export type SchoolDTOInfos = {
   id: number,
   name: string,
@@ -77,10 +82,16 @@ export const TeacherValuesDefault: TeacherInfos = {
   edit: false
 };
 
+export const DefinitionPeriodsValuesDefault: DefinitionPeriodsInfos = {
+  startDate: new Date().toString(),
+  endDate: new Date().toString(),
+}
+
 type StateProps = {
   allInfosLesson: LessonsInfos[];
   allInfosSchool: SchoolInfos[];
   allInfosTeacher: TeacherInfos[];
+  infosDefinitionPeriods: DefinitionPeriodsInfos[];
   registerType: keyof typeof registerTypes | null;
   reportsTypes: keyof typeof reportsTypes | null;
 };
@@ -89,6 +100,7 @@ const initialState: StateProps = {
   allInfosLesson: [],
   allInfosSchool: [],
   allInfosTeacher: [],
+  infosDefinitionPeriods: [],
   registerType: null,
   reportsTypes: null,
 };
@@ -108,6 +120,10 @@ export const Slice = createSlice({
 
     refreshInfosTeacher: (state, action: PayloadAction<TeacherInfos[]>) => {
       state.allInfosTeacher = action.payload;
+    },
+
+    refreshDefinitionPeriods: (state, action: PayloadAction<DefinitionPeriods[]>) => {
+      state.infosDefinitionPeriods = action.payload;
     },
 
     changeRegisterType: (state, action: PayloadAction<keyof typeof registerTypes>) => {
@@ -135,6 +151,6 @@ export function objectEmptyValue(obj: LessonsInfos | SchoolInfos | TeacherInfos)
 
 
 
-export const { refreshInfosLesson, refreshInfosSchool, refreshInfosTeacher, changeRegisterType, changeReportsType } = Slice.actions;
+export const { refreshInfosLesson, refreshInfosSchool, refreshInfosTeacher, refreshDefinitionPeriods, changeRegisterType, changeReportsType } = Slice.actions;
 
 export default Slice.reducer;
