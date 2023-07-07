@@ -10,7 +10,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns';
 import { refreshInfosTeacher, TeacherDTOInfos, TeacherInfos } from '../../../slice';
-import { AppDispatch, RootState } from '../../../configureStore';
+import { RootState } from '../../../configureStore';
 
 const createFormSchema = z.object({
     cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),

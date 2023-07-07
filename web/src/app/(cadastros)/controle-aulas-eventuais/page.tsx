@@ -10,7 +10,7 @@ import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal from "../../../Components/Modal";
 import TableRegisters from "../../../Components/TableRegisters";
 import { createLesson, deleteLesson, editLesson, readAllLesson, readPaginationLesson } from "../../../api";
-import { format } from "date-fns";
+import { format, isValid } from "date-fns";
 import RootLayout from "../../../app/layout";
 import { CreateFormDataLesson } from "../../../Components/Modal/FormRegisterLesson";
 import { AppDispatch, RootState } from "../../../../configureStore";
@@ -20,6 +20,7 @@ export default function ControleAulasEventuais() {
   const [lessonsLengthall, setLessonsLengthall] = useState(0);
   const [pagination, setPagination] = useState(0);
   const { allInfosLesson, allInfosSchool, allInfosTeacher, registerType } = useSelector((slice: RootState) => slice.Slice);
+  const { infosDefinitionPeriods } = useSelector((root: RootState) => root.Slice);
   const dispatch = useDispatch<AppDispatch>();
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState(false);
@@ -55,7 +56,34 @@ export default function ControleAulasEventuais() {
             <CreateHeaderRegisters setModal={setModal} setSearch={setSearch} totalRegiter={lessonsLengthall} key={"create-header-lesson"} />
           ) : null}
 
-          <div className="w-full flex justify-end">
+          <div className="w-full flex items-center justify-between">
+            <div className="w-auto h-auto flex flex-row gap-3">
+              <div className="w-auto h-auto flex flex-row items-center gap-3 px-2">
+                  <p className="text-base">Período Inicial de Cadastro:</p>
+
+                  <div className="w-auto h-full flex p-2 border border-[#cfcfcf] rounded shadow-lg">
+                      <span>
+                          {infosDefinitionPeriods?.length > 0 && isValid(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.startDate))
+                              ? format(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.startDate), "dd/MM/yyyy")
+                              : ""}
+                      </span>
+                  </div>
+              </div>
+
+              <div className="w-[2px] h-auto bg-[#dfdfdf]"></div>
+
+              <div className="w-auto h-auto flex flex-row items-center gap-3 px-2">
+                  <p className="text-base">Período Final de Cadastro:</p>
+
+                  <div className="w-auto h-full flex p-2 border border-[#cfcfcf] rounded shadow-lg">
+                      <span>
+                          {infosDefinitionPeriods?.length > 0 && isValid(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.endDate))
+                              ? format(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.endDate), "dd/MM/yyyy")
+                              : ""}
+                      </span>
+                  </div>
+              </div>
+            </div>
             <div className="w-auto flex flex-row items-center gap-4">
               <ArrowLeft size={32} className="cursor-pointer" onClick={changePagination("Left")} />
               <span className="text-2xl font-bold">{pagination + 1}</span>

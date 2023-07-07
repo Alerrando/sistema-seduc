@@ -68,7 +68,11 @@ export default function DefinitionPeriods(){
                             <p className="text-base">Data Inicial Atual:</p>
 
                             <div className="w-auto h-full flex p-2 border border-[#cfcfcf] rounded shadow-lg">
-                                <span>{isValid(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length-1]?.startDate)) ? format(new Date(infosDefinitionPeriods[infosDefinitionPeriods?.length-1].startDate.toString()), "dd/MM/yyyy") : ""}</span>
+                                <span>
+                                    {infosDefinitionPeriods?.length > 0 && isValid(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.startDate))
+                                        ? format(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.startDate), "dd/MM/yyyy")
+                                        : ""}
+                                </span>
                             </div>
                         </div>
 
@@ -78,7 +82,11 @@ export default function DefinitionPeriods(){
                             <p className="text-base">Data Final Atual:</p>
 
                             <div className="w-auto h-full flex p-2 border border-[#cfcfcf] rounded shadow-lg">
-                            <span>{isValid(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length-1]?.endDate)) ? format(new Date(infosDefinitionPeriods[infosDefinitionPeriods?.length-1].endDate.toString()), "dd/MM/yyyy") : ""}</span>
+                                <span>
+                                    {infosDefinitionPeriods?.length > 0 && isValid(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.endDate))
+                                        ? format(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.endDate), "dd/MM/yyyy")
+                                        : ""}
+                                </span>
                             </div>
                         </div>
                     </div>

@@ -5,8 +5,8 @@ import RootLayout from "../layout";
 import Link from "next/link";
 import { Book, GraduationCap, School2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { refreshInfosLesson, refreshInfosSchool, refreshInfosTeacher } from "../../../slice";
-import { readAllLesson, readAllSchool, readAllTeacher } from "../../api";
+import { refreshDefinitionPeriods, refreshInfosLesson, refreshInfosSchool, refreshInfosTeacher } from "../../../slice";
+import { getDefinitionPeriods, readAllLesson, readAllSchool, readAllTeacher } from "../../api";
 import { RootState } from "../../../system";
 import { AppDispatch } from "../../../configureStore";
 
@@ -19,6 +19,7 @@ export default function Dashboard(){
       dispatch(refreshInfosLesson(await readAllLesson()));
       dispatch(refreshInfosSchool(await readAllSchool()));
       dispatch(refreshInfosTeacher(await readAllTeacher()));
+      dispatch(refreshDefinitionPeriods(await getDefinitionPeriods()));
     })()
   }, [])
 

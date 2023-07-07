@@ -1,17 +1,19 @@
 "use client";
 import React, { Fragment, useState } from "react";
 import { Tab } from "@headlessui/react";
-import { BookIcon, CalendarClock, Users } from "lucide-react";
+import { ArrowLeftToLine, BookIcon, CalendarClock, Users } from "lucide-react";
 import { DatasTypes } from "../../../Components/Filter";
 import DefinitionPeriods from "./DefinitionPeriods";
 import UsersList from "./UsersList";
+import { useRouter } from "next/navigation";
 
 export function AsideAdmin() {
+  const router = useRouter();
 
   return (
     <aside className="w-[4%] h-screen absolute top-0 left-0 shadow-2xl">
       <div className="h-full flex flex-col items-center">
-        <div className="w-full h-4/6 flex flex-col gap-8">
+        <div className="w-full h-full flex flex-col gap-8">
           <div className="h-10 w-full flex-col items-center justify-center border-b">
             <div className="h-10 w-4/5 flex flex-row items-center justify-start pl-1">
               <BookIcon size={26} className="text-principal cursor-pointer" />
@@ -50,6 +52,12 @@ export function AsideAdmin() {
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>
+
+          <div className="h-10 w-full flex-col items-center justify-center border-b mt-auto">
+            <div className="h-10 w-4/5 flex flex-row items-center justify-start pl-1">
+              <ArrowLeftToLine size={26} className="text-principal cursor-pointer" onClick={() => router.replace("/dashboard")} />
+            </div>
+          </div>
         </div>
       </div>
     </aside>
