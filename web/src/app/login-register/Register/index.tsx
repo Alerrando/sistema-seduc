@@ -1,12 +1,12 @@
 "use client";
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { BookOpen } from "lucide-react";
 import Image from "next/image";
 import Input from "../../../Components/Input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createUser } from "../../../api";
+import { createToken, createUser } from "../../../api";
 import { UserInfos, changeLoginLogout } from "../../../../slice/LoginSlide";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
@@ -28,11 +28,18 @@ const createFormSchema = z.object({
 type CreateFormData = z.infer<typeof createFormSchema>
 
 export default function Register({ pages, setPages }: RegisterProps){
+    const [token, setToken] = useState("");
     const { register, handleSubmit, formState: { errors } } = useForm<CreateFormData>({
         resolver: zodResolver(createFormSchema)
     });
     const dispatch = useDispatch<AppDispatch>();
     const router = useRouter();
+
+    useEffect(() => {
+        (async () => {
+            setToken(await createToken());
+        })()
+    }, [])
 
     return(
         <>
@@ -100,15 +107,16 @@ export default function Register({ pages, setPages }: RegisterProps){
             email: e.email,
             password: e.password,
             rg: e.rg,
-            cadastroEscola: null,
+            cadastroEscola: "",
             level: 2,
             permission: false,
         }
 
-        const token = await createUser(aux);
-        messageToast(token);
+        const message = await createUser(aux, token);
+        messageToast(message);
+        console.log(message, token, aux);
 
-        if(token !== undefined){
+        if(message !== undefined){
             localStorage.setItem("token", token);
             dispatch(changeLoginLogout(aux));
             setTimeout(() => {

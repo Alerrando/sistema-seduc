@@ -264,16 +264,18 @@ export async function getUserByEmail(email: string, password: string, token: str
   return message;
 }
 
-export async function createUser(user: UserInfos) {
-  let message = await axios.post(`${urlUser}`, user)
-  .then((res) => res.data)
+export async function createUser(user: UserInfos, token: string) {
+  let message = await axios.post(`${urlUser}`, {
+    headers: { 'Authorization':  token },
+  })
+  .then((res) => "Usuário criado com sucesso")
   .catch((err) => console.log(err))
 
   return message;
 }
 
 export async function editUser(user: UserInfos, id: number){
-  let message = await axios.post(`${urlUser}/${id}`, user, {
+  let message = await axios.put(`${urlUser}/${id}`, user, {
     headers: { 'Authorization':  `${localStorage.getItem("token")}` },
   })
   .then((res) => res.data)
@@ -286,7 +288,7 @@ export async function deleteUser(id: number){
   let message = await axios.delete(`${urlUser}/${id}`, {
     headers: { 'Authorization':  `${localStorage.getItem("token")}` },
   })
-  .then((res) => res.data)
+  .then((res) => "Usuário deletado com sucesso!")
   .catch((err) => err);
 
   return message;

@@ -1,13 +1,18 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { Pencil, Trash } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { RootState } from "../../../../../configureStore";
 import { UserInfos } from "../../../../../slice/LoginSlide";
 import { deleteUser, getUsers } from "../../../../api";
-import { useSelector } from "react-redux";
-import { Pencil, Trash } from "lucide-react";
-import { RootState } from "../../../../../configureStore";
+import FormEditionUsers from "../../../../Components/Modal/FormEditionUsers";
 
 export default function UsersList(){
     const [usersAll, setUsersAll] = useState<UserInfos[]>([] as UserInfos);
+    const [modal, setModal] = useState<boolean>(false);
+    const [infosEdit, setInfosEdit] = useState<UserInfos>({} as UserInfos);
     const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
     const tableHead = ["Id", "Nome", "Email", "Rg", "Escola", "Permissão", "Ações"];
 
@@ -16,6 +21,8 @@ export default function UsersList(){
             setUsersAll(await getUsers());
         })()
     }, [])
+
+    console.log(usersAll);
 
     return (
         <>
@@ -49,8 +56,8 @@ export default function UsersList(){
                                                     <span>Edit</span>
                                                 </div>
 
-                                                <div className="flex items-center gap-2 px-2 py-1 border border-red-500 text-red-500 rounded-lg cursor-pointer hover:bg-red-500 hover:text-white transition-colors" onClick={() => deleteInfo(info)}>
-                                                    <Trash size={18} onClick={() => deleteUserAside(info.id, info.name)} />
+                                                <div className="flex items-center gap-2 px-2 py-1 border border-red-500 text-red-500 rounded-lg cursor-pointer hover:bg-red-500 hover:text-white transition-colors" onClick={() => deleteUserAside(info.id, info.name)}>
+                                                    <Trash size={18} />
                                                     <span>Delete</span>
                                                 </div>
                                             </div>
@@ -63,8 +70,26 @@ export default function UsersList(){
                     </table>
                 </div>
             </section>
+
+            <ToastContainer />
+
+            {modal ? (
+                <FormEditionUsers infos={infosEdit} setModal={setModal} setUsersAll={setUsersAll} />
+            ) : null}
         </>
     );
+
+    function editInfo(info: UserInfos){
+        setInfosEdit(info);
+        setModal(true);
+    }
+    
+    async function deleteUserAside(id:number, name: string){
+        if(window.confirm(`Quer mesmo deletar o usuário ${name}?`)){
+            const message = await deleteUser(id);
+            setUsersAll(await getUsers());
+        }
+    }
 
     function schoolName(cadastroEscola){
         let aux = allInfosSchool?.find((school) => school.id == cadastroEscola)?.name;
@@ -72,11 +97,30 @@ export default function UsersList(){
         return aux === undefined ? "Não Atribuido" : aux;
     }
 
-    async function deleteUserAside(id:number, name: string){
-        if(window.confirm(`Quer mesmo deletar o usuário ${name}?`)){
-            const message = await deleteUser(id);
-            setUsersAll(await getUsers());
-            console.log(message);
+    function messageToast(message){
+        if(typeof message !== "object"){
+            toast.success(message, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
         }
-    }
+        else{
+            toast.error(message.response.data, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+      }
 }

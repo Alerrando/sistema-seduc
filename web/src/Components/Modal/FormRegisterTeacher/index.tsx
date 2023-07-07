@@ -110,7 +110,6 @@ export default function FormRegisterTeacher(props: FormRegisterTeacherProps) {
                     <option key={`escola-${school.name}`} value={school.id} className="text-[12px] md:text-base outline-none border-none">{school.name}</option>
                 ))}
             </select>
-
             {errors.sede && <span className='text-red-600'>{errors.sede.message}</span>}
         </div>
 

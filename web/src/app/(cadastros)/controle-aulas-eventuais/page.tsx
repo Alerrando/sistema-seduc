@@ -1,19 +1,19 @@
 "use client";
+import { format, isValid } from "date-fns";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import "react-calendar/dist/Calendar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { AppDispatch, RootState } from "../../../../configureStore";
 import { HorasValuesDefault, LessonsInfos, changeRegisterType, refreshInfosLesson } from "../../../../slice";
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal from "../../../Components/Modal";
+import { CreateFormDataLesson } from "../../../Components/Modal/FormRegisterLesson";
 import TableRegisters from "../../../Components/TableRegisters";
 import { createLesson, deleteLesson, editLesson, readAllLesson, readPaginationLesson } from "../../../api";
-import { format, isValid } from "date-fns";
 import RootLayout from "../../../app/layout";
-import { CreateFormDataLesson } from "../../../Components/Modal/FormRegisterLesson";
-import { AppDispatch, RootState } from "../../../../configureStore";
 
 export default function ControleAulasEventuais() {
   const [infosInput, setInfosInput] = useState<LessonsInfos>(HorasValuesDefault);
@@ -189,5 +189,5 @@ export default function ControleAulasEventuais() {
             theme: "light",
         });
     }
-}
+  }
 }
