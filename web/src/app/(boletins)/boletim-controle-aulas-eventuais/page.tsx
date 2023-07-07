@@ -8,6 +8,7 @@ import TableReports from "../../../Components/TableReports";
 import { readAllSchool, readAllTeacher } from "../../../api";
 import Link from "next/link";
 import RootLayout from "../../../app/layout";
+import { AppDispatch } from "../../../../configureStore";
 
 export default function BoletimControleAulasEventuais(){
     const [allReportsInfos, setAllReportsInfos] = useState<TeacherDTOInfos[]>([] as TeacherDTOInfos[]);
@@ -18,7 +19,7 @@ export default function BoletimControleAulasEventuais(){
         "Escola",
         "N° de Aulas",
     ]
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         (async () => {

@@ -7,8 +7,7 @@ import { Provider } from "react-redux";
 import "./globals.css";
 import Home from "./page";
 import { PersistGate } from 'redux-persist/integration/react'
-import { persistor } from '../../configureStore'
-import { store } from "../../system";
+import { persistor, store } from "../../configureStore";
 
 const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 

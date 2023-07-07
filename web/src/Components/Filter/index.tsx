@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Key } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from 'react-hook-form'
-import { RootState } from "../../../system";
 import { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from '../../../slice/TeacherFilterSlice';
 import { getNameByIdTeacher, getReportsTeacher, readAllTeacher } from '../../api'
 import { X } from 'lucide-react';
@@ -11,6 +10,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns';
 import { refreshInfosTeacher, TeacherDTOInfos, TeacherInfos } from '../../../slice';
+import { AppDispatch, RootState } from '../../../configureStore';
 
 const createFormSchema = z.object({
     cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),
@@ -34,7 +34,7 @@ export default function Filter({ setFilter }: FilterProps){
         resolver: zodResolver(createFormSchema),
     })
     const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         (async () => {

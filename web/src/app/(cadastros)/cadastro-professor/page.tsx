@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { SchoolValuesDefault, TeacherInfos, changeRegisterType, objectEmptyValue, refreshInfosTeacher } from '../../../../slice';
-import { RootState } from '../../../../system';
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal from '../../../Components/Modal';
 import TableRegisters from '../../../Components/TableRegisters';
 import { createTeacher, deleteTeacher, editTeacher, readAllTeacher } from '../../../api';
 import RootLayout from '../../../app/layout';
 import { CreateFormDataTeacher } from '../../../Components/Modal/FormRegisterTeacher';
+import { AppDispatch, RootState } from '../../../../configureStore';
 
 export default function CadastroProfessor(){
     const { allInfosTeacher, registerType } = useSelector((root: RootState) => root.Slice);
@@ -18,7 +18,7 @@ export default function CadastroProfessor(){
     const [search, setSearch] = useState("");
     const [modal, setModal] = useState<boolean>(false);
     const thead = ["Nome do Professor(a)", "Cpf", "Sede", "Cargo", "Ações"];
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         (async () => {

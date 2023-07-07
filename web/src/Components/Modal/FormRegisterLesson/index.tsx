@@ -5,11 +5,11 @@ import { LessonsInfos, SchoolInfos, TeacherInfos } from '../../../../slice';
 import Input from '../../../Components/Input';
 import { Plus } from 'lucide-react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../../system';
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { parse } from 'date-fns';
 import Calendar from 'react-calendar';
+import { RootState } from '../../../../configureStore';
 
 const createFormSchema = z.object({
     horaAulas: z.string().nonempty("Digite a quantidade de aulas!"),

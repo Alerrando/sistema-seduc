@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../system";
+import { RootState } from "../../../../configureStore";
 
 const createFormSchema = z.object({
   name: z.string().nonempty("Nome é obrigatório!"),

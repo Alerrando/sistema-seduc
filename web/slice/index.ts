@@ -122,7 +122,7 @@ export const slice: Slice<StateProps> = createSlice({
       state.allInfosTeacher = action.payload;
     },
 
-    refreshDefinitionPeriods: (state, action: PayloadAction<DefinitionPeriods[]>) => {
+    refreshDefinitionPeriods: (state, action: PayloadAction<DefinitionPeriodsInfos[]>) => {
       state.infosDefinitionPeriods = action.payload;
     },
 

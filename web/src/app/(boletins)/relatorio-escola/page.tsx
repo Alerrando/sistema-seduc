@@ -5,12 +5,13 @@ import { Search, SlidersHorizontal } from "lucide-react";
 import { SchoolDTOInfos, changeReportsType } from "../../../../slice";
 import { getReportsSchool } from "../../../api";
 import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../../configureStore";
 
 export default function RelatorioEscola(){
     const [allReportsInfos, setAllReportsInfos] = useState<SchoolDTOInfos[]>([] as SchoolDTOInfos[])
     const [search, setSearch] = useState("");
     const tableHead = ["Id", "Nome da Escola", "Quantidade de horas de aulas"];
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         (async () => {

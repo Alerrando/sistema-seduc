@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { SchoolInfos, SchoolValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosSchool } from '../../../../slice';
-import { RootState } from '../../../../system';
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal from '../../../Components/Modal';
 import TableRegisters from '../../../Components/TableRegisters';
 import { createSchool, deleteSchool, editSchool, readAllSchool } from '../../../api';
 import RootLayout from '../../../app/layout';
 import { CreateFormDataSchool } from '../../../Components/Modal/FormRegisterSchool';
+import { AppDispatch, RootState } from '../../../../configureStore';
 
 export default function CadastroEscola(){
     const { allInfosSchool, registerType } = useSelector((root: RootState) => root.Slice);
@@ -18,7 +18,7 @@ export default function CadastroEscola(){
     const [search, setSearch] = useState("");
     const [modal, setModal] = useState<boolean>(false);
     const thead = ["Nome da Escola", "Ações"];
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         (async () => {

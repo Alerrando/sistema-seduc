@@ -2,8 +2,8 @@ import { format, isValid, parseISO } from "date-fns";
 import { Pencil, Trash } from "lucide-react";
 import React, { Key, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../system";
 import { SchoolDTOInfos, TeacherDTOInfos } from "../../../slice";
+import { AppDispatch, RootState } from "../../../configureStore";
 
 type TableReportsProps = {
     tableHead: string[],
@@ -13,7 +13,7 @@ export default function TableReports(props: TableReportsProps) {
     const { tableHead } = props;
     const { reportsTypes, allInfosSchool } = useSelector((root: RootState) => root.Slice);
     const { allFilterInfosTeacher } = useSelector((root: RootState) => root.SliceTeacher);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     return (
         <div className="max-h-[77%] overflow-x-auto rounded-lg border border-gray-200">

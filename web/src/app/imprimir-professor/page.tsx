@@ -3,8 +3,8 @@ import React, { useEffect, useState, Key } from "react";
 import { format, isValid } from 'date-fns'
 import { TeacherDTOInfos } from '../../slice'
 import RootLayout from "../layout";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../system";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../configureStore";
 
 export default function ImprimirProfessor(){
     const { filterInfosTeacher, allFilterInfosTeacher } = useSelector((root: RootState) => root.SliceTeacher);

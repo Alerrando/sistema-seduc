@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { HorasValuesDefault, LessonsInfos, changeRegisterType, refreshInfosLesson } from "../../../../slice";
-import { RootState } from "../../../../system";
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal from "../../../Components/Modal";
 import TableRegisters from "../../../Components/TableRegisters";
@@ -14,13 +13,14 @@ import { createLesson, deleteLesson, editLesson, readAllLesson, readPaginationLe
 import { format } from "date-fns";
 import RootLayout from "../../../app/layout";
 import { CreateFormDataLesson } from "../../../Components/Modal/FormRegisterLesson";
+import { AppDispatch, RootState } from "../../../../configureStore";
 
 export default function ControleAulasEventuais() {
   const [infosInput, setInfosInput] = useState<LessonsInfos>(HorasValuesDefault);
   const [lessonsLengthall, setLessonsLengthall] = useState(0);
   const [pagination, setPagination] = useState(0);
   const { allInfosLesson, allInfosSchool, allInfosTeacher, registerType } = useSelector((slice: RootState) => slice.Slice);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState(false);
   const tableHead = [

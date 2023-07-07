@@ -8,9 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { refreshInfosLesson, refreshInfosSchool, refreshInfosTeacher } from "../../../slice";
 import { readAllLesson, readAllSchool, readAllTeacher } from "../../api";
 import { RootState } from "../../../system";
+import { AppDispatch } from "../../../configureStore";
 
 export default function Dashboard(){
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
 
   useEffect(() => {

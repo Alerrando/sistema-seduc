@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { UserInfos } from "../../../../../slice/LoginSlide";
 import { deleteUser, getUsers } from "../../../../api";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../../system";
 import { Pencil, Trash } from "lucide-react";
+import { RootState } from "../../../../../configureStore";
 
 export default function UsersList(){
     const [usersAll, setUsersAll] = useState<UserInfos[]>([] as UserInfos);

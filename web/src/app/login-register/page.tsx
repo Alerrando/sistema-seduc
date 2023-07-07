@@ -6,8 +6,8 @@ import { boolean } from "zod";
 import "./style.css"
 import RootLayout from "../layout";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../system";
 import { useRouter } from "next/navigation";
+import { RootState } from "../../../configureStore";
 
 export default function LoginRegister() {
     const { userInfos } = useSelector((root: RootState) => root.SliceLogin);

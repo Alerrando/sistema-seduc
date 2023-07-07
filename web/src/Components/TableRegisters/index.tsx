@@ -2,9 +2,9 @@ import { format, isValid, parseISO } from "date-fns";
 import { Pencil, Trash } from "lucide-react";
 import React, { Key, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../system";
 import { refreshInfosSchool, refreshInfosTeacher, LessonsInfos, SchoolInfos, TeacherInfos, getNameSchool, getNameTeacher } from "../../../slice";
 import { readAllSchool, readAllTeacher } from "../../api";
+import { AppDispatch, RootState } from "../../../configureStore";
 
 type TableRegistersProps = {
     tableHead: string[],
@@ -17,7 +17,7 @@ type TableRegistersProps = {
 export default function TableRegisters(props: TableRegistersProps) {
     const { tableHead, editInfo, deleteInfo, infosAll, search } = props;
     const { registerType, allInfosSchool, allInfosTeacher } = useSelector((root: RootState) => root.Slice);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         (async () => {

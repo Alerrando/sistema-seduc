@@ -11,6 +11,7 @@ import { UserInfos, changeLoginLogout } from "../../../../slice/LoginSlide";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
+import { AppDispatch } from "../../../../configureStore";
 
 type RegisterProps = {
     pages: boolean,
@@ -30,7 +31,7 @@ export default function Register({ pages, setPages }: RegisterProps){
     const { register, handleSubmit, formState: { errors } } = useForm<CreateFormData>({
         resolver: zodResolver(createFormSchema)
     });
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const router = useRouter();
 
     return(

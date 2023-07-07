@@ -13,7 +13,7 @@ import { changeLoginLogout } from "../../../../slice/LoginSlide";
 import { ToastContainer, toast } from "react-toastify";
 import CryptoJS from 'crypto-js'
 import 'react-toastify/dist/ReactToastify.css';
-
+import { AppDispatch } from "../../../../configureStore";
 
 type LoginProps = {
     pages: boolean,
@@ -32,7 +32,7 @@ export default function Login({ pages, setPages }: LoginProps){
         resolver: zodResolver(createFormSchema)
     });
     const [token, setToken] = useState("");
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const router = useRouter();
 
     useEffect(() => {
