@@ -233,7 +233,7 @@ export async function getReportsSchool() {
 }
 
 export async function getReportsTeacher(idProfessor: string, dataInicial: Date, dataFinal: Date) {
-  let aux:TeacherDTOInfos = {};
+  let aux = {};
   await axios.get(`${urlTeacher}/boletim/${idProfessor}&${dataInicial}&${dataFinal}`, {
     headers: { 'Authorization':  `${localStorage.getItem("token")}` },
   })
