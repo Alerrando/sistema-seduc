@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
-import { TeacherInfos } from "../../../../slice";
-import { Plus } from "lucide-react";
-import Input from "../../../Components/Input";
-import { useForm } from "react-hook-form";
-import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
+import { z } from 'zod';
 import { RootState } from "../../../../configureStore";
+import { TeacherInfos } from "../../../../slice";
+import Input from "../ModalForm/Input";
 
 const createFormSchema = z.object({
   name: z.string().nonempty("Nome é obrigatório!"),

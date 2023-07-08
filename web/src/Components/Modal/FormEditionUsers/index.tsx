@@ -1,14 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { Key, useEffect } from "react"
+import { X } from "lucide-react";
+import { Key, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { z } from "zod";
 import { RootState } from "../../../../configureStore";
 import { SchoolInfos } from "../../../../slice";
 import { UserInfos } from "../../../../slice/LoginSlide";
-import Input from "../../../Components/Input";
-import { X } from "lucide-react";
 import { editUser, getUsers } from "../../../api";
+import Input from "../ModalForm/Input";
 
 type FormEditionUsersProps = {
     infos: UserInfos,

@@ -22,15 +22,20 @@ export default function UsersList(){
         })()
     }, [])
 
-    console.log(usersAll);
-
     return (
         <>
             <header className="w-full h-auto border-b border-b-[#efefef] p-3">
                 <h1 className="text-3xl">Lista de Usuários</h1>
             </header>
 
-            <section className="h-full w-full flex flex-col items-start justify-between p-12">
+            <section className="h-full w-full flex flex-col items-end gap-2 py-4 px-12">
+                <div className="flex flex-row items px-4 py-2 bg-principal text-white rounded-lg">
+                    <span className="hidden sm:block">Total de registros: {usersAll.length}</span>
+                    <span className="sm:hidden block">Total: {usersAll.length}</span>
+                </div>
+
+                <div className="w-full h-[1px] border border-b border-[#cfcfcf]"></div>
+
                 <div className="w-full overflow-x-auto border border-gray-200">
                     <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                         <thead className="ltr:text-left rtl:text-right">
@@ -66,7 +71,6 @@ export default function UsersList(){
                                 );
                             })}
                         </tbody>
-
                     </table>
                 </div>
             </section>

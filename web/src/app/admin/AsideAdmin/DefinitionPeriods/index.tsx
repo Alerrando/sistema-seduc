@@ -101,6 +101,7 @@ export default function DefinitionPeriods(){
 
     async function submit(e: CreateFormData){
         const message = await createDefinitionPeriods(e);
+        console.log(message, e);
         dispatch(refreshDefinitionPeriods(await getDefinitionPeriods()));
     }
 

@@ -1,15 +1,10 @@
-import React, { useEffect } from "react";
-import { parse } from "date-fns";
-import { Plus, X } from "lucide-react";
-import { useState } from "react";
-import { LessonInfos, SchoolInfos } from "../../../slice";
-import Input from "../Input";
+import { X } from "lucide-react";
 import { useSelector } from "react-redux";
+import { SchoolInfos, TeacherInfos } from "../../../slice";
 import { RootState } from "../../../system";
-import FormRegisterSchool from "./FormRegisterSchool";
 import FormRegisterLesson from "./FormRegisterLesson";
+import FormRegisterSchool from "./FormRegisterSchool";
 import FormRegisterTeacher from "./FormRegisterTeacher";
-import { TeacherInfos } from "../../../slice";
 
 type ModalProps = {
 	setInfosInput: (infosInput: LessonsInfos | SchoolInfos | TeacherInfos) => void;

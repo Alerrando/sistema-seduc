@@ -1,15 +1,13 @@
-import React, { Key, useEffect } from 'react'
-import dynamic from "next/dynamic";
-import { useForm } from 'react-hook-form';
-import { LessonsInfos, SchoolInfos, TeacherInfos } from '../../../../slice';
-import Input from '../../../Components/Input';
-import { Plus } from 'lucide-react';
-import { useSelector } from 'react-redux';
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { zodResolver } from '@hookform/resolvers/zod';
 import { parse } from 'date-fns';
+import { Key, useEffect } from 'react';
 import Calendar from 'react-calendar';
+import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import { z } from 'zod';
 import { RootState } from '../../../../configureStore';
+import { LessonsInfos, SchoolInfos, TeacherInfos } from '../../../../slice';
+import Input from '../ModalForm/Input';
 
 const createFormSchema = z.object({
     horaAulas: z.string().nonempty("Digite a quantidade de aulas!"),

@@ -43,7 +43,7 @@ export type TeacherDTOInfos = {
   cadastroEscola: string;
 }
 
-const registerTypes = {
+export const registerTypes = {
   Lesson: {},
 
   School: {},

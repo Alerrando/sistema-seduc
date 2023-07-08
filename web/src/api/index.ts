@@ -307,7 +307,10 @@ export async function createToken(){
 // ----------------------------- ROUTER DefinitionPeriods ---------------- //
 export async function getDefinitionPeriods(){
   let message = await axios.get(urlDefinitionPeriods, {
-    headers: { 'Authorization': `${localStorage.getItem("token")}`},
+    headers: { 
+      'Authorization': `${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    }
   })
   .then((res) => res.data)
   .catch((err) => err);
@@ -317,7 +320,10 @@ export async function getDefinitionPeriods(){
 
 export async function createDefinitionPeriods(infos: DefinitionPeriodsInfos) {
   let message = await axios.post(urlDefinitionPeriods, infos, {
-    headers: { 'Authorization': `${localStorage.getItem("token")}`},
+    headers: { 
+      'Authorization': `${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
   })
   .then((res) => res.data)
   .catch((err) => err);

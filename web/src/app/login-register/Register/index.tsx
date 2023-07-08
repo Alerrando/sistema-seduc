@@ -1,17 +1,17 @@
 "use client";
-import React, { useEffect, useState } from "react"
+import { zodResolver } from "@hookform/resolvers/zod";
 import { BookOpen } from "lucide-react";
 import Image from "next/image";
-import Input from "../../../Components/Input";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { createToken, createUser } from "../../../api";
-import { UserInfos, changeLoginLogout } from "../../../../slice/LoginSlide";
-import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import { z } from "zod";
 import { AppDispatch } from "../../../../configureStore";
+import { UserInfos, changeLoginLogout } from "../../../../slice/LoginSlide";
+import Input from "../../../Components/Modal/ModalForm/Input";
+import { createToken, createUser } from "../../../api";
 
 type RegisterProps = {
     pages: boolean,

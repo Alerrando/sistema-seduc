@@ -25,7 +25,7 @@ export function AsideAdmin() {
                 {({ selected }) => (
                   <button className="h-10 flex items-center justify-center group">
                     <div className={`w-full h-full flex flex-row items-center justify-start pl-1 gap[10px] ${selected ? "bg-principal text-white" : "group-hover:bg-principal group-hover:text-white"} transition-all`}>
-                      <CalendarClock size={22} />
+                      <CalendarClock size={26} />
                     </div>
                   </button>
                 )}
@@ -35,7 +35,7 @@ export function AsideAdmin() {
                   {({ selected }) => (
                     <button className="h-10 flex items-center justify-center group">
                       <div className={`w-full h-full flex flex-row items-center justify-start pl-1 gap[10px] ${selected ? "bg-principal text-white" : "group-hover:bg-principal group-hover:text-white"} transition-all`}>
-                        <Users size={22} />
+                        <Users size={26} />
                       </div>
                   </button>
                   )}

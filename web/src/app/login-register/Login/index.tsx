@@ -1,19 +1,18 @@
 "use client";
-import { BookOpen } from "lucide-react";
-import Input from "../../../Components/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect, useState } from "react"
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { BookOpen } from "lucide-react";
 import Image from "next/image";
-import { createToken, getUserByEmail } from "../../../api";
-import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { changeLoginLogout } from "../../../../slice/LoginSlide";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
-import CryptoJS from 'crypto-js'
 import 'react-toastify/dist/ReactToastify.css';
+import { z } from "zod";
 import { AppDispatch } from "../../../../configureStore";
+import { changeLoginLogout } from "../../../../slice/LoginSlide";
+import Input from "../../../Components/Modal/ModalForm/Input";
+import { createToken, getUserByEmail } from "../../../api";
 
 type LoginProps = {
     pages: boolean,
