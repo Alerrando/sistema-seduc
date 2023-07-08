@@ -66,7 +66,9 @@ export default function CadastroEscola(){
                     title="Cadastro de Escolas"
                     createFormSchema={createFormSchema}
                     inputs={inputs}
-                    key={"modal-cadastro-escola"} />
+                    modalName="School"
+                    key={"modal-cadastro-escola"}
+                />
                 ) : null}
 
                 <ToastContainer />

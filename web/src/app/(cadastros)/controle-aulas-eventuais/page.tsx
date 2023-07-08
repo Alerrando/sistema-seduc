@@ -121,6 +121,8 @@ export default function ControleAulasEventuais() {
             title="Controle de Aulas Eventuais" 
             inputs={inputs} 
             createFormSchema={createFormSchema} 
+            modalName="Lesson"
+            key={"modal-controle-aulas-eventuais"}
           />
         ) : null}
 
@@ -130,8 +132,11 @@ export default function ControleAulasEventuais() {
   );
 
   function editInfo(infos: LessonsInfos) {
-    const aux = infos;
-    aux.edit = true;
+    const { ...rest } = infos;
+    const aux = {
+      ...rest,
+      edit: true,
+    }
     
     setInfosInput(aux);
     setModal(true);

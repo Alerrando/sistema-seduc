@@ -90,6 +90,8 @@ export default function CadastroProfessor(){
                         title="Cadastro de Professor"
                         inputs={inputs}
                         createFormSchema={createFormSchema}
+                        modalName="Teacher"
+                        key={"modal-cadastro-professor"}
                     />
                 ) : null}
 

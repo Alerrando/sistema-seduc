@@ -222,7 +222,7 @@ export async function getNameByIdTeacher(id: string) {
 
 // ----------------------------- ROUTER REPORTS ----------------------------- //]
 export async function getReportsSchool() {
-  let aux:SchoolDTOInfos = {};
+  let aux:SchoolDTOInfos[] = [];
   await axios.get(`${urlSchool}/relatorio`, {
     headers: { 'Authorization':  `${localStorage.getItem("token")}` },
   })
@@ -233,7 +233,7 @@ export async function getReportsSchool() {
 }
 
 export async function getReportsTeacher(idProfessor: string, dataInicial: Date, dataFinal: Date) {
-  let aux = {};
+  let aux = [];
   await axios.get(`${urlTeacher}/boletim/${idProfessor}&${dataInicial}&${dataFinal}`, {
     headers: { 'Authorization':  `${localStorage.getItem("token")}` },
   })
