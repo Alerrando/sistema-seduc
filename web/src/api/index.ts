@@ -8,6 +8,7 @@ const urlTeacher = "http://localhost:8080/security/cadastro-professor";
 const urlUser = "http://localhost:8080/security/users";
 const urlFree = "http://localhost:8080/free";
 const urlDefinitionPeriods = "http://localhost:8080/security/definition-periods";
+const urlOffice = "http://localhost:8080/security/office";
 
 export async function readAllLesson() {
   try {
@@ -329,4 +330,15 @@ export async function createDefinitionPeriods(infos: DefinitionPeriodsInfos) {
   .catch((err) => err);
 
   return message;
+}
+
+// ----------------------------- ROUTER Register Office ---------------- //
+export async function getRegisterOffice() {
+  let aux = axios.get(urlOffice, {
+    headers: { 'Authorization':  `${localStorage.getItem("token")}` },
+  })
+  .then((res) => res.data)
+  .catch((err) => err.message)
+
+  return aux;
 }

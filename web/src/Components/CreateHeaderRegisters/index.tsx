@@ -3,7 +3,7 @@ import React from 'react'
 
 type CreateHeaderProps = {
     setModal: (modal: boolean) => void,
-    setSearch: (search: string) => void,
+    setSearch?: (search: string) => void,
     totalRegiter: number,
 }
 

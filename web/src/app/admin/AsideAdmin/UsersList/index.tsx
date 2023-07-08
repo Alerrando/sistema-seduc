@@ -80,8 +80,8 @@ export default function UsersList(){
 
             <section className="h-full w-full flex flex-col items-end gap-2 py-4 px-12">
                 <div className="flex flex-row items px-4 py-2 bg-principal text-white rounded-lg">
-                    <span className="hidden sm:block">Total de registros: {usersAll.length}</span>
-                    <span className="sm:hidden block">Total: {usersAll.length}</span>
+                    <span className="hidden sm:block">Total de registros: {usersAll?.length}</span>
+                    <span className="sm:hidden block">Total: {usersAll?.length}</span>
                 </div>
 
                 <div className="w-full h-[1px] border border-b border-[#cfcfcf]"></div>
