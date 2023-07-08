@@ -9,8 +9,8 @@ import { ModalForm } from "./ModalForm";
 import { ZodTypeAny } from "zod";
 
 type ModalProps = {
-	setInfosInput: (infosInput: LessonsInfos | SchoolInfos | TeacherInfos) => void;
-	infosInput: LessonsInfos | SchoolInfos | TeacherInfos;
+	setInfosInput: (infosInput: LessonsInfos | SchoolInfos | TeacherInfos | UserInfos) => void;
+	infosInput: LessonsInfos | SchoolInfos | TeacherInfos | UserInfos;
 	setModal: (modal: boolean) => void;
 	submitInfos: (e) => void;
 	title: string,

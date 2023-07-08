@@ -35,7 +35,7 @@ export function ModalForm<T>(props: ModalFormProps<T>) {
 
   useEffect(() => {
     if (initialValues.edit) {
-      Object.entries(initialValues).forEach(([key, value]) => { setValue(key, value); });
+      Object.entries(initialValues).forEach(([key, value]) => { setValue(key, String(value)); });
     }
   }, [initialValues]);
 

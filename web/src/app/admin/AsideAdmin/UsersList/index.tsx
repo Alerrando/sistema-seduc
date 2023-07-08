@@ -8,6 +8,7 @@ import { RootState } from "../../../../../configureStore";
 import { UserInfos } from "../../../../../slice/LoginSlide";
 import { deleteUser, getUsers } from "../../../../api";
 import FormEditionUsers from "../../../../Components/Modal/FormEditionUsers";
+import { InputConfig } from "../../../../../slice";
 
 export default function UsersList(){
     const [usersAll, setUsersAll] = useState<UserInfos[]>([] as UserInfos);
@@ -15,6 +16,55 @@ export default function UsersList(){
     const [infosEdit, setInfosEdit] = useState<UserInfos>({} as UserInfos);
     const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
     const tableHead = ["Id", "Nome", "Email", "Rg", "Escola", "Permissão", "Ações"];
+    const inputs: InputConfig[] = [
+        {
+            htmlFor: "name",
+            label: "Nome do Usuário",
+            name: "name",
+            placeholder: "Alerrando Breno de Oliveira Andrade",
+            type: "text",
+            input: "input",
+            key: "nome-usuario-input",
+        },
+
+        {
+            htmlFor: "email",
+            label: "E-mail*",
+            name: "email",
+            placeholder: "Digite seu email",
+            type: "email",
+            input: "input",
+            key: "email-usuario-input",
+        },
+
+        {
+            htmlFor: "rg",
+            label: "Rg*",
+            name: "rg",
+            placeholder: "Digite seu Rg",
+            type: "text",
+            input: "input",
+            key: "email-usuario-input",
+        },
+
+        {
+            htmlFor: "escola",
+            label: "Escola",
+            name: "escola",
+            optionDefault: "Selecione uma Escola",
+            optionType: "School",
+            input: "select",
+        },
+
+        {
+            htmlFor: "permissão",
+            label: "Permissão*",
+            name: "hosting",
+            type: "radio",
+            input: "input",
+            key: "permissão-usuario-input",
+        },
+    ]
 
     useEffect(() => {
         (async () => {

@@ -81,7 +81,7 @@ export default function CadastroEscola(){
 
         const aux: SchoolInfos = {
             edit: false,
-            name: `${event.classificação} ${event.name}`,
+            name: event.name,
             id: infosInput.id,
         }
 
@@ -102,7 +102,9 @@ export default function CadastroEscola(){
 	}
 
     async function editInfo(info: SchoolInfos) {
-        setInfosInput(info);
+        const { ...rest } = info;
+        const aux = { ...rest, edit: true, }
+        setInfosInput(aux);
         setModal(true);
     }
 

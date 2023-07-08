@@ -13,6 +13,37 @@ import { createTeacher, deleteTeacher, editTeacher, readAllTeacher } from '../..
 import RootLayout from '../../../app/layout';
 import { z } from 'zod';
 
+function isValidCPF(cpf: string): boolean {
+    const cleanedCPF = cpf.replace(/\D/g, '');
+  
+    if (cleanedCPF.length !== 11) {
+      return false;
+    }
+  
+    if (/^(\d)\1{10}$/.test(cleanedCPF)) {
+      return false;
+    }
+  
+    let sum = 0;
+    for (let i = 0; i < 9; i++) {
+      sum += parseInt(cleanedCPF.charAt(i)) * (10 - i);
+    }
+    let mod = sum % 11;
+    const digit1 = mod < 2 ? 0 : 11 - mod;
+  
+    sum = 0;
+    for (let i = 0; i < 10; i++) {
+      sum += parseInt(cleanedCPF.charAt(i)) * (11 - i);
+    }
+    mod = sum % 11;
+    const digit2 = mod < 2 ? 0 : 11 - mod;
+  
+    return (
+      cleanedCPF.charAt(9) === digit1.toString() &&
+      cleanedCPF.charAt(10) === digit2.toString()
+    );
+}
+
 const createFormSchema = z.object({
     name: z.string().nonempty("Nome é obrigatório!"),
     cpf: z.string().max(15).refine((value) => isValidCPF(value), {
@@ -57,7 +88,7 @@ export default function CadastroProfessor(){
             optionDefault: "Selecione uma Sede",
             optionType: "School",
             input: "select",
-          },
+        },
     ]
 
     useEffect(() => {
@@ -101,30 +132,29 @@ export default function CadastroProfessor(){
     )
 
     async function submitTeacher(event: CreateFormDataTeacher){
-        const aux: TeacherInfos = event;
-        aux.edit = false;
-        aux.id = infosInput.id;
-        aux.cpf = event.cpf.replaceAll(".", "").replaceAll("-", "");
-
+        const { ...rest } = event;
+        const aux: TeacherInfos = { ...rest, edit: false, id: infosInput.id, cpf: event.cpf.replaceAll(".", "").replaceAll("-", "") };
+        let message: object | string;
 		if(!infosInput.edit){
             if(!objectEmptyValue(aux)){
-                const message: object | string = await createTeacher(aux, aux.sede);
-                messageToast(message);
+                message = await createTeacher(aux, aux.sede);
                 dispatch(refreshInfosTeacher(await readAllTeacher()));
             }
 		}
 		else{
-			const message: object | string = await editTeacher(aux, aux.sede);
-            messageToast(message);
+			message = await editTeacher(aux, aux.sede);
 			dispatch(refreshInfosTeacher(await readAllTeacher()));
             setModal(false);
 		}
         
+        messageToast(message);
         setInfosInput(SchoolValuesDefault);
 	}
 
     async function editInfo(info: TeacherInfos) {
-        setInfosInput(info);
+        const { ...rest } = info;
+        const aux = { ...rest, edit : true, }
+        setInfosInput(aux);
         setModal(true);
     }
 

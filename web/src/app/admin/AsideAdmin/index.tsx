@@ -1,11 +1,12 @@
 "use client";
 import React, { Fragment, useState } from "react";
 import { Tab } from "@headlessui/react";
-import { ArrowLeftToLine, BookIcon, CalendarClock, Users } from "lucide-react";
+import { ArrowLeftToLine, BookIcon, Briefcase, CalendarClock, Users } from "lucide-react";
 import { DatasTypes } from "../../../Components/Filter";
 import DefinitionPeriods from "./DefinitionPeriods";
 import UsersList from "./UsersList";
 import { useRouter } from "next/navigation";
+import RegisterOffice from "./RegisterOffice";
 
 export function AsideAdmin() {
   const router = useRouter();
@@ -40,6 +41,16 @@ export function AsideAdmin() {
                   </button>
                   )}
               </Tab>
+
+              <Tab as={Fragment}>
+                  {({ selected }) => (
+                    <button className="h-10 flex items-center justify-center group">
+                      <div className={`w-full h-full flex flex-row items-center justify-start pl-1 gap[10px] ${selected ? "bg-principal text-white" : "group-hover:bg-principal group-hover:text-white"} transition-all`}>
+                        <Briefcase size={26} />
+                      </div>
+                  </button>
+                  )}
+              </Tab>
             </Tab.List>
 
             <Tab.Panels className="h-screen w-[calc(100vw_-_100%)] top-0 left-full absolute">
@@ -49,6 +60,10 @@ export function AsideAdmin() {
 
               <Tab.Panel className="w-full h-full flex flex-col" id="list-users">
                 <UsersList />
+              </Tab.Panel>
+
+              <Tab.Panel className="w-full h-full flex flex-col" id="list-users">
+                <RegisterOffice />
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>

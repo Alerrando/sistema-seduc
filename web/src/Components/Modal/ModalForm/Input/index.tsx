@@ -5,7 +5,7 @@ type InputProps<T> = {
     label: string,
     htmlFor: string,
     type: string,
-    placeholder: string,
+    placeholder?: string,
     name: string,
     register: UseFormRegister<T>
 }

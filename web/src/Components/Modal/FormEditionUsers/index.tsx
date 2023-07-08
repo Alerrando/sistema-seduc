@@ -81,7 +81,7 @@ export default function FormEditionUsers({ infos, setModal, setUsersAll }: FormE
                         </div>
                         
                         <div className="flex flex-col gap-2">
-                            <label htmlFor="prmissão" className="font-bold">Permissão</label>
+                            <label htmlFor="permissão" className="font-bold">Permissão</label>
 
                             <ul class="flex flex-row w-auto gap-6">
                                 <li>
