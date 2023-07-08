@@ -4,13 +4,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AppDispatch, RootState } from '../../../../configureStore';
-import { SchoolInfos, SchoolValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosSchool } from '../../../../slice';
+import { InputConfig, SchoolInfos, SchoolValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosSchool } from '../../../../slice';
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal from '../../../Components/Modal';
 import { CreateFormDataSchool } from '../../../Components/Modal/FormRegisterSchool';
 import TableRegisters from '../../../Components/TableRegisters';
 import { createSchool, deleteSchool, editSchool, readAllSchool } from '../../../api';
 import RootLayout from '../../../app/layout';
+import { z } from 'zod';
+
+const createFormSchema = z.object({
+    name: z.string().nonempty("Nome é obrigatório!"),
+})
 
 export default function CadastroEscola(){
     const { allInfosSchool, registerType } = useSelector((root: RootState) => root.Slice);
@@ -19,6 +24,17 @@ export default function CadastroEscola(){
     const [modal, setModal] = useState<boolean>(false);
     const thead = ["Nome da Escola", "Ações"];
     const dispatch = useDispatch<AppDispatch>();
+    const inputs: InputConfig[] = [
+        {
+            htmlFor: "name",
+            label: "Nome da Escola",
+            name: "name",
+            placeholder: "Escola Municipal Mario Fiorante",
+            type: "text",
+            type: "string",
+            key: "horaAulas-input",
+        },
+    ]
 
     useEffect(() => {
         (async () => {
@@ -48,6 +64,8 @@ export default function CadastroEscola(){
                     setModal={setModal} 
                     submitInfos={submitSchool} 
                     title="Cadastro de Escolas"
+                    createFormSchema={createFormSchema}
+                    inputs={inputs}
                     key={"modal-cadastro-escola"} />
                 ) : null}
 

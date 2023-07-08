@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ZodTypeAny } from 'zod';
 import Input from "./Input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import SelectInput from "./SelectInput";
 
 type InputType = "text" | "number" | "email";
 
@@ -15,16 +17,15 @@ type InputConfig = {
 };
 
 type ModalFormProps<T> = {
-  title: string;
   schema: ZodTypeAny;
   inputs: InputConfig[];
   initialValues?: T;
   onSubmit: (data: T) => void;
-  onClose: () => void;
+  onClose: (close: boolean) => void;
 };
 
 export function ModalForm<T>(props: ModalFormProps<T>) {
-  const { title, schema, inputs, initialValues, onSubmit, onClose } = props;
+  const { schema, inputs, initialValues, onSubmit, onClose } = props;
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<T>({
     resolver: zodResolver(schema),
     defaultValues: initialValues,
@@ -37,7 +38,7 @@ export function ModalForm<T>(props: ModalFormProps<T>) {
   }, [initialValues]);
 
   function handleClose(){
-    onClose();
+    onClose(false);
   };
 
   function handleFormSubmit(data: T){
@@ -45,20 +46,24 @@ export function ModalForm<T>(props: ModalFormProps<T>) {
   };
 
   return (
-    <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(submitFormTeacher)}>
+    <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(handleFormSubmit)}>
       <div className="w-full flex flex-col gap-3">
-        {inputs.map((input) => (
+        {inputs?.map((input: InputConfig) => (
             <div key={input.name} className="w-full flex flex-col gap-2">
-              <label htmlFor={input.htmlFor}>{input.label}</label>
-              {input.type === "textarea" ? (
-                <textarea
+              {input.input === "select" ? (
+                <SelectInput
                   name={input.name}
+                  htmlFor={input.htmlFor}
                   placeholder={input.placeholder}
-                  {...register(input.name)}
+                  label={input.label}
+                  optionDefault={input.optionDefault}
+                  optionType={input.optionType}
+                  key={`select-${input.name}`}
+                  register={register}
                 />
               ) : (
                 <Input
-                  htmlFor={input.name}
+                  htmlFor={input.htmlFor}
                   label={input.label}
                   type={input.type}
                   key={`input-${input.name}`}

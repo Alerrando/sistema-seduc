@@ -1,36 +1,64 @@
 "use client";
 import { format, isValid } from "date-fns";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import "react-calendar/dist/Calendar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { AppDispatch, RootState } from "../../../../configureStore";
-import { HorasValuesDefault, LessonsInfos, changeRegisterType, refreshInfosLesson } from "../../../../slice";
+import { HorasValuesDefault, InputConfig, LessonsInfos, changeRegisterType, refreshInfosLesson } from "../../../../slice";
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal from "../../../Components/Modal";
 import { CreateFormDataLesson } from "../../../Components/Modal/FormRegisterLesson";
 import TableRegisters from "../../../Components/TableRegisters";
-import { createLesson, deleteLesson, editLesson, readAllLesson, readPaginationLesson } from "../../../api";
+import { createLesson, deleteLesson, editLesson, readAllLesson } from "../../../api";
 import RootLayout from "../../../app/layout";
+import { z } from "zod";
+
+const createFormSchema = z.object({
+  horaAulas: z.string().nonempty("Digite a quantidade de aulas!"),
+  cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),
+  cadastroEscola: z.string().nonempty("Selecione uma escola ou adicione!"),
+})
 
 export default function ControleAulasEventuais() {
   const [infosInput, setInfosInput] = useState<LessonsInfos>(HorasValuesDefault);
-  const [lessonsLengthall, setLessonsLengthall] = useState(0);
-  const [pagination, setPagination] = useState(0);
   const { allInfosLesson, allInfosSchool, allInfosTeacher, registerType } = useSelector((slice: RootState) => slice.Slice);
   const { infosDefinitionPeriods } = useSelector((root: RootState) => root.Slice);
   const dispatch = useDispatch<AppDispatch>();
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState(false);
-  const tableHead = [
-    "Nome Completo",
-    "Horas de aulas dadas",
-    "Escola", 
-    "Dia da aula",
-    "Ações",
-  ];
+  const [lessonsLengthall, setLessonsLengthall] = useState(0);
+  const tableHead = ["Nome Completo", "Horas de aulas dadas", "Escola",  "Dia da aula", "Ações"];
+  const inputs: InputConfig[] = [
+    {
+      htmlFor: "cadastroProfessor",
+      label: "Professores",
+      name: "cadastroProfessor",
+      optionDefault: "Selecione um Professor",
+      optionType: "Teacher",
+      input: "select"
+    },
+
+    {
+      htmlFor: "cadastroEscola",
+      label: "Escola",
+      name: "cadastroEscola",
+      optionDefault: "Selecione uma Escola",
+      optionType: "School",
+      input: "select"
+    },
+
+    {
+      htmlFor: "horas-aulas",
+      input: "input",
+      label: "Horas de aula dadas",
+      name: "horaAulas",
+      placeholder: "1",
+      type: "string",
+      key: "horaAulas-input",
+    },
+  ]
 
   useEffect(() => {
     (async () => {
@@ -38,13 +66,6 @@ export default function ControleAulasEventuais() {
       setLessonsLengthall(await readAllLesson().then((data) => data?.length));
     })();
   }, []);
-
-  useEffect(() => {
-    (async () => {
-      dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 10)));
-      setLessonsLengthall(await readAllLesson().then((data) => data?.length));
-    })();
-  }, [pagination]);
 
   return (
     <RootLayout showHeaderAside>
@@ -84,11 +105,6 @@ export default function ControleAulasEventuais() {
                   </div>
               </div>
             </div>
-            <div className="w-auto flex flex-row items-center gap-4">
-              <ArrowLeft size={32} className="cursor-pointer" onClick={changePagination("Left")} />
-              <span className="text-2xl font-bold">{pagination + 1}</span>
-              <ArrowRight size={32} className="cursor-pointer" onClick={changePagination("Right")} />
-            </div>
           </div>
 
           <div className="w-full border border-[#999]">
@@ -97,7 +113,15 @@ export default function ControleAulasEventuais() {
         </div>
 
         {modal ? (
-          <Modal infosInput={infosInput} setInfosInput={setInfosInput} setModal={setModal} submitInfos={submitLesson} title="Controle de Aulas Eventuais" />
+          <Modal 
+            infosInput={infosInput} 
+            setInfosInput={setInfosInput} 
+            setModal={setModal} 
+            submitInfos={submitLesson} 
+            title="Controle de Aulas Eventuais" 
+            inputs={inputs} 
+            createFormSchema={createFormSchema} 
+          />
         ) : null}
 
         <ToastContainer />
@@ -127,7 +151,7 @@ export default function ControleAulasEventuais() {
       setModal(false);
     }
     
-    dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 10)));
+    dispatch(refreshInfosLesson(await readAllLesson()));
     messageToast(message);
     setInfosInput(HorasValuesDefault);
     setLessonsLengthall(await readAllLesson().then((data) => data.length));
@@ -137,7 +161,7 @@ export default function ControleAulasEventuais() {
     if(window.confirm(`Deseja deletar a aula do professor ${getNameTeacher(infos.cadastroProfessor)} no dia ${format(new Date(infos.diaAula.toString()), "dd/MM/yyyy")}?`)){
       const message = await deleteLesson(infos.id);
       messageToast(message);
-      dispatch(refreshInfosLesson(await readPaginationLesson(pagination, 5)));
+      dispatch(refreshInfosLesson(await readAllLesson()));
     }
   }
 

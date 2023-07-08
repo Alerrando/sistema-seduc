@@ -20,13 +20,13 @@ export default function SelectInput<T extends FieldValues>(props: SelectInputPro
     return(
         <div className="w-full flex flex-col gap-2">
             <label htmlFor={htmlFor} className="font-bold">{label}</label>
-            <select name={name} id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register(name) }>
-                <option value="" defaultChecked className="text-[12px] md:text-base outline-none border-none">{optionDefault}</option>
+            <select id={name} className="border border-[#999] rounded-lg p-2 outline-none" { ...register(name) }>
+                <option value="" className="outline-none border-none" defaultChecked>{optionDefault}</option>
                 
                 {optionType === "School" ? (
                     <>
                         {allInfosSchool?.map((school: SchoolInfos, index: Key) => (
-                            <option key={`escola-${school.name}`} value={school.id} className="text-[12px] md:text-base outline-none border-none">{school.name}</option>
+                            <option key={`escola-${school.name}`} value={school.id} className="outline-none border-none">{school.name}</option>
                         ))}
                     </>
                 ) : (
@@ -36,7 +36,7 @@ export default function SelectInput<T extends FieldValues>(props: SelectInputPro
                             ))}
                         </>
                     )
-                )}
+                }
             </select>
         </div>
     )

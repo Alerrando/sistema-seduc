@@ -4,13 +4,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AppDispatch, RootState } from '../../../../configureStore';
-import { SchoolValuesDefault, TeacherInfos, changeRegisterType, objectEmptyValue, refreshInfosTeacher } from '../../../../slice';
+import { InputConfig, SchoolValuesDefault, TeacherInfos, changeRegisterType, objectEmptyValue, refreshInfosTeacher } from '../../../../slice';
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal from '../../../Components/Modal';
 import { CreateFormDataTeacher } from '../../../Components/Modal/FormRegisterTeacher';
 import TableRegisters from '../../../Components/TableRegisters';
 import { createTeacher, deleteTeacher, editTeacher, readAllTeacher } from '../../../api';
 import RootLayout from '../../../app/layout';
+import { z } from 'zod';
+
+const createFormSchema = z.object({
+    name: z.string().nonempty("Nome é obrigatório!"),
+    cpf: z.string().max(15).refine((value) => isValidCPF(value), {
+      message: 'CPF inválido',
+    }),
+    sede: z.string().nonempty("Selecione qual a sede"),
+    cargo: z.string().nonempty("Selecione qual o cargo"),
+})
 
 export default function CadastroProfessor(){
     const { allInfosTeacher, registerType } = useSelector((root: RootState) => root.Slice);
@@ -19,6 +29,36 @@ export default function CadastroProfessor(){
     const [modal, setModal] = useState<boolean>(false);
     const thead = ["Nome do Professor(a)", "Cpf", "Sede", "Cargo", "Ações"];
     const dispatch = useDispatch<AppDispatch>();
+    const inputs: InputConfig[] = [
+        {
+            htmlFor: "name",
+            label: "Nome do Professor",
+            name: "name",
+            placeholder: "Ana Laura",
+            type: "text",
+            input: "input",
+            key: "horaAulas-input",
+        },
+
+        {
+            htmlFor: "cpf",
+            label: "Cpf do Professor",
+            name: "cpf",
+            placeholder: "000.000.000-00",
+            type: "text",
+            input: "input",
+            key: "cpf-input",
+        },
+
+        {
+            htmlFor: "sede",
+            label: "Sede",
+            name: "sede",
+            optionDefault: "Selecione uma Sede",
+            optionType: "School",
+            input: "select",
+          },
+    ]
 
     useEffect(() => {
         (async () => {
@@ -48,7 +88,8 @@ export default function CadastroProfessor(){
                         setModal={setModal} 
                         submitInfos={submitTeacher}
                         title="Cadastro de Professor"
-                        key={"modal-cadastro-escola"}
+                        inputs={inputs}
+                        createFormSchema={createFormSchema}
                     />
                 ) : null}
 

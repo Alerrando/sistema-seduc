@@ -1,10 +1,13 @@
 import { X } from "lucide-react";
 import { useSelector } from "react-redux";
-import { SchoolInfos, TeacherInfos } from "../../../slice";
+import { InputConfig, SchoolInfos, TeacherInfos } from "../../../slice";
 import { RootState } from "../../../system";
 import FormRegisterLesson from "./FormRegisterLesson";
 import FormRegisterSchool from "./FormRegisterSchool";
 import FormRegisterTeacher from "./FormRegisterTeacher";
+import Calendar from "react-calendar";
+import { ModalForm } from "./ModalForm";
+import { ZodTypeAny } from "zod";
 
 type ModalProps = {
 	setInfosInput: (infosInput: LessonsInfos | SchoolInfos | TeacherInfos) => void;
@@ -12,15 +15,19 @@ type ModalProps = {
 	setModal: (modal: boolean) => void;
 	submitInfos: (e) => void;
 	title: string,
+	inputs: InputConfig[],
+	createFormSchema: ZodTypeAny
 }
 
 export default function Modal(props: ModalProps){
-	const { setInfosInput, infosInput, setModal, submitInfos, title } = props;
+	const { setInfosInput, infosInput, setModal, submitInfos, title, inputs, createFormSchema } = props;
 	const { registerType } = useSelector((slice: RootState) => slice.Slice)
 
 	async function submit(event){
 		submitInfos(event);
 	}
+
+	console.log(inputs);
 	
 	return(
 		<div className="w-screen h-auto flex items-center justify-center bg-modal fixed inset-0">
@@ -35,14 +42,15 @@ export default function Modal(props: ModalProps){
 
 				{registerType === "Lesson" ? (
 					<div className="w-full flex flex-col sm:grid sm:grid-cols-2">
-						<FormRegisterLesson infosInput={infosInput} setInfosInput={setInfosInput} submit={submit} setModal={setModal} />
+						<Calendar className="w-[100%!important] calendar shadow-md rounded-md calendar" value={infosInput.diaAula} onChange={e => setInfosInput({ ...infosInput, diaAula: new Date(e).toString()})}  />
+						<ModalForm inputs={inputs} onSubmit={submitInfos} onClose={setModal} initialValues={infosInput} schema={createFormSchema} key={"modal-lesson"} />
 					</div>
 				) : registerType === "School" ? (
 					<div className="w-full flex flex-col sm:grid">
-						<FormRegisterSchool infosInput={infosInput} submit={submit} setModal={setModal} />					
+						<ModalForm inputs={inputs} onSubmit={submitInfos} onClose={setModal} initialValues={infosInput} schema={createFormSchema} key={"modal-school"} />
 					</div>
 				) : (
-					<FormRegisterTeacher infosInput={infosInput} submit={submit} setModal={setModal} />
+					<ModalForm inputs={inputs} onSubmit={submitInfos} onClose={setModal} initialValues={infosInput} schema={createFormSchema} key={"teacher-school"} />
 				)}
 			</div>
 		</div>

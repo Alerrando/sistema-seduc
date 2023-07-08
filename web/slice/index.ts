@@ -1,5 +1,16 @@
 import { createSlice, PayloadAction, Slice } from "@reduxjs/toolkit";
 
+export type InputConfig = {
+  label: string;
+  htmlFor: string;
+  type: string;
+  placeholder?: string;
+  name: string;
+  optionDefault?: string,
+  optionType?: keyof typeof registerTypes,
+  input: "input" | "select",
+};
+
 export type LessonsInfos = {
   id: number;
   cadastroProfessor: string;
