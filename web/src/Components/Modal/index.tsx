@@ -21,7 +21,6 @@ type ModalProps = {
 
 export default function Modal(props: ModalProps){
 	const { setInfosInput, infosInput, setModal, submitInfos, title, inputs, createFormSchema, modalName } = props;
-	const { registerType } = useSelector((slice: RootState) => slice.Slice)
 
 	async function submit(event){
 		submitInfos(event);
@@ -37,8 +36,7 @@ export default function Modal(props: ModalProps){
 					</div>
 				</header>
 
-
-				{registerType === "Lesson" ? (
+				{modalName === "Lesson" ? (
 					<div className="w-full flex flex-col sm:grid sm:grid-cols-2">
 						<ModalForm inputs={inputs} setInfosInput={setInfosInput} onSubmit={submitInfos} initialValues={infosInput} schema={createFormSchema} modalName={modalName} />
 					</div>

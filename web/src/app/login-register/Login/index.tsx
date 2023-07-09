@@ -91,15 +91,17 @@ export default function Login({ pages, setPages }: LoginProps){
     async function submit(e){
         setToken(await createToken(DefaultUserInfos));
 
-        let aux = await getUserByEmail(e.email, e.senha, token);
-        messageToast(aux);
-        
-        if(aux !== undefined){
-            localStorage.setItem("token", token);
-            dispatch(changeLoginLogout(aux.usuario));
-            setTimeout(() => {
-                router.replace("/dashboard");
-            }, 3000);
+        if(token !== ""){
+            let aux = await getUserByEmail(e.email, e.senha, token);
+            messageToast(aux);
+            
+            if(aux !== undefined){
+                localStorage.setItem("token", token);
+                dispatch(changeLoginLogout(aux.usuario));
+                setTimeout(() => {
+                    router.replace("/dashboard");
+                }, 3000);
+            }
         }
     }
 

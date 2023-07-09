@@ -327,7 +327,7 @@ export async function createDefinitionPeriods(infos: DefinitionPeriodsInfos) {
       "Content-Type": "application/json",
     },
   })
-  .then((res) => res.data)
+  .then((res) => "Definição de períodos definidas com sucesso!")
   .catch((err) => err);
 
   return message;
@@ -342,4 +342,14 @@ export async function getRegisterOffice() {
   .catch((err) => err.message)
 
   return aux;
+}
+
+export async function createRegisterOffice(infos: RegisterOfficeInfos) {
+  let message = axios.post(urlOffice, infos, {
+      headers: { 'Authorization':  `${localStorage.getItem("token")}` },
+    })
+   .then((res) => "Cargo cadastrado com sucesso!")
+   .catch((err) => err)
+
+   return message;
 }

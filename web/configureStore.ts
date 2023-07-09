@@ -12,21 +12,6 @@ const rootReducer = combineReducers({
   SliceLogin: sliceLogin,
 });
 
-const createNoopStorage = () => {
-  return {
-    getItem(_key: string): Promise<string | null> {
-      return Promise.resolve(null);
-    },
-    setItem(_key: string, value: string): Promise<void> {
-      return Promise.resolve();
-    },
-    removeItem(_key: string): Promise<void> {
-      return Promise.resolve();
-    },
-  };
-};
-
-
 const persistConfig = {
   key: 'root',
   storage,

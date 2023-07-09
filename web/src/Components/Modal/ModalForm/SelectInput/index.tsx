@@ -29,11 +29,16 @@ export default function SelectInput<T extends FieldValues>(props: SelectInputPro
                             <option key={`escola-${school.name}`} value={school.id} className="outline-none border-none">{school.name}</option>
                         ))}
                     </>
-                ) : (
+                ) : optionType === "Teacher" ? (
                         <>
                             {allInfosTeacher?.map((teacher: TeacherInfos, index: Key) => (
                                 <option key={`professor-${teacher.name}`} value={teacher.id} className="outline-none border-none">{teacher.name}</option>
                             ))}
+                        </>
+                    ) : (
+                        <>
+                            <option key="office-teacher" value={1}  className="outline-none border-none">Usuário</option>
+                            <option key="office-teacher" value={2} className="outline-none border-none">Professor</option>
                         </>
                     )
                 }
