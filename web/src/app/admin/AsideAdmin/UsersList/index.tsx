@@ -15,7 +15,9 @@ export default function UsersList(){
     const [modal, setModal] = useState<boolean>(false);
     const [infosEdit, setInfosEdit] = useState<UserInfos>({} as UserInfos);
     const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
+    const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
     const tableHead = ["Id", "Nome", "Email", "Rg", "Escola", "Permissão", "Ações"];
+
     const inputs: InputConfig[] = [
         {
             htmlFor: "name",

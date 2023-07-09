@@ -18,7 +18,7 @@ function Home({ children }: RootLayoutProps) {
     
     if (typeof window !== "undefined" && Object.values(userInfos).length !== 0) {
       if(pathName === "/admin" && userInfos.level === 1){
-          router.replace("/admin")
+          router.replace("/admin");
       }
     }
     else{

@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import { useSelector } from "react-redux";
-import { InputConfig, SchoolInfos, TeacherInfos } from "../../../slice";
+import { InputConfig, OfficeInfos, SchoolInfos, TeacherInfos } from "../../../slice";
 import { RootState } from "../../../system";
 import FormRegisterLesson from "./FormRegisterLesson";
 import FormRegisterSchool from "./FormRegisterSchool";
@@ -9,8 +9,8 @@ import { ModalForm } from "./ModalForm";
 import { ZodTypeAny } from "zod";
 
 type ModalProps = {
-	setInfosInput: (infosInput: LessonsInfos | SchoolInfos | TeacherInfos | UserInfos) => void;
-	infosInput: LessonsInfos | SchoolInfos | TeacherInfos | UserInfos;
+	setInfosInput: (infosInput: LessonsInfos | SchoolInfos | TeacherInfos | OfficeInfos) => void;
+	infosInput: LessonsInfos | SchoolInfos | TeacherInfos | OfficeInfos;
 	setModal: (modal: boolean) => void;
 	submitInfos: (e) => void;
 	title: string,

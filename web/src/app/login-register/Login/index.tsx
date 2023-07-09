@@ -10,7 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { z } from "zod";
 import { AppDispatch } from "../../../../configureStore";
-import { changeLoginLogout } from "../../../../slice/LoginSlide";
+import { DefaultUserInfos, changeLoginLogout } from "../../../../slice/LoginSlide";
 import Input from "../../../Components/Modal/ModalForm/Input";
 import { createToken, getUserByEmail } from "../../../api";
 
@@ -33,12 +33,6 @@ export default function Login({ pages, setPages }: LoginProps){
     const [token, setToken] = useState("");
     const dispatch = useDispatch<AppDispatch>();
     const router = useRouter();
-
-    useEffect(() => {
-        (async () => {
-            setToken(await createToken());
-        })()
-    }, [])
 
     return(
         <>
@@ -95,6 +89,8 @@ export default function Login({ pages, setPages }: LoginProps){
     );
 
     async function submit(e){
+        setToken(await createToken(DefaultUserInfos));
+
         let aux = await getUserByEmail(e.email, e.senha, token);
         messageToast(aux);
         

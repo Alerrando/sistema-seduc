@@ -32,7 +32,7 @@ export default function CadastroEscola(){
             placeholder: "Escola Municipal Mario Fiorante",
             type: "text",
             type: "string",
-            key: "horaAulas-input",
+            key: "name-input",
         },
     ]
 

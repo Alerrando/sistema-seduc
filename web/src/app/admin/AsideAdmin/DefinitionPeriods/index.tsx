@@ -27,9 +27,14 @@ export default function DefinitionPeriods(){
 
     useEffect(() => {
         (async () => {
-            dispatch(refreshDefinitionPeriods(await getDefinitionPeriods()));
-        })()
-    }, [])
+          const periods = await getDefinitionPeriods();
+          const formattedPeriods = periods.map(period => ({
+            startDate: new Date(period.startDate).toISOString(),
+            endDate: new Date(period.endDate).toISOString(),
+          }));
+          dispatch(refreshDefinitionPeriods(formattedPeriods));
+        })();
+    }, []);
 
     return(
         <>
@@ -99,11 +104,17 @@ export default function DefinitionPeriods(){
         </>
     );
 
-    async function submit(e: CreateFormData){
-        const message = await createDefinitionPeriods(e);
-        console.log(message, e);
+    async function submit(e: CreateFormData) {
+        const startDate = new Date(e.startDate);
+        const endDate = new Date(e.endDate);
+        const formattedData = {
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
+        };
+        const message = await createDefinitionPeriods(formattedData);
         dispatch(refreshDefinitionPeriods(await getDefinitionPeriods()));
     }
+      
 
     function handleStartDateChange(date: Date){
         setValue("startDate", date);

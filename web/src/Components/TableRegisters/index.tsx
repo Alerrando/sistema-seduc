@@ -46,7 +46,7 @@ export default function TableRegisters(props: TableRegistersProps) {
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.horaAulas}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{allInfosSchool?.find((school) => school.id == info.cadastroEscola)?.name}</td>
                                     <td className='whitespace-nowrap px-4 py-2 font-medium text-gray-900'>
-                                        <span className='whitespace-nowrap'>{isValid(new Date(info.diaAula)) ? format(new Date(info.diaAula?.toString()), "dd/MM/yyyy") : ""}</span>
+                                        <span className='whitespace-nowrap'>{isValid(new Date(info.diaAula)) ? format(new Date(info.diaAula), "dd/MM/yyyy") : ""}</span>
                                     </td>
                                 </>
                             ) : registerType === "School" ? (

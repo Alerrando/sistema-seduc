@@ -247,7 +247,9 @@ export async function getReportsTeacher(idProfessor: string, dataInicial: Date, 
 // ----------------------------- ROUTER USER ----------------------------- //
 export async function getUsers() {
   let message = await axios.get(urlUser, {
-    headers: { 'Authorization':  `${localStorage.getItem("token")}` },
+    headers: { 
+      'Authorization':  `${localStorage.getItem("token")}`,
+    },
   })
   .then((res) => res.data)
   .catch((err) => console.log(err))
@@ -310,7 +312,6 @@ export async function getDefinitionPeriods(){
   let message = await axios.get(urlDefinitionPeriods, {
     headers: { 
       'Authorization': `${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
     }
   })
   .then((res) => res.data)

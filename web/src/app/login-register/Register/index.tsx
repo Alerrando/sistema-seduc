@@ -35,12 +35,6 @@ export default function Register({ pages, setPages }: RegisterProps){
     const dispatch = useDispatch<AppDispatch>();
     const router = useRouter();
 
-    useEffect(() => {
-        (async () => {
-            setToken(await createToken());
-        })()
-    }, [])
-
     return(
         <>
             <div className={`w-1/2 h-full flex flex-col gap-8 bg-white pl-6`}>
@@ -111,12 +105,12 @@ export default function Register({ pages, setPages }: RegisterProps){
             level: 2,
             permission: false,
         }
-
+        setToken(await createToken(aux));
         const message = await createUser(aux, token);
         messageToast(message);
-        console.log(message, token, aux);
 
         if(message !== undefined){
+            debugger;
             localStorage.setItem("token", token);
             dispatch(changeLoginLogout(aux));
             setTimeout(() => {

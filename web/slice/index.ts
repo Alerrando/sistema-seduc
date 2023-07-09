@@ -86,7 +86,6 @@ export const HorasValuesDefault: LessonsInfos = {
 export const SchoolValuesDefault: SchoolInfos = {
   id: 0,
   name: "",
-  classificação: "",
   edit: false,
 }
 
