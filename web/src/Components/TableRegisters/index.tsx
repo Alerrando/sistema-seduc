@@ -42,6 +42,7 @@ export default function TableRegisters(props: TableRegistersProps) {
                         <tr key={`${info.id}-${index}`}>
                             {registerType === "Lesson" ? (
                                 <>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{allInfosTeacher?.find((teacher) => teacher.id == info.cadastroProfessor)?.name}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.horaAulas}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{allInfosSchool?.find((school) => school.id == info.cadastroEscola)?.name}</td>
@@ -51,14 +52,22 @@ export default function TableRegisters(props: TableRegistersProps) {
                                 </>
                             ) : registerType === "School" ? (
                                 <>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
                                 </>
-                            ) : (
+                            ) : registerType === "Teacher" ? (
                                 <>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.cpf}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{allInfosSchool?.find((school) => school.id == info.sede)?.name}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.cargo}</td>
+                                </>
+                            ) : (
+                                <>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.type == "1" ? "Usuário" : "Professor"}</td>
                                 </>
                             )}
                             <td className="">

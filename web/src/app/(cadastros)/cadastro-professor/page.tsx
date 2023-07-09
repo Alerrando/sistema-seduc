@@ -58,7 +58,7 @@ export default function CadastroProfessor(){
     const [infosInput, setInfosInput] = useState<TeacherInfos>(SchoolValuesDefault);
     const [search, setSearch] = useState("");
     const [modal, setModal] = useState<boolean>(false);
-    const thead = ["Nome do Professor(a)", "Cpf", "Sede", "Cargo", "Ações"];
+    const thead = ["Id", "Nome do Professor(a)", "Cpf", "Sede", "Cargo", "Ações"];
     const dispatch = useDispatch<AppDispatch>();
     const inputs: InputConfig[] = [
         {

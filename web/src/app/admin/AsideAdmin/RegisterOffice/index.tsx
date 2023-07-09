@@ -5,10 +5,11 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { z } from "zod";
 import { RootState } from "../../../../../configureStore";
-import { InputConfig, OfficeInfos, SchoolValuesDefault, objectEmptyValue, refreshInfosOffice } from "../../../../../slice";
+import { InputConfig, OfficeInfos, SchoolValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosOffice } from "../../../../../slice";
 import CreateHeaderRegisters from "../../../../Components/CreateHeaderRegisters";
 import Modal from "../../../../Components/Modal";
 import { createRegisterOffice, getRegisterOffice } from "../../../../api";
+import TableRegisters from "../../../../Components/TableRegisters";
 
 const createFormSchema = z.object({
     name: z.string().nonempty("Nome é obrigatório!"),
@@ -22,6 +23,7 @@ export default function RegisterOffice(){
     const [infosRegister, setInfosRegister] = useState<OfficeInfos>(SchoolValuesDefault);
     const [modal, setModal] = useState<boolean>(false);
     const dispatch = useDispatch();
+    const tableHead = ["Id", "Nome", "Tipo de Cargo"];
     const inputs: InputConfig[] = [
         {
             htmlFor: "name",
@@ -46,7 +48,8 @@ export default function RegisterOffice(){
     useEffect(() => {
         (async () => {
             dispatch(refreshInfosOffice(await getRegisterOffice()));
-        })
+            dispatch(changeRegisterType(""));
+        })()
     }, [])
 
     return(
@@ -70,6 +73,15 @@ export default function RegisterOffice(){
                             modalName="Office"
                         />
                     ) : false}
+
+                    <TableRegisters
+                        deleteInfo={() => {}}
+                        editInfo={() => {}}
+                        infosAll={allInfosOffice}
+                        search=""
+                        tableHead={tableHead}
+                        key={"table-office"}
+                    />
             </div>
 
             <ToastContainer />

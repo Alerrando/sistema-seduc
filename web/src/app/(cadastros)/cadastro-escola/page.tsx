@@ -22,7 +22,7 @@ export default function CadastroEscola(){
     const [infosInput, setInfosInput] = useState<SchoolInfos>(SchoolValuesDefault);
     const [search, setSearch] = useState("");
     const [modal, setModal] = useState<boolean>(false);
-    const thead = ["Nome da Escola", "Ações"];
+    const thead = ["Id", "Nome da Escola", "Ações"];
     const dispatch = useDispatch<AppDispatch>();
     const inputs: InputConfig[] = [
         {

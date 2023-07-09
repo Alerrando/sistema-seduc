@@ -85,7 +85,7 @@ export const SchoolValuesDefault: SchoolInfos = {
 
 export const OfficeValuesDefault: OfficeInfos = {
   ...SchoolValuesDefault,
-  tyoe: "",
+  type: "",
 }
 
 export const TeacherValuesDefault: TeacherInfos = {

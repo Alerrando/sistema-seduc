@@ -29,7 +29,7 @@ export default function ControleAulasEventuais() {
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState(false);
   const [lessonsLengthall, setLessonsLengthall] = useState(0);
-  const tableHead = ["Nome Completo", "Horas de aulas dadas", "Escola",  "Dia da aula", "Ações"];
+  const tableHead = ["Id", "Nome Completo", "Horas de aulas dadas", "Escola",  "Dia da aula", "Ações"];
   const inputs: InputConfig[] = [
     {
       htmlFor: "cadastroProfessor",
