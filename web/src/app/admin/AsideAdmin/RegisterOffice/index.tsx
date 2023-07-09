@@ -8,7 +8,7 @@ import { RootState } from "../../../../../configureStore";
 import { InputConfig, OfficeInfos, SchoolValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosOffice } from "../../../../../slice";
 import CreateHeaderRegisters from "../../../../Components/CreateHeaderRegisters";
 import Modal from "../../../../Components/Modal";
-import { createRegisterOffice, getRegisterOffice } from "../../../../api";
+import { createRegisterOffice, deleteRegisterOffice, editRegisterOffice, getRegisterOffice } from "../../../../api";
 import TableRegisters from "../../../../Components/TableRegisters";
 
 const createFormSchema = z.object({
@@ -22,6 +22,7 @@ export default function RegisterOffice(){
     const { allInfosOffice } = useSelector((root: RootState) => root.Slice);
     const [infosRegister, setInfosRegister] = useState<OfficeInfos>(SchoolValuesDefault);
     const [modal, setModal] = useState<boolean>(false);
+    const [search, setSearch] = useState<string>("");
     const dispatch = useDispatch();
     const tableHead = ["Id", "Nome", "Tipo de Cargo"];
     const inputs: InputConfig[] = [
@@ -47,59 +48,102 @@ export default function RegisterOffice(){
 
     useEffect(() => {
         (async () => {
-            dispatch(refreshInfosOffice(await getRegisterOffice()));
+            const allInfos:OfficeInfos[] = await getRegisterOffice();
+            dispatch(refreshInfosOffice(allInfos.sort((info1:OfficeInfos, info2: OfficeInfos) => info1.type - info2.type)));
             dispatch(changeRegisterType(""));
         })()
     }, [])
 
     return(
         <main className='w-full h-max ml-auto'>
-            <div className="w-full flex flex-col gap-4 px-6 py-3">
-                    <h1 className="text-3xl md:text-[42px]">Cadastro de Cargos</h1>
+            <div className="w-full flex flex-col gap-4">
+                <header className="w-full h-auto flex items-center justify-between border-b border-b-[#efefef] p-3">
+                    <h1 className="text-3xl">Cadastro de Cargos</h1>
 
+                    <div className="w-auto h-auto flex items-center justify-center">
+                        <div className="inline-block h-5 w-5 cursor-pointer hover:animate-spin rounded-full border-4 border-solid border-current border-b-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                            role="status"
+                            onClick={() => handleLoadingClick()}
+                        >
+                        </div>
+                    </div>
+                </header>
+
+                <section className="w-full flex flex-col gap-4 px-6">
                     {allInfosOffice != undefined ? (
-                        <CreateHeaderRegisters setModal={setModal} totalRegiter={allInfosOffice.length} key={"create-header-office"} />
+                        <CreateHeaderRegisters setModal={setModal} setSearch={setSearch} totalRegiter={allInfosOffice.length} key={"create-header-office"} />
                     ) : null}
 
-                    {modal ? (
-                        <Modal 
-                            title="Cadastro de Cargos"
-                            createFormSchema={createFormSchema}
-                            infosInput={infosRegister}
-                            setInfosInput={setInfosRegister}
-                            setModal={setModal}
-                            submitInfos={submit}
-                            inputs={inputs}
-                            modalName="Office"
-                        />
-                    ) : false}
-
                     <TableRegisters
-                        deleteInfo={() => {}}
-                        editInfo={() => {}}
+                        deleteInfo={deleteInfo}
+                        editInfo={editInfo}
                         infosAll={allInfosOffice}
                         search=""
                         tableHead={tableHead}
                         key={"table-office"}
                     />
+                </section>
+
+
+                {modal ? (
+                    <Modal 
+                        title="Cadastro de Cargos"
+                        createFormSchema={createFormSchema}
+                        infosInput={infosRegister}
+                        setInfosInput={setInfosRegister}
+                        setModal={setModal}
+                        submitInfos={submit}
+                        inputs={inputs}
+                        modalName="Office"
+                    />
+                ) : false}
+
             </div>
 
             <ToastContainer />
         </main>
-    )
+    );
 
     async function submit(e: CreateFormData){
         let message: object | string;
+        let allInfos: OfficeInfos[] = [];
         const { ...rest }  = e;
         const aux = { ...rest, id: infosRegister.id, }
 
         if(!infosRegister.edit){
-            if(!objectEmptyValue(aux)){
-                message = await createRegisterOffice(aux);
-            }
+            message = await createRegisterOffice(aux);
         }
-
+        else{
+            message = await editRegisterOffice(aux, infosRegister.id);
+            setModal(false);
+        }
+        
+        allInfos = await getRegisterOffice();
+        dispatch(refreshInfosOffice(allInfos.sort((info1:OfficeInfos, info2: OfficeInfos) => info1.type - info2.type)));
         messageToast(message);
+    }
+
+    function editInfo(info: OfficeInfos){
+        const { ...rest } = info;
+        const aux = { ...rest, edit: true };
+        setInfosRegister(aux);
+        setModal(true);
+    }
+
+    async function deleteInfo(info: OfficeInfos){
+        const message: object | string = await deleteRegisterOffice(info.id);
+        const allInfos = await getRegisterOffice();
+        dispatch(refreshInfosOffice(allInfos.sort((info1:OfficeInfos, info2: OfficeInfos) => info1.type - info2.type)));
+        messageToast(message);
+    }
+
+    async function handleLoadingClick() {
+        try {
+          const data = await getRegisterOffice();
+          dispatch(refreshInfosOffice(data));
+        } catch (error) {
+          console.error('Erro ao atualizar os dados:', error);
+        }
     }
 
     function messageToast(message){

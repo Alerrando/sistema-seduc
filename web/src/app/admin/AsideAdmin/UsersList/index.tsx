@@ -76,8 +76,16 @@ export default function UsersList(){
 
     return (
         <>
-            <header className="w-full h-auto border-b border-b-[#efefef] p-3">
+            <header className="w-full h-auto flex items-center justify-between border-b border-b-[#efefef] p-3">
                 <h1 className="text-3xl">Lista de Usuários</h1>
+
+                <div className="w-auto h-auto flex items-center justify-center">
+                    <div className="inline-block h-5 w-5 cursor-pointer hover:animate-spin rounded-full border-4 border-solid border-current border-b-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                        role="status"
+                        onClick={() => handleLoadingClick()}
+                    >
+                    </div>
+                </div>
             </header>
 
             <section className="h-full w-full flex flex-col items-end gap-2 py-4 px-12">
@@ -144,6 +152,15 @@ export default function UsersList(){
         if(window.confirm(`Quer mesmo deletar o usuário ${name}?`)){
             const message = await deleteUser(id);
             setUsersAll(await getUsers());
+        }
+    }
+
+    async function handleLoadingClick() {
+        try {
+          const data = await getUsers();
+          setUsersAll(data);
+        } catch (error) {
+          console.error('Erro ao atualizar os dados:', error);
         }
     }
 

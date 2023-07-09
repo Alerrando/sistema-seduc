@@ -353,3 +353,23 @@ export async function createRegisterOffice(infos: RegisterOfficeInfos) {
 
    return message;
 }
+
+export async function editRegisterOffice(infos: RegisterOfficeInfos, id: number) {
+  let message = axios.put(`${urlOffice}/${id}`, infos, {
+        headers: { 'Authorization':  `${localStorage.getItem("token")}` },
+      })
+    .then((res) => "Cargo editado com sucesso!")
+    .catch((err) => err)
+
+    return message;
+}
+
+export async function deleteRegisterOffice(id: number){
+  let message = axios.delete(`${urlOffice}/${id}`, {
+    headers: { 'Authorization':  `${localStorage.getItem("token")}` },
+  })
+  .then((res) => "Cargo deletado com sucesso!")
+  .catch((err) => err)
+
+  return message;
+}

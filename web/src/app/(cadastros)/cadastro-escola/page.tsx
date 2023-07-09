@@ -54,6 +54,14 @@ export default function CadastroEscola(){
                         <CreateHeaderRegisters setModal={setModal} setSearch={setSearch} totalRegiter={allInfosSchool.length} key={"create-header-school"} />
                     ) : null}
 
+                    <div className="w-full h-auto flex items-center justify-end">
+                        <div className="inline-block h-5 w-5 cursor-pointer hover:animate-spin rounded-full border-4 border-solid border-current border-b-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                            role="status"
+                            onClick={() => handleLoadingClick()}
+                        >
+                        </div>
+                    </div>
+
                     <TableRegisters tableHead={thead} infosAll={allInfosSchool} editInfo={editInfo} deleteInfo={deleteInfo} search={search} key={"Table-Escola"} />
 
                 </div>
@@ -78,25 +86,17 @@ export default function CadastroEscola(){
 
     async function submitSchool(event: CreateFormDataSchool){
         let message: object | string;
-
-        const aux: SchoolInfos = {
-            edit: false,
-            name: event.name,
-            id: infosInput.id,
-        }
+        const aux: SchoolInfos = { edit: false, name: event.name, id: infosInput.id, }
 
 		if(!infosInput.edit){
-            if(!objectEmptyValue(aux)){
-                message = await createSchool(aux);
-                dispatch(refreshInfosSchool(await readAllSchool()));
-            }
+            message = await createSchool(aux);
 		}
 		else{
             message = await editSchool(aux, aux.id);
-			dispatch(refreshInfosSchool(await readAllSchool()));
             setModal(false);
 		}
         
+        dispatch(refreshInfosSchool(await readAllSchool()));
         setInfosInput(SchoolValuesDefault);
         messageToast(message);
 	}
@@ -112,6 +112,15 @@ export default function CadastroEscola(){
         const message:object | string = await deleteSchool(info.id);
         messageToast(message);
         dispatch(refreshInfosSchool(await readAllSchool()));
+    }
+
+    async function handleLoadingClick() {
+        try {
+          const data = await readAllSchool();
+          dispatch(refreshInfosSchool(data));
+        } catch (error) {
+          console.error('Erro ao atualizar os dados:', error);
+        }
     }
 
     function messageToast(message){

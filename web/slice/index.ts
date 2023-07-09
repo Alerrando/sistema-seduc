@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, Slice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction, Slice } from "@reduxjs/toolkit";
 
 export type InputConfig = {
   label: string;
@@ -167,8 +167,6 @@ export function objectEmptyValue(obj: LessonsInfos | SchoolInfos | TeacherInfos)
   
   return false;
 };
-
-
 
 export const { refreshInfosLesson, refreshInfosSchool, refreshInfosTeacher, refreshDefinitionPeriods, refreshInfosOffice, changeRegisterType, changeReportsType } = slice.actions;
 

@@ -105,6 +105,14 @@ export default function ControleAulasEventuais() {
                   </div>
               </div>
             </div>
+
+            <div className="w-auto h-full flex items-center justify-center">
+                <div className="inline-block h-5 w-5 cursor-pointer hover:animate-spin rounded-full border-4 border-solid border-current border-b-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                    role="status"
+                    onClick={() => handleLoadingClick()}
+                >
+                </div>
+            </div>
           </div>
 
           <div className="w-full border border-[#999]">
@@ -191,6 +199,15 @@ export default function ControleAulasEventuais() {
     })
 
     return aux;
+  }
+
+  async function handleLoadingClick() {
+    try {
+      const data = await readAllLesson();
+      dispatch(refreshInfosLesson(data));
+    } catch (error) {
+      console.error('Erro ao atualizar os dados:', error);
+    }
   }
 
   function messageToast(message){

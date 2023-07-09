@@ -109,8 +109,15 @@ export default function CadastroProfessor(){
                         <CreateHeaderRegisters setModal={setModal} setSearch={setSearch} totalRegiter={allInfosTeacher.length} key={"create-header-school"} />
                     ) : null}
 
-                    <TableRegisters tableHead={thead} infosAll={allInfosTeacher} editInfo={editInfo} deleteInfo={deleteInfo} search={search} key={"Table-Escola"} />
+                    <div className="w-full h-auto flex items-center justify-end">
+                        <div className="inline-block h-5 w-5 cursor-pointer hover:animate-spin rounded-full border-4 border-solid border-current border-b-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                            role="status"
+                            onClick={() => handleLoadingClick()}
+                        >
+                        </div>
+                    </div>
 
+                    <TableRegisters tableHead={thead} infosAll={allInfosTeacher} editInfo={editInfo} deleteInfo={deleteInfo} search={search} key={"Table-Escola"} />
                 </div>
                 {modal ? (
                     <Modal 
@@ -138,15 +145,14 @@ export default function CadastroProfessor(){
 		if(!infosInput.edit){
             if(!objectEmptyValue(aux)){
                 message = await createTeacher(aux, aux.sede);
-                dispatch(refreshInfosTeacher(await readAllTeacher()));
             }
 		}
 		else{
 			message = await editTeacher(aux, aux.sede);
-			dispatch(refreshInfosTeacher(await readAllTeacher()));
             setModal(false);
 		}
         
+        dispatch(refreshInfosTeacher(await readAllTeacher()));
         messageToast(message);
         setInfosInput(SchoolValuesDefault);
 	}
@@ -162,6 +168,15 @@ export default function CadastroProfessor(){
         const message:object | string = await deleteTeacher(info.id);
         messageToast(message);
         dispatch(refreshInfosTeacher(await readAllTeacher()));
+    }
+
+    async function handleLoadingClick() {
+        try {
+          const data = await readAllTeacher();
+          dispatch(refreshInfosTeacher(data));
+        } catch (error) {
+          console.error('Erro ao atualizar os dados:', error);
+        }
     }
 
     function messageToast(message){

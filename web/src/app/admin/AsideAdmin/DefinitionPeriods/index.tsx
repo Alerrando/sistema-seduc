@@ -38,8 +38,16 @@ export default function DefinitionPeriods(){
 
     return(
         <>
-            <header className="w-full h-auto border-b border-b-[#efefef] p-3">
-                <h1 className="text-3xl">Definição do período de cadastro de Aulas Eventuais</h1>
+            <header className="w-full h-auto flex items-center justify-between border-b border-b-[#efefef] p-3">
+                <h1 className="text-3xl">Definição do período de Cadastro de Aulas Eventuais</h1>
+
+                <div className="w-auto h-auto">
+                    <div className="inline-block h-5 w-5 cursor-pointer hover:animate-spin rounded-full border-4 border-solid border-current border-b-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                        role="status"
+                        onClick={() => handleLoadingClick()}
+                    >
+                    </div>
+                </div>
             </header>
 
             <form className="h-full w-full flex flex-col items-start justify-between p-12" onSubmit={handleSubmit(submit)}>
@@ -113,6 +121,15 @@ export default function DefinitionPeriods(){
         };
         const message = await createDefinitionPeriods(formattedData);
         dispatch(refreshDefinitionPeriods(await getDefinitionPeriods()));
+    }
+
+    async function handleLoadingClick() {
+        try {
+          const data = await getDefinitionPeriods();
+          dispatch(refreshDefinitionPeriods(data));
+        } catch (error) {
+          console.error('Erro ao atualizar os dados:', error);
+        }
     }
       
 
