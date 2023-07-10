@@ -14,12 +14,12 @@ public class User {
     private String password;
     private Integer cadastroEscola;
     private Integer level;
-    private boolean permission;
+    private Integer permission;
 
     public User(){
     }
 
-    public User(Integer id, String name, String email,String rg, String password,Integer cadastroEscola, Integer level, boolean permission) {
+    public User(Integer id, String name, String email,String rg, String password,Integer cadastroEscola, Integer level, Integer permission) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -86,11 +86,11 @@ public class User {
         this.level = level;
     }
 
-    public boolean isPermission() {
+    public Integer isPermission() {
         return permission;
     }
 
-    public void setPermission(boolean permission) {
+    public void setPermission(Integer permission) {
         this.permission = permission;
     }
 }
