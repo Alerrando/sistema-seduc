@@ -5,14 +5,21 @@ import { useDispatch } from "react-redux";
 import { TeacherDTOInfos, changeReportsType, refreshInfosSchool, refreshInfosTeacher } from "../../../../slice";
 import Filter from "../../../Components/Filter";
 import TableReports from "../../../Components/TableReports";
-import { readAllSchool, readAllTeacher } from "../../../api";
+import { getNameByIdTeacher, getReportsTeacher, readAllSchool, readAllTeacher } from "../../../api";
 import Link from "next/link";
 import RootLayout from "../../../app/layout";
 import { AppDispatch } from "../../../../configureStore";
+import { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from "../../../../slice/TeacherFilterSlice";
+import { ZodTypeAny } from "zod";
+
+const createFormSchema = z.object({
+    cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),
+})
 
 export default function BoletimControleAulasEventuais(){
     const [allReportsInfos, setAllReportsInfos] = useState<TeacherDTOInfos[]>([] as TeacherDTOInfos[]);
     const [filter, setFilter] = useState<boolean>(false);
+    const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
     const tableHead = [
         "Nome Professor",
         "Data",
@@ -49,9 +56,29 @@ export default function BoletimControleAulasEventuais(){
             </main>
 
             {filter ? (
-                <Filter setFilter={setFilter} setAllReportsInfos={setAllReportsInfos} key="filter-boletim-controle-eventuais" />
+                <Filter 
+                    setFilter={setFilter} 
+                    setAllReportsInfos={setAllReportsInfos}
+                    datas={datas}
+                    setDatas={setDatas}
+                    filterName="Teacher"
+                    schema={createFormSchema}
+                    submit={submit}
+                    key="filter-boletim-controle-eventuais"
+                />
             ) : null}
         </RootLayout>
     );
+    
+    async function submit(e: T){
+        let aux = [];
+        aux = await getReportsTeacher(e.cadastroProfessor, new Date(datas.dataInicial), new Date(datas.dataFinal));
 
+        if(typeof aux === "object") {
+            dispatch(refreshAllFilterInfosTeacher(aux.sort((data1: TeacherDTOInfos, data2: TeacherDTOInfos) => new Date(data1.dataAula).getTime() - new Date(data2.dataAula).getTime())))
+            dispatch(refreshFilterInfosTeacher(await getNameByIdTeacher(e.cadastroProfessor)));
+        }
+
+        setFilter(false);
+    }
 }

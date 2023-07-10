@@ -43,7 +43,7 @@ export function ModalForm<T>(props: ModalFormProps<T>) {
     }
   }, [initialValues]);
 
-  function handleFormSubmit(data: typeof schema){
+  function handleFormSubmit(data: T){
     setValue("name", "");
 
     if(modalName === "Lesson"){

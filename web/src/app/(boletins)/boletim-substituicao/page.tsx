@@ -9,10 +9,17 @@ import { AppDispatch } from "../../../../configureStore";
 import RootLayout from "../../../app/layout";
 import Link from "next/link";
 import TableReports from "../../../Components/TableReports";
+import Filter, { DatasTypes } from "../../../Components/Filter";
+import { z } from "zod";
+
+const createFormSchema = z.object({
+    cadastroEscola: z.string().nonempty("Selecione uma escola ou adicione!"),
+})
 
 export default function RelatorioSubstituicao(){
     const [allReportsInfos, setAllReportsInfos] = useState<SchoolDTOInfos[]>([] as SchoolDTOInfos[])
     const [filter, setFilter] = useState<boolean>(false);
+    const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
     const tableHead = ["Id", "Nome", "Formação", "Dias Trabalhados", "Total a pagar"];
     const dispatch = useDispatch<AppDispatch>();
 
@@ -42,6 +49,22 @@ export default function RelatorioSubstituicao(){
                     </Link>
                 </div>
             </main>
+
+            {filter ? (
+                <Filter
+                    datas={datas}
+                    filterName="School"
+                    schema={createFormSchema}
+                    setDatas={setDatas}
+                    setFilter={setFilter}
+                    submit={submit}
+                    key={"filter-boletim-substituição"}
+                />
+            ) : null}
         </RootLayout>
     )
+
+    function submit(e: T){
+        console.log(e);
+    }
 }

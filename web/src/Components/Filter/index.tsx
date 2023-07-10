@@ -1,16 +1,16 @@
-import React, { useState, useEffect, Key } from 'react'
-import { useDispatch, useSelector } from "react-redux";
-import { useForm } from 'react-hook-form'
-import { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from '../../../slice/TeacherFilterSlice';
-import { getNameByIdTeacher, getReportsTeacher, readAllTeacher } from '../../api'
+import { zodResolver } from '@hookform/resolvers/zod';
 import { X } from 'lucide-react';
+import { Key, useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod'
-import { format } from 'date-fns';
-import { refreshInfosTeacher, TeacherDTOInfos, TeacherInfos } from '../../../slice';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from "react-redux";
+import { ZodTypeAny, z } from 'zod';
 import { AppDispatch, RootState } from '../../../configureStore';
+import { TeacherDTOInfos, TeacherInfos, refreshInfosSchool, refreshInfosTeacher } from '../../../slice';
+import { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from '../../../slice/TeacherFilterSlice';
+import { getNameByIdTeacher, getReportsTeacher, readAllSchool, readAllTeacher } from '../../api';
+import SelectInput from '../Modal/ModalForm/SelectInput';
 
 const createFormSchema = z.object({
     cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),
@@ -18,6 +18,11 @@ const createFormSchema = z.object({
 
 type FilterProps = {
     setFilter: (filter: boolean) => void;
+    submit: (data: T) => void,
+    datas: DatasTypes,
+    setDatas: (datas: DatasTypes) => void,
+    filterName: string,
+    schema: ZodTypeAny
 }
 
 export type DatasTypes = {
@@ -25,20 +30,21 @@ export type DatasTypes = {
     dataFinal: string | Date,
 }
 
-type CreateFormData = z.infer<typeof createFormSchema>
-
-export default function Filter({ setFilter }: FilterProps){
-    const { allInfosTeacher } = useSelector((root: RootState) => root.Slice);
-    const { allFilterInfosTeacher, filterInfosTeacher } = useSelector((root: RootState) => root.SliceTeacher)
-    const { register, handleSubmit, formState: { errors } } = useForm<CreateFormData>({
-        resolver: zodResolver(createFormSchema),
+export default function Filter(props: FilterProps){
+    const { datas, setDatas, setFilter, submit, filterName, schema } = props;
+    const { register, handleSubmit, formState: { errors } } = useForm<typeof schema>({
+        resolver: zodResolver(schema),
     })
-    const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         (async () => {
-            dispatch(refreshInfosTeacher(await readAllTeacher()));
+            if(filterName === "Teacher"){
+                dispatch(refreshInfosTeacher(await readAllTeacher()));
+            }
+            else{
+                dispatch(refreshInfosSchool(await readAllSchool()))
+            }
         })()
     }, [])
 
@@ -52,18 +58,31 @@ export default function Filter({ setFilter }: FilterProps){
                     <X size={36} className="cursor-pointer ml-auto" onClick={() => setFilter(false)} />
                 </header>
 
-                <div className="w-full h-auto flex flex-col gap-1">                    
-                    <div className="w-full flex flex-col gap-2">
-                        <label htmlFor="professores" className="text-lg font-bold">Professores</label>
-                        <select id="cadastroProfessor" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("cadastroProfessor") }>
-                            <option value="" defaultChecked className="outline-none border-none">Selecione um Professor</option>
-                            {allInfosTeacher?.map((teacher: TeacherInfos, index: Key) => (
-                                <option key={`professor-${teacher.name}`} value={teacher.id} className="text-sm md:text-base outline-none border-none">{teacher.name}</option>
-                            ))}
-                        </select>
-
-                        {errors.cadastroProfessor && <span className='text-red-600'>{errors.cadastroProfessor.message}</span>}
-                    </div>
+                <div className="w-full h-auto flex flex-col gap-1">
+                    {filterName === "Teacher" ? (
+                        <>
+                            <SelectInput 
+                                htmlFor='cadastroProfessor'
+                                label='Professores'
+                                name='cadastroProfessor'
+                                optionDefault='Selecione um Professor'
+                                optionType='Teacher'
+                                register={register}
+                            />                  
+                            {errors.cadastroProfessor && <span className='text-red-600'>{errors.cadastroProfessor.message}</span>}
+                        </>
+                    ) : (
+                        <>
+                            <SelectInput 
+                                htmlFor='cadastroEscola'
+                                label='Escola'
+                                name='cadastroEscola'
+                                optionDefault='Selecione uma Escola'
+                                optionType='School'
+                                register={register}
+                            />
+                        </>
+                    )}
                 </div>
 
                 <div className="w-full h-auto flex flex-col gap-1">
@@ -73,8 +92,8 @@ export default function Filter({ setFilter }: FilterProps){
                         value={datas.dataInicial ? new Date(datas.dataInicial) : null}
                         onChange={(e) =>
                             setDatas({
-                            ...datas,
-                            dataInicial: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.toString()) : "",
+                                ...datas,
+                                dataInicial: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.toString()) : "",
                             })
                         }
                     />
@@ -87,8 +106,8 @@ export default function Filter({ setFilter }: FilterProps){
                         value={datas.dataFinal ? new Date(datas.dataFinal) : null}
                         onChange={(e) =>
                             setDatas({
-                            ...datas,
-                            dataFinal: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.toString()) : "",
+                                ...datas,
+                                dataFinal: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.toString()) : "",
                             })
                         }
                     />
@@ -102,16 +121,4 @@ export default function Filter({ setFilter }: FilterProps){
             </form>
         </div>
     );
-
-    async function submit(e: CreateFormData){
-        let aux = [];
-        aux = await getReportsTeacher(e.cadastroProfessor, new Date(datas.dataInicial), new Date(datas.dataFinal));
-
-        if(typeof aux === "object") {
-            dispatch(refreshAllFilterInfosTeacher(aux.sort((data1: TeacherDTOInfos, data2: TeacherDTOInfos) => new Date(data1.dataAula).getTime() - new Date(data2.dataAula).getTime())))
-            dispatch(refreshFilterInfosTeacher(await getNameByIdTeacher(e.cadastroProfessor)));
-        }
-
-        setFilter(false);
-    }
 }
