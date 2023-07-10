@@ -28,9 +28,10 @@ const createFormSchema = z.object({
 type CreateFormData = z.infer<typeof createFormSchema>
 
 export default function FormEditionUsers({ infos, setModal, setUsersAll }: FormEditionUsersProps){
-    const { register, handleSubmit, formState: { errors }, setValue } = useForm<CreateFormData>({
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm<Partial<CreateFormData>>({
         resolver: zodResolver(createFormSchema)
     });
+    
     const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
 
     useEffect(() => {
@@ -89,20 +90,38 @@ export default function FormEditionUsers({ infos, setModal, setUsersAll }: FormE
                         <div className="flex flex-col gap-2">
                             <label htmlFor="permissão" className="font-bold">Permissão</label>
 
-                            <ul class="flex flex-row w-auto gap-6">
+                            <ul className="flex flex-row w-auto gap-6">
                                 <li>
-                                    <input type="radio" id="hosting-small" name="hosting" value={"true"} class="hidden peer" { ...register("permission") } />
-                                    <label for="hosting-small" class="inline-flex items-center justify-between w-full p-2 px-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
-                                        <div class="block">
-                                            <div class="w-full text-lg font-semibold">Permitido</div>
+                                    <input
+                                        type="radio"
+                                        id="hosting-small"
+                                        value="true"
+                                        className="hidden peer"
+                                        {...register("permission")}
+                                    />
+                                    <label
+                                        htmlFor="hosting-small"
+                                        className="inline-flex items-center justify-between w-full p-2 px-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+                                    >
+                                        <div className="block">
+                                            <div className="w-full text-lg font-semibold">Permitido</div>
                                         </div>
-                                    </label>
+                                        </label>
                                 </li>
                                 <li>
-                                    <input type="radio" id="hosting-big" name="hosting" value={"false"} class="hidden peer" { ...register("permission") } />
-                                    <label for="hosting-big" class="inline-flex items-center justify-between w-full p-2 px-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-                                        <div class="block">
-                                            <div class="w-full text-lg font-semibold">Não Permitido</div>
+                                    <input
+                                        type="radio"
+                                        id="hosting-big"
+                                        value="false"
+                                        className="hidden peer"
+                                        {...register("permission")}
+                                    />
+                                    <label
+                                        htmlFor="hosting-big"
+                                        className="inline-flex items-center justify-between w-full p-2 px-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+                                    >
+                                        <div className="block">
+                                            <div className="w-full text-lg font-semibold">Não Permitido</div>
                                         </div>
                                     </label>
                                 </li>
@@ -123,18 +142,16 @@ export default function FormEditionUsers({ infos, setModal, setUsersAll }: FormE
   );
 
   async function submit(e: CreateFormData){
-    const { id, level, password } = infos;
+    const { id, level } = infos;
     const { ...rest } = e;
 
     const formData: UserInfos = {
         id,
         level,
-        password,
         ...rest,
         permission: e.permission === "true",
         cadastroEscola: e.school,
     };
-    console.log(formData);
 
     const message = await editUser(formData, infos.id);
     setUsersAll(await getUsers());
