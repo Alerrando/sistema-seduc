@@ -7,7 +7,7 @@ import { getReportsSchool } from "../../../api";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../configureStore";
 
-export default function RelatorioEscola(){
+export default function RelatorioSubstituicao(){
     const [allReportsInfos, setAllReportsInfos] = useState<SchoolDTOInfos[]>([] as SchoolDTOInfos[])
     const [search, setSearch] = useState("");
     const tableHead = ["Id", "Nome da Escola", "Quantidade de horas de aulas"];
@@ -24,7 +24,7 @@ export default function RelatorioEscola(){
     return(
         <main className="w-5/6 ml-auto px-6 overflow-y-auto">
             <div className="w-full flex flex-col gap-4 px-6 py-3">
-                <h1 className="text-[42px]">Relatório de Escolas</h1>
+                <h1 className="text-[42px]">Boletim de Substituição</h1>
 
             </div>
         </main>

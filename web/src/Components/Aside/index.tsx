@@ -78,10 +78,10 @@ export default function Aside() {
 
                   {showDropDownReport && (
                       <ul className="w-full flex flex-col gap-4">
-                          <Link onClick={() => setMenu(false)} href="/relatorio-escola" className="w-full flex flex-row justify-center items-center py-2 hover:bg-[#458ACE]">
+                          <Link onClick={() => setMenu(false)} href="/relatorio-substituicao" className="w-full flex flex-row justify-center items-center py-2 hover:bg-[#458ACE]">
                               <li className="w-8/12 flex flex-row items-center gap-3 text-white">
                                   <School size={22} />
-                                  <span>Escolas</span>
+                                  <span>Substituição</span>
                               </li>
                           </Link>
 

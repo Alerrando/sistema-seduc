@@ -20,6 +20,7 @@ const createFormSchema = z.object({
     name: z.string().nonempty("Nome é obrigatório!"),
     email: z.string().nonempty("O campo Email é obrigatório!"),
     rg: z.string().nonempty("O campo Rg é obrigatório!"),
+    password: z.string().nonempty("O campo Senha é obrigatório!"),
     school: z.string({ invalid_type_error: "Nenhuma escola selecionado" }).nonempty("Selecione uma Escola"),
     permission: z.string().nonempty("Selecione um Campo")
 })
@@ -65,12 +66,12 @@ export default function FormEditionUsers({ infos, setModal, setUsersAll }: FormE
 
                         <div className="w-full flex flex-col gap-2">
                             <Input htmlFor="rg" label="Rg*" name="rg" placeholder="Digite seu Rg" type="text" key={"rg-user"} register={register} />
-                            <span className="text-red-600">{errors.senha && errors.senha.message}</span>
+                            <span className="text-red-600">{errors.rg && errors.rg.message}</span>
                         </div>
 
                         <div className="w-full flex flex-col gap-2">
                             <Input htmlFor="password" label="Senha*" name="password" placeholder="Digite sua senha" type="password" key={"password-user"} register={register} />
-                            <span className="text-red-600">{errors.senha && errors.senha.message}</span>
+                            <span className="text-red-600">{errors.password && errors.password.message}</span>
                         </div>
 
                         <div className="w-full flex flex-col gap-2">
