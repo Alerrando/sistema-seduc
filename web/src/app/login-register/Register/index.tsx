@@ -108,15 +108,6 @@ export default function Register({ pages, setPages }: RegisterProps){
         setToken(await createToken(aux));
         const message = await createUser(aux, token);
         messageToast(message);
-
-        if(message !== undefined){
-            debugger;
-            localStorage.setItem("token", token);
-            dispatch(changeLoginLogout(aux));
-            setTimeout(() => {
-                router.replace("/dashboard");
-            }, 3000)
-        }
     }
 
     function messageToast(message: object | undefined){

@@ -89,10 +89,23 @@ export default function Login({ pages, setPages }: LoginProps){
     );
 
     async function submit(e){
-        setToken(await createToken(DefaultUserInfos));
-
-        if(token !== ""){
-            let aux = await getUserByEmail(e.email, e.senha, token);
+        const token = await createToken(DefaultUserInfos);
+        setToken(token);
+        
+        let aux = await getUserByEmail(e.email, e.senha, token);
+        if(aux.usuario.permission === false){
+            toast.error("Seu registro não está permitido, aguarde até alguem permitir!", {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+        else{
             messageToast(aux);
             
             if(aux !== undefined){

@@ -78,7 +78,7 @@ export default function RegisterOffice(){
                         deleteInfo={deleteInfo}
                         editInfo={editInfo}
                         infosAll={allInfosOffice}
-                        search=""
+                        search={search}
                         tableHead={tableHead}
                         key={"table-office"}
                     />

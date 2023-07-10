@@ -34,7 +34,7 @@ export default function MenuHeader() {
               <Menu.Item>
                 {({ active }) => (
                   <>
-                    {userInfos.level === 2 ? (
+                    {userInfos.level === 1 ? (
                       <>
                         <button
                           className={`hover:bg-violet-500 hover:text-white text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm`}

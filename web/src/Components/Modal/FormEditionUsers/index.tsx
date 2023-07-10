@@ -54,17 +54,22 @@ export default function FormEditionUsers({ infos, setModal, setUsersAll }: FormE
                 <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(submit)}>
                     <div className="w-full flex flex-col gap-3">
                         <div className="w-full flex flex-col gap-2">
-                            <Input htmlFor="name" label="Nome do Usuário" name="name" placeholder="Alerrando Breno de Oliveira Andrade" register={register} type="text" key={"name-user-input"} />
+                            <Input htmlFor="name" label="Nome do Usuário" name="name" placeholder="Alerrando Breno de Oliveira Andrade" register={register} type="text" key={"name-user"} />
                             {errors.name && <span className="text-red-600">{errors.name.message}</span>}
                         </div>
 
                         <div className="w-full flex flex-col gap-2">
-                            <Input htmlFor="email" label="E-mail*" name="email" placeholder="Digite seu email" type="email" key={"email-login"} register={register} />
+                            <Input htmlFor="email" label="E-mail*" name="email" placeholder="Digite seu email" type="email" key={"email-user"} register={register} />
                             <span className="text-red-600">{errors.email && errors.email.message}</span>
                         </div>
 
                         <div className="w-full flex flex-col gap-2">
-                            <Input htmlFor="rg" label="Rg*" name="rg" placeholder="Digite seu Rg" type="text" key={"rg-login"} register={register} />
+                            <Input htmlFor="rg" label="Rg*" name="rg" placeholder="Digite seu Rg" type="text" key={"rg-user"} register={register} />
+                            <span className="text-red-600">{errors.senha && errors.senha.message}</span>
+                        </div>
+
+                        <div className="w-full flex flex-col gap-2">
+                            <Input htmlFor="password" label="Senha*" name="password" placeholder="Digite sua senha" type="password" key={"password-user"} register={register} />
                             <span className="text-red-600">{errors.senha && errors.senha.message}</span>
                         </div>
 

@@ -1,5 +1,5 @@
 "use client";
-import { Pencil, Trash } from "lucide-react";
+import { Eye, EyeOff, Pencil, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
@@ -14,59 +14,10 @@ export default function UsersList(){
     const [usersAll, setUsersAll] = useState<UserInfos[]>([] as UserInfos);
     const [modal, setModal] = useState<boolean>(false);
     const [infosEdit, setInfosEdit] = useState<UserInfos>({} as UserInfos);
+    const [viewPassword, setViewPassword] = useState<boolean>(false);
     const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
     const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
-    const tableHead = ["Id", "Nome", "Email", "Rg", "Escola", "Permissão", "Ações"];
-
-    const inputs: InputConfig[] = [
-        {
-            htmlFor: "name",
-            label: "Nome do Usuário",
-            name: "name",
-            placeholder: "Alerrando Breno de Oliveira Andrade",
-            type: "text",
-            input: "input",
-            key: "nome-usuario-input",
-        },
-
-        {
-            htmlFor: "email",
-            label: "E-mail*",
-            name: "email",
-            placeholder: "Digite seu email",
-            type: "email",
-            input: "input",
-            key: "email-usuario-input",
-        },
-
-        {
-            htmlFor: "rg",
-            label: "Rg*",
-            name: "rg",
-            placeholder: "Digite seu Rg",
-            type: "text",
-            input: "input",
-            key: "email-usuario-input",
-        },
-
-        {
-            htmlFor: "escola",
-            label: "Escola",
-            name: "escola",
-            optionDefault: "Selecione uma Escola",
-            optionType: "School",
-            input: "select",
-        },
-
-        {
-            htmlFor: "permissão",
-            label: "Permissão*",
-            name: "hosting",
-            type: "radio",
-            input: "input",
-            key: "permissão-usuario-input",
-        },
-    ]
+    const tableHead = ["Id", "Nome", "Email", "Rg", "Escola", "Permissão", "Senha","Ações"];
 
     useEffect(() => {
         (async () => {
@@ -114,6 +65,14 @@ export default function UsersList(){
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.rg}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{schoolName(info.cadastroEscola)}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.permission ? "Autorizado" : "Não Autorizado"}</td>
+                                        <td className="flex flex-row items-center gap-2 whitespace-nowrap px-4 py-2 font-medium text-gray-900">{!viewPassword ? (
+                                            <EyeOff size={26} className="cursor-pointer" onClick={() => setViewPassword(true)} />
+                                        ) : (
+                                            <>
+                                                {info.password}
+                                                <Eye size={26} className="cursor-pointer" onClick={() => setViewPassword(false)} />
+                                            </>
+                                        )}</td>
                                         <td className="">
                                             <div className="flex flex-row gap-4 items-center justify-between">
                                                 <div className="flex items-center gap-2 px-2 py-1 border border-blue-500 text-blue-500 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white transition-colors" onClick={() => editInfo(info)}>
