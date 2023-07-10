@@ -18,7 +18,7 @@ const createFormSchema = z.object({
 
 type FilterProps = {
     setFilter: (filter: boolean) => void;
-    submit: (data: T) => void,
+    submit: (data: ZodTypeAny) => void,
     datas: DatasTypes,
     setDatas: (datas: DatasTypes) => void,
     filterName: string,

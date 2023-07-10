@@ -6,7 +6,7 @@ import FormRegisterLesson from "./FormRegisterLesson";
 import FormRegisterSchool from "./FormRegisterSchool";
 import FormRegisterTeacher from "./FormRegisterTeacher";
 import { ModalForm } from "./ModalForm";
-import { ZodTypeAny } from "zod";
+import { ZodTypeAny, z } from "zod";
 
 type ModalProps = {
 	setInfosInput: (infosInput: LessonsInfos | SchoolInfos | TeacherInfos | OfficeInfos) => void;
@@ -22,7 +22,7 @@ type ModalProps = {
 export default function Modal(props: ModalProps){
 	const { setInfosInput, infosInput, setModal, submitInfos, title, inputs, createFormSchema, modalName } = props;
 
-	async function submit(event){
+	async function submit(event: ZodTypeAny){
 		submitInfos(event);
 	}
 	

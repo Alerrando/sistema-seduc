@@ -10,7 +10,7 @@ import RootLayout from "../../../app/layout";
 import Link from "next/link";
 import TableReports from "../../../Components/TableReports";
 import Filter, { DatasTypes } from "../../../Components/Filter";
-import { z } from "zod";
+import { ZodTypeAny, z } from "zod";
 
 const createFormSchema = z.object({
     cadastroEscola: z.string().nonempty("Selecione uma escola ou adicione!"),
@@ -64,7 +64,7 @@ export default function RelatorioSubstituicao(){
         </RootLayout>
     )
 
-    function submit(e: T){
+    function submit(e: ZodTypeAny){
         console.log(e);
     }
 }

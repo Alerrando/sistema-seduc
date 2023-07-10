@@ -18,7 +18,7 @@ export const DefaultUserInfos: UserInfos = {
     rg: "",
     cadastroEscola: "",
     level: 2,
-    permission: false,
+    permission: 0,
     email: "",
     password: "",
     edit: false,

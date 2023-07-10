@@ -43,7 +43,7 @@ export function ModalForm<T>(props: ModalFormProps<T>) {
     }
   }, [initialValues]);
 
-  function handleFormSubmit(data: T){
+  function handleFormSubmit(data: ZodTypeAny){
     setValue("name", "");
 
     if(modalName === "Lesson"){

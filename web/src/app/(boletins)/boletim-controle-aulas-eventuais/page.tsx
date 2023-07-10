@@ -70,7 +70,7 @@ export default function BoletimControleAulasEventuais(){
         </RootLayout>
     );
     
-    async function submit(e: T){
+    async function submit(e: ZodTypeAny){
         let aux = [];
         aux = await getReportsTeacher(e.cadastroProfessor, new Date(datas.dataInicial), new Date(datas.dataFinal));
 

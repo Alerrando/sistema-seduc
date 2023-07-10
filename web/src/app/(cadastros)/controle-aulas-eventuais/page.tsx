@@ -9,11 +9,10 @@ import { AppDispatch, RootState } from "../../../../configureStore";
 import { HorasValuesDefault, InputConfig, LessonsInfos, changeRegisterType, refreshInfosLesson } from "../../../../slice";
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal from "../../../Components/Modal";
-import { CreateFormDataLesson } from "../../../Components/Modal/FormRegisterLesson";
 import TableRegisters from "../../../Components/TableRegisters";
 import { createLesson, deleteLesson, editLesson, readAllLesson } from "../../../api";
 import RootLayout from "../../../app/layout";
-import { z } from "zod";
+import { ZodTypeAny, z } from "zod";
 
 const createFormSchema = z.object({
   horaAulas: z.string().nonempty("Digite a quantidade de aulas!"),
@@ -150,7 +149,7 @@ export default function ControleAulasEventuais() {
     setModal(true);
   }
 
-  async function submitLesson(event: CreateFormDataLesson) {
+  async function submitLesson(event: ZodTypeAny) {
     let message: object | string;
     const aux: LessonsInfos = event;
     aux.diaAula = new Date(infosInput.diaAula);

@@ -7,11 +7,10 @@ import { AppDispatch, RootState } from '../../../../configureStore';
 import { InputConfig, SchoolInfos, SchoolValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosSchool } from '../../../../slice';
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal from '../../../Components/Modal';
-import { CreateFormDataSchool } from '../../../Components/Modal/FormRegisterSchool';
 import TableRegisters from '../../../Components/TableRegisters';
 import { createSchool, deleteSchool, editSchool, readAllSchool } from '../../../api';
 import RootLayout from '../../../app/layout';
-import { z } from 'zod';
+import { ZodTypeAny, z } from 'zod';
 
 const createFormSchema = z.object({
     name: z.string().nonempty("Nome é obrigatório!"),
@@ -84,7 +83,7 @@ export default function CadastroEscola(){
         </RootLayout>
     )
 
-    async function submitSchool(event: CreateFormDataSchool){
+    async function submitSchool(event: ZodTypeAny){
         let message: object | string;
         const aux: SchoolInfos = { edit: false, name: event.name, id: infosInput.id, }
 
