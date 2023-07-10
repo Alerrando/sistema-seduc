@@ -76,7 +76,7 @@ export default function FormEditionUsers({ infos, setModal, setUsersAll }: FormE
 
                         <div className="w-full flex flex-col gap-2">
                             <label htmlFor="escola" className="font-bold">Escola</label>
-                            <select name="escola" id="" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("school") }>
+                            <select id="escola" className="border border-[#999] rounded-lg p-2 outline-none" { ...register("school") }>
                                 <option value="" defaultChecked className="text-[12px] md:text-base outline-none border-none">Selecione uma Escola</option>
                                 {allInfosSchool?.map((school: SchoolInfos, index: Key) => (
                                     <option key={`escola-${school.name}`} value={school.id} className="text-[12px] md:text-base outline-none border-none">{school.name}</option>
