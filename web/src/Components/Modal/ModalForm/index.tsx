@@ -6,6 +6,8 @@ import Input from "./Input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SelectInput from "./SelectInput";
 import Calendar from "react-calendar";
+import { UserInfos } from "../../../../slice/LoginSlide";
+import { OfficeInfos } from "../../../../slice";
 
 type InputType = "text" | "number" | "email";
 
@@ -20,26 +22,28 @@ type InputConfig = {
 type ModalFormProps<T> = {
   schema: ZodTypeAny;
   inputs: InputConfig[];
-  initialValues: LessonsInfos | SchoolInfos | TeacherInfos;
-  setInfosInput: (initalValues: LessonsInfos | SchoolInfos | TeacherInfos) => void;
+  initialValues: LessonsInfos | SchoolInfos | TeacherInfos | UserInfos | OfficeInfos;
+  setInfosInput: (initalValues: LessonsInfos | SchoolInfos | TeacherInfos | UserInfos | OfficeInfos) => void;
   onSubmit: (data: T) => void;
   modalName: string;
 };
 
 export function ModalForm<T>(props: ModalFormProps<T>) {
   const { schema, inputs, initialValues, setInfosInput, onSubmit, modalName } = props;
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<T>({
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<typeof schema>({
     resolver: zodResolver(schema),
     defaultValues: initialValues,
   });
 
   useEffect(() => {
     if (initialValues.edit) {
-      Object.entries(initialValues).forEach(([key, value]) => { setValue(key, String(value)); });
+      Object.entries(initialValues).forEach(([key, value]) => {
+        setValue(key, String(value)); 
+      });
     }
   }, [initialValues]);
 
-  function handleFormSubmit(data: T){
+  function handleFormSubmit(data: typeof schema){
     setValue("name", "");
 
     if(modalName === "Lesson"){
@@ -68,7 +72,6 @@ export function ModalForm<T>(props: ModalFormProps<T>) {
                   <SelectInput
                     name={input.name}
                     htmlFor={input.htmlFor}
-                    placeholder={input.placeholder}
                     label={input.label}
                     optionDefault={input.optionDefault}
                     optionType={input.optionType}

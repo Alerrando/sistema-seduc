@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { z } from "zod";
 import { AppDispatch } from "../../../../configureStore";
-import { UserInfos, changeLoginLogout } from "../../../../slice/LoginSlide";
+import { DefaultUserInfos, UserInfos, changeLoginLogout } from "../../../../slice/LoginSlide";
 import Input from "../../../Components/Modal/ModalForm/Input";
 import { createToken, createUser } from "../../../api";
 
@@ -103,10 +103,14 @@ export default function Register({ pages, setPages }: RegisterProps){
             rg: e.rg,
             cadastroEscola: "",
             level: 2,
-            permission: false,
+            permission: 0,
         }
-        setToken(await createToken(aux));
+
+        const token = await createToken(DefaultUserInfos);
+        setToken(token);
+
         const message = await createUser(aux, token);
+
         messageToast(message);
     }
 

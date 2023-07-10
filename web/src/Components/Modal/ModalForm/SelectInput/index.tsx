@@ -9,7 +9,7 @@ type SelectInputProps<T> = {
     htmlFor: string,
     name: string,
     optionDefault: string,
-    optionType: keyof typeof registerTypes,
+    optionType: string,
     register: UseFormRegister<T>,
 }
 
@@ -35,10 +35,15 @@ export default function SelectInput<T extends FieldValues>(props: SelectInputPro
                                 <option key={`professor-${teacher.name}`} value={teacher.id} className="outline-none border-none">{teacher.name}</option>
                             ))}
                         </>
+                    ) : optionType === "Office" ? (
+                        <>
+                            <option key="office-user" value={1}  className="outline-none border-none">Usuário</option>
+                            <option key="office-teacher" value={2} className="outline-none border-none">Professor</option>
+                        </>
                     ) : (
                         <>
-                            <option key="office-teacher" value={1}  className="outline-none border-none">Usuário</option>
-                            <option key="office-teacher" value={2} className="outline-none border-none">Professor</option>
+                            <option key="permission-on" value={1}  className="outline-none border-none">Permitido</option>
+                            <option key="permission-off" value={0} className="outline-none border-none">Não Permitido</option>
                         </>
                     )
                 }

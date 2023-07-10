@@ -6,9 +6,21 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { RootState } from "../../../../../configureStore";
 import { UserInfos } from "../../../../../slice/LoginSlide";
-import { deleteUser, getUsers } from "../../../../api";
-import FormEditionUsers from "../../../../Components/Modal/FormEditionUsers";
+import { deleteUser, editUser, getUsers } from "../../../../api";
+import Modal from "../../../../Components/Modal";
 import { InputConfig } from "../../../../../slice";
+import { z } from "zod";
+
+const createFormSchema = z.object({
+    name: z.string().nonempty("O campo Nome é obrigatório!"),
+    email: z.string().nonempty("O campo Email é obrigatório!"),
+    rg: z.string().nonempty("O campo Rg é obrigatório!"),
+    password: z.string().nonempty("O campo Senha é obrigatório!"),
+    cadastroEscola: z.string().nonempty("O campo Escola é obrigatório"),
+    permission: z.string().nonempty("Campo Permissão é obrigatório"),
+})
+
+type CreateFormData = z.infer<typeof createFormSchema>
 
 export default function UsersList(){
     const [usersAll, setUsersAll] = useState<UserInfos[]>([] as UserInfos);
@@ -18,6 +30,66 @@ export default function UsersList(){
     const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
     const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
     const tableHead = ["Id", "Nome", "Email", "Rg", "Escola", "Permissão", "Senha","Ações"];
+    const inputs: InputConfig[] = [
+        {
+            htmlFor: "name",
+            label: "Nome do Usuário",
+            name: "name",
+            placeholder: "Alerrando Breno de Oliveira Andrade",
+            type: "text",
+            input: "input",
+            key: "nome-usuario-input",
+        },
+
+        {
+            htmlFor: "email",
+            label: "E-mail*",
+            name: "email",
+            placeholder: "Digite seu email",
+            type: "email",
+            input: "input",
+            key: "email-usuario-input",
+        },
+
+        {
+            htmlFor: "rg",
+            label: "Rg*",
+            name: "rg",
+            placeholder: "Digite seu Rg",
+            type: "text",
+            input: "input",
+            key: "email-usuario-input",
+        },
+        {
+            htmlFor: "password",
+            label: "Senha*",
+            name: "password",
+            placeholder: "Digite sua senha",
+            type: "password",
+            input: "input",
+            key: "password-usuario-input"
+        },
+
+        {
+            htmlFor: "cadastroEscola",
+            label: "Escola",
+            name: "cadastroEscola",
+            optionDefault: "Selecione uma Escola",
+            optionType: "School",
+            input: "select",
+            key: "cadastroEscola-usuario-input",
+        },
+
+        {
+            htmlFor: "permission",
+            label: "Permissão*",
+            name: "permission",
+            optionDefault: "Selecione a Permissão",
+            optionType: "Permissão",
+            input: "select",
+            key: "permission-usuario-input",
+        },
+    ]
 
     useEffect(() => {
         (async () => {
@@ -64,7 +136,7 @@ export default function UsersList(){
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.email}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.rg}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{schoolName(info.cadastroEscola)}</td>
-                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.permission ? "Autorizado" : "Não Autorizado"}</td>
+                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.permission === 1 ? "Autorizado" : "Não Autorizado"}</td>
                                         <td className="flex flex-row items-center gap-2 whitespace-nowrap px-4 py-2 font-medium text-gray-900">{!viewPassword ? (
                                             <EyeOff size={26} className="cursor-pointer" onClick={() => setViewPassword(true)} />
                                         ) : (
@@ -97,13 +169,45 @@ export default function UsersList(){
             <ToastContainer />
 
             {modal ? (
-                <FormEditionUsers infos={infosEdit} setModal={setModal} setUsersAll={setUsersAll} />
+                <Modal
+                    createFormSchema={createFormSchema}
+                    infosInput={infosEdit}
+                    inputs={inputs}
+                    modalName="User"
+                    setInfosInput={setInfosEdit}
+                    setModal={setModal}
+                    submitInfos={submit}
+                    title="Edição de Usuário"
+                />
             ) : null}
         </>
     );
 
+    async function submit(e: CreateFormData){
+        const { id, level } = infosEdit;
+        const { ...rest } = e;
+    
+        const formData: UserInfos = {
+            id,
+            level,
+            ...rest,
+            permission: e.permission === 1,
+            cadastroEscola: e.cadastroEscola,
+        };
+    
+        const message = await editUser(formData, infosEdit.id);
+        setUsersAll(await getUsers());
+        setModal(false);
+    }
+
     function editInfo(info: UserInfos){
-        setInfosEdit(info);
+        const { ...rest } = info;
+        const aux = {
+            edit: true,
+            ...rest,
+        }
+
+        setInfosEdit(aux);
         setModal(true);
     }
     

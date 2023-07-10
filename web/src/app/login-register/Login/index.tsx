@@ -93,27 +93,33 @@ export default function Login({ pages, setPages }: LoginProps){
         setToken(token);
         
         let aux = await getUserByEmail(e.email, e.senha, token);
-        if(aux.usuario.permission === false){
-            toast.error("Seu registro não está permitido, aguarde até alguem permitir!", {
-                position: "bottom-left",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
+        
+        if(aux === undefined){
+            messageToast(aux);
         }
         else{
-            messageToast(aux);
-            
-            if(aux !== undefined){
-                localStorage.setItem("token", token);
-                dispatch(changeLoginLogout(aux.usuario));
-                setTimeout(() => {
-                    router.replace("/dashboard");
-                }, 3000);
+            if(aux.usuario.permission === 0){
+                toast.error("Seu registro não está permitido, aguarde até alguem permitir!", {
+                    position: "bottom-left",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+            else{
+                messageToast(aux);
+                
+                if(aux !== undefined){
+                    localStorage.setItem("token", token);
+                    dispatch(changeLoginLogout(aux.usuario));
+                    setTimeout(() => {
+                        router.replace("/dashboard");
+                    }, 3000);
+                }
             }
         }
     }

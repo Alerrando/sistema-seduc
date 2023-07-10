@@ -268,8 +268,8 @@ export async function getUserByEmail(email: string, password: string, token: str
 }
 
 export async function createUser(user: UserInfos, token: string) {
-  let message = await axios.post(`${urlUser}`, {
-    headers: { 'Authorization':  token },
+  let message = await axios.post(`${urlUser}`, user, {
+    headers: { 'Authorization':  `${token}` },
   })
   .then((res) => "Usuário criado com sucesso")
   .catch((err) => console.log(err))

@@ -8,7 +8,8 @@ export type UserInfos = {
     rg: string;
     cadastroEscola: string;
     level: number;
-    permission: boolean;
+    permission: number;
+    edit: boolean,
 }
 
 export const DefaultUserInfos: UserInfos = {
@@ -20,6 +21,7 @@ export const DefaultUserInfos: UserInfos = {
     permission: false,
     email: "",
     password: "",
+    edit: false,
 }
 
 type StateProps = {
