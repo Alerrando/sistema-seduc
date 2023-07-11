@@ -37,8 +37,9 @@ export default function Filter(props: FilterProps){
     const { datas, setDatas, setFilter, submit, filterName, schema, initialValues } = props;
     const { register, handleSubmit, formState: { errors } } = useForm<ZodTypeAny>({
         resolver: zodResolver(schema),
-        defaultValues: initialValues,
+        defaultValues: initialValues as typeof schema['_input'],
     })
+
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
@@ -61,8 +62,6 @@ export default function Filter(props: FilterProps){
 
                     <X size={36} className="cursor-pointer ml-auto" onClick={() => setFilter(false)} />
                 </header>
-
-                {console.log(errors, filterName)}
 
                 <div className="w-full h-auto flex flex-col gap-1">
                     {filterName === "Teacher" ? (
