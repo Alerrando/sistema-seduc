@@ -39,6 +39,7 @@ export default function Filter(props: FilterProps){
         resolver: zodResolver(schema),
         defaultValues: initialValues as typeof schema['_input'],
     })
+    const str: keyof FilterProps = filterName;
 
     const dispatch = useDispatch<AppDispatch>();
 
@@ -87,7 +88,7 @@ export default function Filter(props: FilterProps){
                             />
                         </>
                     )}
-                    {errors[filterName] && <span className="text-red-600">{errors[filterName].message}</span>}
+                    {errors[str] && <span className="text-red-600">{errors[str].message}</span>}
                 </div>
 
                 <div className="w-full h-auto flex flex-col gap-1">
