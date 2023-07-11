@@ -16,8 +16,13 @@ const createFormSchema = z.object({
     cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),
 })
 
+export type InitalValuesBulletinControlOccasionalClasses = {
+    cadastroProfessor: string,
+}
+
 export default function BoletimControleAulasEventuais(){
     const [allReportsInfos, setAllReportsInfos] = useState<TeacherDTOInfos[]>([] as TeacherDTOInfos[]);
+    const [initalValues, setInitialValues] = useState<InitalValuesBulletinControlOccasionalClasses>({} as InitalValuesBulletinControlOccasionalClasses);
     const [filter, setFilter] = useState<boolean>(false);
     const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
     const tableHead = [
@@ -61,9 +66,10 @@ export default function BoletimControleAulasEventuais(){
                     setAllReportsInfos={setAllReportsInfos}
                     datas={datas}
                     setDatas={setDatas}
-                    filterName="Teacher"
+                    filterName="cadastroProfessor"
                     schema={createFormSchema}
                     submit={submit}
+                    initialValues={initalValues}
                     key="filter-boletim-controle-eventuais"
                 />
             ) : null}

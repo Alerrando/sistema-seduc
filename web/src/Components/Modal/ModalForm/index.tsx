@@ -30,7 +30,7 @@ type ModalFormProps<T> = {
 
 export function ModalForm<T>(props: ModalFormProps<T>) {
   const { schema, inputs, initialValues, setInfosInput, onSubmit, modalName } = props;
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<typeof schema>({
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<ZodTypeAny>({
     resolver: zodResolver(schema),
     defaultValues: initialValues,
   });

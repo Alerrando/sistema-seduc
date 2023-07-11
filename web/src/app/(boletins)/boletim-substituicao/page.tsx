@@ -16,9 +16,14 @@ const createFormSchema = z.object({
     cadastroEscola: z.string().nonempty("Selecione uma escola ou adicione!"),
 })
 
-export default function RelatorioSubstituicao(){
+export type InitalValuesTypeSubstitutionBulletin = {
+    cadastroEscola: string,
+}
+
+export default function BoletimSubstituicao(){
     const [allReportsInfos, setAllReportsInfos] = useState<SchoolDTOInfos[]>([] as SchoolDTOInfos[])
     const [filter, setFilter] = useState<boolean>(false);
+    const [initalValues, setInitialValues] = useState<InitalValuesTypeSubstitutionBulletin>({} as InitalValuesTypeSubstitutionBulletin);
     const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
     const tableHead = ["Id", "Nome", "Formação", "Dias Trabalhados", "Total a pagar"];
     const dispatch = useDispatch<AppDispatch>();
@@ -53,11 +58,12 @@ export default function RelatorioSubstituicao(){
             {filter ? (
                 <Filter
                     datas={datas}
-                    filterName="School"
+                    filterName="cadastroEscola"
                     schema={createFormSchema}
                     setDatas={setDatas}
                     setFilter={setFilter}
                     submit={submit}
+                    initialValues={initalValues}
                     key={"filter-boletim-substituição"}
                 />
             ) : null}

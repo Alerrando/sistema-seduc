@@ -11,6 +11,8 @@ import { TeacherDTOInfos, TeacherInfos, refreshInfosSchool, refreshInfosTeacher 
 import { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from '../../../slice/TeacherFilterSlice';
 import { getNameByIdTeacher, getReportsTeacher, readAllSchool, readAllTeacher } from '../../api';
 import SelectInput from '../Modal/ModalForm/SelectInput';
+import { InitalValuesBulletinControlOccasionalClasses } from '../../app/(boletins)/boletim-controle-aulas-eventuais/page';
+import { InitalValuesTypeSubstitutionBulletin } from '../../app/(boletins)/boletim-substituicao/page';
 
 const createFormSchema = z.object({
     cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),
@@ -22,7 +24,8 @@ type FilterProps = {
     datas: DatasTypes,
     setDatas: (datas: DatasTypes) => void,
     filterName: string,
-    schema: ZodTypeAny
+    schema: ZodTypeAny,
+    initialValues: InitalValuesBulletinControlOccasionalClasses | InitalValuesTypeSubstitutionBulletin,
 }
 
 export type DatasTypes = {
@@ -31,15 +34,16 @@ export type DatasTypes = {
 }
 
 export default function Filter(props: FilterProps){
-    const { datas, setDatas, setFilter, submit, filterName, schema } = props;
-    const { register, handleSubmit, formState: { errors } } = useForm<typeof schema>({
+    const { datas, setDatas, setFilter, submit, filterName, schema, initialValues } = props;
+    const { register, handleSubmit, formState: { errors } } = useForm<ZodTypeAny>({
         resolver: zodResolver(schema),
+        defaultValues: initialValues,
     })
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         (async () => {
-            if(filterName === "Teacher"){
+            if(filterName === "cadastroProfessor"){
                 dispatch(refreshInfosTeacher(await readAllTeacher()));
             }
             else{
@@ -58,6 +62,8 @@ export default function Filter(props: FilterProps){
                     <X size={36} className="cursor-pointer ml-auto" onClick={() => setFilter(false)} />
                 </header>
 
+                {console.log(errors, filterName)}
+
                 <div className="w-full h-auto flex flex-col gap-1">
                     {filterName === "Teacher" ? (
                         <>
@@ -68,8 +74,7 @@ export default function Filter(props: FilterProps){
                                 optionDefault='Selecione um Professor'
                                 optionType='Teacher'
                                 register={register}
-                            />                  
-                            {errors.cadastroProfessor && <span className='text-red-600'>{errors.cadastroProfessor.message}</span>}
+                            />
                         </>
                     ) : (
                         <>
@@ -83,6 +88,7 @@ export default function Filter(props: FilterProps){
                             />
                         </>
                     )}
+                    {errors[filterName] && <span className="text-red-600">{errors[filterName].message}</span>}
                 </div>
 
                 <div className="w-full h-auto flex flex-col gap-1">
