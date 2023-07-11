@@ -13,6 +13,7 @@ import { getNameByIdTeacher, getReportsTeacher, readAllSchool, readAllTeacher } 
 import SelectInput from '../Modal/ModalForm/SelectInput';
 import { InitalValuesBulletinControlOccasionalClasses } from '../../app/(boletins)/boletim-controle-aulas-eventuais/page';
 import { InitalValuesTypeSubstitutionBulletin } from '../../app/(boletins)/boletim-substituicao/page';
+import { ErrorMessage } from "@hookform/error-message"
 
 const createFormSchema = z.object({
     cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),
@@ -39,7 +40,6 @@ export default function Filter(props: FilterProps){
         resolver: zodResolver(schema),
         defaultValues: initialValues as typeof schema['_input'],
     })
-    const str: keyof FilterProps = filterName;
 
     const dispatch = useDispatch<AppDispatch>();
 
@@ -88,7 +88,12 @@ export default function Filter(props: FilterProps){
                             />
                         </>
                     )}
-                    {errors[str] && <span className="text-red-600">{errors[str].message}</span>}
+                    
+                    <ErrorMessage
+                        errors={errors}
+                        name={filterName}
+                        render={({ message }) => <span className='text-red-600'>{message}</span>}
+                    />
                 </div>
 
                 <div className="w-full h-auto flex flex-col gap-1">
