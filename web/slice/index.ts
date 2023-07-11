@@ -7,7 +7,7 @@ export type InputConfig = {
   placeholder?: string;
   name: string;
   optionDefault?: string,
-  optionType?: keyof typeof reportsTypes,
+  optionType?: string,
   input: "input" | "select",
 };
 

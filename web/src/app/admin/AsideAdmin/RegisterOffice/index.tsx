@@ -42,15 +42,17 @@ export default function RegisterOffice(){
             name: "type",
             input: "select",
             optionDefault: "Selecione um tipo de cargo",
-            optionType: "",
+            optionType: "Office",
         }
     ]
 
     useEffect(() => {
         (async () => {
-            const allInfos:OfficeInfos[] = await getRegisterOffice();
-            dispatch(refreshInfosOffice(allInfos.sort((info1:OfficeInfos, info2: OfficeInfos) => info1.type - info2.type)));
-            dispatch(changeRegisterType(""));
+            const allInfos:OfficeInfos[] | string = await getRegisterOffice();
+            if(typeof allInfos !== "string"){
+                dispatch(refreshInfosOffice(allInfos?.sort((info1:OfficeInfos, info2: OfficeInfos) => info1.type - info2.type)));
+                dispatch(changeRegisterType(""));
+            }
         })()
     }, [])
 
