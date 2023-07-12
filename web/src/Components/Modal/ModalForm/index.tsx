@@ -7,22 +7,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import SelectInput from "./SelectInput";
 import Calendar from "react-calendar";
 import { UserInfos } from "../../../../slice/LoginSlide";
-import { LessonsInfos, OfficeInfos, SchoolInfos, TeacherInfos } from "../../../../slice";
+import { InputConfig, LessonsInfos, OfficeInfos, SchoolInfos, TeacherInfos } from "../../../../slice";
 import { CreateFormDataSchool } from "../../../app/(cadastros)/cadastro-escola/page";
 import { CreateFormDataTeacher } from "../../../app/(cadastros)/cadastro-professor/page";
 import { CreateFormDataLesson } from "../../../app/(cadastros)/controle-aulas-eventuais/page";
 import { CreateFormDataOffice } from "../../../app/admin/AsideAdmin/RegisterOffice";
 import { CreateFormDataUser } from "../../../app/admin/AsideAdmin/UsersList";
-
-type InputType = "text" | "number" | "email";
-
-type InputConfig = {
-  label: string;
-  htmlFor: string;
-  type: InputType;
-  placeholder: string;
-  name: string;
-};
 
 type ModalFormProps = {
   schema: ZodType<any, any, any>;
@@ -74,7 +64,7 @@ export function ModalForm(props: ModalFormProps) {
         <div className="w-full flex flex-col gap-3">
           {inputs?.map((input: InputConfig) => (
               <div key={input.name} className="w-full flex flex-col gap-2">
-                {input.input === "select" ? (
+                {input.input === "select" && input.optionDefault !== undefined && input.optionType !== undefined ? (
                   <SelectInput
                     name={input.name}
                     htmlFor={input.htmlFor}
