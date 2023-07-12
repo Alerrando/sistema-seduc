@@ -30,34 +30,29 @@ type ModalFormProps = {
 
 export function ModalForm(props: ModalFormProps) {
   const { schema, inputs, initialValues, setInfosInput, onSubmit, modalName } = props;
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<ZodTypeAny>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<ZodTypeAny>({
     resolver: zodResolver(schema),
     defaultValues: initialValues as typeof schema['_input'],
   });
-
-  useEffect(() => {
-    if (initialValues.edit) {
-      Object.entries(initialValues).forEach(([key, value]) => {
-        const fieldName = `.${key}`;
-        setValue(fieldName, `${value}`);
-      });
-    }
-  }, [initialValues]);
   
 
-  function handleFormSubmit(data: ZodTypeAny){
-    setValue("name", "");
-
-    if(modalName === "Lesson"){
-      setValue("cadastroEscola", "");
-      setValue("horaAulas", "");
+  function handleFormSubmit(data: ZodTypeAny) {
+    if (modalName === "Lesson") {
+      reset({
+        name: "",
+        cadastroEscola: "",
+        horaAulas: "",
+      });
+    } else if (modalName === "Teacher") {
+      reset({
+        name: "",
+        cpf: "",
+        cargo: "",
+      });
+    } else {
+      reset();
     }
-    else if(modalName === "Teacher"){
-      setValue("name", "");
-      setValue("cpf", "");
-      setValue("cargo", "");
-    }
-
+  
     onSubmit(data);
   };
 
