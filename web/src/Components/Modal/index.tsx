@@ -6,7 +6,7 @@ import FormRegisterLesson from "./FormRegisterLesson";
 import FormRegisterSchool from "./FormRegisterSchool";
 import FormRegisterTeacher from "./FormRegisterTeacher";
 import { ModalForm } from "./ModalForm";
-import { ZodTypeAny, z } from "zod";
+import { ZodType, z } from "zod";
 import { CreateFormDataSchool } from "../../app/(cadastros)/cadastro-escola/page";
 import { CreateFormDataTeacher } from "../../app/(cadastros)/cadastro-professor/page";
 import { CreateFormDataLesson } from "../../app/(cadastros)/controle-aulas-eventuais/page";
@@ -20,7 +20,7 @@ type ModalProps = {
 	submitInfos: (e) => void;
 	title: string,
 	inputs: InputConfig[],
-	createFormSchema: CreateFormDataSchool | CreateFormDataTeacher | CreateFormDataLesson | CreateFormDataOffice | CreateFormDataUser,
+	createFormSchema: ZodType<any, any, any>,
 	modalName: string
 }
 
@@ -46,7 +46,7 @@ export default function Modal(props: ModalProps){
 						<ModalForm inputs={inputs} setInfosInput={setInfosInput} onSubmit={submitInfos} initialValues={infosInput} schema={createFormSchema} modalName={modalName} />
 					</div>
 				) : (
-					<ModalForm inputs={inputs} onSubmit={submitInfos} initialValues={infosInput} schema={createFormSchema} />
+					<ModalForm inputs={inputs} setInfosInput={setInfosInput} onSubmit={submitInfos} initialValues={infosInput} schema={createFormSchema} modalName={modalName} />
 				)}
 			</div>
 		</div>

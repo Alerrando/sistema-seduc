@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { ZodTypeAny } from 'zod';
+import { ZodType } from 'zod';
 import Input from "./Input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SelectInput from "./SelectInput";
@@ -25,7 +25,7 @@ type InputConfig = {
 };
 
 type ModalFormProps = {
-  schema: CreateFormDataSchool | CreateFormDataTeacher | CreateFormDataLesson | CreateFormDataOffice | CreateFormDataUser;
+  schema: ZodType<any, any, any>;
   inputs: InputConfig[];
   initialValues: LessonsInfos | SchoolInfos | TeacherInfos | UserInfos | OfficeInfos;
   setInfosInput: (initalValues: LessonsInfos | SchoolInfos | TeacherInfos | UserInfos | OfficeInfos) => void;
@@ -63,8 +63,12 @@ export function ModalForm(props: ModalFormProps) {
 
   return (
     <>
-      {modalName === "Lesson" && (
-        <Calendar className="w-[100%!important] calendar shadow-md rounded-md calendar" value={initialValues.diaAula} onChange={e => setInfosInput({ ...initialValues, diaAula: new Date(e).toString()})}  />
+      {("diaAula" in initialValues) && (
+        <Calendar
+        className="w-[100%!important] calendar shadow-md rounded-md calendar"
+        value={initialValues.diaAula}
+        onChange={e => setInfosInput({ ...initialValues, diaAula: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.toString()) : "",})}
+      />
       )}
       <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(handleFormSubmit)}>
         <div className="w-full flex flex-col gap-3">
