@@ -1,16 +1,16 @@
 import React from 'react';
 import { FieldValues, UseFormRegister } from 'react-hook-form';
 
-type InputProps<T> = {
+type InputProps = {
     label: string,
     htmlFor: string,
     type: string,
     placeholder?: string,
     name: string,
-    register: UseFormRegister<T>
+    register: UseFormRegister<any>
 }
 
-export default function Input<T extends FieldValues>(props: InputProps<T>){
+export default function Input<T extends FieldValues>(props: InputProps){
     const { label, htmlFor, type, placeholder, name, register } = props;
 
     return(

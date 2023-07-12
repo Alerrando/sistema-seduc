@@ -19,16 +19,16 @@ type InputConfig = {
   name: string;
 };
 
-type ModalFormProps<T> = {
+type ModalFormProps = {
   schema: ZodTypeAny;
   inputs: InputConfig[];
   initialValues: LessonsInfos | SchoolInfos | TeacherInfos | UserInfos | OfficeInfos;
   setInfosInput: (initalValues: LessonsInfos | SchoolInfos | TeacherInfos | UserInfos | OfficeInfos) => void;
-  onSubmit: (data: T) => void;
+  onSubmit: (data: ZodTypeAny) => void;
   modalName: string;
 };
 
-export function ModalForm<T>(props: ModalFormProps<T>) {
+export function ModalForm(props: ModalFormProps) {
   const { schema, inputs, initialValues, setInfosInput, onSubmit, modalName } = props;
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<ZodTypeAny>({
     resolver: zodResolver(schema),
