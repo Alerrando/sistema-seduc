@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import SelectInput from "./SelectInput";
 import Calendar from "react-calendar";
 import { UserInfos } from "../../../../slice/LoginSlide";
-import { OfficeInfos } from "../../../../slice";
+import { LessonsInfos, OfficeInfos, SchoolInfos, TeacherInfos } from "../../../../slice";
 
 type InputType = "text" | "number" | "email";
 

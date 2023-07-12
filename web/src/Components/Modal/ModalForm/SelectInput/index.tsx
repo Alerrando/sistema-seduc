@@ -1,8 +1,8 @@
-import React from "react"
-import { registerTypes } from "../../../../../slice"
+import React, { Key } from "react"
+import { SchoolInfos, TeacherInfos, registerTypes } from "../../../../../slice"
 import { useSelector } from "react-redux"
 import { RootState } from "../../../../../configureStore"
-import { FieldValues } from "react-hook-form"
+import { FieldValues, UseFormRegister } from "react-hook-form"
 
 type SelectInputProps = {
     label: string,
