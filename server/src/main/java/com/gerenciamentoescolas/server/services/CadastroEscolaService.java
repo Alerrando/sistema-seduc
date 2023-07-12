@@ -37,12 +37,10 @@ public class CadastroEscolaService {
     }
 
     public CadastroEscola create(CadastroEscola cadastroEscola){
-        List<CadastroEscola> escolas = cadastroEscolaRepository.findAll();
-        for(CadastroEscola escola : escolas){
-            if(cadastroEscolaRepository.existsByName(cadastroEscola.getName())){
-                throw new EscolaJaCadastradaException("Escola já cadastrada!");
-            }
+        if(cadastroEscolaRepository.existsByName(cadastroEscola.getName())){
+            throw new EscolaJaCadastradaException("Escola já cadastrada!");
         }
+
         return cadastroEscolaRepository.save(cadastroEscola);
     }
 

@@ -16,10 +16,10 @@ import java.util.Optional;
 @Service
 public class UserService {
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    EncryptionService encryptedService;
+    private EncryptionService encryptedService;
 
     public List<User> findAll(){
         List<User> result = userRepository.findAll();
