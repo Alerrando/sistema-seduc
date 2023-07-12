@@ -32,16 +32,18 @@ export function ModalForm(props: ModalFormProps) {
   const { schema, inputs, initialValues, setInfosInput, onSubmit, modalName } = props;
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<ZodTypeAny>({
     resolver: zodResolver(schema),
-    defaultValues: initialValues,
+    defaultValues: initialValues as typeof schema['_input'],
   });
 
   useEffect(() => {
     if (initialValues.edit) {
       Object.entries(initialValues).forEach(([key, value]) => {
-        setValue(key, String(value)); 
+        const fieldName = `.${key}`;
+        setValue(fieldName, `${value}`);
       });
     }
   }, [initialValues]);
+  
 
   function handleFormSubmit(data: ZodTypeAny){
     setValue("name", "");
