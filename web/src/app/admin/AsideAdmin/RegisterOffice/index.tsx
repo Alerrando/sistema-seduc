@@ -16,7 +16,7 @@ const createFormSchema = z.object({
     type: z.string().nonempty("Campo Cargo é obrigatório")
 })
 
-type CreateFormData = z.infer<typeof createFormSchema>
+export type CreateFormDataOffice = z.infer<typeof createFormSchema>
 
 export default function RegisterOffice(){
     const { allInfosOffice } = useSelector((root: RootState) => root.Slice);
@@ -106,7 +106,7 @@ export default function RegisterOffice(){
         </main>
     );
 
-    async function submit(e: CreateFormData){
+    async function submit(e: CreateFormDataOffice){
         let message: object | string;
         let allInfos: OfficeInfos[] = [];
         const { ...rest }  = e;

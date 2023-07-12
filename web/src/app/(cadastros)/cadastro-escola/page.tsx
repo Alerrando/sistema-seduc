@@ -10,11 +10,13 @@ import Modal from '../../../Components/Modal';
 import TableRegisters from '../../../Components/TableRegisters';
 import { createSchool, deleteSchool, editSchool, readAllSchool } from '../../../api';
 import RootLayout from '../../../app/layout';
-import { ZodTypeAny, z } from 'zod';
+import { z } from 'zod';
 
 const createFormSchema = z.object({
     name: z.string().nonempty("Nome é obrigatório!"),
 })
+
+export type CreateFormDataSchool = z.infer<typeof createFormSchema>
 
 export default function CadastroEscola(){
     const { allInfosSchool, registerType } = useSelector((root: RootState) => root.Slice);
@@ -83,7 +85,7 @@ export default function CadastroEscola(){
         </RootLayout>
     )
 
-    async function submitSchool(event: ZodTypeAny){
+    async function submitSchool(event: CreateFormDataSchool){
         let message: object | string;
         const aux: SchoolInfos = { edit: false, name: event.name, id: infosInput.id, }
 

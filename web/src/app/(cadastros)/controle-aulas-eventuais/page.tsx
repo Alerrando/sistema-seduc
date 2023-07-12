@@ -12,13 +12,15 @@ import Modal from "../../../Components/Modal";
 import TableRegisters from "../../../Components/TableRegisters";
 import { createLesson, deleteLesson, editLesson, readAllLesson } from "../../../api";
 import RootLayout from "../../../app/layout";
-import { ZodTypeAny, z } from "zod";
+import { z } from "zod";
 
 const createFormSchema = z.object({
   horaAulas: z.string().nonempty("Digite a quantidade de aulas!"),
   cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),
   cadastroEscola: z.string().nonempty("Selecione uma escola ou adicione!"),
 })
+
+export type CreateFormDataLesson = z.infer<typeof createFormSchema>
 
 export default function ControleAulasEventuais() {
   const [infosInput, setInfosInput] = useState<LessonsInfos>(HorasValuesDefault);
@@ -149,7 +151,7 @@ export default function ControleAulasEventuais() {
     setModal(true);
   }
 
-  async function submitLesson(event: ZodTypeAny) {
+  async function submitLesson(event: CreateFormDataLesson) {
     let message: object | string;
     const aux: LessonsInfos = event;
     aux.diaAula = new Date(infosInput.diaAula);

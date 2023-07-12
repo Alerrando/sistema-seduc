@@ -8,6 +8,11 @@ import SelectInput from "./SelectInput";
 import Calendar from "react-calendar";
 import { UserInfos } from "../../../../slice/LoginSlide";
 import { LessonsInfos, OfficeInfos, SchoolInfos, TeacherInfos } from "../../../../slice";
+import { CreateFormDataSchool } from "../../../app/(cadastros)/cadastro-escola/page";
+import { CreateFormDataTeacher } from "../../../app/(cadastros)/cadastro-professor/page";
+import { CreateFormDataLesson } from "../../../app/(cadastros)/controle-aulas-eventuais/page";
+import { CreateFormDataOffice } from "../../../app/admin/AsideAdmin/RegisterOffice";
+import { CreateFormDataUser } from "../../../app/admin/AsideAdmin/UsersList";
 
 type InputType = "text" | "number" | "email";
 
@@ -20,23 +25,23 @@ type InputConfig = {
 };
 
 type ModalFormProps = {
-  schema: ZodTypeAny;
+  schema: CreateFormDataSchool | CreateFormDataTeacher | CreateFormDataLesson | CreateFormDataOffice | CreateFormDataUser;
   inputs: InputConfig[];
   initialValues: LessonsInfos | SchoolInfos | TeacherInfos | UserInfos | OfficeInfos;
   setInfosInput: (initalValues: LessonsInfos | SchoolInfos | TeacherInfos | UserInfos | OfficeInfos) => void;
-  onSubmit: (data: ZodTypeAny) => void;
+  onSubmit: (data: CreateFormDataSchool | CreateFormDataTeacher | CreateFormDataLesson | CreateFormDataOffice | CreateFormDataUser) => void;
   modalName: string;
 };
 
 export function ModalForm(props: ModalFormProps) {
   const { schema, inputs, initialValues, setInfosInput, onSubmit, modalName } = props;
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<ZodTypeAny>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<CreateFormDataSchool | CreateFormDataTeacher | CreateFormDataLesson | CreateFormDataOffice | CreateFormDataUser>({
     resolver: zodResolver(schema),
     defaultValues: initialValues as typeof schema['_input'],
   });
   
 
-  function handleFormSubmit(data: ZodTypeAny) {
+  function handleFormSubmit(data: CreateFormDataSchool | CreateFormDataTeacher | CreateFormDataLesson | CreateFormDataOffice | CreateFormDataUser) {
     if (modalName === "Lesson") {
       reset({
         name: "",

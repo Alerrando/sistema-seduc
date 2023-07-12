@@ -20,7 +20,7 @@ const createFormSchema = z.object({
     permission: z.string().nonempty("Campo Permissão é obrigatório"),
 })
 
-type CreateFormData = z.infer<typeof createFormSchema>
+export type CreateFormDataUser = z.infer<typeof createFormSchema>
 
 export default function UsersList(){
     const [usersAll, setUsersAll] = useState<UserInfos[]>([] as UserInfos);
@@ -183,7 +183,7 @@ export default function UsersList(){
         </>
     );
 
-    async function submit(e: CreateFormData){
+    async function submit(e: CreateFormDataUser){
         const { id, level } = infosEdit;
         const { ...rest } = e;
     

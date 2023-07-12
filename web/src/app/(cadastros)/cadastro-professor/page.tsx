@@ -10,7 +10,7 @@ import Modal from '../../../Components/Modal';
 import TableRegisters from '../../../Components/TableRegisters';
 import { createTeacher, deleteTeacher, editTeacher, readAllTeacher } from '../../../api';
 import RootLayout from '../../../app/layout';
-import { ZodTypeAny, z } from 'zod';
+import { z } from 'zod';
 
 function isValidCPF(cpf: string): boolean {
     const cleanedCPF = cpf.replace(/\D/g, '');
@@ -51,6 +51,8 @@ const createFormSchema = z.object({
     sede: z.string().nonempty("Selecione qual a sede"),
     cargo: z.string().nonempty("Selecione qual o cargo"),
 })
+
+export type CreateFormDataTeacher = z.infer<typeof createFormSchema>
 
 export default function CadastroProfessor(){
     const { allInfosTeacher, registerType } = useSelector((root: RootState) => root.Slice);
@@ -137,7 +139,7 @@ export default function CadastroProfessor(){
         </RootLayout>
     )
 
-    async function submitTeacher(event: ZodTypeAny){
+    async function submitTeacher(event: CreateFormDataTeacher){
         const { ...rest } = event;
         const aux: TeacherInfos = { ...rest, edit: false, id: infosInput.id, cpf: event.cpf.replaceAll(".", "").replaceAll("-", "") };
         let message: object | string;

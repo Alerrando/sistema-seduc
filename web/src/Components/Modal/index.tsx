@@ -7,6 +7,11 @@ import FormRegisterSchool from "./FormRegisterSchool";
 import FormRegisterTeacher from "./FormRegisterTeacher";
 import { ModalForm } from "./ModalForm";
 import { ZodTypeAny, z } from "zod";
+import { CreateFormDataSchool } from "../../app/(cadastros)/cadastro-escola/page";
+import { CreateFormDataTeacher } from "../../app/(cadastros)/cadastro-professor/page";
+import { CreateFormDataLesson } from "../../app/(cadastros)/controle-aulas-eventuais/page";
+import { CreateFormDataOffice } from "../../app/admin/AsideAdmin/RegisterOffice";
+import { CreateFormDataUser } from "../../app/admin/AsideAdmin/UsersList";
 
 type ModalProps = {
 	setInfosInput: (infosInput: LessonsInfos | SchoolInfos | TeacherInfos | OfficeInfos) => void;
@@ -15,14 +20,14 @@ type ModalProps = {
 	submitInfos: (e) => void;
 	title: string,
 	inputs: InputConfig[],
-	createFormSchema: ZodTypeAny,
+	createFormSchema: CreateFormDataSchool | CreateFormDataTeacher | CreateFormDataLesson | CreateFormDataOffice | CreateFormDataUser,
 	modalName: string
 }
 
 export default function Modal(props: ModalProps){
 	const { setInfosInput, infosInput, setModal, submitInfos, title, inputs, createFormSchema, modalName } = props;
 
-	async function submit(event: ZodTypeAny){
+	async function submit(event: CreateFormDataSchool){
 		submitInfos(event);
 	}
 	
