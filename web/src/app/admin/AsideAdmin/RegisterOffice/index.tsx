@@ -32,6 +32,7 @@ export default function RegisterOffice(){
             name: "name",
             placeholder: "PEB I",
             type: "text",
+            input: "input",
         },
 
         {

@@ -32,6 +32,7 @@ export default function CadastroEscola(){
             name: "name",
             placeholder: "Escola Municipal Mario Fiorante",
             type: "text",
+            input: "input",
         },
     ]
 
