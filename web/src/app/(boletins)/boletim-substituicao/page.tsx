@@ -70,7 +70,7 @@ export default function BoletimSubstituicao(){
         </RootLayout>
     )
 
-    function submit(e: InitalValuesTypeSubstitutionBulletin){
-        console.log(e);
+    function submit(data: InitalValuesTypeSubstitutionBulletin){
+        console.log(data);
     }
 }
