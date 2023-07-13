@@ -3,7 +3,7 @@ import { SlidersHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { TeacherDTOInfos, changeReportsType, refreshInfosSchool, refreshInfosTeacher } from "../../../../slice";
-import Filter, { DatasTypes } from "../../../Components/Filter";
+import Filter, { DatasTypes, SubmitData } from "../../../Components/Filter";
 import TableReports from "../../../Components/TableReports";
 import { getNameByIdTeacher, getReportsTeacher, readAllSchool, readAllTeacher } from "../../../api";
 import Link from "next/link";
@@ -75,15 +75,16 @@ export default function BoletimControleAulasEventuais(){
         </RootLayout>
     );
     
-    async function submit(data: InitalValuesBulletinControlOccasionalClasses){
-        let aux = [];
-        aux = await getReportsTeacher(data.cadastroProfessor, new Date(datas.dataInicial), new Date(datas.dataFinal));
-
-        if(typeof aux === "object") {
-            dispatch(refreshAllFilterInfosTeacher(aux.sort((data1: TeacherDTOInfos, data2: TeacherDTOInfos) => new Date(data1.dataAula).getTime() - new Date(data2.dataAula).getTime())))
-            dispatch(refreshFilterInfosTeacher(await getNameByIdTeacher(e.cadastroProfessor)));
+    async function submit(data: SubmitData){
+        if("cadastroProfessor" in data){
+            let aux = await getReportsTeacher(data.cadastroProfessor, new Date(datas.dataInicial), new Date(datas.dataFinal));
+    
+            if(typeof aux === "object") {
+                dispatch(refreshAllFilterInfosTeacher(aux.sort((data1: TeacherDTOInfos, data2: TeacherDTOInfos) => new Date(data1.dataAula).getTime() - new Date(data2.dataAula).getTime())))
+                dispatch(refreshFilterInfosTeacher(await getNameByIdTeacher(data.cadastroProfessor)));
+            }
+    
+            setFilter(false);
         }
-
-        setFilter(false);
     }
 }
