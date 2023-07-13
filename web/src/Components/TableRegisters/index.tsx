@@ -36,7 +36,7 @@ export default function TableRegisters(props: TableRegistersProps) {
                 </thead>
 
                 <tbody className="divide-y divide-gray-200">
-                {infosAll != undefined && infosAll.map((info: LessonsInfos | SchoolInfos | TeacherInfos, index: Key) => {
+                {infosAll != undefined && infosAll.map((info: LessonsInfos | SchoolInfos | TeacherInfos, index: number) => {
 
                         return (
                         <tr key={`${info.id}-${index}`}>

@@ -26,13 +26,13 @@ export default function TableReports(props: TableReportsProps) {
 
 
                 <tbody className="divide-y divide-gray-200">
-                    {allFilterInfosTeacher != undefined && allFilterInfosTeacher.map((info: SchoolDTOInfos | TeacherDTOInfos, index: Key) => {
+                    {allFilterInfosTeacher != undefined && allFilterInfosTeacher.map((info: SchoolDTOInfos | TeacherDTOInfos, index: number) => {
 
                         return (
                             <tr key={`${info.id}-${index}`}>
                                 {reportsTypes == "School" ? (
                                     <>
-                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.id}</td>
+                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.quantidadeAulas}</td>
                                     </>
