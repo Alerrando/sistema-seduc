@@ -5,7 +5,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from "react-redux";
-import { ZodTypeAny, z } from 'zod';
+import { z } from 'zod';
 import { AppDispatch, RootState } from '../../../configureStore';
 import { TeacherDTOInfos, TeacherInfos, refreshInfosSchool, refreshInfosTeacher } from '../../../slice';
 import { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from '../../../slice/TeacherFilterSlice';
@@ -21,11 +21,11 @@ const createFormSchema = z.object({
 
 type FilterProps = {
     setFilter: (filter: boolean) => void;
-    submit: (data: ZodTypeAny) => void,
+    submit: (data: InitalValuesTypeSubstitutionBulletin | InitalValuesBulletinControlOccasionalClasses) => void,
     datas: DatasTypes,
     setDatas: (datas: DatasTypes) => void,
     filterName: string,
-    schema: ZodTypeAny,
+    schema: InitalValuesTypeSubstitutionBulletin | InitalValuesBulletinControlOccasionalClasses,
     initialValues: InitalValuesBulletinControlOccasionalClasses | InitalValuesTypeSubstitutionBulletin,
 }
 
@@ -36,7 +36,7 @@ export type DatasTypes = {
 
 export default function Filter(props: FilterProps){
     const { datas, setDatas, setFilter, submit, filterName, schema, initialValues } = props;
-    const { register, handleSubmit, formState: { errors } } = useForm<ZodTypeAny>({
+    const { register, handleSubmit, formState: { errors } } = useForm<InitalValuesTypeSubstitutionBulletin | InitalValuesBulletinControlOccasionalClasses>({
         resolver: zodResolver(schema),
         defaultValues: initialValues as typeof schema['_input'],
     })

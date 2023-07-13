@@ -70,7 +70,7 @@ export default function BoletimSubstituicao(){
         </RootLayout>
     )
 
-    function submit(e: ZodTypeAny){
+    function submit(e: InitalValuesTypeSubstitutionBulletin){
         console.log(e);
     }
 }

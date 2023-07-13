@@ -11,7 +11,6 @@ import RootLayout from "../../../app/layout";
 import { AppDispatch } from "../../../../configureStore";
 import { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from "../../../../slice/TeacherFilterSlice";
 import { z } from "zod";
-import { CreateFormDataLesson } from "../../../app/(cadastros)/controle-aulas-eventuais/page";
 
 const createFormSchema = z.object({
     cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),
@@ -76,7 +75,7 @@ export default function BoletimControleAulasEventuais(){
         </RootLayout>
     );
     
-    async function submit(e: CreateFormDataLesson){
+    async function submit(e: InitalValuesBulletinControlOccasionalClasses){
         let aux = [];
         aux = await getReportsTeacher(e.cadastroProfessor, new Date(datas.dataInicial), new Date(datas.dataFinal));
 
