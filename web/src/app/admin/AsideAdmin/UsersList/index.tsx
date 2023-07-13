@@ -38,7 +38,6 @@ export default function UsersList(){
             placeholder: "Alerrando Breno de Oliveira Andrade",
             type: "text",
             input: "input",
-            key: "nome-usuario-input",
         },
 
         {
@@ -48,7 +47,6 @@ export default function UsersList(){
             placeholder: "Digite seu email",
             type: "email",
             input: "input",
-            key: "email-usuario-input",
         },
 
         {
@@ -58,7 +56,6 @@ export default function UsersList(){
             placeholder: "Digite seu Rg",
             type: "text",
             input: "input",
-            key: "email-usuario-input",
         },
         {
             htmlFor: "password",
@@ -67,7 +64,6 @@ export default function UsersList(){
             placeholder: "Digite sua senha",
             type: "password",
             input: "input",
-            key: "password-usuario-input"
         },
 
         {
@@ -77,7 +73,6 @@ export default function UsersList(){
             optionDefault: "Selecione uma Escola",
             optionType: "School",
             input: "select",
-            key: "cadastroEscola-usuario-input",
         },
 
         {
@@ -87,7 +82,6 @@ export default function UsersList(){
             optionDefault: "Selecione a Permissão",
             optionType: "Permissão",
             input: "select",
-            key: "permission-usuario-input",
         },
     ]
 

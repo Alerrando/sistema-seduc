@@ -69,7 +69,6 @@ export default function CadastroProfessor(){
             placeholder: "Ana Laura",
             type: "text",
             input: "input",
-            key: "horaAulas-input",
         },
 
         {
@@ -79,7 +78,6 @@ export default function CadastroProfessor(){
             placeholder: "000.000.000-00",
             type: "text",
             input: "input",
-            key: "cpf-input",
         },
 
         {

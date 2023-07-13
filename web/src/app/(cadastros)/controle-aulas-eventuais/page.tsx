@@ -57,7 +57,6 @@ export default function ControleAulasEventuais() {
       name: "horaAulas",
       placeholder: "1",
       type: "string",
-      key: "horaAulas-input",
     },
   ]
 
