@@ -3,14 +3,15 @@ import { SlidersHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { TeacherDTOInfos, changeReportsType, refreshInfosSchool, refreshInfosTeacher } from "../../../../slice";
-import Filter from "../../../Components/Filter";
+import Filter, { DatasTypes } from "../../../Components/Filter";
 import TableReports from "../../../Components/TableReports";
 import { getNameByIdTeacher, getReportsTeacher, readAllSchool, readAllTeacher } from "../../../api";
 import Link from "next/link";
 import RootLayout from "../../../app/layout";
 import { AppDispatch } from "../../../../configureStore";
 import { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from "../../../../slice/TeacherFilterSlice";
-import { ZodTypeAny } from "zod";
+import { z } from "zod";
+import { CreateFormDataLesson } from "../../../app/(cadastros)/controle-aulas-eventuais/page";
 
 const createFormSchema = z.object({
     cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),
@@ -63,7 +64,6 @@ export default function BoletimControleAulasEventuais(){
             {filter ? (
                 <Filter 
                     setFilter={setFilter} 
-                    setAllReportsInfos={setAllReportsInfos}
                     datas={datas}
                     setDatas={setDatas}
                     filterName="cadastroProfessor"
@@ -76,7 +76,7 @@ export default function BoletimControleAulasEventuais(){
         </RootLayout>
     );
     
-    async function submit(e: ZodTypeAny){
+    async function submit(e: CreateFormDataLesson){
         let aux = [];
         aux = await getReportsTeacher(e.cadastroProfessor, new Date(datas.dataInicial), new Date(datas.dataFinal));
 
