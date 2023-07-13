@@ -1,5 +1,5 @@
 import axios from "axios";
-import { DefinitionPeriodsInfos, LessonsInfos, SchoolDTOInfos, SchoolInfos, TeacherDTOInfos, TeacherInfos } from "../../slice";
+import { DefinitionPeriodsInfos, LessonsInfos, OfficeInfos, SchoolDTOInfos, SchoolInfos, SchoolValuesDefault, TeacherDTOInfos, TeacherInfos, TeacherValuesDefault } from "../../slice";
 import { UserInfos } from "../../slice/LoginSlide";
 
 const urlLesson = "http://localhost:8080/security/cadastro-aulas";
@@ -139,13 +139,11 @@ export async function deleteSchool(id: number) {
   }
 }
 
-export async function getIdSchool(id: string) {
-  let aux: SchoolInfos = {};
-  
-  await axios.get(`${urlSchool}/${id}}`, {
+export async function getIdSchool(id: string) {  
+  const aux = await axios.get(`${urlSchool}/${id}}`, {
     headers: { 'Authorization':  `${localStorage.getItem("token")}` },
   })
-  .then((res) => (aux = res.data))
+  .then((res) => res.data)
   .catch((err) => console.log(err))
 
   return aux.name;
@@ -210,7 +208,7 @@ export async function deleteTeacher(id: number) {
 }
 
 export async function getNameByIdTeacher(id: string) {
-  let aux: TeacherInfos = {};
+  let aux: TeacherInfos = TeacherValuesDefault;
   
   await axios.get(`${urlTeacher}/${id}`, {
     headers: { 'Authorization':  `${localStorage.getItem("token")}` },
@@ -223,22 +221,20 @@ export async function getNameByIdTeacher(id: string) {
 
 // ----------------------------- ROUTER REPORTS ----------------------------- //]
 export async function getReportsSchool() {
-  let aux:SchoolDTOInfos[] = [];
-  await axios.get(`${urlSchool}/relatorio`, {
+  const aux = await axios.get(`${urlSchool}/relatorio`, {
     headers: { 'Authorization':  `${localStorage.getItem("token")}` },
   })
-  .then((res) => (aux = res.data))
+  .then((res) => res.data)
   .catch((err) => console.log(err))
 
   return aux;
 }
 
 export async function getReportsTeacher(idProfessor: string, dataInicial: Date, dataFinal: Date) {
-  let aux = [];
-  await axios.get(`${urlTeacher}/boletim/${idProfessor}&${dataInicial}&${dataFinal}`, {
+  const aux = await axios.get(`${urlTeacher}/boletim/${idProfessor}&${dataInicial}&${dataFinal}`, {
     headers: { 'Authorization':  `${localStorage.getItem("token")}` },
   })
-  .then((res) => (aux = res.data))
+  .then((res) => res.data)
   .catch((err) => console.log(err))
 
   return aux;
@@ -344,7 +340,7 @@ export async function getRegisterOffice() {
   return aux;
 }
 
-export async function createRegisterOffice(infos: RegisterOfficeInfos) {
+export async function createRegisterOffice(infos: OfficeInfos) {
   let message = axios.post(urlOffice, infos, {
       headers: { 'Authorization':  `${localStorage.getItem("token")}` },
     })
@@ -354,7 +350,7 @@ export async function createRegisterOffice(infos: RegisterOfficeInfos) {
    return message;
 }
 
-export async function editRegisterOffice(infos: RegisterOfficeInfos, id: number) {
+export async function editRegisterOffice(infos: OfficeInfos, id: number) {
   let message = axios.put(`${urlOffice}/${id}`, infos, {
         headers: { 'Authorization':  `${localStorage.getItem("token")}` },
       })
