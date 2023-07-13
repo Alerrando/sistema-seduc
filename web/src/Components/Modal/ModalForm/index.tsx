@@ -13,6 +13,7 @@ import { CreateFormDataTeacher } from "../../../app/(cadastros)/cadastro-profess
 import { CreateFormDataLesson } from "../../../app/(cadastros)/controle-aulas-eventuais/page";
 import { CreateFormDataOffice } from "../../../app/admin/AsideAdmin/RegisterOffice";
 import { CreateFormDataUser } from "../../../app/admin/AsideAdmin/UsersList";
+import { ErrorMessage } from "@hookform/error-message"
 
 type ModalFormProps = {
   schema: ZodType<any, any, any>;
@@ -85,7 +86,13 @@ export function ModalForm(props: ModalFormProps) {
                     register={register}
                   />
                 )}
-                {errors[input.name] && <span className="text-red-600">{errors[input.name].message}</span>}
+
+                <ErrorMessage
+                  errors={errors}
+                  name={input.name}
+                  render={({ message }) => <span className="text-red-600">{message}</span>}
+                />
+                
               </div>
           ))}
         </div>

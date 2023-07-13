@@ -1,10 +1,6 @@
 import { X } from "lucide-react";
 import { useSelector } from "react-redux";
-import { InputConfig, OfficeInfos, SchoolInfos, TeacherInfos } from "../../../slice";
-import { RootState } from "../../../system";
-import FormRegisterLesson from "./FormRegisterLesson";
-import FormRegisterSchool from "./FormRegisterSchool";
-import FormRegisterTeacher from "./FormRegisterTeacher";
+import { InputConfig, LessonsInfos, OfficeInfos, SchoolInfos, TeacherInfos } from "../../../slice";
 import { ModalForm } from "./ModalForm";
 import { ZodType, z } from "zod";
 import { CreateFormDataSchool } from "../../app/(cadastros)/cadastro-escola/page";
@@ -12,12 +8,13 @@ import { CreateFormDataTeacher } from "../../app/(cadastros)/cadastro-professor/
 import { CreateFormDataLesson } from "../../app/(cadastros)/controle-aulas-eventuais/page";
 import { CreateFormDataOffice } from "../../app/admin/AsideAdmin/RegisterOffice";
 import { CreateFormDataUser } from "../../app/admin/AsideAdmin/UsersList";
+import { UserInfos } from "../../../slice/LoginSlide";
 
 type ModalProps = {
-	setInfosInput: (infosInput: LessonsInfos | SchoolInfos | TeacherInfos | OfficeInfos) => void;
-	infosInput: LessonsInfos | SchoolInfos | TeacherInfos | OfficeInfos;
+	setInfosInput: (infosInput: LessonsInfos | SchoolInfos | TeacherInfos | OfficeInfos | UserInfos) => void;
+	infosInput: LessonsInfos | SchoolInfos | TeacherInfos | OfficeInfos | UserInfos;
 	setModal: (modal: boolean) => void;
-	submitInfos: (e) => void;
+	submitInfos: (data: CreateFormDataSchool | CreateFormDataTeacher | CreateFormDataLesson | CreateFormDataOffice | CreateFormDataUser) => void;
 	title: string,
 	inputs: InputConfig[],
 	createFormSchema: ZodType<any, any, any>,
@@ -27,8 +24,8 @@ type ModalProps = {
 export default function Modal(props: ModalProps){
 	const { setInfosInput, infosInput, setModal, submitInfos, title, inputs, createFormSchema, modalName } = props;
 
-	async function submit(event: CreateFormDataSchool){
-		submitInfos(event);
+	async function submit(data: CreateFormDataSchool | CreateFormDataTeacher | CreateFormDataLesson | CreateFormDataOffice | CreateFormDataUser){
+		submitInfos(data);
 	}
 	
 	return(

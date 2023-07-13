@@ -2,7 +2,7 @@ import { format, isValid, parseISO } from "date-fns";
 import { Pencil, Trash } from "lucide-react";
 import React, { Key, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { refreshInfosSchool, refreshInfosTeacher, LessonsInfos, SchoolInfos, TeacherInfos, getNameSchool, getNameTeacher } from "../../../slice";
+import { refreshInfosSchool, refreshInfosTeacher, LessonsInfos, SchoolInfos, TeacherInfos } from "../../../slice";
 import { readAllSchool, readAllTeacher } from "../../api";
 import { AppDispatch, RootState } from "../../../configureStore";
 
