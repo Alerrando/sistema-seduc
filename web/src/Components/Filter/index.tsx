@@ -5,7 +5,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from "react-redux";
-import { z } from 'zod';
+import { ZodType, z } from 'zod';
 import { AppDispatch, RootState } from '../../../configureStore';
 import { TeacherDTOInfos, TeacherInfos, refreshInfosSchool, refreshInfosTeacher } from '../../../slice';
 import { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from '../../../slice/TeacherFilterSlice';
@@ -25,7 +25,7 @@ type FilterProps = {
     datas: DatasTypes,
     setDatas: (datas: DatasTypes) => void,
     filterName: string,
-    schema: InitalValuesTypeSubstitutionBulletin | InitalValuesBulletinControlOccasionalClasses,
+    schema: ZodType<any, any, any>,
     initialValues: InitalValuesBulletinControlOccasionalClasses | InitalValuesTypeSubstitutionBulletin,
 }
 
