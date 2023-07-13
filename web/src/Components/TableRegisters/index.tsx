@@ -40,34 +40,34 @@ export default function TableRegisters(props: TableRegistersProps) {
 
                         return (
                         <tr key={`${info.id}-${index}`}>
-                            {registerType === "Lesson" ? (
+                            {registerType === "Lesson" && 'cadastroProfessor' in info && 'cadastroEscola' in info  ? (
                                 <>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
-                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{allInfosTeacher?.find((teacher) => teacher.id == info.cadastroProfessor)?.name}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{allInfosTeacher?.find((teacher) => String(teacher.id) == info.cadastroProfessor)?.name}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.horaAulas}</td>
-                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{allInfosSchool?.find((school) => school.id == info.cadastroEscola)?.name}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{allInfosSchool?.find((school) => String(school.id) == info.cadastroEscola)?.name}</td>
                                     <td className='whitespace-nowrap px-4 py-2 font-medium text-gray-900'>
                                         <span className='whitespace-nowrap'>{isValid(new Date(info.diaAula)) ? format(new Date(info.diaAula), "dd/MM/yyyy") : ""}</span>
                                     </td>
                                 </>
-                            ) : registerType === "School" ? (
+                            ) : registerType === "School" && "name" in info ? (
                                 <>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
                                 </>
-                            ) : registerType === "Teacher" ? (
+                            ) : registerType === "Teacher" && 'sede' in info ? (
                                 <>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.cpf}</td>
-                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{allInfosSchool?.find((school) => school.id == info.sede)?.name}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{allInfosSchool?.find((school) => String(school.id) == info.sede)?.name}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.cargo}</td>
                                 </>
                             ) : (
                                 <>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
-                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
-                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.type == "1" ? "Usuário" : "Professor"}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{"name" in info && info.name}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{"type" in info && info.type == "1" ? "Usuário" : "Professor"}</td>
                                 </>
                             )}
                             <td className="">
