@@ -29,8 +29,8 @@ export default function TableReports(props: TableReportsProps) {
                     {allFilterInfosTeacher != undefined && allFilterInfosTeacher.map((info: SchoolDTOInfos | TeacherDTOInfos, index: number) => {
 
                         return (
-                            <tr key={`${info.id}-${index}`}>
-                                {reportsTypes == "School" ? (
+                            <tr key={`${info.name}-${index}`}>
+                                {reportsTypes == "School" && "quantidadeAulas" in info ? (
                                     <>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
@@ -38,14 +38,18 @@ export default function TableReports(props: TableReportsProps) {
                                     </>
                                 ) : (
                                     <>
+                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
                                         <td className='whitespace-nowrap px-4 py-2 font-medium text-gray-900'>
-                                            <span className='whitespace-nowrap'>{isValid(new Date(info.dataAula)) ? format(new Date(info.dataAula?.toString()), "dd/MM/yyyy") : ""}</span>
+                                            {"dataAula" in info && (
+                                                    <span className='whitespace-nowrap'>{isValid(new Date(info.dataAula)) ? format(new Date(info.dataAula?.toString()), "dd/MM/yyyy") : ""}</span>
+                                                )
+                                            }
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                                            {allInfosSchool?.find((school) => school.id == info.cadastroEscola)?.name}
+                                            {"cadastroEscola" in info && allInfosSchool?.find((school) => String(school.id) == info.cadastroEscola)?.name}
                                         </td>
-                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.horaAulas}</td>
+                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{"horaAulas" in info && info.horaAulas}</td>
                                     </>
                                 )}
                             </tr>
