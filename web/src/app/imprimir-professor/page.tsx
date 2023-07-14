@@ -1,10 +1,10 @@
 'use client';
 import React, { useEffect, useState, Key } from "react";
 import { format, isValid } from 'date-fns'
-import { TeacherDTOInfos } from '../../slice'
 import RootLayout from "../layout";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../configureStore";
+import { TeacherDTOInfos } from "../../../slice";
 
 export default function ImprimirProfessor(){
     const { filterInfosTeacher, allFilterInfosTeacher } = useSelector((root: RootState) => root.SliceTeacher);

@@ -7,8 +7,7 @@ import { Book, GraduationCap, School2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { refreshDefinitionPeriods, refreshInfosLesson, refreshInfosSchool, refreshInfosTeacher } from "../../../slice";
 import { getDefinitionPeriods, readAllLesson, readAllSchool, readAllTeacher } from "../../api";
-import { RootState } from "../../../system";
-import { AppDispatch } from "../../../configureStore";
+import { AppDispatch, RootState } from "../../../configureStore";
 
 export default function Dashboard(){
     const dispatch = useDispatch<AppDispatch>();

@@ -8,7 +8,7 @@ import { RootState } from "../../../../../configureStore";
 import { UserInfos } from "../../../../../slice/LoginSlide";
 import { deleteUser, editUser, getUsers } from "../../../../api";
 import Modal, { SubmitDataModal } from "../../../../Components/Modal";
-import { InputConfig } from "../../../../../slice";
+import { InputConfig, SchoolInfos } from "../../../../../slice";
 import { z } from "zod";
 
 const createFormSchema = z.object({
@@ -23,9 +23,9 @@ const createFormSchema = z.object({
 export type CreateFormDataUser = z.infer<typeof createFormSchema>
 
 export default function UsersList(){
-    const [usersAll, setUsersAll] = useState<UserInfos[]>([] as UserInfos);
+    const [usersAll, setUsersAll] = useState<UserInfos[] | null>(null);
     const [modal, setModal] = useState<boolean>(false);
-    const [infosEdit, setInfosEdit] = useState<UserInfos>({} as UserInfos);
+    const [infosEdit, setInfosEdit] = useState<UserInfos | null>(null);
     const [viewPassword, setViewPassword] = useState<boolean>(false);
     const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
     const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
@@ -124,7 +124,7 @@ export default function UsersList(){
                         </thead>
 
                         <tbody className="divide-y divide-gray-200">
-                            {usersAll != undefined && usersAll.map((info: UserInfos, index: Key) => {
+                            {usersAll != undefined && usersAll.map((info: UserInfos, index: number) => {
                                     return (
                                     <tr key={`${info.id}-${index}`}>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
@@ -181,25 +181,28 @@ export default function UsersList(){
 
     async function submit(data: SubmitDataModal){
         if("name" in data && "email" in data && "rg" in data && "password" in data && "cadastroEscola" in data && "permission" in data){
-            const { id, level } = infosEdit;
-            const { ...rest } = data;
-        
-            const formData: UserInfos = {
-                id,
-                level,
-                ...rest,
-                permission: data.permission === 1,
-                cadastroEscola: data.cadastroEscola,
-            };
-        
-            const message = await editUser(formData, infosEdit.id);
-            setUsersAll(await getUsers());
-            setModal(false);
+            if(infosEdit != null){
+                const { id, level, edit } = infosEdit;
+                const { ...rest } = data;
+            
+                const formData: UserInfos = {
+                    id,
+                    level,
+                    edit,
+                    ...rest,
+                    permission: Number(data.permission),
+                    cadastroEscola: data.cadastroEscola,
+                };
+            
+                const message = await editUser(formData, infosEdit.id);
+                setUsersAll(await getUsers());
+                setModal(false);
+            }
         }
     }
 
     function editInfo(info: UserInfos){
-        const { ...rest } = info;
+        const { edit, ...rest } = info;
         const aux = {
             edit: true,
             ...rest,
@@ -225,8 +228,8 @@ export default function UsersList(){
         }
     }
 
-    function schoolName(cadastroEscola){
-        let aux = allInfosSchool?.find((school) => school.id == cadastroEscola)?.name;
+    function schoolName(cadastroEscola: string){
+        let aux = allInfosSchool?.find((school: SchoolInfos) => String(school.id) == cadastroEscola)?.name;
 
         return aux === undefined ? "Não Atribuido" : aux;
     }
