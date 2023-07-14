@@ -14,7 +14,7 @@ export type InputConfig = {
 export type LessonsInfos = {
   id: number;
   cadastroProfessor: string;
-  horaAulas: number;
+  horaAulas: string;
   diaAula: Date | string;
   cadastroEscola: string;
   edit: boolean;
@@ -72,7 +72,7 @@ export const HorasValuesDefault: LessonsInfos = {
   id: 0,
   diaAula: new Date().toString(),
   edit: false,
-  horaAulas: 0,
+  horaAulas: "",
   cadastroProfessor: "",
   cadastroEscola: "",
 };

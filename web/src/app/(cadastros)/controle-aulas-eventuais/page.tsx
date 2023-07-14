@@ -145,9 +145,13 @@ export default function ControleAulasEventuais() {
   async function submitLesson(data: SubmitDataModal) {
     if("horaAulas" in data && "cadastroProfessor" in data && "cadastroEscola" in data){
       let message: any | string;
-      const aux: LessonsInfos = data;
-      aux.diaAula = new Date(infosInput.diaAula);
-      
+      const { ...rest } = data;
+      let aux: LessonsInfos = {
+        id: infosInput.id,
+        diaAula: new Date(infosInput.diaAula),
+        edit: false,
+        ...rest,
+      };
       if (!infosInput.edit) {
           message = await createLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
           
