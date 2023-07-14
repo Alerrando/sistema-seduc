@@ -2,17 +2,17 @@ import { format, isValid, parseISO } from "date-fns";
 import { Pencil, Trash } from "lucide-react";
 import React, { Key, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { refreshInfosSchool, refreshInfosTeacher, LessonsInfos, SchoolInfos, TeacherInfos } from "../../../slice";
+import { refreshInfosSchool, refreshInfosTeacher, LessonsInfos, SchoolInfos, TeacherInfos, OfficeInfos } from "../../../slice";
 import { readAllSchool, readAllTeacher } from "../../api";
 import { AppDispatch, RootState } from "../../../configureStore";
 
-export type InfosTableRegisterData = LessonsInfos | SchoolInfos | TeacherInfos;
+export type InfosTableRegisterData = LessonsInfos | SchoolInfos | TeacherInfos | OfficeInfos;
 
 type TableRegistersProps = {
     tableHead: string[],
     editInfo: (info: InfosTableRegisterData) => void,
     deleteInfo: (info: InfosTableRegisterData) => void,
-    infosAll: LessonsInfos[] | SchoolInfos[] | TeacherInfos[],
+    infosAll: LessonsInfos[] | SchoolInfos[] | TeacherInfos[] | OfficeInfos[],
     search: string,
 }
 
@@ -38,7 +38,7 @@ export default function TableRegisters(props: TableRegistersProps) {
                 </thead>
 
                 <tbody className="divide-y divide-gray-200">
-                {infosAll != undefined && infosAll.map((info: LessonsInfos | SchoolInfos | TeacherInfos, index: number) => {
+                {infosAll != undefined && infosAll.map((info: LessonsInfos | SchoolInfos | TeacherInfos | OfficeInfos, index: number) => {
 
                         return (
                         <tr key={`${info.id}-${index}`}>
