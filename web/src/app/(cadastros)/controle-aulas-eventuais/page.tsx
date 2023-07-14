@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { AppDispatch, RootState } from "../../../../configureStore";
-import { HorasValuesDefault, InputConfig, LessonsInfos, changeRegisterType, refreshInfosLesson } from "../../../../slice";
+import { HorasValuesDefault, InputConfig, LessonsInfos, TeacherInfos, changeRegisterType, refreshInfosLesson } from "../../../../slice";
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
@@ -191,22 +191,10 @@ export default function ControleAulasEventuais() {
     }
   }
 
-  function changePagination(type: string) {
-    return () => {
-      if (type === "Left") {
-        if (pagination === 0) setPagination(0);
-        else setPagination((prev) => prev - 1);
-      } else {
-        if (pagination == allInfosLesson.length - 1) setPagination(0);
-        else setPagination((prev) => prev + 1);
-      }
-    };
-  }
-
   function getNameTeacher(id: string){
     let aux = "";
     allInfosTeacher?.forEach((teacher: TeacherInfos) => {
-        if(teacher.id == id){
+        if(String(teacher.id) == id){
             aux = teacher.name;
         }
     })

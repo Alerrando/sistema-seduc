@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { createDefinitionPeriods, getDefinitionPeriods } from "../../../../api";
 import { useDispatch, useSelector } from "react-redux";
-import { refreshDefinitionPeriods } from "../../../../../slice";
+import { DefinitionPeriodsInfos, refreshDefinitionPeriods } from "../../../../../slice";
 import { format, isValid } from "date-fns";
 import { AppDispatch, RootState } from "../../../../../configureStore";
 
@@ -27,8 +27,8 @@ export default function DefinitionPeriods(){
 
     useEffect(() => {
         (async () => {
-          const periods = await getDefinitionPeriods();
-          const formattedPeriods = periods.map(period => ({
+          const periods: DefinitionPeriodsInfos[] = await getDefinitionPeriods();
+          const formattedPeriods: DefinitionPeriodsInfos[] = periods.map(period => ({
             startDate: new Date(period.startDate).toISOString(),
             endDate: new Date(period.endDate).toISOString(),
           }));
