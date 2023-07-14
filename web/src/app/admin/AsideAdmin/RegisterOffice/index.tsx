@@ -5,11 +5,11 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { z } from "zod";
 import { RootState } from "../../../../../configureStore";
-import { InputConfig, OfficeInfos, SchoolValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosOffice } from "../../../../../slice";
+import { InputConfig, OfficeInfos, OfficeValuesDefault, changeRegisterType, refreshInfosOffice } from "../../../../../slice";
 import CreateHeaderRegisters from "../../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../../Components/Modal";
+import TableRegisters, { InfosTableRegisterData } from "../../../../Components/TableRegisters";
 import { createRegisterOffice, deleteRegisterOffice, editRegisterOffice, getRegisterOffice } from "../../../../api";
-import TableRegisters from "../../../../Components/TableRegisters";
 
 const createFormSchema = z.object({
     name: z.string().nonempty("Nome é obrigatório!"),
@@ -20,7 +20,7 @@ export type CreateFormDataOffice = z.infer<typeof createFormSchema>
 
 export default function RegisterOffice(){
     const { allInfosOffice } = useSelector((root: RootState) => root.Slice);
-    const [infosRegister, setInfosRegister] = useState<OfficeInfos>(SchoolValuesDefault);
+    const [infosRegister, setInfosRegister] = useState<OfficeInfos>(OfficeValuesDefault);
     const [modal, setModal] = useState<boolean>(false);
     const [search, setSearch] = useState<string>("");
     const dispatch = useDispatch();
@@ -48,9 +48,13 @@ export default function RegisterOffice(){
 
     useEffect(() => {
         (async () => {
-            const allInfos:OfficeInfos[] | string = await getRegisterOffice();
-            if(typeof allInfos !== "string"){
-                dispatch(refreshInfosOffice(allInfos?.sort((info1:OfficeInfos, info2: OfficeInfos) => info1.type - info2.type)));
+            const allInfos: OfficeInfos[] | string = await getRegisterOffice();
+            if (typeof allInfos !== "string") {
+                const sortedInfos = allInfos.slice().sort((info1: OfficeInfos, info2: OfficeInfos) =>
+                    info1.type.localeCompare(info2.type)
+                );
+                
+                dispatch(refreshInfosOffice(sortedInfos));
                 dispatch(changeRegisterType(""));
             }
         })()
@@ -111,7 +115,7 @@ export default function RegisterOffice(){
             let message: any | string;
             let allInfos: OfficeInfos[] = [];
             const { ...rest }  = data;
-            const aux = { ...rest, id: infosRegister.id, }
+            const aux = { ...rest, id: infosRegister.id, edit: infosRegister.edit }
     
             if(!infosRegister.edit){
                 message = await createRegisterOffice(aux);
@@ -122,23 +126,35 @@ export default function RegisterOffice(){
             }
             
             allInfos = await getRegisterOffice();
-            dispatch(refreshInfosOffice(allInfos.sort((info1:OfficeInfos, info2: OfficeInfos) => info1.type - info2.type)));
+            const sortedInfos = allInfos.slice().sort((info1: OfficeInfos, info2: OfficeInfos) =>
+                    info1.type.localeCompare(info2.type)
+            );
+                
+            dispatch(refreshInfosOffice(sortedInfos));
             messageToast(message);
         }
     }
 
-    function editInfo(info: OfficeInfos){
-        const { ...rest } = info;
-        const aux = { ...rest, edit: true };
-        setInfosRegister(aux);
-        setModal(true);
+    function editInfo(info: InfosTableRegisterData){
+        if("name" in info && "type" in info){
+            const { ...rest } = info;
+            const aux = { ...rest, edit: true };
+            setInfosRegister(aux);
+            setModal(true);
+        }
     }
 
-    async function deleteInfo(info: OfficeInfos){
-        const message: any | string = await deleteRegisterOffice(info.id);
-        const allInfos = await getRegisterOffice();
-        dispatch(refreshInfosOffice(allInfos.sort((info1:OfficeInfos, info2: OfficeInfos) => info1.type - info2.type)));
-        messageToast(message);
+    async function deleteInfo(info: InfosTableRegisterData){
+        if("name" in info && "type" in info){
+            const message: any | string = await deleteRegisterOffice(info.id);
+            const allInfos = await getRegisterOffice();
+            const sortedInfos = allInfos.slice().sort((info1: OfficeInfos, info2: OfficeInfos) =>
+                info1.type.localeCompare(info2.type)
+            );
+            
+            dispatch(refreshInfosOffice(sortedInfos));
+            messageToast(message);
+        }
     }
 
     async function handleLoadingClick() {
