@@ -7,7 +7,7 @@ import { AppDispatch, RootState } from '../../../../configureStore';
 import { InputConfig, SchoolValuesDefault, TeacherInfos, changeRegisterType, objectEmptyValue, refreshInfosTeacher } from '../../../../slice';
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal, { SubmitDataModal } from '../../../Components/Modal';
-import TableRegisters from '../../../Components/TableRegisters';
+import TableRegisters, { InfosTableRegisterData } from '../../../Components/TableRegisters';
 import { createTeacher, deleteTeacher, editTeacher, readAllTeacher } from '../../../api';
 import RootLayout from '../../../app/layout';
 import { z } from 'zod';
@@ -158,17 +158,21 @@ export default function CadastroProfessor(){
         }
 	}
 
-    async function editInfo(info: TeacherInfos) {
-        const { ...rest } = info;
-        const aux = { ...rest, edit : true, }
-        setInfosInput(aux);
-        setModal(true);
+    async function editInfo(info: InfosTableRegisterData) {
+        if("sede" in info && "cpf" in info && "cargo" in info && "name" in info){
+            const { ...rest } = info;
+            const aux = { ...rest, edit : true, }
+            setInfosInput(aux);
+            setModal(true);
+        }
     }
 
-    async function deleteInfo(info: TeacherInfos) {
-        const message:object | string = await deleteTeacher(info.id);
-        messageToast(message);
-        dispatch(refreshInfosTeacher(await readAllTeacher()));
+    async function deleteInfo(info: InfosTableRegisterData) {
+        if("sede" in info && "cpf" in info && "cargo" in info && "name" in info){
+            const message:object | string = await deleteTeacher(info.id);
+            messageToast(message);
+            dispatch(refreshInfosTeacher(await readAllTeacher()));
+        }
     }
 
     async function handleLoadingClick() {

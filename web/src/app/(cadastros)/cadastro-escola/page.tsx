@@ -7,7 +7,7 @@ import { AppDispatch, RootState } from '../../../../configureStore';
 import { InputConfig, SchoolInfos, SchoolValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosSchool } from '../../../../slice';
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal, { SubmitDataModal } from '../../../Components/Modal';
-import TableRegisters from '../../../Components/TableRegisters';
+import TableRegisters, { InfosTableRegisterData } from '../../../Components/TableRegisters';
 import { createSchool, deleteSchool, editSchool, readAllSchool } from '../../../api';
 import RootLayout from '../../../app/layout';
 import { z } from 'zod';
@@ -103,17 +103,21 @@ export default function CadastroEscola(){
         }
 	}
 
-    async function editInfo(info: SchoolInfos) {
-        const { ...rest } = info;
-        const aux = { ...rest, edit: true, }
-        setInfosInput(aux);
-        setModal(true);
+    async function editInfo(info: InfosTableRegisterData) {
+        if("name" in info){
+            const { ...rest } = info;
+            const aux = { ...rest, edit: true, }
+            setInfosInput(aux);
+            setModal(true);
+        }
     }
 
-    async function deleteInfo(info: SchoolInfos) {
-        const message:object | string = await deleteSchool(info.id);
-        messageToast(message);
-        dispatch(refreshInfosSchool(await readAllSchool()));
+    async function deleteInfo(info: InfosTableRegisterData) {
+        if("name" in info){
+            const message:object | string = await deleteSchool(info.id);
+            messageToast(message);
+            dispatch(refreshInfosSchool(await readAllSchool()));
+        }
     }
 
     async function handleLoadingClick() {

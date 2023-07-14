@@ -6,10 +6,12 @@ import { refreshInfosSchool, refreshInfosTeacher, LessonsInfos, SchoolInfos, Tea
 import { readAllSchool, readAllTeacher } from "../../api";
 import { AppDispatch, RootState } from "../../../configureStore";
 
+export type InfosTableRegisterData = LessonsInfos | SchoolInfos | TeacherInfos;
+
 type TableRegistersProps = {
     tableHead: string[],
-    editInfo: (info: LessonsInfos | SchoolInfos | TeacherInfos) => void,
-    deleteInfo: (info: LessonsInfos | SchoolInfos | TeacherInfos) => void,
+    editInfo: (info: InfosTableRegisterData) => void,
+    deleteInfo: (info: InfosTableRegisterData) => void,
     infosAll: LessonsInfos[] | SchoolInfos[] | TeacherInfos[],
     search: string,
 }

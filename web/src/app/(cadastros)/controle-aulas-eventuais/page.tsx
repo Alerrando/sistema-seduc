@@ -9,7 +9,7 @@ import { AppDispatch, RootState } from "../../../../configureStore";
 import { HorasValuesDefault, InputConfig, LessonsInfos, changeRegisterType, refreshInfosLesson } from "../../../../slice";
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
-import TableRegisters from "../../../Components/TableRegisters";
+import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
 import { createLesson, deleteLesson, editLesson, readAllLesson } from "../../../api";
 import RootLayout from "../../../app/layout";
 import { z } from "zod";
@@ -139,23 +139,13 @@ export default function ControleAulasEventuais() {
     </RootLayout>
   );
 
-  function editInfo(infos: LessonsInfos) {
-    const { ...rest } = infos;
-    const aux = {
-      ...rest,
-      edit: true,
-    }
-    
-    setInfosInput(aux);
-    setModal(true);
-  }
-
+  
   async function submitLesson(data: SubmitDataModal) {
     if("horaAulas" in data && "cadastroProfessor" in data && "cadastroEscola" in data){
       let message: object | string;
       const aux: LessonsInfos = data;
       aux.diaAula = new Date(infosInput.diaAula);
-  
+      
       if (!infosInput.edit) {
           message = await createLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
           
@@ -171,12 +161,27 @@ export default function ControleAulasEventuais() {
       setLessonsLengthall(await readAllLesson().then((data) => data.length));
     }
   }
+  
+  function editInfo(info: InfosTableRegisterData) {
+    if("horaAulas" in info && "cadastroProfessor" in info && "cadastroEscola" in info){
+      const { ...rest } = info;
+      const aux = {
+        ...rest,
+        edit: true,
+      }
+      
+      setInfosInput(aux);
+      setModal(true);
+    }
+  }
 
-  async function deleteInfo(infos: LessonsInfos) {
-    if(window.confirm(`Deseja deletar a aula do professor ${getNameTeacher(infos.cadastroProfessor)} no dia ${format(new Date(infos.diaAula.toString()), "dd/MM/yyyy")}?`)){
-      const message = await deleteLesson(infos.id);
-      messageToast(message);
-      dispatch(refreshInfosLesson(await readAllLesson()));
+  async function deleteInfo(info: InfosTableRegisterData) {
+    if("horaAulas" in info && "cadastroProfessor" in info && "cadastroEscola" in info){
+      if(window.confirm(`Deseja deletar a aula do professor ${getNameTeacher(info.cadastroProfessor)} no dia ${format(new Date(info.diaAula.toString()), "dd/MM/yyyy")}?`)){
+        const message = await deleteLesson(info.id);
+        messageToast(message);
+        dispatch(refreshInfosLesson(await readAllLesson()));
+      }
     }
   }
 
