@@ -10,19 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { DefinitionPeriodsInfos, refreshDefinitionPeriods } from "../../../../../slice";
 import { format, isValid } from "date-fns";
 import { AppDispatch, RootState } from "../../../../../configureStore";
-
-const createFormSchema = z.object({
-    startDate: z.date({ invalid_type_error: "Não é uma data válida", required_error: "Selecione uma data" }),
-    endDate: z.date({ invalid_type_error: "Não é uma data válida", required_error: "Selecione uma data" }),
-})
-
-type CreateFormData = z.infer<typeof createFormSchema>
+import { Value } from "react-calendar/dist/cjs/shared/types";
 
 export default function DefinitionPeriods(){
     const { infosDefinitionPeriods } = useSelector((root: RootState) => root.Slice);
-    const { handleSubmit, formState: { errors }, setValue } = useForm<CreateFormData>({
-        resolver: zodResolver(createFormSchema)
-    });
+    const [datas, setDatas] = useState<DefinitionPeriodsInfos>({} as DefinitionPeriodsInfos);
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
@@ -50,17 +42,17 @@ export default function DefinitionPeriods(){
                 </div>
             </header>
 
-            <form className="h-full w-full flex flex-col items-start justify-between p-12" onSubmit={handleSubmit(submit)}>
+            <form className="h-full w-full flex flex-col items-start justify-between p-12" onSubmit={submit}>
                 <div className="h-full w-full flex items-start justify-between">
                     <div className="h-auto w-1/3 grid justify-center text-center gap-3">
                         <h2 className="text-2xl">Data inicial</h2>
 
                         <Calendar
                             className="w-[100%!important] calendar shadow-md border border-[#dfdfdf!important] rounded-md calendar"
-                            onChange={handleStartDateChange}
+                            value={datas.startDate}
+                            onChange={e => setDatas({ ...datas, startDate: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.toString()) : "",})}
                         />
 
-                        {errors.startDate && <span className="text-red-600">{errors.startDate.message}</span> }
                     </div>
 
                     <div className="h-auto w-1/3 grid justify-center text-center gap-3">
@@ -68,10 +60,9 @@ export default function DefinitionPeriods(){
 
                         <Calendar
                             className="w-[100%!important] calendar shadow-md border border-[#dfdfdf!important] rounded-md calendar"
-                            onChange={handleEndDateChange}
+                            value={datas.endDate}
+                            onChange={e => setDatas({ ...datas, endDate: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.toString()) : "",})}
                         />
-
-                        {errors.endDate && <span className="text-red-600">{errors.endDate.message}</span>}
                     </div>
                 </div>
 
@@ -112,15 +103,11 @@ export default function DefinitionPeriods(){
         </>
     );
 
-    async function submit(e: CreateFormData) {
-        const startDate = new Date(e.startDate);
-        const endDate = new Date(e.endDate);
-        const formattedData = {
-          startDate: startDate.toISOString(),
-          endDate: endDate.toISOString(),
-        };
-        const message = await createDefinitionPeriods(formattedData);
-        dispatch(refreshDefinitionPeriods(await getDefinitionPeriods()));
+    async function submit() {
+        if(datas.startDate !== null && datas.endDate !== null){
+            const message = await createDefinitionPeriods(datas);
+            dispatch(refreshDefinitionPeriods(await getDefinitionPeriods()));
+        }
     }
 
     async function handleLoadingClick() {
@@ -131,13 +118,4 @@ export default function DefinitionPeriods(){
           console.error('Erro ao atualizar os dados:', error);
         }
     }
-      
-
-    function handleStartDateChange(date: Date){
-        setValue("startDate", date);
-    };
-    
-    function handleEndDateChange(date: Date){
-        setValue("endDate", date);
-    };
 }
