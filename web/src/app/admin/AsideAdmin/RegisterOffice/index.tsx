@@ -42,6 +42,7 @@ export default function RegisterOffice(){
             input: "select",
             optionDefault: "Selecione um tipo de cargo",
             optionType: "Office",
+            type: "string",
         }
     ]
 

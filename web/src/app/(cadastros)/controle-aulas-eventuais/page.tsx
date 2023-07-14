@@ -33,6 +33,7 @@ export default function ControleAulasEventuais() {
   const tableHead = ["Id", "Nome Completo", "Horas de aulas dadas", "Escola",  "Dia da aula", "Ações"];
   const inputs: InputConfig[] = [
     {
+      type: "string",
       htmlFor: "cadastroProfessor",
       label: "Professores",
       name: "cadastroProfessor",
@@ -42,6 +43,7 @@ export default function ControleAulasEventuais() {
     },
 
     {
+      type: "string",
       htmlFor: "cadastroEscola",
       label: "Escola",
       name: "cadastroEscola",

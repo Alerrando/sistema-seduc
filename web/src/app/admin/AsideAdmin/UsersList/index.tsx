@@ -73,6 +73,7 @@ export default function UsersList(){
             optionDefault: "Selecione uma Escola",
             optionType: "School",
             input: "select",
+            type: "string",
         },
 
         {
@@ -82,6 +83,7 @@ export default function UsersList(){
             optionDefault: "Selecione a Permissão",
             optionType: "Permissão",
             input: "select",
+            type: "string",
         },
     ]
 

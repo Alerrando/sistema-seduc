@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AppDispatch, RootState } from '../../../../configureStore';
-import { InputConfig, SchoolValuesDefault, TeacherInfos, changeRegisterType, objectEmptyValue, refreshInfosTeacher } from '../../../../slice';
+import { InputConfig, TeacherInfos, TeacherValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosTeacher } from '../../../../slice';
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal, { SubmitDataModal } from '../../../Components/Modal';
 import TableRegisters, { InfosTableRegisterData } from '../../../Components/TableRegisters';
@@ -56,7 +56,7 @@ export type CreateFormDataTeacher = z.infer<typeof createFormSchema>
 
 export default function CadastroProfessor(){
     const { allInfosTeacher, registerType } = useSelector((root: RootState) => root.Slice);
-    const [infosInput, setInfosInput] = useState<TeacherInfos>(SchoolValuesDefault);
+    const [infosInput, setInfosInput] = useState<TeacherInfos>(TeacherValuesDefault);
     const [search, setSearch] = useState("");
     const [modal, setModal] = useState<boolean>(false);
     const thead = ["Id", "Nome do Professor(a)", "Cpf", "Sede", "Cargo", "Ações"];
@@ -81,6 +81,7 @@ export default function CadastroProfessor(){
         },
 
         {
+            type: "text",
             htmlFor: "sede",
             label: "Sede",
             name: "sede",
