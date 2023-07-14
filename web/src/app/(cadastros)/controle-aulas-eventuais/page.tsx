@@ -142,7 +142,7 @@ export default function ControleAulasEventuais() {
   
   async function submitLesson(data: SubmitDataModal) {
     if("horaAulas" in data && "cadastroProfessor" in data && "cadastroEscola" in data){
-      let message: object | string;
+      let message: any | string;
       const aux: LessonsInfos = data;
       aux.diaAula = new Date(infosInput.diaAula);
       
@@ -217,7 +217,7 @@ export default function ControleAulasEventuais() {
     }
   }
 
-  function messageToast(message){
+  function messageToast(message: any | string){
     if(typeof message !== "object"){
         toast.success(message, {
             position: "bottom-left",

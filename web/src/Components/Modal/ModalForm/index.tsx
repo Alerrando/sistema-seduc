@@ -19,8 +19,8 @@ import { SubmitDataModal } from "..";
 type ModalFormProps = {
   schema: ZodType<any, any, any>;
   inputs: InputConfig[];
-  initialValues: LessonsInfos | SchoolInfos | TeacherInfos | UserInfos | OfficeInfos;
-  setInfosInput: (initalValues: LessonsInfos | SchoolInfos | TeacherInfos | UserInfos | OfficeInfos) => void;
+  initialValues: any;
+  setInfosInput: (initalValues: any) => void;
   onSubmit: (data: SubmitDataModal) => void;
   modalName: string;
 };

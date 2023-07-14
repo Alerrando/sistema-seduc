@@ -86,7 +86,7 @@ export default function CadastroEscola(){
 
     async function submitSchool(data: SubmitDataModal){
         if("name" in data){
-            let message: object | string;
+            let message: any | string;
             const aux: SchoolInfos = { edit: false, name: data.name, id: infosInput.id, }
     
             if(!infosInput.edit){
@@ -114,7 +114,7 @@ export default function CadastroEscola(){
 
     async function deleteInfo(info: InfosTableRegisterData) {
         if("name" in info){
-            const message:object | string = await deleteSchool(info.id);
+            const message: any | string = await deleteSchool(info.id);
             messageToast(message);
             dispatch(refreshInfosSchool(await readAllSchool()));
         }
@@ -129,7 +129,7 @@ export default function CadastroEscola(){
         }
     }
 
-    function messageToast(message){
+    function messageToast(message: any | string){
         if(typeof message !== "object"){
             toast.success(message, {
                 position: "bottom-left",

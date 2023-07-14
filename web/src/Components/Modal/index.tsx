@@ -13,8 +13,8 @@ import { UserInfos } from "../../../slice/LoginSlide";
 export type SubmitDataModal = CreateFormDataSchool | CreateFormDataTeacher | CreateFormDataLesson | CreateFormDataOffice | CreateFormDataUser
 
 type ModalProps = {
-	setInfosInput: (infosInput: LessonsInfos | SchoolInfos | TeacherInfos | OfficeInfos | UserInfos) => void;
-	infosInput: LessonsInfos | SchoolInfos | TeacherInfos | OfficeInfos | UserInfos;
+	setInfosInput: (infosInput: any) => void;
+	infosInput: any;
 	setModal: (modal: boolean) => void;
 	submitInfos: (data: SubmitDataModal) => void;
 	title: string,

@@ -107,7 +107,7 @@ export default function RegisterOffice(){
 
     async function submit(data: SubmitDataModal){
         if("name" in data && "type" in data){
-            let message: object | string;
+            let message: any | string;
             let allInfos: OfficeInfos[] = [];
             const { ...rest }  = data;
             const aux = { ...rest, id: infosRegister.id, }
@@ -134,7 +134,7 @@ export default function RegisterOffice(){
     }
 
     async function deleteInfo(info: OfficeInfos){
-        const message: object | string = await deleteRegisterOffice(info.id);
+        const message: any | string = await deleteRegisterOffice(info.id);
         const allInfos = await getRegisterOffice();
         dispatch(refreshInfosOffice(allInfos.sort((info1:OfficeInfos, info2: OfficeInfos) => info1.type - info2.type)));
         messageToast(message);
@@ -149,7 +149,7 @@ export default function RegisterOffice(){
         }
     }
 
-    function messageToast(message){
+    function messageToast(message: any | string){
         if(typeof message !== "object"){
             toast.success(message, {
                 position: "bottom-left",

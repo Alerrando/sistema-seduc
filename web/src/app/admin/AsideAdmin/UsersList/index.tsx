@@ -229,7 +229,7 @@ export default function UsersList(){
         return aux === undefined ? "Não Atribuido" : aux;
     }
 
-    function messageToast(message){
+    function messageToast(message: string | any){
         if(typeof message !== "object"){
             toast.success(message, {
                 position: "bottom-left",

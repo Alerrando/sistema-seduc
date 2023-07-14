@@ -141,7 +141,7 @@ export default function CadastroProfessor(){
         if("sede" in data && "cpf" in data && "cargo" in data && "name" in data){
             const { ...rest } = data;
             const aux: TeacherInfos = { ...rest, edit: false, id: infosInput.id, cpf: data.cpf.replaceAll(".", "").replaceAll("-", "") };
-            let message: object | string;
+            let message: any | string;
             if(!infosInput.edit){
                 if(!objectEmptyValue(aux)){
                     message = await createTeacher(aux, aux.sede);
@@ -169,7 +169,7 @@ export default function CadastroProfessor(){
 
     async function deleteInfo(info: InfosTableRegisterData) {
         if("sede" in info && "cpf" in info && "cargo" in info && "name" in info){
-            const message:object | string = await deleteTeacher(info.id);
+            const message: any | string = await deleteTeacher(info.id);
             messageToast(message);
             dispatch(refreshInfosTeacher(await readAllTeacher()));
         }
@@ -184,7 +184,7 @@ export default function CadastroProfessor(){
         }
     }
 
-    function messageToast(message){
+    function messageToast(message: any | string){
         if(typeof message !== "object"){
             toast.success(message, {
                 position: "bottom-left",
