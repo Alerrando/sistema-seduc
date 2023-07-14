@@ -23,12 +23,12 @@ export type SubmitDataFilter = InitalValuesTypeSubstitutionBulletin | InitalValu
 
 type FilterProps = {
     setFilter: (filter: boolean) => void;
-    submit: (data: SubmitData) => void,
+    submit: (data: SubmitDataFilter) => void,
     datas: DatasTypes,
     setDatas: (datas: DatasTypes) => void,
     filterName: string,
     schema: ZodType<any, any, any>,
-    initialValues: SubmitData,
+    initialValues: SubmitDataFilter,
 }
 
 export type DatasTypes = {
@@ -56,7 +56,7 @@ export default function Filter(props: FilterProps){
         })()
     }, [])
 
-    function submitFilter(data: SubmitData){
+    function submitFilter(data: SubmitDataFilter){
         submit(data)
     }
 
