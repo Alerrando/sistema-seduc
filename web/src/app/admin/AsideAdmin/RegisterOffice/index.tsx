@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { z } from "zod";
 import { RootState } from "../../../../../configureStore";
-import { InputConfig, OfficeInfos, SchoolValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosOffice } from "../../../../../slice";
+import { InputConfig, OfficeInfos, OfficeValuesDefault, SchoolValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosOffice } from "../../../../../slice";
 import CreateHeaderRegisters from "../../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../../Components/Modal";
 import { createRegisterOffice, deleteRegisterOffice, editRegisterOffice, getRegisterOffice } from "../../../../api";
@@ -20,7 +20,7 @@ export type CreateFormDataOffice = z.infer<typeof createFormSchema>
 
 export default function RegisterOffice(){
     const { allInfosOffice } = useSelector((root: RootState) => root.Slice);
-    const [infosRegister, setInfosRegister] = useState<OfficeInfos>(SchoolValuesDefault);
+    const [infosRegister, setInfosRegister] = useState<OfficeInfos>(OfficeValuesDefault);
     const [modal, setModal] = useState<boolean>(false);
     const [search, setSearch] = useState<string>("");
     const dispatch = useDispatch();
@@ -48,9 +48,13 @@ export default function RegisterOffice(){
 
     useEffect(() => {
         (async () => {
-            const allInfos:OfficeInfos[] | string = await getRegisterOffice();
-            if(typeof allInfos !== "string"){
-                dispatch(refreshInfosOffice(allInfos?.sort((info1:OfficeInfos, info2: OfficeInfos) => info1.type - info2.type)));
+            const allInfos: OfficeInfos[] | string = await getRegisterOffice();
+            if (typeof allInfos !== "string") {
+                const sortedInfos = allInfos.slice().sort((info1, info2) =>
+                    info1.type.localeCompare(info2.type)
+                );
+                
+                dispatch(refreshInfosOffice(sortedInfos));
                 dispatch(changeRegisterType(""));
             }
         })()
@@ -128,17 +132,21 @@ export default function RegisterOffice(){
     }
 
     function editInfo(info: OfficeInfos){
-        const { ...rest } = info;
-        const aux = { ...rest, edit: true };
-        setInfosRegister(aux);
-        setModal(true);
+        if("name" in info && "type" in info){
+            const { ...rest } = info;
+            const aux = { ...rest, edit: true };
+            setInfosRegister(aux);
+            setModal(true);
+        }
     }
 
     async function deleteInfo(info: OfficeInfos){
-        const message: any | string = await deleteRegisterOffice(info.id);
-        const allInfos = await getRegisterOffice();
-        dispatch(refreshInfosOffice(allInfos.sort((info1:OfficeInfos, info2: OfficeInfos) => info1.type - info2.type)));
-        messageToast(message);
+        if("name" in info && "type" in info){
+            const message: any | string = await deleteRegisterOffice(info.id);
+            const allInfos = await getRegisterOffice();
+            dispatch(refreshInfosOffice(allInfos.sort((info1:OfficeInfos, info2: OfficeInfos) => info1.type - info2.type)));
+            messageToast(message);
+        }
     }
 
     async function handleLoadingClick() {
