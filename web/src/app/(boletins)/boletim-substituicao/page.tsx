@@ -9,7 +9,7 @@ import { AppDispatch } from "../../../../configureStore";
 import RootLayout from "../../../app/layout";
 import Link from "next/link";
 import TableReports from "../../../Components/TableReports";
-import Filter, { DatasTypes, SubmitData } from "../../../Components/Filter";
+import Filter, { DatasTypes, SubmitDataFilter } from "../../../Components/Filter";
 import { ZodTypeAny, z } from "zod";
 
 const createFormSchema = z.object({
@@ -70,7 +70,7 @@ export default function BoletimSubstituicao(){
         </RootLayout>
     )
 
-    function submit(data: SubmitData){
+    function submit(data: SubmitDataFilter){
         console.log(data);
     }
 }

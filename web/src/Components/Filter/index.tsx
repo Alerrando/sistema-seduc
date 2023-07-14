@@ -19,7 +19,7 @@ const createFormSchema = z.object({
     cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),
 })
 
-export type SubmitData = InitalValuesTypeSubstitutionBulletin | InitalValuesBulletinControlOccasionalClasses
+export type SubmitDataFilter = InitalValuesTypeSubstitutionBulletin | InitalValuesBulletinControlOccasionalClasses
 
 type FilterProps = {
     setFilter: (filter: boolean) => void;

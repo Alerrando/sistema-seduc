@@ -14,25 +14,26 @@ import { CreateFormDataLesson } from "../../../app/(cadastros)/controle-aulas-ev
 import { CreateFormDataOffice } from "../../../app/admin/AsideAdmin/RegisterOffice";
 import { CreateFormDataUser } from "../../../app/admin/AsideAdmin/UsersList";
 import { ErrorMessage } from "@hookform/error-message"
+import { SubmitDataModal } from "..";
 
 type ModalFormProps = {
   schema: ZodType<any, any, any>;
   inputs: InputConfig[];
   initialValues: LessonsInfos | SchoolInfos | TeacherInfos | UserInfos | OfficeInfos;
   setInfosInput: (initalValues: LessonsInfos | SchoolInfos | TeacherInfos | UserInfos | OfficeInfos) => void;
-  onSubmit: (data: CreateFormDataSchool | CreateFormDataTeacher | CreateFormDataLesson | CreateFormDataOffice | CreateFormDataUser) => void;
+  onSubmit: (data: SubmitDataModal) => void;
   modalName: string;
 };
 
 export function ModalForm(props: ModalFormProps) {
   const { schema, inputs, initialValues, setInfosInput, onSubmit, modalName } = props;
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<CreateFormDataSchool | CreateFormDataTeacher | CreateFormDataLesson | CreateFormDataOffice | CreateFormDataUser>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<SubmitDataModal>({
     resolver: zodResolver(schema),
     defaultValues: initialValues as typeof schema['_input'],
   });
   
 
-  function handleFormSubmit(data: CreateFormDataSchool | CreateFormDataTeacher | CreateFormDataLesson | CreateFormDataOffice | CreateFormDataUser) {
+  function handleFormSubmit(data: SubmitDataModal) {
     if (modalName === "Lesson") {
       reset({
         name: "",

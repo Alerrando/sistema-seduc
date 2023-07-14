@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { RootState } from "../../../../../configureStore";
 import { UserInfos } from "../../../../../slice/LoginSlide";
 import { deleteUser, editUser, getUsers } from "../../../../api";
-import Modal from "../../../../Components/Modal";
+import Modal, { SubmitDataModal } from "../../../../Components/Modal";
 import { InputConfig } from "../../../../../slice";
 import { z } from "zod";
 
@@ -177,21 +177,23 @@ export default function UsersList(){
         </>
     );
 
-    async function submit(e: CreateFormDataUser){
-        const { id, level } = infosEdit;
-        const { ...rest } = e;
-    
-        const formData: UserInfos = {
-            id,
-            level,
-            ...rest,
-            permission: e.permission === 1,
-            cadastroEscola: e.cadastroEscola,
-        };
-    
-        const message = await editUser(formData, infosEdit.id);
-        setUsersAll(await getUsers());
-        setModal(false);
+    async function submit(data: SubmitDataModal){
+        if("name" in data && "email" in data && "rg" in data && "password" in data && "cadastroEscola" in data && "permission" in data){
+            const { id, level } = infosEdit;
+            const { ...rest } = data;
+        
+            const formData: UserInfos = {
+                id,
+                level,
+                ...rest,
+                permission: data.permission === 1,
+                cadastroEscola: data.cadastroEscola,
+            };
+        
+            const message = await editUser(formData, infosEdit.id);
+            setUsersAll(await getUsers());
+            setModal(false);
+        }
     }
 
     function editInfo(info: UserInfos){

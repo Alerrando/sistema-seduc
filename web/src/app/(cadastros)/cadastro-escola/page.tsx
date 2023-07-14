@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AppDispatch, RootState } from '../../../../configureStore';
 import { InputConfig, SchoolInfos, SchoolValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosSchool } from '../../../../slice';
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
-import Modal from '../../../Components/Modal';
+import Modal, { SubmitDataModal } from '../../../Components/Modal';
 import TableRegisters from '../../../Components/TableRegisters';
 import { createSchool, deleteSchool, editSchool, readAllSchool } from '../../../api';
 import RootLayout from '../../../app/layout';
@@ -84,21 +84,23 @@ export default function CadastroEscola(){
         </RootLayout>
     )
 
-    async function submitSchool(event: CreateFormDataSchool){
-        let message: object | string;
-        const aux: SchoolInfos = { edit: false, name: event.name, id: infosInput.id, }
-
-		if(!infosInput.edit){
-            message = await createSchool(aux);
-		}
-		else{
-            message = await editSchool(aux, aux.id);
-            setModal(false);
-		}
-        
-        dispatch(refreshInfosSchool(await readAllSchool()));
-        setInfosInput(SchoolValuesDefault);
-        messageToast(message);
+    async function submitSchool(data: SubmitDataModal){
+        if("name" in data){
+            let message: object | string;
+            const aux: SchoolInfos = { edit: false, name: data.name, id: infosInput.id, }
+    
+            if(!infosInput.edit){
+                message = await createSchool(aux);
+            }
+            else{
+                message = await editSchool(aux, aux.id);
+                setModal(false);
+            }
+            
+            dispatch(refreshInfosSchool(await readAllSchool()));
+            setInfosInput(SchoolValuesDefault);
+            messageToast(message);
+        }
 	}
 
     async function editInfo(info: SchoolInfos) {

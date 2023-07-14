@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AppDispatch, RootState } from '../../../../configureStore';
 import { InputConfig, SchoolValuesDefault, TeacherInfos, changeRegisterType, objectEmptyValue, refreshInfosTeacher } from '../../../../slice';
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
-import Modal from '../../../Components/Modal';
+import Modal, { SubmitDataModal } from '../../../Components/Modal';
 import TableRegisters from '../../../Components/TableRegisters';
 import { createTeacher, deleteTeacher, editTeacher, readAllTeacher } from '../../../api';
 import RootLayout from '../../../app/layout';
@@ -137,23 +137,25 @@ export default function CadastroProfessor(){
         </RootLayout>
     )
 
-    async function submitTeacher(event: CreateFormDataTeacher){
-        const { ...rest } = event;
-        const aux: TeacherInfos = { ...rest, edit: false, id: infosInput.id, cpf: event.cpf.replaceAll(".", "").replaceAll("-", "") };
-        let message: object | string;
-		if(!infosInput.edit){
-            if(!objectEmptyValue(aux)){
-                message = await createTeacher(aux, aux.sede);
+    async function submitTeacher(data: SubmitDataModal){
+        if("sede" in data && "cpf" in data && "cargo" in data && "name" in data){
+            const { ...rest } = data;
+            const aux: TeacherInfos = { ...rest, edit: false, id: infosInput.id, cpf: data.cpf.replaceAll(".", "").replaceAll("-", "") };
+            let message: object | string;
+            if(!infosInput.edit){
+                if(!objectEmptyValue(aux)){
+                    message = await createTeacher(aux, aux.sede);
+                }
             }
-		}
-		else{
-			message = await editTeacher(aux, aux.sede);
-            setModal(false);
-		}
-        
-        dispatch(refreshInfosTeacher(await readAllTeacher()));
-        messageToast(message);
-        setInfosInput(SchoolValuesDefault);
+            else{
+                message = await editTeacher(aux, aux.sede);
+                setModal(false);
+            }
+            
+            dispatch(refreshInfosTeacher(await readAllTeacher()));
+            messageToast(message);
+            setInfosInput(SchoolValuesDefault);
+        }
 	}
 
     async function editInfo(info: TeacherInfos) {

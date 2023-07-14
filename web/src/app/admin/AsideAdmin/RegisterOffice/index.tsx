@@ -7,7 +7,7 @@ import { z } from "zod";
 import { RootState } from "../../../../../configureStore";
 import { InputConfig, OfficeInfos, SchoolValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosOffice } from "../../../../../slice";
 import CreateHeaderRegisters from "../../../../Components/CreateHeaderRegisters";
-import Modal from "../../../../Components/Modal";
+import Modal, { SubmitDataModal } from "../../../../Components/Modal";
 import { createRegisterOffice, deleteRegisterOffice, editRegisterOffice, getRegisterOffice } from "../../../../api";
 import TableRegisters from "../../../../Components/TableRegisters";
 
@@ -105,23 +105,25 @@ export default function RegisterOffice(){
         </main>
     );
 
-    async function submit(e: CreateFormDataOffice){
-        let message: object | string;
-        let allInfos: OfficeInfos[] = [];
-        const { ...rest }  = e;
-        const aux = { ...rest, id: infosRegister.id, }
-
-        if(!infosRegister.edit){
-            message = await createRegisterOffice(aux);
+    async function submit(data: SubmitDataModal){
+        if("name" in data && "type" in data){
+            let message: object | string;
+            let allInfos: OfficeInfos[] = [];
+            const { ...rest }  = data;
+            const aux = { ...rest, id: infosRegister.id, }
+    
+            if(!infosRegister.edit){
+                message = await createRegisterOffice(aux);
+            }
+            else{
+                message = await editRegisterOffice(aux, infosRegister.id);
+                setModal(false);
+            }
+            
+            allInfos = await getRegisterOffice();
+            dispatch(refreshInfosOffice(allInfos.sort((info1:OfficeInfos, info2: OfficeInfos) => info1.type - info2.type)));
+            messageToast(message);
         }
-        else{
-            message = await editRegisterOffice(aux, infosRegister.id);
-            setModal(false);
-        }
-        
-        allInfos = await getRegisterOffice();
-        dispatch(refreshInfosOffice(allInfos.sort((info1:OfficeInfos, info2: OfficeInfos) => info1.type - info2.type)));
-        messageToast(message);
     }
 
     function editInfo(info: OfficeInfos){

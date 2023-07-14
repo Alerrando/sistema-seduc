@@ -10,21 +10,23 @@ import { CreateFormDataOffice } from "../../app/admin/AsideAdmin/RegisterOffice"
 import { CreateFormDataUser } from "../../app/admin/AsideAdmin/UsersList";
 import { UserInfos } from "../../../slice/LoginSlide";
 
+export type SubmitDataModal = CreateFormDataSchool | CreateFormDataTeacher | CreateFormDataLesson | CreateFormDataOffice | CreateFormDataUser
+
 type ModalProps = {
 	setInfosInput: (infosInput: LessonsInfos | SchoolInfos | TeacherInfos | OfficeInfos | UserInfos) => void;
 	infosInput: LessonsInfos | SchoolInfos | TeacherInfos | OfficeInfos | UserInfos;
 	setModal: (modal: boolean) => void;
-	submitInfos: (data: CreateFormDataSchool | CreateFormDataTeacher | CreateFormDataLesson | CreateFormDataOffice | CreateFormDataUser) => void;
+	submitInfos: (data: SubmitDataModal) => void;
 	title: string,
 	inputs: InputConfig[],
 	createFormSchema: ZodType<any, any, any>,
-	modalName: string
+	modalName: string,
 }
 
 export default function Modal(props: ModalProps){
 	const { setInfosInput, infosInput, setModal, submitInfos, title, inputs, createFormSchema, modalName } = props;
 
-	async function submit(data: CreateFormDataSchool | CreateFormDataTeacher | CreateFormDataLesson | CreateFormDataOffice | CreateFormDataUser){
+	async function submit(data: SubmitDataModal){
 		submitInfos(data);
 	}
 	

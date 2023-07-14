@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AppDispatch, RootState } from "../../../../configureStore";
 import { HorasValuesDefault, InputConfig, LessonsInfos, changeRegisterType, refreshInfosLesson } from "../../../../slice";
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
-import Modal from "../../../Components/Modal";
+import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters from "../../../Components/TableRegisters";
 import { createLesson, deleteLesson, editLesson, readAllLesson } from "../../../api";
 import RootLayout from "../../../app/layout";
@@ -150,24 +150,26 @@ export default function ControleAulasEventuais() {
     setModal(true);
   }
 
-  async function submitLesson(event: CreateFormDataLesson) {
-    let message: object | string;
-    const aux: LessonsInfos = event;
-    aux.diaAula = new Date(infosInput.diaAula);
-
-    if (!infosInput.edit) {
-        message = await createLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
-        
-    } else {
-      aux.id = infosInput.id;
-      message = await editLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
-      setModal(false);
+  async function submitLesson(data: SubmitDataModal) {
+    if("horaAulas" in data && "cadastroProfessor" in data && "cadastroEscola" in data){
+      let message: object | string;
+      const aux: LessonsInfos = data;
+      aux.diaAula = new Date(infosInput.diaAula);
+  
+      if (!infosInput.edit) {
+          message = await createLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
+          
+      } else {
+        aux.id = infosInput.id;
+        message = await editLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
+        setModal(false);
+      }
+      
+      dispatch(refreshInfosLesson(await readAllLesson()));
+      messageToast(message);
+      setInfosInput(HorasValuesDefault);
+      setLessonsLengthall(await readAllLesson().then((data) => data.length));
     }
-    
-    dispatch(refreshInfosLesson(await readAllLesson()));
-    messageToast(message);
-    setInfosInput(HorasValuesDefault);
-    setLessonsLengthall(await readAllLesson().then((data) => data.length));
   }
 
   async function deleteInfo(infos: LessonsInfos) {
