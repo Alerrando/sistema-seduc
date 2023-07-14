@@ -155,7 +155,7 @@ export default function CadastroProfessor(){
             
             dispatch(refreshInfosTeacher(await readAllTeacher()));
             messageToast(message);
-            setInfosInput(SchoolValuesDefault);
+            setInfosInput(TeacherValuesDefault);
         }
 	}
 

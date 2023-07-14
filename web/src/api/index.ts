@@ -37,7 +37,7 @@ export async function readPaginationLesson(pageNumber: number, pageSize: number)
   }
 }
 
-export async function createLesson(info: LessonsInfos, escolaId: number, professorId: number){
+export async function createLesson(info: LessonsInfos, escolaId: string, professorId: string){
   try {
     const message = await axios.post(`${urlLesson}/${escolaId}&${professorId}`,info , {
       headers: { 'Authorization':  `${localStorage.getItem("token")}` },
@@ -53,7 +53,7 @@ export async function createLesson(info: LessonsInfos, escolaId: number, profess
   }
 }
 
-export async function editLesson(info: LessonsInfos, escolaId: number, professorId: number) {
+export async function editLesson(info: LessonsInfos, escolaId: string, professorId: string) {
   try {
     const message = await axios.put(`${urlLesson}/${escolaId}&${professorId}`, info,{
       headers: { 'Authorization':  `${localStorage.getItem("token")}` },
