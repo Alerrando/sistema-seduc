@@ -6,8 +6,7 @@ import com.gerenciamentoescolas.server.security.JWTTokenProvider;
 
 @Service
 public class FreeService {
-    public String createToken(){
-        User user = new User();
+    public String createToken(User user){
         String token = JWTTokenProvider.createToken(user);
 
         return token;
