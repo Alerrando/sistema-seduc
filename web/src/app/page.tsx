@@ -2,8 +2,8 @@
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootLayoutProps } from "./layout";
 import { RootState } from "../../configureStore";
+import { RootLayoutProps } from "./layout";
 
 
 function Home({ children }: RootLayoutProps) {

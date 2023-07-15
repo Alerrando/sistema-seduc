@@ -61,7 +61,7 @@ export default function Register({ pages, setPages }: RegisterProps){
 
                         <div className="w-full flex flex-col gap-1">
                             <Input htmlFor="rg" label="Rg*" name="rg" placeholder="Digite seu Rg" type="text" key={"rg-login"} register={register} />
-                            <span className="text-red-600">{errors.senha && errors.senha.message}</span>
+                            <span className="text-red-600">{errors.rg && errors.rg.message}</span>
                         </div>
 
                         <div className="w-full flex flex-col gap-1">
@@ -95,15 +95,15 @@ export default function Register({ pages, setPages }: RegisterProps){
         </>
     );
 
-    async function submit(e){
+    async function submit(e: CreateFormData){
+        const { ...rest } = e
         const aux:UserInfos = {
-            name: e.name,
-            email: e.email,
-            password: e.password,
-            rg: e.rg,
+            id: 0,
+            edit: false,
             cadastroEscola: "",
             level: 2,
             permission: 0,
+            ...rest,
         }
 
         const token = await createToken(DefaultUserInfos);
@@ -114,7 +114,7 @@ export default function Register({ pages, setPages }: RegisterProps){
         messageToast(message);
     }
 
-    function messageToast(message: object | undefined){
+    function messageToast(message: string | any){
         if(message !== undefined){
             toast.success("Registro feito com sucesso!", {
                 position: "bottom-left",

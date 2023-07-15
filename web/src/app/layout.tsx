@@ -10,9 +10,9 @@ import { store } from "../../configureStore";
 
 const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 
-type RootLayoutProps = {
+export type RootLayoutProps = {
 	children: React.ReactNode,
-	showHeaderAside: boolean,
+	showHeaderAside?: boolean,
 }
 
 export default function RootLayout({ children, showHeaderAside }: RootLayoutProps) {

@@ -294,11 +294,13 @@ export async function deleteUser(id: number){
 }
 
 // ----------------------------- ROUTER Free ----------------------------- //
-export async function createToken(){
-  let aux = await axios.get(urlFree)
+export async function createToken(userDefault: UserInfos){
+  let aux = await axios.get(`${urlFree}`, {
+    data: userDefault
+  })
   .then((res) => res.data)
   .catch((err) => console.log(err))
-
+  
   return aux;
 }
 

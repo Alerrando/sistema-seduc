@@ -88,7 +88,7 @@ export default function Login({ pages, setPages }: LoginProps){
         </>
     );
 
-    async function submit(e){
+    async function submit(e: CreateFormData){
         const token = await createToken(DefaultUserInfos);
         setToken(token);
         
@@ -124,7 +124,7 @@ export default function Login({ pages, setPages }: LoginProps){
         }
     }
 
-    function messageToast(message: object | undefined){
+    function messageToast(message: string | any){
         if(message !== undefined){
             toast.success("Login feito com sucesso!", {
                 position: "bottom-left",
