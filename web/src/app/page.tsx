@@ -3,10 +3,8 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../configureStore";
-import { RootLayoutProps } from "./layout";
 
-
-function Home({ children }: RootLayoutProps) {
+function Home({ children }: any) {
   const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
   const router = useRouter();
   const pathName = usePathname();
