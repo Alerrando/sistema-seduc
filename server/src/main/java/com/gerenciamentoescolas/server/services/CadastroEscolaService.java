@@ -36,11 +36,12 @@ public class CadastroEscolaService {
             String cargo = (String) result[4];
 
             CadastroEscolaDTO cadastroEscolaDTO = escolasAulas.get(id);
+            
+            if (result[4] != null) {
+                quantidadeAulas = (Long) result[3];
+            }
 
             if (cadastroEscolaDTO == null) {
-                if (result[4] != null) {
-                    quantidadeAulas = (Long) result[3];
-                }
 
                 cadastroEscolaDTO = new CadastroEscolaDTO(id, name, new ArrayList<Object[]>(), quantidadeAulas.intValue(), cargo);
                 escolasAulas.put(id, cadastroEscolaDTO);
