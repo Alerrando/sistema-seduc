@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -22,9 +23,9 @@ public class CadastroEscolaControllers {
         return result;
     }
 
-    @GetMapping("/relatorio")
-    public List<CadastroEscolaDTO> findEscolasAulas(){
-        List<CadastroEscolaDTO> result = cadastroEscolaService.findEscolasAulas();
+    @GetMapping("/relatorio/{schoolId}&{startDate}&{endDate}")
+    public List<CadastroEscolaDTO> findEscolasAulas(@PathVariable String schoolId, @PathVariable Date startDate, @PathVariable Date endDate){
+        List<CadastroEscolaDTO> result = cadastroEscolaService.findEscolasAulas(schoolId, startDate, endDate);
         return result;
     }
 

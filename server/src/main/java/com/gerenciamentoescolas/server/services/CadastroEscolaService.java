@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CadastroEscolaService {
@@ -20,20 +23,35 @@ public class CadastroEscolaService {
         return result;
     }
 
-    public List<CadastroEscolaDTO> findEscolasAulas() {
-        List<Object[]> results = cadastroEscolaRepository.findEscolasAulas();
-        List<CadastroEscolaDTO> escolasAulas = new ArrayList<>();
+    public List<CadastroEscolaDTO> findEscolasAulas(String schoolId, Date startDate, Date endDate) {
+        Integer idSchool = Integer.parseInt(schoolId);
+        List<Object[]> results = cadastroEscolaRepository.findEscolasAulas(idSchool, startDate, endDate);
+        Map<Integer, CadastroEscolaDTO> escolasAulas = new HashMap<>();
+
         for (Object[] result : results) {
             Integer id = (Integer) result[0];
             String name = (String) result[1];
+            Date dataAula = (Date) result[2];
             Long quantidadeAulas = Long.valueOf("0");
-            if(result[2] != null){
-                quantidadeAulas = (Long) result[2];
+            String cargo = (String) result[4];
+
+            CadastroEscolaDTO cadastroEscolaDTO = escolasAulas.get(id);
+
+            if (cadastroEscolaDTO == null) {
+                if (result[4] != null) {
+                    quantidadeAulas = (Long) result[3];
+                }
+
+                cadastroEscolaDTO = new CadastroEscolaDTO(id, name, new ArrayList<Object[]>(), quantidadeAulas.intValue(), cargo);
+                escolasAulas.put(id, cadastroEscolaDTO);
+            } else {
+                cadastroEscolaDTO.setQuantidadeAulas(cadastroEscolaDTO.getQuantidadeAulas() + quantidadeAulas.intValue());
             }
-            CadastroEscolaDTO escolaAula = new CadastroEscolaDTO(id, name, quantidadeAulas.intValue());
-            escolasAulas.add(escolaAula);
+
+            cadastroEscolaDTO.getDatesWork().add(new Object[]{dataAula, quantidadeAulas});
         }
-        return escolasAulas;
+
+        return new ArrayList<>(escolasAulas.values());
     }
 
     public CadastroEscola create(CadastroEscola cadastroEscola){
