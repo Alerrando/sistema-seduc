@@ -5,7 +5,7 @@ import RootLayout from "../layout";
 import Link from "next/link";
 import { Book, GraduationCap, School2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { refreshDefinitionPeriods, refreshInfosLesson, refreshInfosOffice, refreshInfosSchool, refreshInfosTeacher } from "../../../slice";
+import { OfficeInfos, refreshDefinitionPeriods, refreshInfosLesson, refreshInfosOffice, refreshInfosSchool, refreshInfosTeacher } from "../../../slice";
 import { getDefinitionPeriods, getRegisterOffice, readAllLesson, readAllSchool, readAllTeacher } from "../../api";
 import { AppDispatch, RootState } from "../../../configureStore";
 import { refreshAllFilterInfosSchool, refreshFilterInfosSchool } from "../../../slice/FilterSlice";

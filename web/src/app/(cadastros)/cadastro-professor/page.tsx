@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AppDispatch, RootState } from '../../../../configureStore';
-import { InputConfig, TeacherInfos, TeacherValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosOffice, refreshInfosTeacher } from '../../../../slice';
+import { InputConfig, OfficeInfos, TeacherInfos, TeacherValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosOffice, refreshInfosTeacher } from '../../../../slice';
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal, { SubmitDataModal } from '../../../Components/Modal';
 import TableRegisters, { InfosTableRegisterData } from '../../../Components/TableRegisters';

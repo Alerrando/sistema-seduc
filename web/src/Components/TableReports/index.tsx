@@ -55,7 +55,12 @@ export default function TableReports(props: TableReportsProps) {
                                             }
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                                            <textarea className="w-full h-auto outline-none border border-bg-[#efefef] rounded-md" type="text" name="" id="" />
+                                            <textarea
+                                                className="w-full px-4 outline-none rounded-md resize-none"
+                                                rows={3}
+                                                name="observação"
+                                                defaultValue="-----------------------"
+                                            />
                                         </td>
                                     </>
                                 ) : (

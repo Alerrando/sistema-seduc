@@ -68,8 +68,7 @@ export default function ImprimirBoletimSubstituicao(){
                                                 <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-neutral-500">
                                                     <textarea
                                                         className="w-full px-4 outline-none rounded-md resize-none"
-                                                        rows="3"
-                                                        type="text"
+                                                        rows={3}
                                                         name="observação"
                                                         defaultValue="-----------------------"
                                                     />
