@@ -73,7 +73,7 @@ export default function BoletimSubstituicao(){
     async function submit(data: SubmitDataFilter){
         if("cadastroEscola" in data){
             let aux = await getReportsSchool(data.cadastroEscola, new Date(datas.dataInicial), new Date(datas.dataFinal));
-
+            
             if(typeof aux === "object") {
                 const sortedInfos = aux.sort((info1: TeacherDTOInfos, info2: TeacherDTOInfos) => {
                     info1.name.localeCompare(info2.name);

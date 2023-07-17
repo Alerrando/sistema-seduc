@@ -34,13 +34,18 @@ export default function TableReports(props: TableReportsProps) {
                             <tr key={`${info.name}-${index}`}>
                                 {reportsTypes == "School" && "quantidadeAulas" in info ? (
                                     <>
-                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
-                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
-                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.cargo}</td>
-                                        <td className="items-center h-full px-4 py-2 font-medium text-gray-900">
-                                            <div className="grid grid-cols-4">
-                                                {info.datesWork.map((dateWork: any) => (
-                                                    <div className="h-auto flex flex-row items-center justify-start gap-1 border border-[#afafaf] p-1">
+                                        <td className="max-w-[200px] text-start whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">
+                                            <span className="whitespace-normal">{info.name}</span>
+                                        </td>
+
+                                        <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">
+                                            {info.cargo}
+                                        </td>
+
+                                        <td className="items-center h-full px-4 font-medium text-gray-900 border-r border-gray-200">
+                                            <div className="grid grid-cols-report-teacher">
+                                                {info.datesWork.map((dateWork: any, index: number) => (
+                                                    <div className={`w-fit h-auto break-inside-avoid flex flex-row items-center justify-start px-2 gap-1 ${index !== info.datesWork.length - 1 && (index === 0 || index % 4 !== 0) ? "border-r border-gray-200" : ""}`}>
                                                         <span>{isValid(new Date(dateWork[0])) ? format(new Date(dateWork[0]), "dd/MM") : ""}</span>
                                                         <span>-</span>
                                                         <span>{dateWork[1]}h</span>
@@ -48,13 +53,11 @@ export default function TableReports(props: TableReportsProps) {
                                                 ))}
                                             </div>
                                         </td>
-
-                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                                            {`
-                                                ${info.cargo.split("-")[0].trim()} = ${info.quantidadeAulas}h`
-                                            }
+                                        <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">
+                                            {`${info.cargo.split("-")[0].trim()} = ${info.quantidadeAulas}h`}
                                         </td>
-                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+
+                                        <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">
                                             <textarea
                                                 className="w-full px-4 outline-none rounded-md resize-none"
                                                 rows={3}
