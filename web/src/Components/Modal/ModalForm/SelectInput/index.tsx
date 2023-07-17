@@ -1,5 +1,5 @@
 import React, { Key } from "react"
-import { SchoolInfos, TeacherInfos, registerTypes } from "../../../../../slice"
+import { OfficeInfos, SchoolInfos, TeacherInfos, registerTypes } from "../../../../../slice"
 import { useSelector } from "react-redux"
 import { RootState } from "../../../../../configureStore"
 import { FieldValues, UseFormRegister } from "react-hook-form"
@@ -15,7 +15,7 @@ type SelectInputProps = {
 
 export default function SelectInput<T extends FieldValues>(props: SelectInputProps){
     const { label, htmlFor, name, optionDefault, optionType, register } = props;
-    const { allInfosLesson, allInfosSchool, allInfosTeacher } = useSelector((root: RootState) => root.Slice);
+    const { allInfosLesson, allInfosSchool, allInfosTeacher, allInfosOffice } = useSelector((root: RootState) => root.Slice);
     
     return(
         <div className="w-full flex flex-col gap-2">
@@ -39,6 +39,16 @@ export default function SelectInput<T extends FieldValues>(props: SelectInputPro
                         <>
                             <option key="office-user" value={1}  className="outline-none border-none">Usuário</option>
                             <option key="office-teacher" value={2} className="outline-none border-none">Professor</option>
+                        </>
+                    ) : optionType === "OfficeTeacher" ? (
+                        <>
+                            {allInfosOffice?.map((office: OfficeInfos, index: Key) => (
+                                <>
+                                    {office.type === "2" ? (
+                                        <option key={`office-${office.name}`} value={office.name} className="outline-none border-none">{office.name}</option>
+                                    ) : null}
+                                </>
+                            ))}
                         </>
                     ) : (
                         <>

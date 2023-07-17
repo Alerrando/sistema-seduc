@@ -1,16 +1,16 @@
 'use client';
 import { SlidersHorizontal } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { z } from "zod";
+import { AppDispatch, RootState } from "../../../../configureStore";
 import { TeacherDTOInfos, changeReportsType, refreshInfosSchool, refreshInfosTeacher } from "../../../../slice";
+import { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from "../../../../slice/FilterSlice";
 import Filter, { DatasTypes, SubmitDataFilter } from "../../../Components/Filter";
 import TableReports from "../../../Components/TableReports";
 import { getNameByIdTeacher, getReportsTeacher, readAllSchool, readAllTeacher } from "../../../api";
-import Link from "next/link";
 import RootLayout from "../../../app/layout";
-import { AppDispatch } from "../../../../configureStore";
-import { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from "../../../../slice/TeacherFilterSlice";
-import { z } from "zod";
 
 const createFormSchema = z.object({
     cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),
@@ -25,6 +25,7 @@ export default function BoletimControleAulasEventuais(){
     const [initalValues, setInitialValues] = useState<InitalValuesBulletinControlOccasionalClasses>({} as InitalValuesBulletinControlOccasionalClasses);
     const [filter, setFilter] = useState<boolean>(false);
     const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
+    const { allFilterInfosTeacher } = useSelector((root: RootState) => root.SliceFilter);
     const tableHead = [
         "Nome Professor",
         "Data",
@@ -50,11 +51,11 @@ export default function BoletimControleAulasEventuais(){
                         <SlidersHorizontal className="w-6 h-6 md:w-8 md:h-8 absolute top-3 right-3 text-white md:relative md:inset-0 md:text-black cursor-pointer" onClick={() => setFilter(!filter)} />
                     </div>
 
-                    <TableReports tableHead={tableHead} />
+                    <TableReports tableHead={tableHead} allFilterInfos={allFilterInfosTeacher} />
                 </div>
 
                 <div className="w-full flex items-center justify-end">
-                    <Link href="/imprimir-professor" className="w-36 py-2 border border-zinc-500 text-zinc-500 rounded-lg text-center hover:bg-zinc-500 hover:text-white transition-colors">
+                    <Link href="/imprimir-boletim-controle-aulas-eventuais" className="w-36 py-2 border border-zinc-500 text-zinc-500 rounded-lg text-center hover:bg-zinc-500 hover:text-white transition-colors">
                         Imprimir
                     </Link>
                 </div>
@@ -83,7 +84,7 @@ export default function BoletimControleAulasEventuais(){
                 dispatch(refreshAllFilterInfosTeacher(aux.sort((data1: TeacherDTOInfos, data2: TeacherDTOInfos) => new Date(data1.dataAula).getTime() - new Date(data2.dataAula).getTime())))
                 dispatch(refreshFilterInfosTeacher(await getNameByIdTeacher(data.cadastroProfessor)));
             }
-    
+            
             setFilter(false);
         }
     }

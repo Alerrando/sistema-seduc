@@ -106,7 +106,7 @@ export default function Register({ pages, setPages }: RegisterProps){
             ...rest,
         }
 
-        const token = await createToken(DefaultUserInfos);
+        const token = await createToken();
         setToken(token);
 
         const message = await createUser(aux, token);

@@ -11,6 +11,7 @@ import { DefinitionPeriodsInfos, refreshDefinitionPeriods } from "../../../../..
 import { format, isValid } from "date-fns";
 import { AppDispatch, RootState } from "../../../../../configureStore";
 import { Value } from "react-calendar/dist/cjs/shared/types";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function DefinitionPeriods(){
     const { infosDefinitionPeriods } = useSelector((root: RootState) => root.Slice);
@@ -21,10 +22,11 @@ export default function DefinitionPeriods(){
         (async () => {
           const periods: DefinitionPeriodsInfos[] = await getDefinitionPeriods();
           const formattedPeriods: DefinitionPeriodsInfos[] = periods.map(period => ({
-            startDate: new Date(period.startDate).toISOString(),
-            endDate: new Date(period.endDate).toISOString(),
-          }));
-          dispatch(refreshDefinitionPeriods(formattedPeriods));
+              startDate: new Date(period.startDate).toISOString(),
+              endDate: new Date(period.endDate).toISOString(),
+            }));
+
+            dispatch(refreshDefinitionPeriods(formattedPeriods));
         })();
     }, []);
 
@@ -73,8 +75,8 @@ export default function DefinitionPeriods(){
 
                             <div className="w-auto h-full flex p-2 border border-[#cfcfcf] rounded shadow-lg">
                                 <span>
-                                    {infosDefinitionPeriods?.length > 0 && isValid(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.startDate))
-                                        ? format(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.startDate), "dd/MM/yyyy")
+                                    {infosDefinitionPeriods?.length > 0 && isValid(new Date(infosDefinitionPeriods[0]?.startDate))
+                                        ? format(new Date(infosDefinitionPeriods[0]?.startDate), "dd/MM/yyyy")
                                         : ""}
                                 </span>
                             </div>
@@ -87,8 +89,8 @@ export default function DefinitionPeriods(){
 
                             <div className="w-auto h-full flex p-2 border border-[#cfcfcf] rounded shadow-lg">
                                 <span>
-                                    {infosDefinitionPeriods?.length > 0 && isValid(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.endDate))
-                                        ? format(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.endDate), "dd/MM/yyyy")
+                                    {infosDefinitionPeriods?.length > 0 && isValid(new Date(infosDefinitionPeriods[0]?.endDate))
+                                        ? format(new Date(infosDefinitionPeriods[0]?.endDate), "dd/MM/yyyy")
                                         : ""}
                                 </span>
                             </div>
@@ -100,13 +102,19 @@ export default function DefinitionPeriods(){
                     </button>
                 </div>
             </form>
+
+            <ToastContainer />
         </>
     );
 
-    async function submit() {
+    async function submit(e: any) {
+        e.preventDefault();
+
         if(datas.startDate !== null && datas.endDate !== null){
-            const message = await createDefinitionPeriods(datas);
-            dispatch(refreshDefinitionPeriods(await getDefinitionPeriods()));
+            const message: string | any = await createDefinitionPeriods(datas);
+            const aux = await getDefinitionPeriods();
+            dispatch(refreshDefinitionPeriods(aux));
+            messageToast(message);
         }
     }
 
@@ -116,6 +124,33 @@ export default function DefinitionPeriods(){
           dispatch(refreshDefinitionPeriods(data));
         } catch (error) {
           console.error('Erro ao atualizar os dados:', error);
+        }
+    }
+
+    function messageToast(message: any | string){
+        if(typeof message !== "object"){
+            toast.success(message, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+        else{
+            toast.error(message.response.data, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
         }
     }
 }

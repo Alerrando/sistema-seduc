@@ -5,9 +5,10 @@ import RootLayout from "../layout";
 import Link from "next/link";
 import { Book, GraduationCap, School2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { refreshDefinitionPeriods, refreshInfosLesson, refreshInfosSchool, refreshInfosTeacher } from "../../../slice";
-import { getDefinitionPeriods, readAllLesson, readAllSchool, readAllTeacher } from "../../api";
+import { refreshDefinitionPeriods, refreshInfosLesson, refreshInfosOffice, refreshInfosSchool, refreshInfosTeacher } from "../../../slice";
+import { getDefinitionPeriods, getRegisterOffice, readAllLesson, readAllSchool, readAllTeacher } from "../../api";
 import { AppDispatch, RootState } from "../../../configureStore";
+import { refreshAllFilterInfosSchool, refreshFilterInfosSchool } from "../../../slice/FilterSlice";
 
 export default function Dashboard(){
     const dispatch = useDispatch<AppDispatch>();
@@ -19,6 +20,15 @@ export default function Dashboard(){
       dispatch(refreshInfosSchool(await readAllSchool()));
       dispatch(refreshInfosTeacher(await readAllTeacher()));
       dispatch(refreshDefinitionPeriods(await getDefinitionPeriods()));
+      dispatch(refreshAllFilterInfosSchool([]));
+      dispatch(refreshFilterInfosSchool({}));
+      const allInfos: OfficeInfos[] | string = await getRegisterOffice();
+      if (allInfos !== undefined && typeof allInfos !== "string") {
+            const sortedInfos = allInfos.slice().sort((info1: OfficeInfos, info2: OfficeInfos) =>
+                info1.type && info2.type ? info1.type.localeCompare(info2.type) : 0
+            );
+            dispatch(refreshInfosOffice(sortedInfos));
+      }
     })()
   }, [])
 

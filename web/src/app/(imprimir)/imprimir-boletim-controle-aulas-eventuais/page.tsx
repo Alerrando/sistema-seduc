@@ -1,13 +1,13 @@
 'use client';
-import React, { useEffect, useState, Key } from "react";
-import { format, isValid } from 'date-fns'
-import RootLayout from "../layout";
+import { format, isValid } from 'date-fns';
+import { Key } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../configureStore";
-import { TeacherDTOInfos } from "../../../slice";
+import { RootState } from "../../../../configureStore";
+import { TeacherDTOInfos } from "../../../../slice";
+import RootLayout from "../../layout";
 
-export default function ImprimirProfessor(){
-    const { filterInfosTeacher, allFilterInfosTeacher } = useSelector((root: RootState) => root.SliceTeacher);
+export default function ImprimirBoletimControleAulasEventuais(){
+    const { filterInfosTeacher, allFilterInfosTeacher } = useSelector((root: RootState) => root.SliceFilter);
     const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
 
 

@@ -140,13 +140,13 @@ export async function deleteSchool(id: number) {
 }
 
 export async function getIdSchool(id: string) {  
-  const aux = await axios.get(`${urlSchool}/${id}}`, {
+  const aux = await axios.get(`${urlSchool}/${id}`, {
     headers: { 'Authorization':  `${localStorage.getItem("token")}` },
   })
   .then((res) => res.data)
   .catch((err) => console.log(err))
 
-  return aux.name;
+  return aux;
 }
 
 // ----------------------------- ROUTER TEACHER ----------------------------- //
@@ -220,8 +220,8 @@ export async function getNameByIdTeacher(id: string) {
 }
 
 // ----------------------------- ROUTER REPORTS ----------------------------- //]
-export async function getReportsSchool() {
-  const aux = await axios.get(`${urlSchool}/relatorio`, {
+export async function getReportsSchool(schoolId: string, startDate: Date, endDate: Date) {
+  const aux = await axios.get(`${urlSchool}/relatorio/${schoolId}&${startDate}&${endDate}`, {
     headers: { 'Authorization':  `${localStorage.getItem("token")}` },
   })
   .then((res) => res.data)
@@ -230,8 +230,8 @@ export async function getReportsSchool() {
   return aux;
 }
 
-export async function getReportsTeacher(idProfessor: string, dataInicial: Date, dataFinal: Date) {
-  const aux = await axios.get(`${urlTeacher}/boletim/${idProfessor}&${dataInicial}&${dataFinal}`, {
+export async function getReportsTeacher(teacherId: string, startDate: Date, endDate: Date) {
+  const aux = await axios.get(`${urlTeacher}/boletim/${teacherId}&${startDate}&${endDate}`, {
     headers: { 'Authorization':  `${localStorage.getItem("token")}` },
   })
   .then((res) => res.data)
@@ -294,10 +294,8 @@ export async function deleteUser(id: number){
 }
 
 // ----------------------------- ROUTER Free ----------------------------- //
-export async function createToken(userDefault: UserInfos){
-  let aux = await axios.get(`${urlFree}`, {
-    data: userDefault
-  })
+export async function createToken(){
+  let aux = await axios.get(`${urlFree}`)
   .then((res) => res.data)
   .catch((err) => console.log(err))
   

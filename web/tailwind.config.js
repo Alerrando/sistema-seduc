@@ -12,6 +12,9 @@ module.exports = {
 				"principal": "#222831",
 				"modal": "rgba(0, 0, 0, 0.5)",
 			},
+			gridTemplateColumns: {
+				"report-teacher": "repeat(5, minmax(80px, 1fr))",
+			},
 		},
 	},
 	plugins: [],

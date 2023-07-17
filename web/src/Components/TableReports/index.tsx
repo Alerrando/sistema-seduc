@@ -5,14 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { SchoolDTOInfos, TeacherDTOInfos } from "../../../slice";
 import { AppDispatch, RootState } from "../../../configureStore";
 
+type InfosTableReportsData = SchoolDTOInfos | TeacherDTOInfos;
+
 type TableReportsProps = {
+    allFilterInfos: SchoolDTOInfos[] | TeacherDTOInfos[],
     tableHead: string[],
 }
 
 export default function TableReports(props: TableReportsProps) {
-    const { tableHead } = props;
+    const { tableHead, allFilterInfos } = props;
     const { reportsTypes, allInfosSchool } = useSelector((root: RootState) => root.Slice);
-    const { allFilterInfosTeacher } = useSelector((root: RootState) => root.SliceTeacher);
     const dispatch = useDispatch<AppDispatch>();
 
     return (
@@ -26,7 +28,7 @@ export default function TableReports(props: TableReportsProps) {
 
 
                 <tbody className="divide-y divide-gray-200">
-                    {allFilterInfosTeacher != undefined && allFilterInfosTeacher.map((info: SchoolDTOInfos | TeacherDTOInfos, index: number) => {
+                    {allFilterInfos != undefined && allFilterInfos.map((info: InfosTableReportsData, index: number) => {
 
                         return (
                             <tr key={`${info.name}-${index}`}>
@@ -34,7 +36,27 @@ export default function TableReports(props: TableReportsProps) {
                                     <>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
-                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.quantidadeAulas}</td>
+                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.cargo}</td>
+                                        <td className="items-center h-full px-4 py-2 font-medium text-gray-900">
+                                            <div className="grid grid-cols-4">
+                                                {info.datesWork.map((dateWork: any) => (
+                                                    <div className="h-auto flex flex-row items-center justify-start gap-1 border border-[#afafaf] p-1">
+                                                        <span>{isValid(new Date(dateWork[0])) ? format(new Date(dateWork[0]), "dd/MM") : ""}</span>
+                                                        <span>-</span>
+                                                        <span>{dateWork[1]}h</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </td>
+
+                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                                            {`
+                                                ${info.cargo.split("-")[0].trim()} = ${info.quantidadeAulas}h`
+                                            }
+                                        </td>
+                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                                            <textarea className="w-full h-auto outline-none border border-bg-[#efefef] rounded-md" type="text" name="" id="" />
+                                        </td>
                                     </>
                                 ) : (
                                     <>
@@ -42,7 +64,7 @@ export default function TableReports(props: TableReportsProps) {
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
                                         <td className='whitespace-nowrap px-4 py-2 font-medium text-gray-900'>
                                             {"dataAula" in info && (
-                                                    <span className='whitespace-nowrap'>{isValid(new Date(info.dataAula)) ? format(new Date(info.dataAula?.toString()), "dd/MM/yyyy") : ""}</span>
+                                                    <span className='whitespace-nowrap'>{isValid(new Date(info.dataAula)) ? format(new Date(info.dataAula), "dd/MM/yyyy") : ""}</span>
                                                 )
                                             }
                                         </td>

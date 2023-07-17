@@ -63,7 +63,6 @@ export default function CadastroEscola(){
                     </div>
 
                     <TableRegisters tableHead={thead} infosAll={allInfosSchool} editInfo={editInfo} deleteInfo={deleteInfo} search={search} key={"Table-Escola"} />
-
                 </div>
                 {modal ? (
                     <Modal 

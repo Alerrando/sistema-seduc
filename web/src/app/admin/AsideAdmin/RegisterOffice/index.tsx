@@ -49,10 +49,11 @@ export default function RegisterOffice(){
     useEffect(() => {
         (async () => {
             const allInfos: OfficeInfos[] | string = await getRegisterOffice();
-            if (typeof allInfos !== "string") {
+            if (allInfos !== undefined && typeof allInfos !== "string") {
                 const sortedInfos = allInfos.slice().sort((info1: OfficeInfos, info2: OfficeInfos) =>
-                    info1.type.localeCompare(info2.type)
+                    info1.type && info2.type ? info1.type.localeCompare(info2.type) : 0
                 );
+
                 
                 dispatch(refreshInfosOffice(sortedInfos));
                 dispatch(changeRegisterType(""));
@@ -146,14 +147,16 @@ export default function RegisterOffice(){
 
     async function deleteInfo(info: InfosTableRegisterData){
         if("name" in info && "type" in info){
-            const message: any | string = await deleteRegisterOffice(info.id);
-            const allInfos = await getRegisterOffice();
-            const sortedInfos = allInfos.slice().sort((info1: OfficeInfos, info2: OfficeInfos) =>
-                info1.type.localeCompare(info2.type)
-            );
-            
-            dispatch(refreshInfosOffice(sortedInfos));
-            messageToast(message);
+            if(window.confirm(`Quer mesmo deletar o cargo ${info.name}?`)){
+                const message: any | string = await deleteRegisterOffice(info.id);
+                const allInfos = await getRegisterOffice();
+                const sortedInfos = allInfos.slice().sort((info1: OfficeInfos, info2: OfficeInfos) =>
+                    info1.type.localeCompare(info2.type)
+                );
+                
+                dispatch(refreshInfosOffice(sortedInfos));
+                messageToast(message);
+            }
         }
     }
 

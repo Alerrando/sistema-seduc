@@ -1,19 +1,18 @@
+import { ErrorMessage } from "@hookform/error-message";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { X } from 'lucide-react';
-import { Key, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { ZodType, z } from 'zod';
-import { AppDispatch, RootState } from '../../../configureStore';
-import { TeacherDTOInfos, TeacherInfos, refreshInfosSchool, refreshInfosTeacher } from '../../../slice';
-import { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from '../../../slice/TeacherFilterSlice';
-import { getNameByIdTeacher, getReportsTeacher, readAllSchool, readAllTeacher } from '../../api';
-import SelectInput from '../Modal/ModalForm/SelectInput';
+import { AppDispatch } from '../../../configureStore';
+import { refreshInfosSchool, refreshInfosTeacher } from '../../../slice';
+import { readAllSchool, readAllTeacher } from '../../api';
 import { InitalValuesBulletinControlOccasionalClasses } from '../../app/(boletins)/boletim-controle-aulas-eventuais/page';
 import { InitalValuesTypeSubstitutionBulletin } from '../../app/(boletins)/boletim-substituicao/page';
-import { ErrorMessage } from "@hookform/error-message"
+import SelectInput from '../Modal/ModalForm/SelectInput';
 
 const createFormSchema = z.object({
     cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),
@@ -71,9 +70,9 @@ export default function Filter(props: FilterProps){
                 </header>
 
                 <div className="w-full h-auto flex flex-col gap-1">
-                    {filterName === "Teacher" ? (
+                    {filterName === "cadastroProfessor" ? (
                         <>
-                            <SelectInput 
+                            <SelectInput
                                 htmlFor='cadastroProfessor'
                                 label='Professores'
                                 name='cadastroProfessor'

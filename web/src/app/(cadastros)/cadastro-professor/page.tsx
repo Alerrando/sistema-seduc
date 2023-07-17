@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AppDispatch, RootState } from '../../../../configureStore';
-import { InputConfig, TeacherInfos, TeacherValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosTeacher } from '../../../../slice';
+import { InputConfig, TeacherInfos, TeacherValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosOffice, refreshInfosTeacher } from '../../../../slice';
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal, { SubmitDataModal } from '../../../Components/Modal';
 import TableRegisters, { InfosTableRegisterData } from '../../../Components/TableRegisters';
-import { createTeacher, deleteTeacher, editTeacher, readAllTeacher } from '../../../api';
+import { createTeacher, deleteTeacher, editTeacher, getRegisterOffice, readAllTeacher } from '../../../api';
 import RootLayout from '../../../app/layout';
 import { z } from 'zod';
 
@@ -89,12 +89,29 @@ export default function CadastroProfessor(){
             optionType: "School",
             input: "select",
         },
+
+        {
+            type: "text",
+            htmlFor: "cargo",
+            label: "Cargo",
+            name: "cargo",
+            optionDefault: "Selecione o cargo",
+            optionType: "OfficeTeacher",
+            input: "select",
+        },
     ]
 
     useEffect(() => {
         (async () => {
             dispatch(refreshInfosTeacher(await readAllTeacher()));
             dispatch(changeRegisterType("Teacher"));
+            const allInfos: OfficeInfos[] | string = await getRegisterOffice();
+            if (allInfos !== undefined && typeof allInfos !== "string") {
+                const sortedInfos = allInfos.slice().sort((info1: OfficeInfos, info2: OfficeInfos) =>
+                    info1.type && info2.type ? info1.type.localeCompare(info2.type) : 0
+                );
+                dispatch(refreshInfosOffice(sortedInfos));
+            }
         })()
     }, [])
 

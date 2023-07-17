@@ -89,7 +89,7 @@ export default function Login({ pages, setPages }: LoginProps){
     );
 
     async function submit(e: CreateFormData){
-        const token = await createToken(DefaultUserInfos);
+        const token = await createToken();
         setToken(token);
         
         let aux = await getUserByEmail(e.email, e.senha, token);

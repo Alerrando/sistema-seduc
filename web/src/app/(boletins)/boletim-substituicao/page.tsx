@@ -2,15 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { Search, SlidersHorizontal } from "lucide-react";
-import { SchoolDTOInfos, changeReportsType } from "../../../../slice";
-import { getReportsSchool } from "../../../api";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../../configureStore";
+import { SchoolDTOInfos, TeacherDTOInfos, changeReportsType } from "../../../../slice";
+import { getIdSchool, getReportsSchool } from "../../../api";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../../configureStore";
 import RootLayout from "../../../app/layout";
 import Link from "next/link";
 import TableReports from "../../../Components/TableReports";
 import Filter, { DatasTypes, SubmitDataFilter } from "../../../Components/Filter";
 import { ZodTypeAny, z } from "zod";
+import { refreshAllFilterInfosSchool, refreshFilterInfosSchool } from "../../../../slice/FilterSlice";
 
 const createFormSchema = z.object({
     cadastroEscola: z.string().nonempty("Selecione uma escola ou adicione!"),
@@ -25,14 +26,13 @@ export default function BoletimSubstituicao(){
     const [filter, setFilter] = useState<boolean>(false);
     const [initalValues, setInitialValues] = useState<InitalValuesTypeSubstitutionBulletin>({} as InitalValuesTypeSubstitutionBulletin);
     const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
-    const tableHead = ["Id", "Nome", "Formação", "Dias Trabalhados", "Total a pagar"];
+    const tableHead = ["Id", "Nome", "Formação", "Dias Trabalhados", "Total a pagar", "Observações"];
+    const { allFilterInfosSchool } = useSelector((root: RootState) => root.SliceFilter)
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         (async () => {
-            setAllReportsInfos(await getReportsSchool());
             dispatch(changeReportsType("School"));
-            
         })()
     }, [])
 
@@ -45,11 +45,11 @@ export default function BoletimSubstituicao(){
                         <SlidersHorizontal className="w-6 h-6 md:w-8 md:h-8 absolute top-3 right-3 text-white md:relative md:inset-0 md:text-black cursor-pointer" onClick={() => setFilter(!filter)} />
                     </div>
 
-                    <TableReports tableHead={tableHead} />
+                    <TableReports tableHead={tableHead} allFilterInfos={allFilterInfosSchool} />
                 </div>
 
                 <div className="w-full flex items-center justify-end">
-                    <Link href="/imprimir-professor" className="w-36 py-2 border border-zinc-500 text-zinc-500 rounded-lg text-center hover:bg-zinc-500 hover:text-white transition-colors">
+                    <Link href="/imprimir-boletim-substituicao" className="w-36 py-2 border border-zinc-500 text-zinc-500 rounded-lg text-center hover:bg-zinc-500 hover:text-white transition-colors">
                         Imprimir
                     </Link>
                 </div>
@@ -70,7 +70,20 @@ export default function BoletimSubstituicao(){
         </RootLayout>
     )
 
-    function submit(data: SubmitDataFilter){
-        console.log(data);
+    async function submit(data: SubmitDataFilter){
+        if("cadastroEscola" in data){
+            let aux = await getReportsSchool(data.cadastroEscola, new Date(datas.dataInicial), new Date(datas.dataFinal));
+
+            if(typeof aux === "object") {
+                const sortedInfos = aux.sort((info1: TeacherDTOInfos, info2: TeacherDTOInfos) => {
+                    info1.name.localeCompare(info2.name);
+                })
+
+                dispatch(refreshAllFilterInfosSchool(sortedInfos));
+                dispatch(refreshFilterInfosSchool(await getIdSchool(data.cadastroEscola)));
+            }
+
+            setFilter(false);                
+        }
     }
 }

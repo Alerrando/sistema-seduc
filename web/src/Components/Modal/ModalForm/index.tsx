@@ -27,7 +27,7 @@ type ModalFormProps = {
 
 export function ModalForm(props: ModalFormProps) {
   const { schema, inputs, initialValues, setInfosInput, onSubmit, modalName } = props;
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<SubmitDataModal>({
+  const { register, handleSubmit, reset, formState: { errors }, getValues } = useForm<SubmitDataModal>({
     resolver: zodResolver(schema),
     defaultValues: initialValues as typeof schema['_input'],
   });
@@ -53,14 +53,16 @@ export function ModalForm(props: ModalFormProps) {
     onSubmit(data);
   };
 
+  console.log(getValues());
+
   return (
     <>
       {("diaAula" in initialValues) && (
         <Calendar
-        className="w-[100%!important] calendar shadow-md rounded-md calendar"
-        value={initialValues.diaAula}
-        onChange={e => setInfosInput({ ...initialValues, diaAula: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.toString()) : "",})}
-      />
+          className="w-[100%!important] calendar shadow-md rounded-md calendar"
+          value={initialValues.diaAula}
+          onChange={e => setInfosInput({ ...initialValues, diaAula: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.toString()) : "",})}
+        />
       )}
       <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(handleFormSubmit)}>
         <div className="w-full flex flex-col gap-3">

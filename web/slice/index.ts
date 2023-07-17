@@ -44,7 +44,9 @@ export type OfficeInfos = {
 export type SchoolDTOInfos = {
   id: number,
   name: string,
+  datesWork: any,
   quantidadeAulas: number,
+  cargo: string,
 }
 
 export type TeacherDTOInfos = {
