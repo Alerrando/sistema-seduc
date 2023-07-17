@@ -26,7 +26,7 @@ export default function SelectInput<T extends FieldValues>(props: SelectInputPro
                 {optionType === "School" ? (
                     <>
                         {allInfosSchool?.map((school: SchoolInfos, index: Key) => (
-                            <option key={`escola-${school.name}`} value={school.id} className="outline-none border-none">{school.name}</option>
+                            <option key={`escola-${school.name}`} value={`${school.id}`} className="outline-none border-none">{school.name}</option>
                         ))}
                     </>
                 ) : optionType === "Teacher" ? (
@@ -50,10 +50,15 @@ export default function SelectInput<T extends FieldValues>(props: SelectInputPro
                                 </>
                             ))}
                         </>
-                    ) : (
+                    ) : optionType == "permission" ?  (
                         <>
                             <option key="permission-on" value={1}  className="outline-none border-none">Permitido</option>
                             <option key="permission-off" value={0} className="outline-none border-none">Não Permitido</option>
+                        </>
+                    ) : (
+                        <>
+                            <option key="mandatory-on" value={1}  className="outline-none border-none">Obrigatório</option>
+                            <option key="mandatory-off" value={0} className="outline-none border-none">Não Obrigatório</option>
                         </>
                     )
                 }

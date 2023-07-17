@@ -103,6 +103,7 @@ export default function Register({ pages, setPages }: RegisterProps){
             cadastroEscola: "",
             level: 2,
             permission: 0,
+            mandatoryBulletin: 0,
             ...rest,
         }
 

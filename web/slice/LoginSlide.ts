@@ -1,14 +1,15 @@
 import { PayloadAction, Slice, createSlice } from "@reduxjs/toolkit";
 
 export type UserInfos = {
-    id: number;
-    name: string;
-    email: string;
-    password: string;
-    rg: string;
-    cadastroEscola: string;
-    level: number;
-    permission: number;
+    id: number,
+    name: string,
+    email: string,
+    password: string,
+    rg: string,
+    cadastroEscola: string,
+    level: number,
+    permission: number,
+    mandatoryBulletin: number,
     edit: boolean,
 }
 
@@ -21,6 +22,7 @@ export const DefaultUserInfos: UserInfos = {
     permission: 0,
     email: "",
     password: "",
+    mandatoryBulletin: 0,
     edit: false,
 }
 

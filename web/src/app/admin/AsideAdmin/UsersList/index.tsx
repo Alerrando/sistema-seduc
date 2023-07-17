@@ -16,8 +16,9 @@ const createFormSchema = z.object({
     email: z.string().nonempty("O campo Email é obrigatório!"),
     rg: z.string().nonempty("O campo Rg é obrigatório!"),
     password: z.string().nonempty("O campo Senha é obrigatório!"),
-    cadastroEscola: z.string().nonempty("O campo Escola é obrigatório"),
-    permission: z.string().nonempty("Campo Permissão é obrigatório"),
+    cadastroEscola: z.coerce.number(),
+    permission: z.coerce.number().int(),
+    mandatoryBulletin: z.coerce.number().int(),
 })
 
 export type CreateFormDataUser = z.infer<typeof createFormSchema>
@@ -29,7 +30,7 @@ export default function UsersList(){
     const [viewPassword, setViewPassword] = useState<boolean>(false);
     const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
     const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
-    const tableHead = ["Id", "Nome", "Email", "Rg", "Escola", "Permissão", "Senha","Ações"];
+    const tableHead = ["Id", "Nome", "Email", "Rg", "Escola", "Permissão", "Obrigatório no Boletim", "Senha","Ações"];
     const inputs: InputConfig[] = [
         {
             htmlFor: "name",
@@ -81,10 +82,19 @@ export default function UsersList(){
             label: "Permissão*",
             name: "permission",
             optionDefault: "Selecione a Permissão",
-            optionType: "Permissão",
+            optionType: "permission",
             input: "select",
             type: "string",
         },
+        {
+            htmlFor: "mandatoryBulletin",
+            label: "Obrigatório no Boletim",
+            name: "mandatoryBulletin",
+            optionDefault: "Usuário Obrigatório no Boletim",
+            optionType: "mandatoryBulletin",
+            input: "select",
+            type: "string",
+        }
     ]
 
     useEffect(() => {
@@ -133,6 +143,7 @@ export default function UsersList(){
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.rg}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{schoolName(info.cadastroEscola)}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.permission === 1 ? "Autorizado" : "Não Autorizado"}</td>
+                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.mandatoryBulletin === 1 ? "Obrigatório" : "Não Obrigatório"}</td>
                                         <td className="flex flex-row items-center gap-2 whitespace-nowrap px-4 py-2 font-medium text-gray-900">{!viewPassword ? (
                                             <EyeOff size={26} className="cursor-pointer" onClick={() => setViewPassword(true)} />
                                         ) : (
@@ -176,6 +187,8 @@ export default function UsersList(){
                     title="Edição de Usuário"
                 />
             ) : null}
+
+            <ToastContainer />
         </>
     );
 
@@ -189,14 +202,16 @@ export default function UsersList(){
                     id,
                     level,
                     edit,
-                    ...rest,
                     permission: Number(data.permission),
-                    cadastroEscola: data.cadastroEscola,
+                    cadastroEscola: String(data.cadastroEscola),
+                    mandatoryBulletin: Number(data.mandatoryBulletin),
+                    ...rest,
                 };
             
-                const message = await editUser(formData, infosEdit.id);
+                const message: string | any = await editUser(formData, infosEdit.id);
                 setUsersAll(await getUsers());
                 setModal(false);
+                messageToast(message)
             }
         }
     }
@@ -214,8 +229,9 @@ export default function UsersList(){
     
     async function deleteUserAside(id:number, name: string){
         if(window.confirm(`Quer mesmo deletar o usuário ${name}?`)){
-            const message = await deleteUser(id);
+            const message: string | any = await deleteUser(id);
             setUsersAll(await getUsers());
+            messageToast(message);
         }
     }
 
@@ -248,7 +264,7 @@ export default function UsersList(){
             });
         }
         else{
-            toast.error(message.response.data, {
+            toast.error(message?.response.data, {
                 position: "bottom-left",
                 autoClose: 5000,
                 hideProgressBar: false,

@@ -277,7 +277,7 @@ export async function editUser(user: UserInfos, id: number){
   let message = await axios.put(`${urlUser}/${id}`, user, {
     headers: { 'Authorization':  `${localStorage.getItem("token")}` },
   })
-  .then((res) => res.data)
+  .then((res) => "Usuário Editado com sucesso!")
   .catch((err) => err)
 
   return message;

@@ -93,6 +93,7 @@ export default function Login({ pages, setPages }: LoginProps){
         setToken(token);
         
         let aux = await getUserByEmail(e.email, e.senha, token);
+        console.log(aux);
         
         if(aux === undefined){
             messageToast(aux);
@@ -113,13 +114,11 @@ export default function Login({ pages, setPages }: LoginProps){
             else{
                 messageToast(aux);
                 
-                if(aux !== undefined){
-                    localStorage.setItem("token", token);
-                    dispatch(changeLoginLogout(aux.usuario));
-                    setTimeout(() => {
-                        router.replace("/dashboard");
-                    }, 3000);
-                }
+                localStorage.setItem("token", token);
+                dispatch(changeLoginLogout(aux.usuario));
+                setTimeout(() => {
+                    router.replace("/dashboard");
+                }, 3000);
             }
         }
     }

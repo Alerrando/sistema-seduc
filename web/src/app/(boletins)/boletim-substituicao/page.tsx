@@ -26,7 +26,7 @@ export default function BoletimSubstituicao(){
     const [filter, setFilter] = useState<boolean>(false);
     const [initalValues, setInitialValues] = useState<InitalValuesTypeSubstitutionBulletin>({} as InitalValuesTypeSubstitutionBulletin);
     const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
-    const tableHead = ["Id", "Nome", "Formação", "Dias Trabalhados", "Total a pagar", "Observações"];
+    const tableHead = ["Nome", "Formação", "Dias Trabalhados", "Total a pagar", "Observações"];
     const { allFilterInfosSchool } = useSelector((root: RootState) => root.SliceFilter)
     const dispatch = useDispatch<AppDispatch>();
 

@@ -39,7 +39,7 @@ export default function Dashboard(){
                     <section className="w-full h-full flex flex-col md:flex-row gap-8 md:gap-0 md:pl-6">
                         <div className="w-full md:w-[80%] h-full flex flex-col justify-between gap-12 px-6 md:pl-0">
                             <header className="w-full h-auto flex flex-col gap-2 items-start">
-                            <h1 className="text-3xl md:text-4xl">Bem vindo Alerrando!</h1>
+                            <h1 className="text-3xl md:text-4xl">Bem vindo {userInfos.name}!</h1>
                             <p className="text-base text-[#5a5a5a]">É bom vê-lo novamente.</p>
                             </header>
             
