@@ -1,5 +1,7 @@
+import { DatasTypes } from './../src/Components/Filter/index';
 import { PayloadAction, Slice, createSlice } from "@reduxjs/toolkit"
 import { SchoolDTOInfos, SchoolInfos, TeacherDTOInfos } from "."
+import { DatasTypes } from "../src/Components/Filter"
 
 type FilterInfosTeacher = {
     id: number,
@@ -14,6 +16,7 @@ type StateProps = {
     allFilterInfosSchool: SchoolDTOInfos[],
     filterInfosTeacher: FilterInfosTeacher,
     filterInfosSchool: SchoolInfos,
+    filterStartEndDate: DatasTypes,
 }
 
 const initialState: StateProps = {
@@ -21,6 +24,7 @@ const initialState: StateProps = {
     allFilterInfosSchool: [],
     filterInfosTeacher: {} as FilterInfosTeacher,
     filterInfosSchool: {} as SchoolInfos,
+    filterStartEndDate: {} as DatasTypes,
 }
 
 export const sliceFilter: Slice<StateProps> = createSlice({
@@ -42,9 +46,13 @@ export const sliceFilter: Slice<StateProps> = createSlice({
         refreshFilterInfosSchool: (state, action: PayloadAction<SchoolInfos>) => {
             state.filterInfosSchool = action.payload;
         },
+
+        refreshFilterStartEndDate: (state, action: PayloadAction<DatasTypes>) => {
+            state.filterStartEndDate = action.payload;
+        },
     }
 });
 
-export const { refreshAllFilterInfosTeacher, refreshAllFilterInfosSchool, refreshFilterInfosTeacher, refreshFilterInfosSchool } = sliceFilter.actions;
+export const { refreshAllFilterInfosTeacher, refreshAllFilterInfosSchool, refreshFilterInfosTeacher, refreshFilterInfosSchool, refreshFilterStartEndDate } = sliceFilter.actions;
 
 export default sliceFilter.reducer;

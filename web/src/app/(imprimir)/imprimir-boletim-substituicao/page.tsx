@@ -1,15 +1,19 @@
 'use client';
 import { format, isValid } from 'date-fns';
-import { Key } from "react";
+import { Key, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../configureStore";
 import { SchoolDTOInfos, TeacherDTOInfos } from "../../../../slice";
 import RootLayout from "../../layout";
 import Image from 'next/image';
+import { ptBR } from "date-fns/locale"
 
 export default function ImprimirBoletimSubstituicao(){
-    const { filterInfosSchool, allFilterInfosSchool } = useSelector((root: RootState) => root.SliceFilter);
+    const { filterInfosSchool, allFilterInfosSchool, filterStartEndDate } = useSelector((root: RootState) => root.SliceFilter);
     const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
+    const [dateNow, setDateNow] = useState<Date>(new Date());
+
+    console.log(filterStartEndDate);
 
     return(
         <RootLayout showHeaderAside={false}>
@@ -78,8 +82,11 @@ export default function ImprimirBoletimSubstituicao(){
                                     );
                                     })}
                                 </tbody>
-
                         </table>
+                    </div>
+
+                    <div className="w-full h-auto flex items-center justify-end">
+                        <h2 className="text-[22px]">{`${format(dateNow, "dd", { locale: ptBR })} de ${format(dateNow, "LLLL", { locale: ptBR })} de ${format(dateNow, "yyyy", { locale: ptBR })}`}</h2>
                     </div>
                 </section>
             </main>

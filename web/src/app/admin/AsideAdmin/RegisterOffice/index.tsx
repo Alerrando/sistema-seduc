@@ -137,6 +137,7 @@ export default function RegisterOffice(){
     }
 
     function editInfo(info: InfosTableRegisterData){
+        debugger;
         if("name" in info && "type" in info){
             const { ...rest } = info;
             const aux = { ...rest, edit: true };

@@ -11,7 +11,7 @@ import Link from "next/link";
 import TableReports from "../../../Components/TableReports";
 import Filter, { DatasTypes, SubmitDataFilter } from "../../../Components/Filter";
 import { ZodTypeAny, z } from "zod";
-import { refreshAllFilterInfosSchool, refreshFilterInfosSchool } from "../../../../slice/FilterSlice";
+import { refreshAllFilterInfosSchool, refreshFilterInfosSchool, refreshFilterStartEndDate } from "../../../../slice/FilterSlice";
 
 const createFormSchema = z.object({
     cadastroEscola: z.string().nonempty("Selecione uma escola ou adicione!"),
@@ -81,6 +81,7 @@ export default function BoletimSubstituicao(){
 
                 dispatch(refreshAllFilterInfosSchool(sortedInfos));
                 dispatch(refreshFilterInfosSchool(await getIdSchool(data.cadastroEscola)));
+                dispatch(refreshFilterStartEndDate(datas));
             }
 
             setFilter(false);                
