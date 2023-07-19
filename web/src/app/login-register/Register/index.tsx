@@ -96,11 +96,12 @@ export default function Register({ pages, setPages }: RegisterProps){
     );
 
     async function submit(e: CreateFormData){
-        const { ...rest } = e
+        const { ...rest } = e;
         const aux:UserInfos = {
             id: 0,
             edit: false,
             cadastroEscola: "",
+            office: "",
             level: 2,
             permission: 0,
             mandatoryBulletin: 0,

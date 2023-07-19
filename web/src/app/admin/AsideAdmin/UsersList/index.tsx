@@ -192,29 +192,29 @@ export default function UsersList(){
         </>
     );
 
-    async function submit(data: SubmitDataModal){
-        if("name" in data && "email" in data && "rg" in data && "password" in data && "cadastroEscola" in data && "permission" in data){
-            if(infosEdit != null){
-                const { id, level, edit } = infosEdit;
-                const { ...rest } = data;
-            
-                const formData: UserInfos = {
-                    id,
-                    level,
-                    edit,
-                    permission: Number(data.permission),
-                    cadastroEscola: String(data.cadastroEscola),
-                    mandatoryBulletin: Number(data.mandatoryBulletin),
-                    ...rest,
-                };
-            
-                const message: string | any = await editUser(formData, infosEdit.id);
-                setUsersAll(await getUsers());
-                setModal(false);
-                messageToast(message)
-            }
+    async function submit(data: SubmitDataModal) {
+        if ("name" in data && "email" in data && "rg" in data && "password" in data && "cadastroEscola" in data && "permission" in data) {
+          if (infosEdit != null) {
+            const { id, level, edit, permission, cadastroEscola, mandatoryBulletin, ...rest } = infosEdit;
+            const formData: UserInfos = {
+              id,
+              level,
+              edit,
+              permission: Number(data.permission),
+              cadastroEscola: String(data.cadastroEscola),
+              mandatoryBulletin: Number(data.mandatoryBulletin),
+              ...rest,
+              ...data,
+            };
+      
+            const message: string | any = await editUser(formData, infosEdit.id);
+            setUsersAll(await getUsers());
+            setModal(false);
+            messageToast(message);
+          }
         }
     }
+      
 
     function editInfo(info: UserInfos){
         const { edit, ...rest } = info;

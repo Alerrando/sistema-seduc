@@ -5,6 +5,7 @@ export type UserInfos = {
     name: string,
     email: string,
     password: string,
+    office: string,
     rg: string,
     cadastroEscola: string,
     level: number,
@@ -16,12 +17,13 @@ export type UserInfos = {
 export const DefaultUserInfos: UserInfos = {
     id: 0,
     name: "",
+    email: "",
+    password: "",
+    office: "",
     rg: "",
     cadastroEscola: "",
     level: 2,
     permission: 0,
-    email: "",
-    password: "",
     mandatoryBulletin: 0,
     edit: false,
 }
