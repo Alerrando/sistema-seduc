@@ -18,9 +18,6 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private EncryptionService encryptedService;
-
     public List<User> findAll(){
         List<User> result = userRepository.findAll();
         return result;
@@ -33,6 +30,20 @@ public class UserService {
         response.put("usuario", user.get());
 
         return ResponseEntity.ok().body(response);
+    }
+
+    public List<User> getUserByMandatoryBulletin(){
+        List<User> users = userRepository.findByMandatoryBulletin();
+
+        return users;
+    }
+
+    public User getUserBySchoolId(String schoolId){
+        Integer schoolIDInteger = Integer.parseInt(schoolId);
+
+        User user = userRepository.findUserBySchoolId(schoolIDInteger);
+
+        return user;
     }
 
 

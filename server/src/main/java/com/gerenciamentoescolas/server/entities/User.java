@@ -12,6 +12,7 @@ public class User {
     private String email;
     private String rg;
     private String password;
+    private String office;
     private Integer cadastroEscola;
     private Integer level;
     private Integer permission;
@@ -20,12 +21,13 @@ public class User {
     public User(){
     }
 
-    public User(Integer id, String name, String email, String rg, String password, Integer cadastroEscola, Integer level, Integer permission, Integer mandatoryBulletin) {
+    public User(Integer id, String name, String email, String rg, String password, String office,Integer cadastroEscola, Integer level, Integer permission, Integer mandatoryBulletin) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.rg = rg;
         this.password = password;
+        this.office = office;
         this.cadastroEscola = cadastroEscola;
         this.level = level;
         this.permission = permission;
@@ -70,6 +72,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getOffice(){
+        return office;
+    }
+
+    public void setOffice(String office) { 
+        this.office = office;
     }
 
     public Integer getCadastroEscola() {

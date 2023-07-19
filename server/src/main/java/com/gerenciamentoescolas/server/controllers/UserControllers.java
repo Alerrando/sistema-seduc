@@ -26,6 +26,16 @@ public class UserControllers {
         return userService.getUserByEmailPassword(email, password);
     }
 
+    @GetMapping("/bulletin")
+    public List<User> getUserByMandatoryBulletin(){
+        return userService.getUserByMandatoryBulletin();
+    }
+
+    @GetMapping("/school/{schoolId}")
+    public User getUserBySchoolId(@PathVariable String schoolId){
+        return userService.getUserBySchoolId(schoolId);
+    }
+
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody User user){
         return userService.create(user);
