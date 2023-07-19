@@ -1,4 +1,3 @@
-import { DatasTypes } from './../src/Components/Filter/index';
 import { PayloadAction, Slice, createSlice } from "@reduxjs/toolkit"
 import { SchoolDTOInfos, SchoolInfos, TeacherDTOInfos } from "."
 import { DatasTypes } from "../src/Components/Filter"

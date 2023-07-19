@@ -16,7 +16,7 @@ const createFormSchema = z.object({
     email: z.string().nonempty("O campo Email é obrigatório!"),
     rg: z.string().nonempty("O campo Rg é obrigatório!"),
     password: z.string().nonempty("O campo Senha é obrigatório!"),
-    cadastroEscola: z.coerce.number(),
+    cadastroEscola: z.string().nonempty("O campo Escola é obrigatório!"),
     permission: z.coerce.number().int(),
     mandatoryBulletin: z.coerce.number().int(),
 })
@@ -192,29 +192,27 @@ export default function UsersList(){
         </>
     );
 
-    async function submit(data: SubmitDataModal) {
-        if ("name" in data && "email" in data && "rg" in data && "password" in data && "cadastroEscola" in data && "permission" in data) {
-          if (infosEdit != null) {
-            const { id, level, edit, permission, cadastroEscola, mandatoryBulletin, ...rest } = infosEdit;
-            const formData: UserInfos = {
-              id,
-              level,
-              edit,
-              permission: Number(data.permission),
-              cadastroEscola: String(data.cadastroEscola),
-              mandatoryBulletin: Number(data.mandatoryBulletin),
-              ...rest,
-              ...data,
-            };
-      
-            const message: string | any = await editUser(formData, infosEdit.id);
-            setUsersAll(await getUsers());
-            setModal(false);
-            messageToast(message);
-          }
+    async function submit(data: SubmitDataModal){
+        if("name" in data && "email" in data && "rg" in data && "password" in data && "cadastroEscola" in data && "permission" in data){
+            if(infosEdit != null){
+                const { id, level, office, edit } = infosEdit;
+                const { ...rest } = data;
+            
+                const formData: UserInfos = {
+                    id,
+                    level,
+                    edit,
+                    office,
+                    ...rest,
+                };
+            
+                const message: string | any = await editUser(formData, infosEdit.id);
+                setUsersAll(await getUsers());
+                setModal(false);
+                messageToast(message)
+            }
         }
     }
-      
 
     function editInfo(info: UserInfos){
         const { edit, ...rest } = info;

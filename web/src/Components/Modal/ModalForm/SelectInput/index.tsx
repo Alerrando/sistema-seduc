@@ -26,7 +26,7 @@ export default function SelectInput<T extends FieldValues>(props: SelectInputPro
                 {optionType === "School" ? (
                     <>
                         {allInfosSchool?.map((school: SchoolInfos, index: Key) => (
-                            <option key={`escola-${school.name}`} value={`${school.id}`} className="outline-none border-none">{school.name}</option>
+                            <option key={`escola-${school.name}`} value={`${school.id.toString()}`} className="outline-none border-none">{school.name}</option>
                         ))}
                     </>
                 ) : optionType === "Teacher" ? (
