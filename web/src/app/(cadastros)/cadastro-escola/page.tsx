@@ -13,7 +13,11 @@ import RootLayout from '../../../app/layout';
 import { z } from 'zod';
 
 const createFormSchema = z.object({
-    name: z.string().nonempty("Nome é obrigatório!"),
+    name: z.string().nonempty("Campo Nome é obrigatório!"),
+    adress: z.string().nonempty("Campo Endereço é obrigatório!"),
+    zip: z.string().nonempty("Campo Cep é obrigatório!"),
+    fone: z.string().nonempty("Campo Telefone é obrigatório!"),
+    email: z.string().nonempty("O campo Email é obrigatório!"),
 })
 
 export type CreateFormDataSchool = z.infer<typeof createFormSchema>
@@ -23,7 +27,7 @@ export default function CadastroEscola(){
     const [infosInput, setInfosInput] = useState<SchoolInfos>(SchoolValuesDefault);
     const [search, setSearch] = useState("");
     const [modal, setModal] = useState<boolean>(false);
-    const thead = ["Id", "Nome da Escola", "Ações"];
+    const thead = ["Id", "Nome da Escola", "Endereço da Escola", "Cep", "Telefone", "Email", "Ações"];
     const dispatch = useDispatch<AppDispatch>();
     const inputs: InputConfig[] = [
         {
@@ -31,6 +35,41 @@ export default function CadastroEscola(){
             label: "Nome da Escola",
             name: "name",
             placeholder: "Escola Municipal Mario Fiorante",
+            type: "text",
+            input: "input",
+        },
+        {
+            htmlFor: "adress",
+            label: "Endereço da Escola",
+            name: "adress",
+            placeholder: "Endereço",
+            type: "text",
+            input: "input",
+        },
+
+        {
+            htmlFor: "zip",
+            label: "Cep",
+            name: "zip",
+            placeholder: "CEP",
+            type: "text",
+            input: "input",
+        },
+
+        {
+            htmlFor: "fone",
+            label: "Telefone",
+            name: "fone",
+            placeholder: "(00)0000-0000",
+            type: "text",
+            input: "input",
+        },
+
+        {
+            htmlFor: "email",
+            label: "Email",
+            name: "email",
+            placeholder: "Email",
             type: "text",
             input: "input",
         },
@@ -84,9 +123,17 @@ export default function CadastroEscola(){
     )
 
     async function submitSchool(data: SubmitDataModal){
-        if("name" in data){
+        debugger;
+        if("name" in data && "adress" in data && "zip" in data && "fone" in data && "email" in data){
+            const { ...rest } = data;
+            const { id } = infosInput;
+            const aux: SchoolInfos = { 
+                id,
+                edit: false,
+                ...rest,
+            }
+
             let message: any | string;
-            const aux: SchoolInfos = { edit: false, name: data.name, id: infosInput.id, }
     
             if(!infosInput.edit){
                 message = await createSchool(aux);
@@ -103,7 +150,8 @@ export default function CadastroEscola(){
 	}
 
     async function editInfo(info: InfosTableRegisterData) {
-        if("name" in info){
+        debugger;
+        if("name" in info && "adress" in info && "zip" in info && "fone" in info && "email" in info){
             const { ...rest } = info;
             const aux = { ...rest, edit: true, }
             setInfosInput(aux);
@@ -112,7 +160,8 @@ export default function CadastroEscola(){
     }
 
     async function deleteInfo(info: InfosTableRegisterData) {
-        if("name" in info){
+        debugger;
+        if("name" in info && "adress" in info && "zip" in info && "fone" in info && "email" in info){
             const message: any | string = await deleteSchool(info.id);
             messageToast(message);
             dispatch(refreshInfosSchool(await readAllSchool()));

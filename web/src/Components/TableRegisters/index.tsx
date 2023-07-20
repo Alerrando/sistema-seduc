@@ -56,6 +56,10 @@ export default function TableRegisters(props: TableRegistersProps) {
                                 <>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.adress}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.zip}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.tel}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.email}</td>
                                 </>
                             ) : registerType === "Teacher" && 'sede' in info ? (
                                 <>

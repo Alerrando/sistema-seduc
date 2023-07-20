@@ -11,6 +11,12 @@ export type InputConfig = {
   input: "input" | "select",
 };
 
+export type TypeDefault = {
+  id: number,
+  name: string,
+  edit: boolean,
+}
+
 export type LessonsInfos = {
   id: number;
   cadastroProfessor: string;
@@ -21,16 +27,17 @@ export type LessonsInfos = {
 };
 
 export type SchoolInfos = {
-  id: number;
-  name: string;
-  edit: boolean;
-}
+  adress: string, 
+  zip: string, 
+  fone: string,
+  email: string,
+} & TypeDefault
 
 export type TeacherInfos = {
   cpf: string;
   sede: string;
   cargo: string;
-} & SchoolInfos
+}
 
 export type DefinitionPeriodsInfos = {
   startDate: Date | string,
@@ -39,7 +46,7 @@ export type DefinitionPeriodsInfos = {
 
 export type OfficeInfos = {
   type: string,
-} & SchoolInfos
+} & TypeDefault
 
 export type SchoolDTOInfos = {
   id: number,
@@ -70,6 +77,12 @@ const reportsTypes = {
   Teacher: {},
 }
 
+const ValuesDefault: TypeDefault = {
+  id: 0,
+  name: "",
+  edit: false,
+}
+
 export const HorasValuesDefault: LessonsInfos = {
   id: 0,
   diaAula: new Date().toString(),
@@ -80,18 +93,20 @@ export const HorasValuesDefault: LessonsInfos = {
 };
 
 export const SchoolValuesDefault: SchoolInfos = {
-  id: 0,
-  name: "",
-  edit: false,
+  ...ValuesDefault,
+  adress: "",
+  email: "",
+  fone: "",
+  zip: "",
 }
 
 export const OfficeValuesDefault: OfficeInfos = {
-  ...SchoolValuesDefault,
+  ...ValuesDefault,
   type: "",
 }
 
 export const TeacherValuesDefault: TeacherInfos = {
-  ...SchoolValuesDefault,
+  ...ValuesDefault,
   cpf: "",
   cargo: "",
   sede: "",

@@ -1,8 +1,7 @@
 import { PayloadAction, Slice, createSlice } from "@reduxjs/toolkit";
+import { TypeDefault } from ".";
 
 export type UserInfos = {
-    id: number,
-    name: string,
     email: string,
     password: string,
     office: string,
@@ -11,8 +10,7 @@ export type UserInfos = {
     level: number,
     permission: number,
     mandatoryBulletin: number,
-    edit: boolean,
-}
+} & TypeDefault
 
 export const DefaultUserInfos: UserInfos = {
     id: 0,
