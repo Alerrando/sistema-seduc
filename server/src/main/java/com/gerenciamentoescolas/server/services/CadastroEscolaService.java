@@ -56,7 +56,9 @@ public class CadastroEscolaService {
     }
 
     public CadastroEscola create(CadastroEscola cadastroEscola){
-        if(cadastroEscolaRepository.existsByName(cadastroEscola.getName())){
+        CadastroEscola cadastroEntitie = new CadastroEscola();
+
+        if(cadastroEntitie.equals(cadastroEscola)){
             throw new EscolaJaCadastradaException("Escola já cadastrada!");
         }
 
