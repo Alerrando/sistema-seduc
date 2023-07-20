@@ -93,7 +93,6 @@ export default function Login({ pages, setPages }: LoginProps){
         setToken(token);
         
         let aux = await getUserByEmail(e.email, e.senha, token);
-        console.log(aux);
         
         if(aux === undefined){
             messageToast(aux);

@@ -50,6 +50,16 @@ export default function SelectInput<T extends FieldValues>(props: SelectInputPro
                                 </>
                             ))}
                         </>
+                    ) : optionType === "OfficeUser" ? (
+                        <>
+                            {allInfosOffice?.map((office: OfficeInfos, index: Key) => (
+                                <>
+                                    {office.type === "1" ? (
+                                        <option key={`office-${office.name}`} value={office.name} className="outline-none border-none">{office.name}</option>
+                                    ) : null}
+                                </>
+                            ))}
+                        </>
                     ) : optionType == "permission" ?  (
                         <>
                             <option key="permission-on" value={1}  className="outline-none border-none">Permitido</option>

@@ -15,8 +15,9 @@ const createFormSchema = z.object({
     name: z.string().nonempty("O campo Nome é obrigatório!"),
     email: z.string().nonempty("O campo Email é obrigatório!"),
     rg: z.string().nonempty("O campo Rg é obrigatório!"),
+    office: z.string().nonempty("O campo Office é obrigatório"),
     password: z.string().nonempty("O campo Senha é obrigatório!"),
-    cadastroEscola: z.string().nonempty("O campo Escola é obrigatório!"),
+    cadastroEscola: z.string(),
     permission: z.coerce.number().int(),
     mandatoryBulletin: z.coerce.number().int(),
 })
@@ -30,7 +31,7 @@ export default function UsersList(){
     const [viewPassword, setViewPassword] = useState<boolean>(false);
     const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
     const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
-    const tableHead = ["Id", "Nome", "Email", "Rg", "Escola", "Permissão", "Obrigatório no Boletim", "Senha","Ações"];
+    const tableHead = ["Id", "Nome", "Email", "Rg", "Cargo", "Escola", "Permissão", "Obrigatório no Boletim", "Senha","Ações"];
     const inputs: InputConfig[] = [
         {
             htmlFor: "name",
@@ -58,6 +59,17 @@ export default function UsersList(){
             type: "text",
             input: "input",
         },
+
+        {
+            htmlFor: "office",
+            label: "Cargo",
+            name: "office",
+            optionDefault: "Selecione um Cargo",
+            optionType: "OfficeUser",
+            input: "select",
+            type: "string",
+        },
+
         {
             htmlFor: "password",
             label: "Senha*",
@@ -141,6 +153,7 @@ export default function UsersList(){
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.email}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.rg}</td>
+                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.office}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{schoolName(info.cadastroEscola)}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.permission === 1 ? "Autorizado" : "Não Autorizado"}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.mandatoryBulletin === 1 ? "Obrigatório" : "Não Obrigatório"}</td>
@@ -193,7 +206,7 @@ export default function UsersList(){
     );
 
     async function submit(data: SubmitDataModal){
-        if("name" in data && "email" in data && "rg" in data && "password" in data && "cadastroEscola" in data && "permission" in data){
+        if("name" in data && "email" in data && "rg" in data && "office" in data && "password" in data && "cadastroEscola" in data && "permission" in data){
             if(infosEdit != null){
                 const { id, level, office, edit } = infosEdit;
                 const { ...rest } = data;
@@ -215,7 +228,8 @@ export default function UsersList(){
     }
 
     function editInfo(info: UserInfos){
-        const { edit, ...rest } = info;
+        const { edit,...rest } = info;
+
         const aux = {
             edit: true,
             ...rest,

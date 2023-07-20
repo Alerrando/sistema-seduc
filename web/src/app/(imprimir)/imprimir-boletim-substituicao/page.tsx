@@ -24,6 +24,8 @@ export default function ImprimirBoletimSubstituicao() {
     })();
   }, []);
 
+  console.log(usersMandatoryBulletin, schoolBulletinUser, filterInfosSchool);
+
   return (
     <RootLayout showHeaderAside={false}>
       <main className="w-full h-screen">
@@ -174,14 +176,27 @@ export default function ImprimirBoletimSubstituicao() {
             )}`}</h2>
           </div>
 
-          <div className="w-full flex flex-col items-start justify-start">
+          <div className="w-full flex flex-col gap-8 items-start justify-start">
                 <span className="text-xl">Elaborado por: </span>
                 
-                <section className="w-3/4 h-auto flex items-center justify-between mx-auto">
-                    <div className="w-40 h-40 flex flex-col items-center justify-center before:block before:w-full before:border-t-[1px] before:border-t-black">
-                        <span>{schoolBulletinUser.name}</span>
-                        <span>{`RG: ${schoolBulletinUser.rg}`}</span>
+                <section className="w-5/6 h-auto flex items-center justify-between ml-auto">
+                    <div className="w-1/4 h-auto flex flex-col items-center justify-center before:block before:w-full before:border-t-[1px] before:border-t-black">
+                        <span className="text-sm">{schoolBulletinUser.name}</span>
+                        <span className="text-sm">{`RG: ${schoolBulletinUser.rg}`}</span>
+                        <span className="text-sm">{`${schoolBulletinUser.office}`}</span>
                     </div>
+
+                    {usersMandatoryBulletin?.map((user: UserInfos) => (
+                      <>
+                        {user.id !== schoolBulletinUser.id ? (
+                          <div className="w-1/4 h-auto flex flex-col items-center justify-center before:block before:w-full before:border-t-[1px] before:border-t-black">
+                            <span className="text-sm">{user.name}</span>
+                            <span className="text-sm">{`RG: ${user.rg}`}</span>
+                            <span className="text-sm">{`${user.office}`}</span>
+                          </div>
+                        ) : null}
+                      </>
+                    ))}
                 </section>
           </div>
         </section>
