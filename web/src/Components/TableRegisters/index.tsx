@@ -52,13 +52,13 @@ export default function TableRegisters(props: TableRegistersProps) {
                                         <span className='whitespace-nowrap'>{isValid(new Date(info.diaAula)) ? format(new Date(info.diaAula), "dd/MM/yyyy") : ""}</span>
                                     </td>
                                 </>
-                            ) : registerType === "School" && "name" in info ? (
+                            ) : registerType === "School" && "name" in info && "adress" in info && "zip" in info && "fone" in info && "email" in info ? (
                                 <>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.adress}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.zip}</td>
-                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.tel}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.fone}</td>
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.email}</td>
                                 </>
                             ) : registerType === "Teacher" && 'sede' in info ? (

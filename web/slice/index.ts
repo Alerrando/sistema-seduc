@@ -37,7 +37,7 @@ export type TeacherInfos = {
   cpf: string;
   sede: string;
   cargo: string;
-}
+} & TypeDefault
 
 export type DefinitionPeriodsInfos = {
   startDate: Date | string,
