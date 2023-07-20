@@ -215,7 +215,6 @@ export default function UsersList(){
                     id,
                     level,
                     edit,
-                    office,
                     ...rest,
                 };
             
