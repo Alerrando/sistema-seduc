@@ -81,7 +81,7 @@ export default function BoletimControleAulasEventuais(){
             let aux = await getReportsTeacher(data.cadastroProfessor, new Date(datas.dataInicial), new Date(datas.dataFinal));
     
             if(typeof aux === "object") {
-                dispatch(refreshAllFilterInfosTeacher(aux.sort((data1: TeacherDTOInfos, data2: TeacherDTOInfos) => new Date(data1.dataAula).getTime() - new Date(data2.dataAula).getTime())))
+                dispatch(refreshAllFilterInfosTeacher(aux.sort((data1: TeacherDTOInfos, data2: TeacherDTOInfos) => new Date(data1.lessonDay).getTime() - new Date(data2.lessonDay).getTime())))
                 dispatch(refreshFilterInfosTeacher(await getNameByIdTeacher(data.cadastroProfessor)));
             }
             

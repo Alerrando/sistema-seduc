@@ -53,15 +53,13 @@ export function ModalForm(props: ModalFormProps) {
     onSubmit(data);
   };
 
-  console.log(getValues());
-
   return (
     <>
-      {("diaAula" in initialValues) && (
+      {initialValues && "lessonDay" in initialValues && (
         <Calendar
           className="w-[100%!important] calendar shadow-md rounded-md calendar"
-          value={initialValues.diaAula}
-          onChange={e => setInfosInput({ ...initialValues, diaAula: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.toString()) : "",})}
+          value={initialValues.lessonDay}
+          onChange={e => setInfosInput({ ...initialValues, lessonDay: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.toString()) : "",})}
         />
       )}
       <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(handleFormSubmit)}>
@@ -75,8 +73,8 @@ export function ModalForm(props: ModalFormProps) {
                     label={input.label}
                     optionDefault={input.optionDefault}
                     optionType={input.optionType}
-                    key={`select-${input.name}`}
                     register={register}
+                    key={`select-${input.name}`}
                   />
                 ) : (
                   <Input
@@ -86,6 +84,7 @@ export function ModalForm(props: ModalFormProps) {
                     key={`input-${input.name}`}
                     name={input.name}
                     placeholder={input.placeholder}
+                    pattern={input.pattern}
                     register={register}
                   />
                 )}

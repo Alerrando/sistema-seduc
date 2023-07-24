@@ -5,14 +5,14 @@ import "react-calendar/dist/Calendar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { z } from "zod";
 import { AppDispatch, RootState } from "../../../../configureStore";
 import { HorasValuesDefault, InputConfig, LessonsInfos, TeacherInfos, changeRegisterType, refreshInfosLesson } from "../../../../slice";
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
-import { createLesson, deleteLesson, editLesson, readAllLesson } from "../../../api";
+import { createLesson, deleteLesson, editLesson, getIdSchool, getNameByIdTeacher, readAllLesson } from "../../../api";
 import RootLayout from "../../../app/layout";
-import { z } from "zod";
 
 const createFormSchema = z.object({
   horaAulas: z.string().nonempty("Digite a quantidade de aulas!"),
@@ -144,20 +144,26 @@ export default function ControleAulasEventuais() {
   
   async function submitLesson(data: SubmitDataModal) {
     if("horaAulas" in data && "cadastroProfessor" in data && "cadastroEscola" in data){
+      debugger;
       let message: any | string;
-      const { ...rest } = data;
+      const { cadastroEscola, cadastroProfessor, horaAulas} = data;
+      const schoolLesson = await getIdSchool(data.cadastroEscola);
+      const teacherLesson = await getNameByIdTeacher(data.cadastroProfessor);
+      
       let aux: LessonsInfos = {
         id: infosInput.id,
-        diaAula: new Date(infosInput.diaAula),
+        lessonDay: new Date(infosInput.lessonDay),
         edit: false,
-        ...rest,
+        amountTime: data.horaAulas,
+        registerSchool: schoolLesson,
+        registerTeacher: teacherLesson,
       };
       if (!infosInput.edit) {
-          message = await createLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
+          message = await createLesson(aux, data.cadastroEscola, data.cadastroProfessor);
           
       } else {
         aux.id = infosInput.id;
-        message = await editLesson(aux, aux.cadastroEscola, aux.cadastroProfessor);
+        message = await editLesson(aux, data.cadastroEscola, data.cadastroProfessor);
         setModal(false);
       }
       
@@ -182,8 +188,9 @@ export default function ControleAulasEventuais() {
   }
 
   async function deleteInfo(info: InfosTableRegisterData) {
+    debugger;
     if("horaAulas" in info && "cadastroProfessor" in info && "cadastroEscola" in info){
-      if(window.confirm(`Deseja deletar a aula do professor ${getNameTeacher(info.cadastroProfessor)} no dia ${format(new Date(info.diaAula.toString()), "dd/MM/yyyy")}?`)){
+      if(window.confirm(`Deseja deletar a aula do professor ${getNameTeacher(info.cadastroProfessor)} no dia ${format(new Date(info.diaAula), "dd/MM/yyyy")}?`)){
         const message = await deleteLesson(info.id);
         messageToast(message);
         dispatch(refreshInfosLesson(await readAllLesson()));

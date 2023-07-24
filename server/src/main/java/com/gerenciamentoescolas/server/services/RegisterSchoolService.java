@@ -1,8 +1,8 @@
 package com.gerenciamentoescolas.server.services;
 
 import com.gerenciamentoescolas.server.dto.CadastroEscolaDTO;
-import com.gerenciamentoescolas.server.entities.CadastroEscola;
-import com.gerenciamentoescolas.server.exception.EscolaJaCadastradaException;
+import com.gerenciamentoescolas.server.entities.RegisterSchool;
+import com.gerenciamentoescolas.server.exception.SchoolAlreadyRegistered;
 import com.gerenciamentoescolas.server.repository.CadastroEscolaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +18,8 @@ public class CadastroEscolaService {
     @Autowired
     private CadastroEscolaRepository cadastroEscolaRepository;
 
-    public List<CadastroEscola> findAll(){
-        List<CadastroEscola> result = cadastroEscolaRepository.findAll();
+    public List<RegisterSchool> findAll(){
+        List<RegisterSchool> result = cadastroEscolaRepository.findAll();
         return result;
     }
 
@@ -55,26 +55,26 @@ public class CadastroEscolaService {
         return new ArrayList<>(escolasAulas.values());
     }
 
-    public CadastroEscola create(CadastroEscola cadastroEscola){
-        CadastroEscola cadastroEntitie = new CadastroEscola();
+    public RegisterSchool create(RegisterSchool registerSchool){
+        RegisterSchool cadastroEntitie = new RegisterSchool();
 
-        if(cadastroEntitie.equals(cadastroEscola)){
-            throw new EscolaJaCadastradaException("Escola já cadastrada!");
+        if(cadastroEntitie.equals(registerSchool)){
+            throw new SchoolAlreadyRegistered("Escola já cadastrada!");
         }
 
-        return cadastroEscolaRepository.save(cadastroEscola);
+        return cadastroEscolaRepository.save(registerSchool);
     }
 
-    public CadastroEscola edit(Integer id, CadastroEscola cadastroEscola){
-        cadastroEscola.setId(id);
-        return cadastroEscolaRepository.save(cadastroEscola);
+    public RegisterSchool edit(Integer id, RegisterSchool registerSchool){
+        registerSchool.setId(id);
+        return cadastroEscolaRepository.save(registerSchool);
     }
 
     public void delete(Integer id){
         cadastroEscolaRepository.deleteById(id);
     }
 
-    public CadastroEscola findById(Integer id) {
+    public RegisterSchool findById(Integer id) {
         return cadastroEscolaRepository.findById(id).orElse(null);
     }
 }

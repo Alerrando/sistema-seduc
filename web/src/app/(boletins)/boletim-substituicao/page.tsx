@@ -1,17 +1,17 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import { Search, SlidersHorizontal } from "lucide-react";
-import { SchoolDTOInfos, TeacherDTOInfos, changeReportsType } from "../../../../slice";
-import { getIdSchool, getReportsSchool } from "../../../api";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../../configureStore";
-import RootLayout from "../../../app/layout";
+import { SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
-import TableReports from "../../../Components/TableReports";
-import Filter, { DatasTypes, SubmitDataFilter } from "../../../Components/Filter";
-import { ZodTypeAny, z } from "zod";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { z } from "zod";
+import { AppDispatch, RootState } from "../../../../configureStore";
+import { SchoolDTOInfos, TeacherDTOInfos, changeReportsType } from "../../../../slice";
 import { refreshAllFilterInfosSchool, refreshFilterInfosSchool, refreshFilterStartEndDate } from "../../../../slice/FilterSlice";
+import Filter, { DatasTypes, SubmitDataFilter } from "../../../Components/Filter";
+import TableReports from "../../../Components/TableReports";
+import { getIdSchool, getReportsSchool } from "../../../api";
+import RootLayout from "../../../app/layout";
 
 const createFormSchema = z.object({
     cadastroEscola: z.string().nonempty("Selecione uma escola ou adicione!"),

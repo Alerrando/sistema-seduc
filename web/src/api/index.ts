@@ -97,6 +97,16 @@ export async function readAllSchool() {
   }
 }
 
+export async function getIdSchool(id: string) {  
+  const aux = await axios.get(`${urlSchool}/${id}`, {
+    headers: { 'Authorization':  `${localStorage.getItem("token")}` },
+  })
+  .then((res) => res.data)
+  .catch((err) => console.log(err))
+
+  return aux;
+}
+
 export async function createSchool(info: SchoolInfos){
   try {
     const message = await axios.post(urlSchool, info, {
@@ -139,16 +149,6 @@ export async function deleteSchool(id: number) {
   }
 }
 
-export async function getIdSchool(id: string) {  
-  const aux = await axios.get(`${urlSchool}/${id}`, {
-    headers: { 'Authorization':  `${localStorage.getItem("token")}` },
-  })
-  .then((res) => res.data)
-  .catch((err) => console.log(err))
-
-  return aux;
-}
-
 // ----------------------------- ROUTER TEACHER ----------------------------- //
 
 export async function readAllTeacher() {
@@ -163,6 +163,18 @@ export async function readAllTeacher() {
   } catch (error) {
     console.log(error);
   }
+}
+
+export async function getNameByIdTeacher(id: string) {
+  let aux: TeacherInfos = TeacherValuesDefault;
+  
+  await axios.get(`${urlTeacher}/${id}`, {
+    headers: { 'Authorization':  `${localStorage.getItem("token")}` },
+  })
+  .then((res) => (aux = res.data))
+  .catch((err) => console.log(err))
+
+  return aux;
 }
 
 export async function createTeacher(info: TeacherInfos, idEscola: string){
@@ -207,17 +219,6 @@ export async function deleteTeacher(id: number) {
   }
 }
 
-export async function getNameByIdTeacher(id: string) {
-  let aux: TeacherInfos = TeacherValuesDefault;
-  
-  await axios.get(`${urlTeacher}/${id}`, {
-    headers: { 'Authorization':  `${localStorage.getItem("token")}` },
-  })
-  .then((res) => (aux = res.data))
-  .catch((err) => console.log(err))
-
-  return aux;
-}
 
 // ----------------------------- ROUTER REPORTS ----------------------------- //]
 export async function getReportsSchool(schoolId: string, startDate: Date, endDate: Date) {
@@ -283,9 +284,9 @@ export async function getUserByIdSchool(schoolId: number){
   return message;
 }
 
-export async function createUser(user: UserInfos, token: string) {
+export async function createUser(user: UserInfos) {
   let message = await axios.post(`${urlUser}`, user, {
-    headers: { 'Authorization':  `${token}` },
+    headers: { 'Authorization':  `${localStorage.getItem("token")}` },
   })
   .then((res) => "Usuário criado com sucesso")
   .catch((err) => console.log(err))

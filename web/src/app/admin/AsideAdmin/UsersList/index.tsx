@@ -4,21 +4,21 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { RootState } from "../../../../../configureStore";
-import { UserInfos } from "../../../../../slice/LoginSlide";
-import { deleteUser, editUser, getUsers } from "../../../../api";
-import Modal, { SubmitDataModal } from "../../../../Components/Modal";
-import { InputConfig, SchoolInfos } from "../../../../../slice";
 import { z } from "zod";
+import { RootState } from "../../../../../configureStore";
+import { InputConfig, SchoolInfos } from "../../../../../slice";
+import { DefaultUserInfos, UserInfos } from "../../../../../slice/LoginSlide";
+import CreateHeaderRegisters from "../../../../Components/CreateHeaderRegisters";
+import Modal, { SubmitDataModal } from "../../../../Components/Modal";
+import { createUser, deleteUser, editUser, getUsers } from "../../../../api";
 
 const createFormSchema = z.object({
     name: z.string().nonempty("O campo Nome é obrigatório!"),
     email: z.string().nonempty("O campo Email é obrigatório!"),
     rg: z.string().nonempty("O campo Rg é obrigatório!"),
-    office: z.string().nonempty("O campo Office é obrigatório"),
+    office: z.string(),
     password: z.string().nonempty("O campo Senha é obrigatório!"),
     cadastroEscola: z.string(),
-    permission: z.coerce.number().int(),
     mandatoryBulletin: z.coerce.number().int(),
 })
 
@@ -27,11 +27,11 @@ export type CreateFormDataUser = z.infer<typeof createFormSchema>
 export default function UsersList(){
     const [usersAll, setUsersAll] = useState<UserInfos[] | null>(null);
     const [modal, setModal] = useState<boolean>(false);
-    const [infosEdit, setInfosEdit] = useState<UserInfos | null>(null);
+    const [infosEdit, setInfosEdit] = useState<UserInfos>(DefaultUserInfos);
     const [viewPassword, setViewPassword] = useState<boolean>(false);
     const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
     const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
-    const tableHead = ["Id", "Nome", "Email", "Rg", "Cargo", "Escola", "Permissão", "Obrigatório no Boletim", "Senha","Ações"];
+    const tableHead = ["Id", "Nome", "Email", "Rg", "Cargo", "Escola", "Assinatura Obrigatória no boletim", "Senha","Ações"];
     const inputs: InputConfig[] = [
         {
             htmlFor: "name",
@@ -90,15 +90,6 @@ export default function UsersList(){
         },
 
         {
-            htmlFor: "permission",
-            label: "Permissão*",
-            name: "permission",
-            optionDefault: "Selecione a Permissão",
-            optionType: "permission",
-            input: "select",
-            type: "string",
-        },
-        {
             htmlFor: "mandatoryBulletin",
             label: "Obrigatório no Boletim",
             name: "mandatoryBulletin",
@@ -130,9 +121,10 @@ export default function UsersList(){
             </header>
 
             <section className="h-full w-full flex flex-col items-end gap-2 py-4 px-12">
-                <div className="flex flex-row items px-4 py-2 bg-principal text-white rounded-lg">
-                    <span className="hidden sm:block">Total de registros: {usersAll?.length}</span>
-                    <span className="sm:hidden block">Total: {usersAll?.length}</span>
+                <div className="w-full h-auto flex flex-row items-center justify-between">
+                    {usersAll != undefined ? (
+                        <CreateHeaderRegisters setModal={setModal} totalRegiter={usersAll.length} key={"create-header-user"} />
+                    ) : null}
                 </div>
 
                 <div className="w-full h-[1px] border border-b border-[#cfcfcf]"></div>
@@ -155,7 +147,6 @@ export default function UsersList(){
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.rg}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.office}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{schoolName(info.cadastroEscola)}</td>
-                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.permission === 1 ? "Autorizado" : "Não Autorizado"}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.mandatoryBulletin === 1 ? "Obrigatório" : "Não Obrigatório"}</td>
                                         <td className="flex flex-row items-center gap-2 whitespace-nowrap px-4 py-2 font-medium text-gray-900">{!viewPassword ? (
                                             <EyeOff size={26} className="cursor-pointer" onClick={() => setViewPassword(true)} />
@@ -206,8 +197,9 @@ export default function UsersList(){
     );
 
     async function submit(data: SubmitDataModal){
-        if("name" in data && "email" in data && "rg" in data && "office" in data && "password" in data && "cadastroEscola" in data && "permission" in data){
+        if("name" in data && "email" in data && "rg" in data && "office" in data && "password" in data && "cadastroEscola" in data && "mandatoryBulletin" in data){
             if(infosEdit != null){
+                let message: string | any;
                 const { id, level, office, edit } = infosEdit;
                 const { ...rest } = data;
             
@@ -217,11 +209,18 @@ export default function UsersList(){
                     edit,
                     ...rest,
                 };
+
+                if(!infosEdit.edit){
+                    message = await createUser(formData);
+
+                }
+                else{
+                    message = await editUser(formData, infosEdit.id);
+                }
             
-                const message: string | any = await editUser(formData, infosEdit.id);
                 setUsersAll(await getUsers());
                 setModal(false);
-                messageToast(message)
+                messageToast(message);
             }
         }
     }

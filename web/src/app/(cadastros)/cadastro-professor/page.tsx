@@ -8,7 +8,7 @@ import { InputConfig, OfficeInfos, TeacherInfos, TeacherValuesDefault, changeReg
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal, { SubmitDataModal } from '../../../Components/Modal';
 import TableRegisters, { InfosTableRegisterData } from '../../../Components/TableRegisters';
-import { createTeacher, deleteTeacher, editTeacher, getRegisterOffice, readAllTeacher } from '../../../api';
+import { createTeacher, deleteTeacher, editTeacher, getIdSchool, getRegisterOffice, readAllTeacher } from '../../../api';
 import RootLayout from '../../../app/layout';
 import { z } from 'zod';
 
@@ -115,7 +115,6 @@ export default function CadastroProfessor(){
         })()
     }, [])
 
-
     return(
         <RootLayout showHeaderAside>
             <main className='w-full sm:w-5/6 h-max ml-auto'>
@@ -134,7 +133,14 @@ export default function CadastroProfessor(){
                         </div>
                     </div>
 
-                    <TableRegisters tableHead={thead} infosAll={allInfosTeacher} editInfo={editInfo} deleteInfo={deleteInfo} search={search} key={"Table-Escola"} />
+                    <TableRegisters
+                        tableHead={thead}
+                        infosAll={allInfosTeacher}
+                        editInfo={editInfo}
+                        deleteInfo={deleteInfo}
+                        search={search}
+                        key={"Table-Escola"}
+                    />
                 </div>
                 {modal ? (
                     <Modal 
@@ -157,16 +163,23 @@ export default function CadastroProfessor(){
 
     async function submitTeacher(data: SubmitDataModal){
         if("sede" in data && "cpf" in data && "cargo" in data && "name" in data){
-            const { ...rest } = data;
-            const aux: TeacherInfos = { ...rest, edit: false, id: infosInput.id, cpf: data.cpf.replaceAll(".", "").replaceAll("-", "") };
+            const { sede, ...rest } = data;
+            const school = await getIdSchool(data.sede);
+
+            const aux: TeacherInfos = { 
+                thirst: school,
+                edit: false,
+                id: infosInput.id,
+                cpf: data.cpf.replaceAll(".", "").replaceAll("-", ""),
+                ...rest,
+            };
+
             let message: any | string;
             if(!infosInput.edit){
-                if(!objectEmptyValue(aux)){
-                    message = await createTeacher(aux, aux.sede);
-                }
+                message = await createTeacher(aux, data.sede);
             }
             else{
-                message = await editTeacher(aux, aux.sede);
+                message = await editTeacher(aux, data.sede);
                 setModal(false);
             }
             
@@ -177,19 +190,26 @@ export default function CadastroProfessor(){
 	}
 
     async function editInfo(info: InfosTableRegisterData) {
-        if("sede" in info && "cpf" in info && "cargo" in info && "name" in info){
-            const { ...rest } = info;
-            const aux = { ...rest, edit : true, }
+        if("sede" in info && "cpf" in info && "office" in info && "name" in info){
+            const { thirst, ...rest } = info;
+            const aux: TeacherInfos = { 
+                edit : true,
+                thirst: thirst.id,
+                ...rest, 
+            }
             setInfosInput(aux);
             setModal(true);
         }
     }
 
     async function deleteInfo(info: InfosTableRegisterData) {
-        if("sede" in info && "cpf" in info && "cargo" in info && "name" in info){
-            const message: any | string = await deleteTeacher(info.id);
-            messageToast(message);
-            dispatch(refreshInfosTeacher(await readAllTeacher()));
+        if("thirst" in info && "cpf" in info && "office" in info && "name" in info){
+            if(window.confirm(`Quer mesmo deletar o professor ${info.name}?`)){
+                const message: any | string = await deleteTeacher(info.id);
+                console.log(message);
+                messageToast(message);
+                dispatch(refreshInfosTeacher(await readAllTeacher()));
+            }
         }
     }
 
@@ -203,6 +223,7 @@ export default function CadastroProfessor(){
     }
 
     function messageToast(message: any | string){
+        console.log(message);
         if(typeof message !== "object"){
             toast.success(message, {
                 position: "bottom-left",
@@ -216,7 +237,7 @@ export default function CadastroProfessor(){
             });
         }
         else{
-            toast.error(message.response.data, {
+            toast.error(message?.response?.data?.url, {
                 position: "bottom-left",
                 autoClose: 5000,
                 hideProgressBar: false,

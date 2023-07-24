@@ -1,10 +1,10 @@
 package com.gerenciamentoescolas.server.services;
 
-import com.gerenciamentoescolas.server.entities.CadastroAulas;
-import com.gerenciamentoescolas.server.entities.CadastroEscola;
-import com.gerenciamentoescolas.server.entities.CadastroProfessor;
+import com.gerenciamentoescolas.server.entities.RegisterLesson;
+import com.gerenciamentoescolas.server.entities.RegisterSchool;
+import com.gerenciamentoescolas.server.entities.RegisterTeacher;
 import com.gerenciamentoescolas.server.entities.DefinitionPeriods;
-import com.gerenciamentoescolas.server.exception.AulasJaCadastradaException;
+import com.gerenciamentoescolas.server.exception.LessonAlreadyRegistered;
 import com.gerenciamentoescolas.server.exception.DefinitionPeriodsException;
 import com.gerenciamentoescolas.server.repository.CadastroAulaRepository;
 import com.gerenciamentoescolas.server.repository.CadastroEscolaRepository;
@@ -37,37 +37,37 @@ public class CadastroAulaService {
     @Autowired
     private DefinitionPeriodsRepository definitionPeriodsRepository;
 
-    public List<CadastroAulas> findAll(){
-        List<CadastroAulas> result = cadastroAulaRepository.findAll();
+    public List<RegisterLesson> findAll(){
+        List<RegisterLesson> result = cadastroAulaRepository.findAll();
         return result;
     }
-    public Page<CadastroAulas> findAllPageable(Integer pageNumber, Integer pageSize){
+    public Page<RegisterLesson> findAllPageable(Integer pageNumber, Integer pageSize){
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<CadastroAulas> result = cadastroAulaRepository.findAll(pageable);
+        Page<RegisterLesson> result = cadastroAulaRepository.findAll(pageable);
         return result;
     }
 
-    public List<CadastroAulas> findByCadastroProfessor(String name){
-        List<CadastroProfessor> professores = cadastroProfessorRepository.filterByName(name);
-        List<Integer> professoresIds = professores.stream().map(CadastroProfessor::getId).collect(Collectors.toList());
+    public List<RegisterLesson> findByCadastroProfessor(String name){
+        List<RegisterTeacher> professores = cadastroProfessorRepository.filterByName(name);
+        List<Integer> professoresIds = professores.stream().map(RegisterTeacher::getId).collect(Collectors.toList());
 
         return cadastroAulaRepository.findByCadastroProfessor(professoresIds);
     }
 
-    public CadastroAulas create(CadastroAulas cadastroAulas, Integer escolaId, Integer professorId) {
-        List<CadastroAulas> aulas = cadastroAulaRepository.findAll();
+    public RegisterLesson create(RegisterLesson registerLesson, Integer escolaId, Integer professorId) {
+        List<RegisterLesson> aulas = cadastroAulaRepository.findAll();
         List<DefinitionPeriods> definitionsPeriods = definitionPeriodsRepository.findAll();
         DefinitionPeriods lastDefinitionPeriods = definitionsPeriods.get(definitionsPeriods.size() - 1);
 
-        LocalDate localDateCadastroAula = cadastroAulas.getDiaAula().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate localDateCadastroAula = registerLesson.getDiaAula().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate startDatePeriod = lastDefinitionPeriods.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate endDatePeriod = lastDefinitionPeriods.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         if(localDateCadastroAula.compareTo(startDatePeriod) >= 0 && localDateCadastroAula.compareTo(endDatePeriod) <= 0){
-            for (CadastroAulas aula : aulas){
+            for (RegisterLesson aula : aulas){
                 LocalDate localDateAula = aula.getDiaAula().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                if(localDateCadastroAula.equals(localDateAula) && cadastroAulas.getCadastroProfessor() == aula.getCadastroProfessor() && cadastroAulas.getCadastroEscola() == aula.getCadastroEscola()){
-                    throw new AulasJaCadastradaException("Aula já cadastrada");
+                if(localDateCadastroAula.equals(localDateAula) && registerLesson.getCadastroProfessor() == aula.getCadastroProfessor() && registerLesson.getCadastroEscola() == aula.getCadastroEscola()){
+                    throw new LessonAlreadyRegistered("Aula já cadastrada");
                 }
             }
         }
@@ -75,24 +75,24 @@ public class CadastroAulaService {
             throw new DefinitionPeriodsException("Não é possivel cadastrar uma aula depois ou antes da definição de período");
         }
 
-        CadastroEscola escola = cadastroEscolaRepository.findById(escolaId).orElseThrow(() -> new RuntimeException("Escola não encontrada"));
-        CadastroProfessor professor = cadastroProfessorRepository.findById(professorId).orElseThrow(() -> new RuntimeException("Professor não encontrado"));
+        RegisterSchool escola = cadastroEscolaRepository.findById(escolaId).orElseThrow(() -> new RuntimeException("Escola não encontrada"));
+        RegisterTeacher professor = cadastroProfessorRepository.findById(professorId).orElseThrow(() -> new RuntimeException("Professor não encontrado"));
 
-        cadastroAulas.setCadastroEscola(escola.getId());
-        cadastroAulas.setCadastroProfessor(professor.getId());
+        registerLesson.setCadastroEscola(escola);
+        registerLesson.setCadastroProfessor(professor);
 
-        return cadastroAulaRepository.save(cadastroAulas);
+        return cadastroAulaRepository.save(registerLesson);
     }
 
-    public CadastroAulas update(Integer escolaId, Integer professorId ,CadastroAulas cadastroAulas){
-        CadastroEscola escola = cadastroEscolaRepository.findById(escolaId)
+    public RegisterLesson update(Integer escolaId, Integer professorId , RegisterLesson registerLesson){
+        RegisterSchool escola = cadastroEscolaRepository.findById(escolaId)
                 .orElseThrow(() -> new RuntimeException("Escola não encontrada"));
-        CadastroProfessor professor = cadastroProfessorRepository.findById(professorId)
+        RegisterTeacher professor = cadastroProfessorRepository.findById(professorId)
                 .orElseThrow(() -> new RuntimeException("Professor não encontrado"));
 
-        cadastroAulas.setCadastroEscola(escola.getId());
-        cadastroAulas.setCadastroProfessor(professor.getId());
-        return cadastroAulaRepository.save(cadastroAulas);
+        registerLesson.setCadastroEscola(escola);
+        registerLesson.setCadastroProfessor(professor);
+        return cadastroAulaRepository.save(registerLesson);
     }
 
     public void delete(Integer id){

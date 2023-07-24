@@ -15,10 +15,15 @@ import { z } from 'zod';
 const createFormSchema = z.object({
     name: z.string().nonempty("Campo Nome é obrigatório!"),
     adress: z.string().nonempty("Campo Endereço é obrigatório!"),
-    zip: z.string().nonempty("Campo Cep é obrigatório!"),
+    zip: z.string()
+      .nonempty("Campo Cep é obrigatório!")
+      .transform(value => value.replace(/\D/g, ""))
+      .refine(value => value.length === 8, {
+        message: "CEP inválido. O CEP deve conter 8 dígitos.",
+      }),
     fone: z.string().nonempty("Campo Telefone é obrigatório!"),
-    email: z.string().nonempty("O campo Email é obrigatório!"),
-})
+    email: z.string().email().nonempty("O campo Email é obrigatório!"),
+});
 
 export type CreateFormDataSchool = z.infer<typeof createFormSchema>
 
@@ -51,7 +56,7 @@ export default function CadastroEscola(){
             htmlFor: "zip",
             label: "Cep",
             name: "zip",
-            placeholder: "CEP",
+            placeholder: "00000-000",
             type: "text",
             input: "input",
         },
@@ -123,7 +128,6 @@ export default function CadastroEscola(){
     )
 
     async function submitSchool(data: SubmitDataModal){
-        debugger;
         if("name" in data && "adress" in data && "zip" in data && "fone" in data && "email" in data){
             const { ...rest } = data;
             const { id } = infosInput;
@@ -150,21 +154,24 @@ export default function CadastroEscola(){
 	}
 
     async function editInfo(info: InfosTableRegisterData) {
-        debugger;
         if("name" in info && "adress" in info && "zip" in info && "fone" in info && "email" in info){
             const { ...rest } = info;
-            const aux = { ...rest, edit: true, }
+            const aux = { 
+                ...rest, 
+                edit: true, 
+            }
             setInfosInput(aux);
             setModal(true);
         }
     }
 
     async function deleteInfo(info: InfosTableRegisterData) {
-        debugger;
         if("name" in info && "adress" in info && "zip" in info && "fone" in info && "email" in info){
-            const message: any | string = await deleteSchool(info.id);
-            messageToast(message);
-            dispatch(refreshInfosSchool(await readAllSchool()));
+            if(window.confirm(`Quer mesmo deletar a escola ${info.name}?`)){
+                const message: any | string = await deleteSchool(info.id);
+                messageToast(message);
+                dispatch(refreshInfosSchool(await readAllSchool()));
+            }
         }
     }
 

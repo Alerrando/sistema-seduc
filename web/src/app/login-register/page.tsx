@@ -14,13 +14,6 @@ export default function LoginRegister() {
     const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
     const router = useRouter();
     const dispatch = useDispatch();
-    const [pages, setPages] = useState<boolean>(false);
-    const [animationClass, setAnimationClass] = useState<string>("");
-  
-    const handleTogglePages = () => {
-      setAnimationClass(pages ? "slide-left" : "slide-right");
-      setPages(!pages);
-    };
 
     useEffect(() => {
       dispatch(changeLoginLogout({}))
@@ -32,12 +25,8 @@ export default function LoginRegister() {
   
     return (
       <RootLayout showHeaderAside={false}>
-        <main className={`w-full h-screen flex flex-col ${ !pages ? "md:flex-row" : "md:flex-row-reverse" } overflow-x-hidden pr-4 md:py-9 ${animationClass}`}>
-          {!pages ? (
-            <Login pages={pages} setPages={handleTogglePages} />
-          ) : (
-            <Register pages={pages} setPages={handleTogglePages} />
-          )}
+        <main className={`w-full h-screen flex flex-col md:flex-row overflow-x-hidden pr-4 md:py-9`}>
+            <Login />          
         </main>
       </RootLayout>
     );

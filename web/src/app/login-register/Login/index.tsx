@@ -14,11 +14,6 @@ import { DefaultUserInfos, changeLoginLogout } from "../../../../slice/LoginSlid
 import Input from "../../../Components/Modal/ModalForm/Input";
 import { createToken, getUserByEmail } from "../../../api";
 
-type LoginProps = {
-    pages: boolean,
-    setPages: (pages: boolean) => void,
-}
-
 const createFormSchema = z.object({
     email: z.string().nonempty("O campo Email é obrigatório!"),
     senha: z.string().nonempty("O campo Senha é obrigatório!")
@@ -26,7 +21,7 @@ const createFormSchema = z.object({
 
 type CreateFormData = z.infer<typeof createFormSchema>
 
-export default function Login({ pages, setPages }: LoginProps){
+export default function Login(){
     const { register, handleSubmit, formState: { errors } } = useForm<CreateFormData>({
         resolver: zodResolver(createFormSchema)
     });
@@ -74,8 +69,6 @@ export default function Login({ pages, setPages }: LoginProps){
                                 Logar
                             </button>
                         </div>
-
-                        <span>Não tem conta? Faça <span className="text-blue-600 cursor-pointer" onClick={() => setPages(!pages)}>Cadastro</span></span>
                     </form>
                 </div>
             </div>
@@ -98,27 +91,13 @@ export default function Login({ pages, setPages }: LoginProps){
             messageToast(aux);
         }
         else{
-            if(aux.usuario.permission === 0){
-                toast.error("Seu registro não está permitido, aguarde até alguem permitir!", {
-                    position: "bottom-left",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
-            }
-            else{
-                messageToast(aux);
-                
-                localStorage.setItem("token", token);
-                dispatch(changeLoginLogout(aux.usuario));
-                setTimeout(() => {
-                    router.replace("/dashboard");
-                }, 3000);
-            }
+            messageToast(aux);
+            
+            localStorage.setItem("token", token);
+            dispatch(changeLoginLogout(aux.usuario));
+            setTimeout(() => {
+                router.replace("/dashboard");
+            }, 3000);
         }
     }
 

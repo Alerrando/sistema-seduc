@@ -8,7 +8,6 @@ export type UserInfos = {
     rg: string,
     cadastroEscola: string,
     level: number,
-    permission: number,
     mandatoryBulletin: number,
 } & TypeDefault
 
@@ -21,7 +20,6 @@ export const DefaultUserInfos: UserInfos = {
     rg: "",
     cadastroEscola: "",
     level: 2,
-    permission: 0,
     mandatoryBulletin: 0,
     edit: false,
 }

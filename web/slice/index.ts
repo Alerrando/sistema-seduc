@@ -19,10 +19,10 @@ export type TypeDefault = {
 
 export type LessonsInfos = {
   id: number;
-  cadastroProfessor: string;
-  horaAulas: string;
-  diaAula: Date | string;
-  cadastroEscola: string;
+  registerTeacher: TeacherInfos;
+  amountTime: string;
+  lessonDay: Date | string;
+  registerSchool: SchoolInfos;
   edit: boolean;
 };
 
@@ -35,8 +35,8 @@ export type SchoolInfos = {
 
 export type TeacherInfos = {
   cpf: string;
-  sede: string;
-  cargo: string;
+  thirst: SchoolInfos;
+  office: string;
 } & TypeDefault
 
 export type DefinitionPeriodsInfos = {
@@ -52,15 +52,15 @@ export type SchoolDTOInfos = {
   id: number,
   name: string,
   datesWork: any,
-  quantidadeAulas: number,
-  cargo: string,
+  amountTime: number,
+  office: string,
 }
 
 export type TeacherDTOInfos = {
   name: string,
-  horaAulas: number,
-  dataAula: Date | string,
-  cadastroEscola: string;
+  amountTime: number,
+  lessonDay: Date | string,
+  registerSchool: TeacherInfos;
 }
 
 export const registerTypes = {
@@ -85,11 +85,11 @@ const ValuesDefault: TypeDefault = {
 
 export const HorasValuesDefault: LessonsInfos = {
   id: 0,
-  diaAula: new Date().toString(),
+  lessonDay: new Date().toString(),
   edit: false,
-  horaAulas: "",
-  cadastroProfessor: "",
-  cadastroEscola: "",
+  amountTime: "",
+  registerSchool: "",
+  registerTeacher: "",
 };
 
 export const SchoolValuesDefault: SchoolInfos = {
@@ -108,8 +108,8 @@ export const OfficeValuesDefault: OfficeInfos = {
 export const TeacherValuesDefault: TeacherInfos = {
   ...ValuesDefault,
   cpf: "",
-  cargo: "",
-  sede: "",
+  office: "",
+  thirst: "",
 };
 
 export const DefinitionPeriodsValuesDefault: DefinitionPeriodsInfos = {

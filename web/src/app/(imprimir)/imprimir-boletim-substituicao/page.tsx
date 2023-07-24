@@ -115,7 +115,7 @@ export default function ImprimirBoletimSubstituicao() {
                               </span>
                             </td>
                             <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-neutral-500">
-                              {info.cargo}
+                              {info.office}
                             </td>
                             <td className="items-center h-full px-4 font-medium text-gray-900 border-r border-neutral-500">
                               <div className="grid grid-cols-report-teacher">
@@ -145,8 +145,8 @@ export default function ImprimirBoletimSubstituicao() {
                               </div>
                             </td>
                             <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-neutral-500">
-                              {`${info.cargo.split("-")[0].trim()} = ${
-                                info.quantidadeAulas
+                              {`${info.office.split("-")[0].trim()} = ${
+                                info.amountTime
                               }h`}
                             </td>
                             <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-neutral-500">

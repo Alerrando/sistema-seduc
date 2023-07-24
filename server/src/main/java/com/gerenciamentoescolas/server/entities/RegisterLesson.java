@@ -11,18 +11,20 @@ public class CadastroAulas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @JoinColumn(name = "professor")
-    private Integer cadastroProfessor;
+    @ManyToOne
+    @JoinColumn(name = "teacher_Id")
+    private CadastroProfessor cadastroProfessor;
     private Integer horaAulas;
     @Temporal(TemporalType.TIMESTAMP)
     private Date diaAula;
-    @JoinColumn(name = "escola")
-    private Integer cadastroEscola;
+    @ManyToOne
+    @JoinColumn(name = "school_id")
+    private CadastroEscola cadastroEscola;
 
     public CadastroAulas(){
     }
 
-    public CadastroAulas(Integer id, Integer cadastroProfessor, Integer horaAulas, Date diaAula, Integer cadastroEscola) {
+    public CadastroAulas(Integer id, CadastroProfessor cadastroProfessor, Integer horaAulas, Date diaAula, CadastroEscola cadastroEscola) {
         this.id = id;
         this.cadastroProfessor = cadastroProfessor;
         this.horaAulas = horaAulas;
@@ -38,11 +40,11 @@ public class CadastroAulas {
         this.id = id;
     }
 
-    public Integer getCadastroProfessor() {
+    public CadastroProfessor getCadastroProfessor() {
         return cadastroProfessor;
     }
 
-    public void setCadastroProfessor(Integer cadastroProfessor) {
+    public void setCadastroProfessor(CadastroProfessor cadastroProfessor) {
         this.cadastroProfessor = cadastroProfessor;
     }
 
@@ -58,11 +60,11 @@ public class CadastroAulas {
         return diaAula;
     }
 
-    public Integer getCadastroEscola() {
+    public CadastroEscola getCadastroEscola() {
         return cadastroEscola;
     }
 
-    public void setCadastroEscola(Integer cadastroEscola) {
+    public void setCadastroEscola(CadastroEscola cadastroEscola) {
         this.cadastroEscola = cadastroEscola;
     }
 

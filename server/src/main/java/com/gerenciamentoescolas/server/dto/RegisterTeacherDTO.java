@@ -1,5 +1,6 @@
 package com.gerenciamentoescolas.server.dto;
 
+import com.gerenciamentoescolas.server.entities.RegisterSchool;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
@@ -10,16 +11,16 @@ public class CadastroProfessorDTO {
     private Integer horaAulas;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataAula;
-    private String cadastroEscola;
+    private RegisterSchool registerSchool;
 
     public CadastroProfessorDTO(){
     }
 
-    public CadastroProfessorDTO(Integer horaAulas, String name, Date dataAula, String cadastroEscola) {
+    public CadastroProfessorDTO(Integer horaAulas, String name, Date dataAula, RegisterSchool registerSchool) {
         this.horaAulas = horaAulas;
         this.name = name;
         this.dataAula = dataAula;
-        this.cadastroEscola = cadastroEscola;
+        this.registerSchool = registerSchool;
     }
 
     public Integer getHoraAulas() {
@@ -42,11 +43,11 @@ public class CadastroProfessorDTO {
         this.dataAula = datasAula;
     }
 
-    public String getCadastroEscola(){
-        return cadastroEscola;
+    public RegisterSchool getCadastroEscola(){
+        return registerSchool;
     }
 
-    public void setCadastroEscola(String cadastroEscola){
-        this.cadastroEscola = cadastroEscola;
+    public void setCadastroEscola(RegisterSchool registerSchool){
+        this.registerSchool = registerSchool;
     }
 }

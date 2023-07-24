@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,11 +19,13 @@ public class CadastroProfessor {
     private String name;
     private String cpf;
     private String cargo;
-    private Integer sede;
+    @ManyToOne
+    @JoinColumn(name = "sede_teacher")
+    private CadastroEscola sede;
     public CadastroProfessor(){
     }
 
-    public CadastroProfessor(Integer id, String name, String cpf, Integer sede, String cargo){
+    public CadastroProfessor(Integer id, String name, String cpf, CadastroEscola sede, String cargo){
         this.id = id;
         this.name = name;
         this.cpf = cpf;
@@ -53,11 +57,11 @@ public class CadastroProfessor {
         this.cpf = cpf;
     }
 
-    public Integer getSede(){
+    public CadastroEscola getSede(){
         return sede;
     }
 
-    public void setSede(Integer sede){
+    public void setSede(CadastroEscola sede){
         this.sede = sede;
     }
 

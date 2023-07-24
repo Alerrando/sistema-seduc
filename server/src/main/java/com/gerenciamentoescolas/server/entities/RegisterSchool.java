@@ -2,6 +2,8 @@ package com.gerenciamentoescolas.server.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,7 +17,6 @@ public class CadastroEscola {
     private String zip;
     private String fone;
     private String email;
-
     public CadastroEscola(){
     }
 
@@ -75,6 +76,7 @@ public class CadastroEscola {
     public void setEmail(String email) {
         this.email = email;
     }
+
 
     @Override
     public boolean equals(Object o) {
