@@ -2,13 +2,11 @@ package com.gerenciamentoescolas.server.entities;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "cadastro_escola")
-public class CadastroEscola {
+@Table(name = "register_school")
+public class RegisterSchool {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -17,10 +15,10 @@ public class CadastroEscola {
     private String zip;
     private String fone;
     private String email;
-    public CadastroEscola(){
+    public RegisterSchool(){
     }
 
-    public CadastroEscola(Integer id, String name, String adress, String zip, String fone, String email) {
+    public RegisterSchool(Integer id, String name, String adress, String zip, String fone, String email) {
         this.id = id;
         this.name = name;
         this.adress = adress;
@@ -82,7 +80,7 @@ public class CadastroEscola {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CadastroEscola that = (CadastroEscola) o;
+        RegisterSchool that = (RegisterSchool) o;
         return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(adress, that.adress) && Objects.equals(zip, that.zip) && Objects.equals(fone, that.fone) && Objects.equals(email, that.email);
     }
 

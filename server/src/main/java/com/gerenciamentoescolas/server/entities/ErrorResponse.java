@@ -1,12 +1,12 @@
 package com.gerenciamentoescolas.server.entities;
 
-public class ErrorInfo {
+public class ErrorResponse {
     private String url;
 
-    public ErrorInfo(){
+    public ErrorResponse(){
     }
 
-    public ErrorInfo(String url) {
+    public ErrorResponse(String url) {
         this.url = url;
     }
 

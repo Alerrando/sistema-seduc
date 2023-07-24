@@ -2,49 +2,49 @@ package com.gerenciamentoescolas.server.services;
 
 import java.util.*;
 
-import com.gerenciamentoescolas.server.dto.CadastroProfessorDTO;
+import com.gerenciamentoescolas.server.dto.RegisterTeacherDTO;
 import com.gerenciamentoescolas.server.exception.TeacherAlreadyRegistered;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gerenciamentoescolas.server.entities.RegisterSchool;
 import com.gerenciamentoescolas.server.entities.RegisterTeacher;
-import com.gerenciamentoescolas.server.repository.CadastroAulaRepository;
-import com.gerenciamentoescolas.server.repository.CadastroEscolaRepository;
-import com.gerenciamentoescolas.server.repository.CadastroProfessorRepository;
+import com.gerenciamentoescolas.server.repository.RegisterLessonRepository;
+import com.gerenciamentoescolas.server.repository.RegisterSchoolRepository;
+import com.gerenciamentoescolas.server.repository.RegisterTeacherRepository;
 
 @Service
-public class CadastroProfessorService {
+public class RegisterTeacherService {
     @Autowired
-    private CadastroProfessorRepository cadastroProfessorRepository;
+    private RegisterTeacherRepository registerTeacherRepository;
 
     @Autowired
-    private CadastroEscolaRepository cadastroEscolaRepository;
+    private RegisterSchoolRepository registerSchoolRepository;
 
     @Autowired
-    private CadastroAulaRepository cadastroAulaRepository;
+    private RegisterLessonRepository registerLessonRepository;
 
     public List<RegisterTeacher> findAll(){
-        List <RegisterTeacher> result = cadastroProfessorRepository.findAll();
+        List <RegisterTeacher> result = registerTeacherRepository.findAll();
         return result;
     }
 
-    public List<CadastroProfessorDTO> findProfessorAulas(String professorId, Date dataInicial, Date dataFinal) {
+    public List<RegisterTeacherDTO> findProfessorAulas(String professorId, Date dataInicial, Date dataFinal) {
         Integer idProfessorInteger = Integer.parseInt(professorId);
-        List<Object[]> results = cadastroProfessorRepository.findProfessorAulas(idProfessorInteger, dataInicial, dataFinal);
-        Map<Date, CadastroProfessorDTO> professoresMap = new HashMap<>();
+        List<Object[]> results = registerTeacherRepository.findProfessorAulas(idProfessorInteger, dataInicial, dataFinal);
+        Map<Date, RegisterTeacherDTO> professoresMap = new HashMap<>();
 
         for (Object[] result : results) {
-            Integer quantidadeAulas = (Integer) result[0];
+            Integer amountTime = (Integer) result[0];
             String name = (String) result[1];
-            Date diaAula = (Date) result[2];
+            Date lessonDay = (Date) result[2];
             RegisterSchool registerSchool = (RegisterSchool) result[3];
 
-            CadastroProfessorDTO professorDTO = professoresMap.get(diaAula);
+            RegisterTeacherDTO professorDTO = professoresMap.get(lessonDay);
 
             if (professorDTO == null) {
-                professorDTO = new CadastroProfessorDTO(quantidadeAulas, name, diaAula, registerSchool);
-                professoresMap.put(diaAula, professorDTO);
+                professorDTO = new RegisterTeacherDTO(amountTime, name, lessonDay, registerSchool);
+                professoresMap.put(lessonDay, professorDTO);
             }
         }
 
@@ -52,31 +52,33 @@ public class CadastroProfessorService {
     }
 
     public void create(RegisterTeacher registerTeacher, Integer escolaId){
-        if(cadastroProfessorRepository.existsByCpf(registerTeacher.getCpf())){
+        if(registerTeacherRepository.existsByCpf(registerTeacher.getCpf())){
             throw new TeacherAlreadyRegistered("Professor já cadastrado!");
         }
         
-        RegisterSchool escola = cadastroEscolaRepository.findById(escolaId).orElseThrow(() -> new RuntimeException("Escola não encontrada"));
+        RegisterSchool school = registerSchoolRepository.findById(escolaId)
+                .orElseThrow(() -> new RuntimeException("Escola não encontrada"));
 
-        registerTeacher.setSede(escola);
+        registerTeacher.setThirst(school);
 
-        cadastroEscolaRepository.save(escola);
-        cadastroProfessorRepository.save(registerTeacher);
+        registerSchoolRepository.save(school);
+        registerTeacherRepository.save(registerTeacher);
     }
 
     public RegisterTeacher edit(RegisterTeacher registerTeacher, Integer escolaId){
-        RegisterSchool escola = cadastroEscolaRepository.findById(escolaId).orElseThrow(() -> new RuntimeException("Escola não encontrada"));
+        RegisterSchool school = registerSchoolRepository.findById(escolaId)
+                .orElseThrow(() -> new RuntimeException("Escola não encontrada"));
 
-        registerTeacher.setSede(escola);
-        return cadastroProfessorRepository.save(registerTeacher);
+        registerTeacher.setThirst(school);
+        return registerTeacherRepository.save(registerTeacher);
     }
 
     public void delete(Integer id){
-        cadastroProfessorRepository.deleteById(id);
+        registerTeacherRepository.deleteById(id);
     }
 
     public RegisterTeacher findById(String id){
         Integer idProfessor = Integer.parseInt(id);
-        return cadastroProfessorRepository.findById(idProfessor).orElse(null);
+        return registerTeacherRepository.findById(idProfessor).orElse(null);
     }
 }

@@ -6,48 +6,49 @@ import jakarta.persistence.TemporalType;
 
 import java.util.Date;
 
-public class CadastroProfessorDTO {
+public class RegisterTeacherDTO {
     private String name;
-    private Integer horaAulas;
+    private Integer amountTime;
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dataAula;
+    private Date lessonDay;
     private RegisterSchool registerSchool;
 
-    public CadastroProfessorDTO(){
+    public RegisterTeacherDTO(){
     }
 
-    public CadastroProfessorDTO(Integer horaAulas, String name, Date dataAula, RegisterSchool registerSchool) {
-        this.horaAulas = horaAulas;
+    public RegisterTeacherDTO(Integer amountTime, String name, Date lessonDay, RegisterSchool registerSchool) {
+        this.amountTime = amountTime;
         this.name = name;
-        this.dataAula = dataAula;
+        this.lessonDay = lessonDay;
         this.registerSchool = registerSchool;
     }
 
-    public Integer getHoraAulas() {
-        return horaAulas;
+    public Integer getAmountTime() {
+        return amountTime;
     }
 
-    public void setHoraAulas(Integer horaAulas) {
-        this.horaAulas = horaAulas;
+    public void setAmountTime(Integer amountTime) {
+        this.amountTime = amountTime;
     }
 
     public String getName() { return name; }
 
     public void setName(String name) { this.name = name; }
 
-    public Date getDataAula() {
-        return dataAula;
+    public Date getLessonDay() {
+        return lessonDay;
     }
 
-    public void setDataAula(Date datasAula) {
-        this.dataAula = datasAula;
+    public void setLessonDay(Date lessonDay) {
+        this.lessonDay = lessonDay;
     }
 
-    public RegisterSchool getCadastroEscola(){
+    public RegisterSchool getRegisterSchool() {
         return registerSchool;
     }
 
-    public void setCadastroEscola(RegisterSchool registerSchool){
+    public void setRegisterSchool(RegisterSchool registerSchool) {
         this.registerSchool = registerSchool;
     }
+
 }

@@ -1,7 +1,7 @@
 package com.gerenciamentoescolas.server.exception;
 
-public class AulasJaCadastradaException extends RuntimeException {
-    public AulasJaCadastradaException(String message){
+public class LessonAlreadyRegistered extends RuntimeException {
+    public LessonAlreadyRegistered(String message){
         super(message);
     }
 }

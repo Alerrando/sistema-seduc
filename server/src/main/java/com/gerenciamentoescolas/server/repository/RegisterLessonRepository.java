@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface CadastroAulaRepository extends JpaRepository<RegisterLesson, Integer> {
-    @Query("SELECT a FROM RegisterLesson a WHERE a.cadastroProfessor.id IN (:professorIds)")
+public interface RegisterLessonRepository extends JpaRepository<RegisterLesson, Integer> {
+    @Query("SELECT a FROM RegisterLesson a WHERE a.registerTeacher.id IN (:professorIds)")
     List<RegisterLesson> findByCadastroProfessor(@Param("professorIds") List<Integer> professorIds);
 }

@@ -11,26 +11,26 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "cadastro_professor")
-public class CadastroProfessor {
+@Table(name = "register_teacher")
+public class RegisterTeacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String cpf;
-    private String cargo;
+    private String office;
     @ManyToOne
-    @JoinColumn(name = "sede_teacher")
-    private CadastroEscola sede;
-    public CadastroProfessor(){
+    @JoinColumn(name = "thirst_teacher")
+    private RegisterSchool thirst;
+    public RegisterTeacher(){
     }
 
-    public CadastroProfessor(Integer id, String name, String cpf, CadastroEscola sede, String cargo){
+    public RegisterTeacher(Integer id, String name, String cpf, RegisterSchool thirst, String office){
         this.id = id;
         this.name = name;
         this.cpf = cpf;
-        this.sede = sede;
-        this.cargo = cargo;
+        this.thirst = thirst;
+        this.office = office;
     }
 
     public Integer getId() {
@@ -57,27 +57,27 @@ public class CadastroProfessor {
         this.cpf = cpf;
     }
 
-    public CadastroEscola getSede(){
-        return sede;
+    public RegisterSchool getThirst() {
+        return thirst;
     }
 
-    public void setSede(CadastroEscola sede){
-        this.sede = sede;
+    public void setThirst(RegisterSchool thirst) {
+        this.thirst = thirst;
     }
 
-    public String getCargo(){
-        return cargo;
+    public String getOffice() {
+        return office;
     }
 
-    public void setCargo(String cargo){
-        this.cargo = cargo;
+    public void setOffice(String office) {
+        this.office = office;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CadastroProfessor that = (CadastroProfessor) o;
+        RegisterTeacher that = (RegisterTeacher) o;
         return Objects.equals(cpf, that.cpf);
     }
 

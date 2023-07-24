@@ -1,9 +1,9 @@
 package com.gerenciamentoescolas.server.services;
 
-import com.gerenciamentoescolas.server.dto.CadastroEscolaDTO;
+import com.gerenciamentoescolas.server.dto.RegisterSchoolDTO;
 import com.gerenciamentoescolas.server.entities.RegisterSchool;
 import com.gerenciamentoescolas.server.exception.SchoolAlreadyRegistered;
-import com.gerenciamentoescolas.server.repository.CadastroEscolaRepository;
+import com.gerenciamentoescolas.server.repository.RegisterSchoolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,42 +14,42 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class CadastroEscolaService {
+public class RegisterSchoolService {
     @Autowired
-    private CadastroEscolaRepository cadastroEscolaRepository;
+    private RegisterSchoolRepository registerSchoolRepository;
 
     public List<RegisterSchool> findAll(){
-        List<RegisterSchool> result = cadastroEscolaRepository.findAll();
+        List<RegisterSchool> result = registerSchoolRepository.findAll();
         return result;
     }
 
-    public List<CadastroEscolaDTO> findEscolasAulas(String schoolId, Date startDate, Date endDate) {
+    public List<RegisterSchoolDTO> findEscolasAulas(String schoolId, Date startDate, Date endDate) {
         Integer idSchool = Integer.parseInt(schoolId);
-        List<Object[]> results = cadastroEscolaRepository.findEscolasAulas(idSchool, startDate, endDate);
-        Map<Integer, CadastroEscolaDTO> escolasAulas = new HashMap<>();
+        List<Object[]> results = registerSchoolRepository.findEscolasAulas(idSchool, startDate, endDate);
+        Map<Integer, RegisterSchoolDTO> escolasAulas = new HashMap<>();
 
         for (Object[] result : results) {
             Integer id = (Integer) result[0];
             String name = (String) result[1];
-            Date dataAula = (Date) result[2];
-            Long quantidadeAulas = Long.valueOf("0");
-            String cargo = (String) result[4];
+            Date lessonDay = (Date) result[2];
+            Long amountTime = Long.valueOf("0");
+            String office = (String) result[4];
 
-            CadastroEscolaDTO cadastroEscolaDTO = escolasAulas.get(id);
+            RegisterSchoolDTO registerSchoolDTO = escolasAulas.get(id);
             
             if (result[4] != null) {
-                quantidadeAulas = (Long) result[3];
+                amountTime = (Long) result[3];
             }
 
-            if (cadastroEscolaDTO == null) {
+            if (registerSchoolDTO == null) {
 
-                cadastroEscolaDTO = new CadastroEscolaDTO(id, name, new ArrayList<Object[]>(), quantidadeAulas.intValue(), cargo);
-                escolasAulas.put(id, cadastroEscolaDTO);
+                registerSchoolDTO = new RegisterSchoolDTO(id, name, new ArrayList<Object[]>(), amountTime.intValue(), office);
+                escolasAulas.put(id, registerSchoolDTO);
             } else {
-                cadastroEscolaDTO.setQuantidadeAulas(cadastroEscolaDTO.getQuantidadeAulas() + quantidadeAulas.intValue());
+                registerSchoolDTO.setAmountTime(registerSchoolDTO.getAmountTime() + amountTime.intValue());
             }
 
-            cadastroEscolaDTO.getDatesWork().add(new Object[]{dataAula, quantidadeAulas});
+            registerSchoolDTO.getDatesWork().add(new Object[]{lessonDay, amountTime});
         }
 
         return new ArrayList<>(escolasAulas.values());
@@ -62,19 +62,19 @@ public class CadastroEscolaService {
             throw new SchoolAlreadyRegistered("Escola já cadastrada!");
         }
 
-        return cadastroEscolaRepository.save(registerSchool);
+        return registerSchoolRepository.save(registerSchool);
     }
 
     public RegisterSchool edit(Integer id, RegisterSchool registerSchool){
         registerSchool.setId(id);
-        return cadastroEscolaRepository.save(registerSchool);
+        return registerSchoolRepository.save(registerSchool);
     }
 
     public void delete(Integer id){
-        cadastroEscolaRepository.deleteById(id);
+        registerSchoolRepository.deleteById(id);
     }
 
     public RegisterSchool findById(Integer id) {
-        return cadastroEscolaRepository.findById(id).orElse(null);
+        return registerSchoolRepository.findById(id).orElse(null);
     }
 }

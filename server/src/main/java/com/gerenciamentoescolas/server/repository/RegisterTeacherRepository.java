@@ -9,12 +9,12 @@ import org.springframework.data.repository.query.Param;
 import java.util.Date;
 import java.util.List;
 
-public interface CadastroProfessorRepository extends JpaRepository<RegisterTeacher, Integer> {
+public interface RegisterTeacherRepository extends JpaRepository<RegisterTeacher, Integer> {
     boolean existsByCpf(String cpf);
 
-    @Query("SELECT p FROM RegisterTeacher p WHERE p.name LIKE %:name%")
+    @Query("SELECT t FROM RegisterTeacher t WHERE t.name LIKE %:name%")
     List<RegisterTeacher> filterByName(@Param("name") String name);
 
-    @Query("SELECT a.horaAulas, p.name,a.diaAula, a.cadastroEscola FROM RegisterTeacher p LEFT JOIN RegisterLesson a ON a.cadastroProfessor.id = :idProfessor WHERE a.diaAula BETWEEN :dataInicial AND :dataFinal GROUP BY a.horaAulas, p.name, a.diaAula, a.cadastroEscola")
+    @Query("SELECT l.amountTime, t.name, l.lessonDay, l.registerSchool FROM RegisterTeacher t LEFT JOIN RegisterLesson l ON l.registerTeacher.id = :idProfessor WHERE l.lessonDay BETWEEN :dataInicial AND :dataFinal GROUP BY l.amountTime, t.name, l.lessonDay, l.registerSchool")
     List<Object[]> findProfessorAulas(@Param("idProfessor") Integer idProfessor, @Param("dataInicial") Date dataInicial, @Param("dataFinal") Date dataFinal);
 }

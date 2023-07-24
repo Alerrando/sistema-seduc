@@ -10,25 +10,25 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice // responsável por tratar excessões em todos o aplicativo
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
-    @ExceptionHandler(AulasJaCadastradaException.class)
+    @ExceptionHandler(LessonAlreadyRegistered.class)
     public ResponseEntity<Object> handleAulasJaCadastradaException(
-            AulasJaCadastradaException excessão, WebRequest request){
+            LessonAlreadyRegistered excessão, WebRequest request){
         String message = excessão.getMessage();
         return handleExceptionInternal(excessão, message, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
-    @ExceptionHandler(EscolaJaCadastradaException.class)
+    @ExceptionHandler(SchoolAlreadyRegistered.class)
     public ResponseEntity<Object> handleEscolaJaCadastradaException(
-        EscolaJaCadastradaException excessão, WebRequest request){
+            SchoolAlreadyRegistered excessão, WebRequest request){
         String message = excessão.getMessage();
         return handleExceptionInternal(excessão, message, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
 
 
-    @ExceptionHandler(ProfessorJaCadastradoException.class)
+    @ExceptionHandler(TeacherAlreadyRegistered.class)
     public ResponseEntity<Object> handleProfessorJaCadastradoException(
-            ProfessorJaCadastradoException excessão, WebRequest request){
+            TeacherAlreadyRegistered excessão, WebRequest request){
         String message = excessão.getMessage();
         return handleExceptionInternal(excessão, message, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
@@ -54,4 +54,3 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(excessão, message, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 }
-

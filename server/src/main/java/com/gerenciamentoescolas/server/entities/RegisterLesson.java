@@ -6,30 +6,30 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "cadastro_aulas")
-public class CadastroAulas {
+@Table(name = "register_lesson")
+public class RegisterLesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ManyToOne
     @JoinColumn(name = "teacher_Id")
-    private CadastroProfessor cadastroProfessor;
-    private Integer horaAulas;
+    private RegisterTeacher registerTeacher;
+    private Integer amountTime;
     @Temporal(TemporalType.TIMESTAMP)
-    private Date diaAula;
+    private Date lessonDay;
     @ManyToOne
     @JoinColumn(name = "school_id")
-    private CadastroEscola cadastroEscola;
+    private RegisterSchool registerSchool;
 
-    public CadastroAulas(){
+    public RegisterLesson(){
     }
 
-    public CadastroAulas(Integer id, CadastroProfessor cadastroProfessor, Integer horaAulas, Date diaAula, CadastroEscola cadastroEscola) {
+    public RegisterLesson(Integer id, RegisterTeacher registerTeacher, Integer amountTime, Date lessonDay, RegisterSchool registerSchool) {
         this.id = id;
-        this.cadastroProfessor = cadastroProfessor;
-        this.horaAulas = horaAulas;
-        this.diaAula = diaAula;
-        this.cadastroEscola = cadastroEscola;
+        this.registerTeacher = registerTeacher;
+        this.amountTime = amountTime;
+        this.lessonDay = lessonDay;
+        this.registerSchool = registerSchool;
     }
 
     public Integer getId() {
@@ -40,39 +40,43 @@ public class CadastroAulas {
         this.id = id;
     }
 
-    public CadastroProfessor getCadastroProfessor() {
-        return cadastroProfessor;
+    public RegisterTeacher getRegisterTeacher() {
+        return registerTeacher;
     }
 
-    public void setCadastroProfessor(CadastroProfessor cadastroProfessor) {
-        this.cadastroProfessor = cadastroProfessor;
+    public void setRegisterTeacher(RegisterTeacher registerTeacher) {
+        this.registerTeacher = registerTeacher;
     }
 
-    public Integer getHoraAulas() {
-        return horaAulas;
+    public Integer getAmountTime() {
+        return amountTime;
     }
 
-    public void setHoraAulas(Integer horaAulas) {
-        this.horaAulas = horaAulas;
+    public void setAmountTime(Integer amountTime) {
+        this.amountTime = amountTime;
     }
 
-    public Date getDiaAula() {
-        return diaAula;
+    public Date getLessonDay() {
+        return lessonDay;
     }
 
-    public CadastroEscola getCadastroEscola() {
-        return cadastroEscola;
+    public void setLessonDay(Date lessonDay) {
+        this.lessonDay = lessonDay;
     }
 
-    public void setCadastroEscola(CadastroEscola cadastroEscola) {
-        this.cadastroEscola = cadastroEscola;
+    public RegisterSchool getRegisterSchool() {
+        return registerSchool;
+    }
+
+    public void setRegisterSchool(RegisterSchool registerSchool) {
+        this.registerSchool = registerSchool;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CadastroAulas that = (CadastroAulas) o;
+        RegisterLesson that = (RegisterLesson) o;
         return Objects.equals(id, that.id);
     }
 

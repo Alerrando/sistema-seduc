@@ -8,9 +8,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.Date;
 import java.util.List;
 
-public interface CadastroEscolaRepository extends JpaRepository<RegisterSchool, Integer> {
+public interface RegisterSchoolRepository extends JpaRepository<RegisterSchool, Integer> {
     boolean existsByName(String name);
 
-    @Query("SELECT p.id, p.name, a.diaAula, SUM(a.horaAulas), p.cargo FROM RegisterTeacher p LEFT JOIN RegisterLesson a ON p.id = a.cadastroProfessor.id WHERE p.sede = :schoolId AND a.diaAula BETWEEN :startDate AND :endDate GROUP BY p.id, p.name, a.diaAula, p.cargo")
+    @Query("SELECT t.id, t.name, l.lessonDay, SUM(l.amountTime), t.office FROM RegisterTeacher t LEFT JOIN RegisterLesson l ON t.id = l.registerTeacher.id WHERE t.thirst = :schoolId AND l.lessonDay BETWEEN :startDate AND :endDate GROUP BY t.id, t.name, l.lessonDay, t.office")
     List<Object[]> findEscolasAulas(@Param("schoolId") Integer schoolId, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
 }

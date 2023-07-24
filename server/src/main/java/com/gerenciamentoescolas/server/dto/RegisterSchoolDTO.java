@@ -2,22 +2,22 @@ package com.gerenciamentoescolas.server.dto;
 
 import java.util.ArrayList;
 
-public class CadastroEscolaDTO {
+public class RegisterSchoolDTO {
     private Integer id;
     private String name;
     private ArrayList<Object[]> datesWork;
-    private Integer quantidadeAulas;
-    private String cargo;
+    private Integer amountTime;
+    private String office;
 
-    public CadastroEscolaDTO(){
+    public RegisterSchoolDTO(){
     }
 
-    public CadastroEscolaDTO(Integer id, String name, ArrayList<Object[]> datesWork,Integer quantidadeAulas, String cargo){
+    public RegisterSchoolDTO(Integer id, String name, ArrayList<Object[]> datesWork, Integer amountTime, String office){
         this.id = id;
         this.name = name;
         this.datesWork = datesWork;
-        this.quantidadeAulas = quantidadeAulas;
-        this.cargo = cargo;
+        this.amountTime = amountTime;
+        this.office = office;
     }
 
     public Integer getId() {
@@ -36,12 +36,12 @@ public class CadastroEscolaDTO {
         this.name = name;
     }
 
-    public Integer getQuantidadeAulas() {
-        return quantidadeAulas;
+    public Integer getAmountTime() {
+        return amountTime;
     }
 
-    public void setQuantidadeAulas(Integer quantidadeAulas) {
-        this.quantidadeAulas = quantidadeAulas;
+    public void setAmountTime(Integer amountTime) {
+        this.amountTime = amountTime;
     }
 
     public ArrayList<Object[]> getDatesWork(){
@@ -52,11 +52,11 @@ public class CadastroEscolaDTO {
         this.datesWork = datesWork;
     }
 
-    public String getCargo(){
-        return cargo;
+    public String getOffice() {
+        return office;
     }
 
-    public void setCargo(String cargo){
-        this.cargo = cargo;
+    public void setOffice(String office) {
+        this.office = office;
     }
 }

@@ -15,13 +15,12 @@ public class User {
     private String office;
     private Integer cadastroEscola;
     private Integer level;
-    private Integer permission;
     private Integer mandatoryBulletin;
 
     public User(){
     }
 
-    public User(Integer id, String name, String email, String rg, String password, String office,Integer cadastroEscola, Integer level, Integer permission, Integer mandatoryBulletin) {
+    public User(Integer id, String name, String email, String rg, String password, String office,Integer cadastroEscola, Integer level, Integer mandatoryBulletin) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -30,7 +29,6 @@ public class User {
         this.office = office;
         this.cadastroEscola = cadastroEscola;
         this.level = level;
-        this.permission = permission;
         this.mandatoryBulletin = mandatoryBulletin;
     }
 
@@ -96,14 +94,6 @@ public class User {
 
     public void setLevel(Integer level) {
         this.level = level;
-    }
-
-    public Integer getPermission() {
-        return permission;
-    }
-
-    public void setPermission(Integer permission) {
-        this.permission = permission;
     }
 
     public Integer getMandatoryBulletin() {

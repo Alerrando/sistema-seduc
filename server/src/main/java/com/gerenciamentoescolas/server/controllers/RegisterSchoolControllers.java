@@ -1,8 +1,8 @@
 package com.gerenciamentoescolas.server.controllers;
 
-import com.gerenciamentoescolas.server.dto.CadastroEscolaDTO;
-import com.gerenciamentoescolas.server.entities.CadastroEscola;
-import com.gerenciamentoescolas.server.services.CadastroEscolaService;
+import com.gerenciamentoescolas.server.dto.RegisterSchoolDTO;
+import com.gerenciamentoescolas.server.entities.RegisterSchool;
+import com.gerenciamentoescolas.server.services.RegisterSchoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,40 +13,40 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/security/cadastro-escola")
-public class CadastroEscolaControllers {
+public class RegisterSchoolControllers {
     @Autowired
-    private CadastroEscolaService cadastroEscolaService;
+    private RegisterSchoolService registerSchoolService;
 
     @GetMapping
-    public List<CadastroEscola> findAll(){
-        List<CadastroEscola> result = cadastroEscolaService.findAll();
+    public List<RegisterSchool> findAll(){
+        List<RegisterSchool> result = registerSchoolService.findAll();
         return result;
     }
 
     @GetMapping("/relatorio/{schoolId}&{startDate}&{endDate}")
-    public List<CadastroEscolaDTO> findEscolasAulas(@PathVariable String schoolId, @PathVariable Date startDate, @PathVariable Date endDate){
-        List<CadastroEscolaDTO> result = cadastroEscolaService.findEscolasAulas(schoolId, startDate, endDate);
+    public List<RegisterSchoolDTO> findEscolasAulas(@PathVariable String schoolId, @PathVariable Date startDate, @PathVariable Date endDate){
+        List<RegisterSchoolDTO> result = registerSchoolService.findEscolasAulas(schoolId, startDate, endDate);
         return result;
     }
 
     @PostMapping
-    public CadastroEscola create(@RequestBody CadastroEscola cadastroEscola){
-        return cadastroEscolaService.create(cadastroEscola);
+    public RegisterSchool create(@RequestBody RegisterSchool registerSchool){
+        return registerSchoolService.create(registerSchool);
     }
 
     @PutMapping("/{id}")
-    public CadastroEscola edit(@PathVariable Integer id, @RequestBody CadastroEscola cadastroEscola){
-        return cadastroEscolaService.edit(id, cadastroEscola);
+    public RegisterSchool edit(@PathVariable Integer id, @RequestBody RegisterSchool registerSchool){
+        return registerSchoolService.edit(id, registerSchool);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id){
-        cadastroEscolaService.delete(id);
+        registerSchoolService.delete(id);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CadastroEscola> findById(@PathVariable Integer id) {
-        CadastroEscola escola = cadastroEscolaService.findById(id);
+    public ResponseEntity<RegisterSchool> findById(@PathVariable Integer id) {
+        RegisterSchool escola = registerSchoolService.findById(id);
         if (escola != null) {
             return ResponseEntity.ok(escola);
         } else {
