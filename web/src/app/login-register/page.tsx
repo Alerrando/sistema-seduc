@@ -1,14 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react"
-import Login from "./Login";
-import Register from "./Register";
-import { boolean } from "zod";
-import "./style.css"
-import RootLayout from "../layout";
-import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../configureStore";
-import { changeLoginLogout } from "../../../slice/LoginSlide";
+import { changeLoginLogout } from "../../../slice/LoginSlice";
+import RootLayout from "../layout";
+import Login from "./Login";
+import "./style.css";
 
 export default function LoginRegister() {
     const { userInfos } = useSelector((root: RootState) => root.SliceLogin);

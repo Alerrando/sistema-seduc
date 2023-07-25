@@ -1,6 +1,6 @@
 import axios from "axios";
-import { DefinitionPeriodsInfos, LessonsInfos, OfficeInfos, SchoolDTOInfos, SchoolInfos, SchoolValuesDefault, TeacherDTOInfos, TeacherInfos, TeacherValuesDefault } from "../../slice";
-import { UserInfos } from "../../slice/LoginSlide";
+import { DefinitionPeriodsInfos, LessonsInfos, OfficeInfos, SchoolInfos, TeacherInfos, TeacherValuesDefault } from "../../slice";
+import { UserInfos } from "../../slice/LoginSlice";
 
 const urlLesson = "http://localhost:8080/security/cadastro-aulas";
 const urlSchool = "http://localhost:8080/security/cadastro-escola";
@@ -37,7 +37,7 @@ export async function readPaginationLesson(pageNumber: number, pageSize: number)
   }
 }
 
-export async function createLesson(info: LessonsInfos, escolaId: string, professorId: string){
+export async function createLesson(info: LessonsInfos, escolaId: number, professorId: number){
   try {
     const message = await axios.post(`${urlLesson}/${escolaId}&${professorId}`,info , {
       headers: { 'Authorization':  `${localStorage.getItem("token")}` },

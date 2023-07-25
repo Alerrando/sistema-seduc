@@ -1,14 +1,14 @@
 "use client";
 import { format, isValid } from "date-fns";
-import { Key, useEffect, useState } from "react";
+import { ptBR } from "date-fns/locale";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../configureStore";
-import { SchoolDTOInfos, TeacherDTOInfos } from "../../../../slice";
-import RootLayout from "../../layout";
-import Image from "next/image";
-import { ptBR } from "date-fns/locale";
-import { DefaultUserInfos, UserInfos } from "../../../../slice/LoginSlide";
+import { SchoolDTOInfos } from "../../../../slice";
+import { DefaultUserInfos, UserInfos } from "../../../../slice/LoginSlice";
 import { getUserByIdSchool, getUserByMandatoryBulletin } from "../../../api";
+import RootLayout from "../../layout";
 
 export default function ImprimirBoletimSubstituicao() {
   const { filterInfosSchool, allFilterInfosSchool, filterStartEndDate } = useSelector((root: RootState) => root.SliceFilter);
@@ -181,9 +181,13 @@ export default function ImprimirBoletimSubstituicao() {
                 
                 <section className="w-5/6 h-auto flex items-center justify-between ml-auto">
                     <div className="w-1/4 h-auto flex flex-col items-center justify-center before:block before:w-full before:border-t-[1px] before:border-t-black">
-                        <span className="text-sm">{schoolBulletinUser.name}</span>
-                        <span className="text-sm">{`RG: ${schoolBulletinUser.rg}`}</span>
-                        <span className="text-sm">{`${schoolBulletinUser.office}`}</span>
+                        {schoolBulletinUser !== undefined && (
+                          <>
+                            <span className="text-sm">{schoolBulletinUser.name}</span>
+                            <span className="text-sm">{`RG: ${schoolBulletinUser.rg}`}</span>
+                            <span className="text-sm">{`${schoolBulletinUser.office}`}</span>
+                          </>
+                        )}
                     </div>
 
                     {usersMandatoryBulletin?.map((user: UserInfos) => (

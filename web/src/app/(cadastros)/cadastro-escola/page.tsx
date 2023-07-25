@@ -1,16 +1,18 @@
 'use client';
+import { ClipboardList } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { z } from 'zod';
 import { AppDispatch, RootState } from '../../../../configureStore';
-import { InputConfig, SchoolInfos, SchoolValuesDefault, changeRegisterType, objectEmptyValue, refreshInfosSchool } from '../../../../slice';
+import { InputConfig, SchoolInfos, SchoolValuesDefault, changeRegisterType, refreshInfosSchool } from '../../../../slice';
 import CreateHeaderRegisters from '../../../Components/CreateHeaderRegisters';
 import Modal, { SubmitDataModal } from '../../../Components/Modal';
 import TableRegisters, { InfosTableRegisterData } from '../../../Components/TableRegisters';
 import { createSchool, deleteSchool, editSchool, readAllSchool } from '../../../api';
 import RootLayout from '../../../app/layout';
-import { z } from 'zod';
+import { applyCEPFormat, maskTelefone } from '../../../utils/maskUtils';
 
 const createFormSchema = z.object({
     name: z.string().nonempty("Campo Nome é obrigatório!"),
@@ -32,7 +34,7 @@ export default function CadastroEscola(){
     const [infosInput, setInfosInput] = useState<SchoolInfos>(SchoolValuesDefault);
     const [search, setSearch] = useState("");
     const [modal, setModal] = useState<boolean>(false);
-    const thead = ["Id", "Nome da Escola", "Endereço da Escola", "Cep", "Telefone", "Email", "Ações"];
+    const thead = ["Id", "Nome da Escola", "Endereço da Escola", "Cep", "Telefone", "Email", "Inatividade", "Ações"];
     const dispatch = useDispatch<AppDispatch>();
     const inputs: InputConfig[] = [
         {
@@ -43,6 +45,7 @@ export default function CadastroEscola(){
             type: "text",
             input: "input",
         },
+        
         {
             htmlFor: "adress",
             label: "Endereço da Escola",
@@ -59,6 +62,8 @@ export default function CadastroEscola(){
             placeholder: "00000-000",
             type: "text",
             input: "input",
+            maxChars: 9,
+            maskHandleForm: applyCEPFormat,
         },
 
         {
@@ -68,6 +73,8 @@ export default function CadastroEscola(){
             placeholder: "(00)0000-0000",
             type: "text",
             input: "input",
+            maxChars: 15,
+            maskHandleForm: maskTelefone,
         },
 
         {
@@ -87,7 +94,6 @@ export default function CadastroEscola(){
         })()
     }, [])
 
-
     return(
         <RootLayout showHeaderAside>
             <main className='w-full sm:w-5/6 h-max ml-auto'>
@@ -99,11 +105,7 @@ export default function CadastroEscola(){
                     ) : null}
 
                     <div className="w-full h-auto flex items-center justify-end">
-                        <div className="inline-block h-5 w-5 cursor-pointer hover:animate-spin rounded-full border-4 border-solid border-current border-b-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                            role="status"
-                            onClick={() => handleLoadingClick()}
-                        >
-                        </div>
+                        <ClipboardList size={26} className="cursor-pointer" />
                     </div>
 
                     <TableRegisters tableHead={thead} infosAll={allInfosSchool} editInfo={editInfo} deleteInfo={deleteInfo} search={search} key={"Table-Escola"} />
@@ -111,13 +113,13 @@ export default function CadastroEscola(){
                 {modal ? (
                     <Modal 
                     infosInput={infosInput} 
-                    setInfosInput={setInfosInput} 
                     setModal={setModal} 
                     submitInfos={submitSchool} 
                     title="Cadastro de Escolas"
                     createFormSchema={createFormSchema}
                     inputs={inputs}
                     modalName="School"
+                    maxChars={9}
                     key={"modal-cadastro-escola"}
                 />
                 ) : null}
@@ -134,6 +136,7 @@ export default function CadastroEscola(){
             const aux: SchoolInfos = { 
                 id,
                 edit: false,
+                inactive: false,
                 ...rest,
             }
 
@@ -153,15 +156,23 @@ export default function CadastroEscola(){
         }
 	}
 
-    async function editInfo(info: InfosTableRegisterData) {
+    async function editInfo(info: InfosTableRegisterData, inactive = false) {
         if("name" in info && "adress" in info && "zip" in info && "fone" in info && "email" in info){
-            const { ...rest } = info;
-            const aux = { 
-                ...rest, 
-                edit: true, 
+            if(!inactive){
+                const { ...rest } = info;
+                const aux = { 
+                    ...rest, 
+                    edit: true,
+                }
+                setInfosInput(aux);
+                setModal(true);
             }
-            setInfosInput(aux);
-            setModal(true);
+            else{
+                const { inactive, ...rest } = info;
+                const aux: SchoolInfos = { inactive: true, ...rest, };
+                await editSchool(aux, aux.id);
+                dispatch(refreshInfosSchool(await readAllSchool()));
+            }
         }
     }
 
@@ -172,15 +183,6 @@ export default function CadastroEscola(){
                 messageToast(message);
                 dispatch(refreshInfosSchool(await readAllSchool()));
             }
-        }
-    }
-
-    async function handleLoadingClick() {
-        try {
-          const data = await readAllSchool();
-          dispatch(refreshInfosSchool(data));
-        } catch (error) {
-          console.error('Erro ao atualizar os dados:', error);
         }
     }
 

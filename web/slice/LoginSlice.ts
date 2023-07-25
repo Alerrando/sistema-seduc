@@ -22,6 +22,7 @@ export const DefaultUserInfos: UserInfos = {
     level: 2,
     mandatoryBulletin: 0,
     edit: false,
+    inactive: false,
 }
 
 type StateProps = {

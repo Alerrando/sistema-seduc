@@ -1,4 +1,5 @@
 "use client";
+import { Switch } from "@headlessui/react";
 import { Eye, EyeOff, Pencil, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -6,11 +7,12 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { z } from "zod";
 import { RootState } from "../../../../../configureStore";
-import { InputConfig, SchoolInfos } from "../../../../../slice";
-import { DefaultUserInfos, UserInfos } from "../../../../../slice/LoginSlide";
+import { InputConfig } from "../../../../../slice";
+import { DefaultUserInfos, UserInfos } from "../../../../../slice/LoginSlice";
 import CreateHeaderRegisters from "../../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../../Components/Modal";
 import { createUser, deleteUser, editUser, getUsers } from "../../../../api";
+import { maskRG } from "../../../../utils/maskUtils";
 
 const createFormSchema = z.object({
     name: z.string().nonempty("O campo Nome é obrigatório!"),
@@ -18,7 +20,7 @@ const createFormSchema = z.object({
     rg: z.string().nonempty("O campo Rg é obrigatório!"),
     office: z.string(),
     password: z.string().nonempty("O campo Senha é obrigatório!"),
-    cadastroEscola: z.string(),
+    registerSchool: z.string(),
     mandatoryBulletin: z.coerce.number().int(),
 })
 
@@ -31,7 +33,7 @@ export default function UsersList(){
     const [viewPassword, setViewPassword] = useState<boolean>(false);
     const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
     const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
-    const tableHead = ["Id", "Nome", "Email", "Rg", "Cargo", "Escola", "Assinatura Obrigatória no boletim", "Senha","Ações"];
+    const tableHead = ["Id", "Nome", "Email", "Rg", "Cargo", "Escola", "Assinatura Obrigatória no boletim", "Senha", "Inatividade", "Ações"];
     const inputs: InputConfig[] = [
         {
             htmlFor: "name",
@@ -55,9 +57,11 @@ export default function UsersList(){
             htmlFor: "rg",
             label: "Rg*",
             name: "rg",
-            placeholder: "Digite seu Rg",
+            placeholder: "00.000.000-0",
             type: "text",
             input: "input",
+            maxChars: 11,
+            maskHandleForm: maskRG,
         },
 
         {
@@ -80,9 +84,9 @@ export default function UsersList(){
         },
 
         {
-            htmlFor: "cadastroEscola",
+            htmlFor: "registerSchool",
             label: "Escola",
-            name: "cadastroEscola",
+            name: "registerSchool",
             optionDefault: "Selecione uma Escola",
             optionType: "School",
             input: "select",
@@ -146,7 +150,7 @@ export default function UsersList(){
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.email}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.rg}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.office}</td>
-                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{schoolName(info.cadastroEscola)}</td>
+                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.registerSchool !== null ? info.registerSchool : "Não Atribuido"}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.mandatoryBulletin === 1 ? "Obrigatório" : "Não Obrigatório"}</td>
                                         <td className="flex flex-row items-center gap-2 whitespace-nowrap px-4 py-2 font-medium text-gray-900">{!viewPassword ? (
                                             <EyeOff size={26} className="cursor-pointer" onClick={() => setViewPassword(true)} />
@@ -156,6 +160,21 @@ export default function UsersList(){
                                                 <Eye size={26} className="cursor-pointer" onClick={() => setViewPassword(false)} />
                                             </>
                                         )}</td>
+                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                                            <Switch
+                                                checked={info.inactive}
+                                                onClick={() => editInfo(info, true)}
+                                                className={`${info.inactive ? 'bg-teal-900' : 'bg-teal-700'}
+                                                    relative inline-flex h-[26px] w-[60px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+                                                >
+                                                <span className="sr-only">Inatividade</span>
+                                                <span
+                                                    aria-hidden="true"
+                                                    className={`${info.inactive ? 'translate-x-9' : 'translate-x-0'}
+                                                    pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                                                />
+                                            </Switch>
+                                        </td>
                                         <td className="">
                                             <div className="flex flex-row gap-4 items-center justify-between">
                                                 <div className="flex items-center gap-2 px-2 py-1 border border-blue-500 text-blue-500 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white transition-colors" onClick={() => editInfo(info)}>
@@ -188,7 +207,7 @@ export default function UsersList(){
                     setInfosInput={setInfosEdit}
                     setModal={setModal}
                     submitInfos={submit}
-                    title="Edição de Usuário"
+                    title="Cadastro de Usuário"
                 />
             ) : null}
 
@@ -197,16 +216,18 @@ export default function UsersList(){
     );
 
     async function submit(data: SubmitDataModal){
-        if("name" in data && "email" in data && "rg" in data && "office" in data && "password" in data && "cadastroEscola" in data && "mandatoryBulletin" in data){
+        if("name" in data && "email" in data && "rg" in data && "office" in data && "password" in data && "registerSchool" in data && "mandatoryBulletin" in data){
             if(infosEdit != null){
                 let message: string | any;
                 const { id, level, office, edit } = infosEdit;
-                const { ...rest } = data;
+                const { registerSchool, ...rest } = data;
+                const school = await getIdSchool(data.registerSchool);
             
                 const formData: UserInfos = {
                     id,
                     level,
                     edit,
+                    registerSchool: school,
                     ...rest,
                 };
 
@@ -225,16 +246,24 @@ export default function UsersList(){
         }
     }
 
-    function editInfo(info: UserInfos){
-        const { edit,...rest } = info;
-
-        const aux = {
-            edit: true,
-            ...rest,
+    async function editInfo(info: UserInfos, inactive = false){
+        if(!inactive){
+            const { edit,...rest } = info;
+    
+            const aux = {
+                edit: true,
+                ...rest,
+            }
+    
+            setInfosEdit(aux);
+            setModal(true);
         }
-
-        setInfosEdit(aux);
-        setModal(true);
+        else{
+            const { inactive, ...rest } = info;
+            const aux = { inactive: true, ...rest };
+            await editUser(formData, infosEdit.id);
+            setUsersAll(await getUsers());
+        }
     }
     
     async function deleteUserAside(id:number, name: string){
@@ -252,12 +281,6 @@ export default function UsersList(){
         } catch (error) {
           console.error('Erro ao atualizar os dados:', error);
         }
-    }
-
-    function schoolName(cadastroEscola: string){
-        let aux = allInfosSchool?.find((school: SchoolInfos) => String(school.id) == cadastroEscola)?.name;
-
-        return aux === undefined ? "Não Atribuido" : aux;
     }
 
     function messageToast(message: string | any){

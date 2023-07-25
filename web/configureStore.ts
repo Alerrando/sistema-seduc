@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import sliceReducer from './slice';
-import sliceLogin from './slice/LoginSlide';
 import sliceFilter from './slice/FilterSlice';
+import sliceLogin from './slice/LoginSlice';
 
 export const store = configureStore({
   reducer:{

@@ -3,14 +3,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { BookOpen } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { z } from "zod";
 import { AppDispatch } from "../../../../configureStore";
-import { DefaultUserInfos, changeLoginLogout } from "../../../../slice/LoginSlide";
+import { changeLoginLogout } from "../../../../slice/LoginSlice";
 import Input from "../../../Components/Modal/ModalForm/Input";
 import { createToken, getUserByEmail } from "../../../api";
 

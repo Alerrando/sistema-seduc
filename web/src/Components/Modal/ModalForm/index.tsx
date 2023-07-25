@@ -1,33 +1,26 @@
 "use client";
-import { useEffect } from "react";
+import { ErrorMessage } from "@hookform/error-message";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Calendar from "react-calendar";
 import { useForm } from "react-hook-form";
 import { ZodType } from 'zod';
-import Input from "./Input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import SelectInput from "./SelectInput";
-import Calendar from "react-calendar";
-import { UserInfos } from "../../../../slice/LoginSlide";
-import { InputConfig, LessonsInfos, OfficeInfos, SchoolInfos, TeacherInfos } from "../../../../slice";
-import { CreateFormDataSchool } from "../../../app/(cadastros)/cadastro-escola/page";
-import { CreateFormDataTeacher } from "../../../app/(cadastros)/cadastro-professor/page";
-import { CreateFormDataLesson } from "../../../app/(cadastros)/controle-aulas-eventuais/page";
-import { CreateFormDataOffice } from "../../../app/admin/AsideAdmin/RegisterOffice";
-import { CreateFormDataUser } from "../../../app/admin/AsideAdmin/UsersList";
-import { ErrorMessage } from "@hookform/error-message"
 import { SubmitDataModal } from "..";
+import { InputConfig } from "../../../../slice";
+import Input from "./Input";
+import SelectInput from "./SelectInput";
 
 type ModalFormProps = {
-  schema: ZodType<any, any, any>;
-  inputs: InputConfig[];
-  initialValues: any;
-  setInfosInput: (initalValues: any) => void;
-  onSubmit: (data: SubmitDataModal) => void;
-  modalName: string;
+  schema: ZodType<any, any, any>,
+  inputs: InputConfig[],
+  initialValues: any,
+  setInfosInput?: (initalValues: any) => void,
+  onSubmit: (data: SubmitDataModal) => void,
+  modalName: string,
 };
 
 export function ModalForm(props: ModalFormProps) {
   const { schema, inputs, initialValues, setInfosInput, onSubmit, modalName } = props;
-  const { register, handleSubmit, reset, formState: { errors }, getValues } = useForm<SubmitDataModal>({
+  const { register, handleSubmit, reset, formState: { errors }, getValues, setValue } = useForm<SubmitDataModal>({
     resolver: zodResolver(schema),
     defaultValues: initialValues as typeof schema['_input'],
   });
@@ -81,11 +74,13 @@ export function ModalForm(props: ModalFormProps) {
                     htmlFor={input.htmlFor}
                     label={input.label}
                     type={input.type}
-                    key={`input-${input.name}`}
                     name={input.name}
                     placeholder={input.placeholder}
-                    pattern={input.pattern}
+                    setValue={setValue}
+                    maskHandleForm={input.maskHandleForm}
                     register={register}
+                    maxChars={input.maxChars}
+                    key={`input-${input.name}`}
                   />
                 )}
 

@@ -1,34 +1,28 @@
 import { X } from "lucide-react";
-import { useSelector } from "react-redux";
-import { InputConfig, LessonsInfos, OfficeInfos, SchoolInfos, TeacherInfos } from "../../../slice";
-import { ModalForm } from "./ModalForm";
-import { ZodType, z } from "zod";
+import { ZodType } from "zod";
+import { InputConfig } from "../../../slice";
 import { CreateFormDataSchool } from "../../app/(cadastros)/cadastro-escola/page";
 import { CreateFormDataTeacher } from "../../app/(cadastros)/cadastro-professor/page";
 import { CreateFormDataLesson } from "../../app/(cadastros)/controle-aulas-eventuais/page";
 import { CreateFormDataOffice } from "../../app/admin/AsideAdmin/RegisterOffice";
 import { CreateFormDataUser } from "../../app/admin/AsideAdmin/UsersList";
-import { UserInfos } from "../../../slice/LoginSlide";
+import { ModalForm } from "./ModalForm";
 
 export type SubmitDataModal = CreateFormDataSchool | CreateFormDataTeacher | CreateFormDataLesson | CreateFormDataOffice | CreateFormDataUser
 
 type ModalProps = {
-	setInfosInput: (infosInput: any) => void;
+	setInfosInput?: (infosInput: any) => void;
 	infosInput: any;
 	setModal: (modal: boolean) => void;
-	submitInfos: (data: SubmitDataModal) => void;
+	submitInfos?: (data: SubmitDataModal) => void;
 	title: string,
-	inputs: InputConfig[],
-	createFormSchema: ZodType<any, any, any>,
+	inputs?: InputConfig[],
+	createFormSchema?: ZodType<any, any, any>,
 	modalName: string,
 }
 
 export default function Modal(props: ModalProps){
 	const { setInfosInput, infosInput, setModal, submitInfos, title, inputs, createFormSchema, modalName } = props;
-
-	async function submit(data: SubmitDataModal){
-		submitInfos(data);
-	}
 	
 	return(
 		<div className="w-screen h-auto flex items-center justify-center bg-modal fixed inset-0">
@@ -40,13 +34,20 @@ export default function Modal(props: ModalProps){
 					</div>
 				</header>
 
-				{modalName === "Lesson" ? (
-					<div className="w-full flex flex-col sm:grid sm:grid-cols-2">
-						<ModalForm inputs={inputs} setInfosInput={setInfosInput} onSubmit={submitInfos} initialValues={infosInput} schema={createFormSchema} modalName={modalName} />
-					</div>
+				{submitInfos !== undefined ? (
+					<>
+						{modalName === "Lesson" ? (
+							<div className="w-full flex flex-col sm:grid sm:grid-cols-2">
+								<ModalForm inputs={inputs} setInfosInput={setInfosInput} onSubmit={submitInfos} initialValues={infosInput} schema={createFormSchema} modalName={modalName} />
+							</div>
+						) : (
+							<ModalForm inputs={inputs} setInfosInput={setInfosInput} onSubmit={submitInfos} initialValues={infosInput} schema={createFormSchema} modalName={modalName} />
+						)}
+					</>
 				) : (
-					<ModalForm inputs={inputs} setInfosInput={setInfosInput} onSubmit={submitInfos} initialValues={infosInput} schema={createFormSchema} modalName={modalName} />
-				)}
+					<h1>Hello World</h1>
+				) }
+
 			</div>
 		</div>
 	);

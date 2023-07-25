@@ -136,13 +136,27 @@ export default function RegisterOffice(){
         }
     }
 
-    function editInfo(info: InfosTableRegisterData){
-        debugger;
+    async function editInfo(info: InfosTableRegisterData, inactive = false){
         if("name" in info && "type" in info){
-            const { ...rest } = info;
-            const aux = { ...rest, edit: true };
-            setInfosRegister(aux);
-            setModal(true);
+            if(!inactive){
+                const { ...rest } = info;
+                const aux = { ...rest, edit: true };
+                setInfosRegister(aux);
+                setModal(true);
+            }
+            else{
+                let allInfos: OfficeInfos[] = [];
+                const { inactive, ...rest } = info;
+                const aux: OfficeInfos = { inactive: true, ...rest };
+                await editRegisterOffice(aux, infosRegister.id);
+
+                allInfos = await getRegisterOffice();
+                const sortedInfos = allInfos.slice().sort((info1: OfficeInfos, info2: OfficeInfos) =>
+                        info1.type.localeCompare(info2.type)
+                );
+                    
+                dispatch(refreshInfosOffice(sortedInfos));
+            }
         }
     }
 

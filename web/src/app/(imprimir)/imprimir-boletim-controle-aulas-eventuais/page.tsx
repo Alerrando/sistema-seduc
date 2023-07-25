@@ -61,7 +61,7 @@ export default function ImprimirBoletimControleAulasEventuais(){
                             {allFilterInfosTeacher.map((info: TeacherDTOInfos, index: Key) => (
                                 <tr className="border-b border-neutral-500" key={`imprimir-professor-tbody-${index}`}>
                                     <td className="text-start whitespace-nowrap border-r px-3 py-2 font-medium border-neutral-500">{isValid(new Date(info.lessonDay)) ? format(new Date(info.lessonDay), "dd/MM/yyyy") : ""}</td>
-                                    <td className="text-start whitespace-nowrap border-r px-3 py-2 font-medium border-neutral-500">{allInfosSchool.find((school) => String(school.id) == info.registerSchool)?.name}</td>
+                                    <td className="text-start whitespace-nowrap border-r px-3 py-2 font-medium border-neutral-500">{info.registerSchool.name}</td>
                                     <td className="text-start whitespace-nowrap border-r px-3 py-2 font-medium border-neutral-500">{`${info.horaAulas}h`}</td>
                                 </tr>
                             ))}

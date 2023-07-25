@@ -68,7 +68,6 @@ export default function TableReports(props: TableReportsProps) {
                                     </>
                                 ) : (
                                     <>
-                                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
                                         <td className='whitespace-nowrap px-4 py-2 font-medium text-gray-900'>
                                             {"lessonDay" in info && (
@@ -77,7 +76,7 @@ export default function TableReports(props: TableReportsProps) {
                                             }
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                                            {"registerSchool" in info && allInfosSchool?.find((school: SchoolInfos) => String(school.id) === info.registerSchool)?.name}
+                                            {"registerSchool" in info && info.registerSchool.name}
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{"amountTime" in info && info.amountTime}</td>
                                     </>

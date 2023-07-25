@@ -16,6 +16,8 @@ type SelectInputProps = {
 export default function SelectInput<T extends FieldValues>(props: SelectInputProps){
     const { label, htmlFor, name, optionDefault, optionType, register } = props;
     const { allInfosLesson, allInfosSchool, allInfosTeacher, allInfosOffice } = useSelector((root: RootState) => root.Slice);
+
+    console.log(props);
     
     return(
         <div className="w-full flex flex-col gap-2">
@@ -26,13 +28,21 @@ export default function SelectInput<T extends FieldValues>(props: SelectInputPro
                 {optionType === "School" ? (
                     <>
                         {allInfosSchool?.map((school: SchoolInfos, index: Key) => (
-                            <option key={`escola-${school.name}`} value={`${school.id.toString()}`} className="outline-none border-none">{school.name}</option>
+                            <>
+                                {school.inactive === false && (
+                                    <option key={`escola-${school.name}`} value={`${school.id.toString()}`} className="outline-none border-none">{school.name}</option>
+                                )}
+                            </>
                         ))}
                     </>
                 ) : optionType === "Teacher" ? (
                         <>
                             {allInfosTeacher?.map((teacher: TeacherInfos, index: Key) => (
-                                <option key={`professor-${teacher.name}`} value={teacher.id} className="outline-none border-none">{teacher.name}</option>
+                                <>
+                                    {teacher.inactive === false && (
+                                        <option key={`professor-${teacher.name}`} value={teacher.id} className="outline-none border-none">{teacher.name}</option>
+                                    )}
+                                </>
                             ))}
                         </>
                     ) : optionType === "Office" ? (

@@ -13,11 +13,12 @@ import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
 import { createLesson, deleteLesson, editLesson, getIdSchool, getNameByIdTeacher, readAllLesson } from "../../../api";
 import RootLayout from "../../../app/layout";
+import { ClipboardList } from "lucide-react";
 
 const createFormSchema = z.object({
-  horaAulas: z.string().nonempty("Digite a quantidade de aulas!"),
-  cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),
-  cadastroEscola: z.string().nonempty("Selecione uma escola ou adicione!"),
+  amountTime: z.string().nonempty("Digite a quantidade de aulas!"),
+  registerTeacher: z.string().nonempty("Selecione um professor ou adicione!"),
+  registerSchool: z.string().nonempty("Selecione uma escola ou adicione!"),
 })
 
 export type CreateFormDataLesson = z.infer<typeof createFormSchema>
@@ -34,9 +35,9 @@ export default function ControleAulasEventuais() {
   const inputs: InputConfig[] = [
     {
       type: "string",
-      htmlFor: "cadastroProfessor",
+      htmlFor: "registerTeacher",
       label: "Professores",
-      name: "cadastroProfessor",
+      name: "registerTeacher",
       optionDefault: "Selecione um Professor",
       optionType: "Teacher",
       input: "select"
@@ -44,19 +45,19 @@ export default function ControleAulasEventuais() {
 
     {
       type: "string",
-      htmlFor: "cadastroEscola",
+      htmlFor: "registerSchool",
       label: "Escola",
-      name: "cadastroEscola",
+      name: "registerSchool",
       optionDefault: "Selecione uma Escola",
       optionType: "School",
       input: "select"
     },
 
     {
-      htmlFor: "horas-aulas",
+      htmlFor: "amount-time",
       input: "input",
       label: "Horas de aula dadas",
-      name: "horaAulas",
+      name: "amountTime",
       placeholder: "1",
       type: "string",
     },
@@ -109,11 +110,7 @@ export default function ControleAulasEventuais() {
             </div>
 
             <div className="w-auto h-full flex items-center justify-center">
-                <div className="inline-block h-5 w-5 cursor-pointer hover:animate-spin rounded-full border-4 border-solid border-current border-b-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                    role="status"
-                    onClick={() => handleLoadingClick()}
-                >
-                </div>
+              <ClipboardList size={26} className="cursor-pointer" />
             </div>
           </div>
 
@@ -143,27 +140,27 @@ export default function ControleAulasEventuais() {
 
   
   async function submitLesson(data: SubmitDataModal) {
-    if("horaAulas" in data && "cadastroProfessor" in data && "cadastroEscola" in data){
-      debugger;
+    if("amountTime" in data && "registerTeacher" in data && "registerSchool" in data){
       let message: any | string;
-      const { cadastroEscola, cadastroProfessor, horaAulas} = data;
-      const schoolLesson = await getIdSchool(data.cadastroEscola);
-      const teacherLesson = await getNameByIdTeacher(data.cadastroProfessor);
+      const { registerSchool, registerTeacher, ...rest} = data;
+      const schoolLesson = await getIdSchool(data.registerSchool);
+      const teacherLesson = await getNameByIdTeacher(data.registerTeacher);
       
       let aux: LessonsInfos = {
         id: infosInput.id,
         lessonDay: new Date(infosInput.lessonDay),
         edit: false,
-        amountTime: data.horaAulas,
         registerSchool: schoolLesson,
         registerTeacher: teacherLesson,
+        ...rest,
       };
+
       if (!infosInput.edit) {
-          message = await createLesson(aux, data.cadastroEscola, data.cadastroProfessor);
+          message = await createLesson(aux, aux.registerSchool.id, aux.registerTeacher.id);
           
       } else {
         aux.id = infosInput.id;
-        message = await editLesson(aux, data.cadastroEscola, data.cadastroProfessor);
+        message = await editLesson(aux, aux.registerSchool.id, aux.registerTeacher.id);
         setModal(false);
       }
       
@@ -174,23 +171,31 @@ export default function ControleAulasEventuais() {
     }
   }
   
-  function editInfo(info: InfosTableRegisterData) {
-    if("horaAulas" in info && "cadastroProfessor" in info && "cadastroEscola" in info){
-      const { ...rest } = info;
-      const aux = {
-        ...rest,
-        edit: true,
+  async function editInfo(info: InfosTableRegisterData, inactive = false) {
+    if("amountTime" in info && "registerTeacher" in info && "registerSchool" in info){
+      if(!inactive){
+        const { ...rest } = info;
+        const aux = {
+          ...rest,
+          edit: true,
+        }
+        
+        setInfosInput(aux);
+        setModal(true);
       }
-      
-      setInfosInput(aux);
-      setModal(true);
+      else{
+        const { inactive, ...rest } = info;
+        const aux = { inactive: true, ...rest };
+        await editLesson(aux, aux.registerSchool.id, aux.registerTeacher.id);
+        dispatch(refreshInfosLesson(await readAllLesson()));
+      }
     }
   }
 
   async function deleteInfo(info: InfosTableRegisterData) {
     debugger;
-    if("horaAulas" in info && "cadastroProfessor" in info && "cadastroEscola" in info){
-      if(window.confirm(`Deseja deletar a aula do professor ${getNameTeacher(info.cadastroProfessor)} no dia ${format(new Date(info.diaAula), "dd/MM/yyyy")}?`)){
+    if("amountTime" in info && "registerTeacher" in info && "registerSchool" in info){
+      if(window.confirm(`Deseja deletar a aula do professor ${getNameTeacher(info.registerTeacher)} no dia ${format(new Date(info.diaAula), "dd/MM/yyyy")}?`)){
         const message = await deleteLesson(info.id);
         messageToast(message);
         dispatch(refreshInfosLesson(await readAllLesson()));
@@ -207,15 +212,6 @@ export default function ControleAulasEventuais() {
     })
 
     return aux;
-  }
-
-  async function handleLoadingClick() {
-    try {
-      const data = await readAllLesson();
-      dispatch(refreshInfosLesson(data));
-    } catch (error) {
-      console.error('Erro ao atualizar os dados:', error);
-    }
   }
 
   function messageToast(message: any | string){

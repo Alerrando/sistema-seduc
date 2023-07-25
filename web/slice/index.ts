@@ -9,12 +9,15 @@ export type InputConfig = {
   optionDefault?: string,
   optionType?: string,
   input: "input" | "select",
+  maxChars?: number,
+  maskHandleForm?: (value: string) => string,
 };
 
 export type TypeDefault = {
   id: number,
   name: string,
   edit: boolean,
+  inactive: boolean,
 }
 
 export type LessonsInfos = {
@@ -81,6 +84,7 @@ const ValuesDefault: TypeDefault = {
   id: 0,
   name: "",
   edit: false,
+  inactive: false,
 }
 
 export const HorasValuesDefault: LessonsInfos = {
