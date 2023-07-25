@@ -13,23 +13,27 @@ public class User {
     private String rg;
     private String password;
     private String office;
-    private Integer cadastroEscola;
+    @ManyToOne
+    @JoinColumn(name = "user_school")
+    private RegisterSchool registerSchool;
     private Integer level;
     private Integer mandatoryBulletin;
+    private Boolean inactive;
 
     public User(){
     }
 
-    public User(Integer id, String name, String email, String rg, String password, String office,Integer cadastroEscola, Integer level, Integer mandatoryBulletin) {
+    public User(Integer id, String name, String email, String rg, String password, String office, RegisterSchool registerSchool, Integer level, Integer mandatoryBulletin, Boolean inactive) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.rg = rg;
         this.password = password;
         this.office = office;
-        this.cadastroEscola = cadastroEscola;
+        this.registerSchool = registerSchool;
         this.level = level;
         this.mandatoryBulletin = mandatoryBulletin;
+        this.inactive = inactive;
     }
 
     public Integer getId() {
@@ -80,12 +84,12 @@ public class User {
         this.office = office;
     }
 
-    public Integer getCadastroEscola() {
-        return cadastroEscola;
+    public RegisterSchool getRegisterSchool() {
+        return registerSchool;
     }
 
-    public void setCadastroEscola(Integer cadastroEscola) {
-        this.cadastroEscola = cadastroEscola;
+    public void setRegisterSchool(RegisterSchool registerSchool) {
+        this.registerSchool = registerSchool;
     }
 
     public Integer getLevel() {
@@ -102,5 +106,13 @@ public class User {
 
     public void setMandatoryBulletin(Integer mandatoryBulletin) {
         this.mandatoryBulletin = mandatoryBulletin;
+    }
+
+    public Boolean getInactive(){
+        return inactive;
+    }
+
+    public void setInactive(Boolean inactive) {
+        this.inactive = inactive;
     }
 }

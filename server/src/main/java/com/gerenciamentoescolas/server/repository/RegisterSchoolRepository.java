@@ -11,6 +11,6 @@ import java.util.List;
 public interface RegisterSchoolRepository extends JpaRepository<RegisterSchool, Integer> {
     boolean existsByName(String name);
 
-    @Query("SELECT t.id, t.name, l.lessonDay, SUM(l.amountTime), t.office FROM RegisterTeacher t LEFT JOIN RegisterLesson l ON t.id = l.registerTeacher.id WHERE t.thirst = :schoolId AND l.lessonDay BETWEEN :startDate AND :endDate GROUP BY t.id, t.name, l.lessonDay, t.office")
+    @Query("SELECT t.id, t.name, l.lessonDay, SUM(l.amountTime), t.office FROM RegisterTeacher t LEFT JOIN RegisterLesson l ON t.id = l.registerTeacher.id WHERE t.thirst.id = :schoolId AND l.lessonDay BETWEEN :startDate AND :endDate GROUP BY t.id, t.name, l.lessonDay, t.office")
     List<Object[]> findEscolasAulas(@Param("schoolId") Integer schoolId, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
 }

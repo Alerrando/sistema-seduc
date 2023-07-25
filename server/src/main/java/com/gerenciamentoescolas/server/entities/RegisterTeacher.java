@@ -22,15 +22,18 @@ public class RegisterTeacher {
     @ManyToOne
     @JoinColumn(name = "thirst_teacher")
     private RegisterSchool thirst;
+    private Boolean inactive;
+
     public RegisterTeacher(){
     }
 
-    public RegisterTeacher(Integer id, String name, String cpf, RegisterSchool thirst, String office){
+    public RegisterTeacher(Integer id, String name, String cpf, RegisterSchool thirst, String office, Boolean inactive){
         this.id = id;
         this.name = name;
         this.cpf = cpf;
         this.thirst = thirst;
         this.office = office;
+        this.inactive = inactive;
     }
 
     public Integer getId() {
@@ -71,6 +74,14 @@ public class RegisterTeacher {
 
     public void setOffice(String office) {
         this.office = office;
+    }
+
+    public Boolean getInactive(){
+        return inactive;
+    }
+
+    public void setInactive(Boolean inactive) {
+        this.inactive = inactive;
     }
 
     @Override

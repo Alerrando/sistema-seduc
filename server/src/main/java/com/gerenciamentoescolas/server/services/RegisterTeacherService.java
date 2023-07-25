@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.gerenciamentoescolas.server.entities.RegisterSchool;
 import com.gerenciamentoescolas.server.entities.RegisterTeacher;
-import com.gerenciamentoescolas.server.repository.RegisterLessonRepository;
 import com.gerenciamentoescolas.server.repository.RegisterSchoolRepository;
 import com.gerenciamentoescolas.server.repository.RegisterTeacherRepository;
 
@@ -20,9 +19,6 @@ public class RegisterTeacherService {
 
     @Autowired
     private RegisterSchoolRepository registerSchoolRepository;
-
-    @Autowired
-    private RegisterLessonRepository registerLessonRepository;
 
     public List<RegisterTeacher> findAll(){
         List <RegisterTeacher> result = registerTeacherRepository.findAll();

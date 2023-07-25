@@ -20,16 +20,18 @@ public class RegisterLesson {
     @ManyToOne
     @JoinColumn(name = "school_id")
     private RegisterSchool registerSchool;
+    private Boolean inactive;
 
     public RegisterLesson(){
     }
 
-    public RegisterLesson(Integer id, RegisterTeacher registerTeacher, Integer amountTime, Date lessonDay, RegisterSchool registerSchool) {
+    public RegisterLesson(Integer id, RegisterTeacher registerTeacher, Integer amountTime, Date lessonDay, RegisterSchool registerSchool, Boolean inactive) {
         this.id = id;
         this.registerTeacher = registerTeacher;
         this.amountTime = amountTime;
         this.lessonDay = lessonDay;
         this.registerSchool = registerSchool;
+        this.inactive = inactive;
     }
 
     public Integer getId() {
@@ -70,6 +72,14 @@ public class RegisterLesson {
 
     public void setRegisterSchool(RegisterSchool registerSchool) {
         this.registerSchool = registerSchool;
+    }
+
+    public Boolean getInactive(){
+        return inactive;
+    }
+
+    public void setInactive(Boolean inactive) {
+        this.inactive = inactive;
     }
 
     @Override

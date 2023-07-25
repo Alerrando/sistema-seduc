@@ -15,16 +15,19 @@ public class RegisterSchool {
     private String zip;
     private String fone;
     private String email;
+    private Boolean inactive;
+
     public RegisterSchool(){
     }
 
-    public RegisterSchool(Integer id, String name, String adress, String zip, String fone, String email) {
+    public RegisterSchool(Integer id, String name, String adress, String zip, String fone, String email, Boolean inactive) {
         this.id = id;
         this.name = name;
         this.adress = adress;
         this.zip = zip;
         this.fone = fone;
         this.email = email;
+        this.inactive = inactive;
     }
 
     public Integer getId() {
@@ -75,6 +78,13 @@ public class RegisterSchool {
         this.email = email;
     }
 
+    public Boolean getInactive(){
+        return inactive;
+    }
+
+    public void setInactive(Boolean inactive) {
+        this.inactive = inactive;
+    }
 
     @Override
     public boolean equals(Object o) {

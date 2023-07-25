@@ -14,15 +14,17 @@ public class RegisterOffice {
     public Integer id;
     public String name;
     public String type;
+    private Boolean inactive;
 
     public RegisterOffice() {
 
     }
 
-    public RegisterOffice(Integer id, String name, String type) {
+    public RegisterOffice(Integer id, String name, String type, Boolean inactive) {
         this.id = id;
         this.name = name;
         this.type = type;
+        this.inactive = inactive;
     }
 
     public Integer getId() {
@@ -47,5 +49,13 @@ public class RegisterOffice {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Boolean getInactive(){
+        return inactive;
+    }
+
+    public void setInactive(Boolean inactive) {
+        this.inactive = inactive;
     }
 }

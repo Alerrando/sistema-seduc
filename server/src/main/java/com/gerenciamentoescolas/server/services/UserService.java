@@ -38,20 +38,24 @@ public class UserService {
         return users;
     }
 
-    public User getUserBySchoolId(String schoolId){
-        Integer schoolIDInteger = Integer.parseInt(schoolId);
-
-        User user = userRepository.findUserBySchoolId(schoolIDInteger);
+    public User getUserBySchoolId(Integer schoolId){
+        User user = userRepository.findUserBySchoolId(schoolId);
 
         return user;
     }
 
 
     public ResponseEntity<Object> create(User user){
+        User userSchool = userRepository.findUserBySchoolId(user.getRegisterSchool().getId());
+
         if(userRepository.existsByRg(user.getRg())){
             throw  new UserJaCadastradoException("Usuário já cadastrado!");
         }
         
+        if(userSchool.getRegisterSchool().getId().equals(user.getRegisterSchool().getId())){
+            throw new UserJaCadastradoException("Essa escola já está associada a um usuário");
+        }
+
         User novoUsuario = userRepository.save(user);
         String token = JWTTokenProvider.createToken(novoUsuario);
 

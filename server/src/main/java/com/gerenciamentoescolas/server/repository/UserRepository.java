@@ -17,6 +17,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.mandatoryBulletin = 1")
     List<User> findByMandatoryBulletin();
 
-    @Query("Select u from User u WHERE u.cadastroEscola  = :schoolId")
+    @Query("Select u from User u WHERE u.registerSchool.id  = :schoolId")
     User findUserBySchoolId(@Param("schoolId") Integer schoolId);
 }

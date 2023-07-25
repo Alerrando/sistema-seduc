@@ -54,7 +54,7 @@ public class RegisterLessonService {
         return registerLessonRepository.findByCadastroProfessor(professoresIds);
     }
 
-    public RegisterLesson create(RegisterLesson registerLesson, Integer escolaId, Integer professorId) {
+    public RegisterLesson create(RegisterLesson registerLesson, Integer escolaId, Integer professorId){
         List<RegisterLesson> aulas = registerLessonRepository.findAll();
         List<DefinitionPeriods> definitionsPeriods = definitionPeriodsRepository.findAll();
         DefinitionPeriods lastDefinitionPeriods = definitionsPeriods.get(definitionsPeriods.size() - 1);
