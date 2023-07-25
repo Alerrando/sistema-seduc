@@ -1,6 +1,7 @@
-import React, { SyntheticEvent } from 'react';
-import { FieldValues, UseFormGetValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
-import { SubmitDataModal } from '../..';
+import React from "react";
+import { SyntheticEvent } from "react";
+import { FieldValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { SubmitDataModal } from "../..";
 
 type InputProps = {
     label: string,
@@ -15,26 +16,26 @@ type InputProps = {
 }
 
 export default function Input<T extends FieldValues>(props: InputProps){
-    const { label, htmlFor, type, placeholder, name, register, setValue, maskHandleForm, maxChars } = props;
+	const { label, htmlFor, type, placeholder, name, register, setValue, maskHandleForm, maxChars } = props;
 
-    return(
-        <div className="w-full flex flex-col gap-2">
-            <label htmlFor={htmlFor} className="font-bold">{label}</label>
-            <input 
-                type={type}
-                placeholder={placeholder}
-                className="border border-[#999] rounded-lg p-2 outline-none"
-                { ...register(name) }
-                onChange={e => handleMask(e)}
-                maxLength={maxChars}
-            />
-        </div>
-    );
+	return(
+		<div className="w-full flex flex-col gap-2">
+			<label htmlFor={htmlFor} className="font-bold">{label}</label>
+			<input 
+				type={type}
+				placeholder={placeholder}
+				className="border border-[#999] rounded-lg p-2 outline-none"
+				{ ...register(name) }
+				onChange={e => handleMask(e)}
+				maxLength={maxChars}
+			/>
+		</div>
+	);
 
-    function handleMask(e: SyntheticEvent){
-        if(setValue && maskHandleForm){
-            const aux = maskHandleForm(e.target.value);
-            setValue(`${name}`, aux);
-        }
-    }
+	function handleMask(e: SyntheticEvent){
+		if(setValue && maskHandleForm){
+			const aux = maskHandleForm(e.target.value);
+			setValue(`${name}`, aux);
+		}
+	}
 }
