@@ -7,27 +7,34 @@ import { CreateFormDataLesson } from "../../app/(cadastros)/controle-aulas-event
 import { CreateFormDataOffice } from "../../app/admin/AsideAdmin/RegisterOffice";
 import { CreateFormDataUser } from "../../app/admin/AsideAdmin/UsersList";
 import { ModalForm } from "./ModalForm";
+import ModalInactive from "./ModalInactive";
+import { InfosTableRegisterData } from "../TableRegisters";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../configureStore";
 
 export type SubmitDataModal = CreateFormDataSchool | CreateFormDataTeacher | CreateFormDataLesson | CreateFormDataOffice | CreateFormDataUser
 
 type ModalProps = {
 	setInfosInput?: (infosInput: any) => void;
-	infosInput: any;
+	infosInput?: any;
 	setModal: (modal: boolean) => void;
 	submitInfos?: (data: SubmitDataModal) => void;
 	title: string,
 	inputs?: InputConfig[],
 	createFormSchema?: ZodType<any, any, any>,
+	editInfo?: (info: InfosTableRegisterData, inactive: boolean) => void,
+	thead?: string[],
 	modalName: string,
 }
 
 export default function Modal(props: ModalProps){
-	const { setInfosInput, infosInput, setModal, submitInfos, title, inputs, createFormSchema, modalName } = props;
+	const { setInfosInput, infosInput, setModal, submitInfos, title, inputs, createFormSchema, editInfo, thead, modalName } = props;
+	const { allInfosOffice, allInfosSchool, allInfosTeacher } = useSelector((root: RootState) => root.Slice);
 	
 	return(
 		<div className="w-screen h-auto flex items-center justify-center bg-modal fixed inset-0">
-			<div className="w-auto sm:w-3/5 max-h-[90%] sm:h-auto p-3 bg-white rounded-md overflow-y-auto">
-				<header className="w-full h-auto flex flex-col gap-2 p-2 after:block after:border-b after:border-[#999]">
+			<div className="w-auto max-h-[90%] sm:h-auto p-3 bg-white rounded-md overflow-y-auto">
+				<header className="min-w-full h-auto flex flex-col gap-2 p-2 after:block after:border-b after:border-[#999]">
 					<div className="w-full flex flex-row items-center justify-between">
 						<h2 className="text-xl md:text-3xl font-bold">{title}</h2>
 						<X size={32} className="cursor-pointer" onClick={() => setModal(false)} />
@@ -45,7 +52,7 @@ export default function Modal(props: ModalProps){
 						)}
 					</>
 				) : (
-					<h1>Hello World</h1>
+					<ModalInactive editInfo={editInfo} modalName={modalName} thead={thead} infosAll={modalName === "School" ? allInfosSchool : modalName === "Teacher" ? allInfosTeacher : allInfosOffice} />
 				) }
 
 			</div>

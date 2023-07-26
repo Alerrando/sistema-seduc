@@ -1,9 +1,9 @@
 "use client";
+import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BookOpen } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
@@ -25,7 +25,6 @@ export default function Login(){
 	const { register, handleSubmit, formState: { errors } } = useForm<CreateFormData>({
 		resolver: zodResolver(createFormSchema)
 	});
-	const [token, setToken] = useState("");
 	const dispatch = useDispatch<AppDispatch>();
 	const router = useRouter();
 
@@ -83,9 +82,8 @@ export default function Login(){
 
 	async function submit(e: CreateFormData){
 		const tokenAux = await createToken();
-		setToken(tokenAux);
         
-		const aux = await getUserByEmail(e.email, e.senha, token);
+		const aux = await getUserByEmail(e.email, e.senha, tokenAux);
         
 		if(aux === undefined){
 			messageToast(aux);
@@ -93,7 +91,7 @@ export default function Login(){
 		else{
 			messageToast(aux);
             
-			localStorage.setItem("token", token);
+			localStorage.setItem("token", tokenAux);
 			dispatch(changeLoginLogout(aux.usuario));
 			setTimeout(() => {
 				router.replace("/dashboard");

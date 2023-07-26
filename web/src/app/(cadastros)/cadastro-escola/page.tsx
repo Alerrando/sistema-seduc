@@ -35,6 +35,7 @@ export default function CadastroEscola(){
 	const [infosInput, setInfosInput] = useState<SchoolInfos>(SchoolValuesDefault);
 	const [search, setSearch] = useState("");
 	const [modal, setModal] = useState<boolean>(false);
+	const [modalInactive, setModalInactive] = useState<boolean>(false);
 	const thead = ["Id", "Nome da Escola", "Endereço da Escola", "Cep", "Telefone", "Email", "Inatividade", "Ações"];
 	const dispatch = useDispatch<AppDispatch>();
 	const inputs: InputConfig[] = [
@@ -95,6 +96,8 @@ export default function CadastroEscola(){
 		})();
 	}, []);
 
+	console.log(allInfosSchool);
+
 	return(
 		<RootLayout showHeaderAside>
 			<main className='w-full sm:w-5/6 h-max ml-auto'>
@@ -106,7 +109,7 @@ export default function CadastroEscola(){
 					) : null}
 
 					<div className="w-full h-auto flex items-center justify-end">
-						<ClipboardList size={26} className="cursor-pointer" />
+						<ClipboardList size={26} className="cursor-pointer" onClick={() => setModalInactive(true)} />
 					</div>
 
 					<TableRegisters tableHead={thead} infosAll={allInfosSchool} editInfo={editInfo} deleteInfo={deleteInfo} key={"Table-Escola"} />
@@ -122,6 +125,16 @@ export default function CadastroEscola(){
 						modalName="School"
 						maxChars={9}
 						key={"modal-cadastro-escola"}
+					/>
+				) : null}
+
+				{modalInactive ? (
+					<Modal
+						setModal={setModalInactive}
+						modalName="School"
+						editInfo={editInfo}
+						title="Escolas Inativas"
+						thead={thead}
 					/>
 				) : null}
 
@@ -169,6 +182,7 @@ export default function CadastroEscola(){
 				setModal(true);
 			}
 			else{
+				debugger;
 				const { inactive, ...rest } = info;
 				const aux: SchoolInfos = { inactive: !inactive, ...rest, };
 				await editSchool(aux, aux.id);
