@@ -31,8 +31,7 @@ export default function MenuHeader() {
 				>
 					<Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
 						<div className="px-1 py-1 ">
-							<Menu.Item>
-								(
+							<Menu.Item as="div">
 								<>
 									{userInfos.level === 1 ? (
 										<>
@@ -46,11 +45,10 @@ export default function MenuHeader() {
 										</>
 									) : null}
 								</>
-								)
 							</Menu.Item>
 						</div>
 						<div className="px-1 py-1">
-							<Menu.Item>
+							<Menu.Item as="div">
 								{({ active }) => (
 									<button
 										className={`${
@@ -59,7 +57,7 @@ export default function MenuHeader() {
 										onClick={() => logOut()} 
 									>
 										<LogOut className="mr-2 h-5 w-5 text-[#A78BFA]"/>
-                    Sair
+										Sair
 									</button>
 								)}
 							</Menu.Item>

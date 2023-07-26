@@ -96,8 +96,6 @@ export default function CadastroEscola(){
 		})();
 	}, []);
 
-	console.log(allInfosSchool);
-
 	return(
 		<RootLayout showHeaderAside>
 			<main className='w-full sm:w-5/6 h-max ml-auto'>
@@ -182,7 +180,6 @@ export default function CadastroEscola(){
 				setModal(true);
 			}
 			else{
-				debugger;
 				const { inactive, ...rest } = info;
 				const aux: SchoolInfos = { inactive: !inactive, ...rest, };
 				await editSchool(aux, aux.id);

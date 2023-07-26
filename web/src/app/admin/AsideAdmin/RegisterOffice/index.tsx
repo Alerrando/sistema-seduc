@@ -1,4 +1,5 @@
 "use client";
+import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,7 +11,7 @@ import CreateHeaderRegisters from "../../../../Components/CreateHeaderRegisters"
 import Modal, { SubmitDataModal } from "../../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../../Components/TableRegisters";
 import { createRegisterOffice, deleteRegisterOffice, editRegisterOffice, getRegisterOffice } from "../../../../api";
-import { AxiosError } from "axios";
+import { ClipboardList } from "lucide-react";
 
 const createFormSchema = z.object({
 	name: z.string().nonempty("Nome é obrigatório!"),
@@ -23,6 +24,7 @@ export default function RegisterOffice(){
 	const { allInfosOffice } = useSelector((root: RootState) => root.Slice);
 	const [infosRegister, setInfosRegister] = useState<OfficeInfos>(OfficeValuesDefault);
 	const [modal, setModal] = useState<boolean>(false);
+	const [modalInactive, setModalInactive] = useState<boolean>(false);
 	const [search, setSearch] = useState<string>("");
 	const dispatch = useDispatch();
 	const tableHead = ["Id", "Nome", "Tipo de Cargo"];
@@ -69,11 +71,7 @@ export default function RegisterOffice(){
 					<h1 className="text-3xl">Cadastro de Cargos</h1>
 
 					<div className="w-auto h-auto flex items-center justify-center">
-						<div className="inline-block h-5 w-5 cursor-pointer hover:animate-spin rounded-full border-4 border-solid border-current border-b-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-							role="status"
-							onClick={() => handleLoadingClick()}
-						>
-						</div>
+						<ClipboardList size={26} className="cursor-pointer" onClick={() => setModalInactive(true)} />
 					</div>
 				</header>
 
@@ -104,6 +102,16 @@ export default function RegisterOffice(){
 						modalName="Office"
 					/>
 				) : false}
+
+				{modalInactive ? (
+					<Modal
+						setModal={setModalInactive}
+						modalName="Office"
+						editInfo={editInfo}
+						title="Cargos Inativas"
+						thead={tableHead}
+					/>
+				) : null}
 
 			</div>
 
@@ -172,15 +180,6 @@ export default function RegisterOffice(){
 				dispatch(refreshInfosOffice(sortedInfos));
 				messageToast(message);
 			}
-		}
-	}
-
-	async function handleLoadingClick() {
-		try {
-			const data = await getRegisterOffice();
-			dispatch(refreshInfosOffice(data));
-		} catch (error) {
-			console.error("Erro ao atualizar os dados:", error);
 		}
 	}
 

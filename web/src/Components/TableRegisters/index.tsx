@@ -1,6 +1,5 @@
-import { Switch } from "@headlessui/react";
 import { format, isValid } from "date-fns";
-import { Pencil, Trash } from "lucide-react";
+import { Pencil, Trash, X } from "lucide-react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../configureStore";
@@ -27,9 +26,6 @@ export default function TableRegisters(props: TableRegistersProps) {
 			dispatch(refreshInfosTeacher(await readAllTeacher()));
 		})();
 	}, []);
-
-	console.log(infosAll);
-
   
 	function renderLessonColumns(info: LessonsInfos, index: number){
 		return (
@@ -101,19 +97,12 @@ export default function TableRegisters(props: TableRegistersProps) {
 												renderTeacherColumns(info, index)  : renderOtherColumns(info, index)
 									}
 									<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-										<Switch
-											checked={info.inactive}
+										<div 
+											className="h-10 w-10 flex items-center justify-center rounded-full bg-red-600 text-white hover:bg-red-700 cursor-pointer"
 											onClick={() => editInfo(info, true)}
-											className={`${info.inactive ? "bg-teal-900" : "bg-teal-700"}
-                        relative inline-flex h-[26px] w-[60px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
 										>
-											<span className="sr-only">Inatividade</span>
-											<span
-												aria-hidden="true"
-												className={`${info.inactive ? "translate-x-9" : "translate-x-0"}
-                          pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-											/>
-										</Switch>
+											<X size={28} />
+										</div>
 									</td>
 									<td className="">
 										<div className="flex flex-row gap-4 items-center justify-between">

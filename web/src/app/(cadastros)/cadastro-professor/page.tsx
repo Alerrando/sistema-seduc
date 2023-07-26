@@ -30,6 +30,7 @@ export default function CadastroProfessor() {
 	const { allInfosTeacher } = useSelector((root: RootState) => root.Slice);
 	const [infosInput, setInfosInput] = useState<TeacherInfos>(TeacherValuesDefault);
 	const [search, setSearch] = useState("");
+	const [modalInactive, setModalInactive] = useState<boolean>(false);
 	const [modal, setModal] = useState<boolean>(false);
 	const thead = ["Id", "Nome do Professor(a)", "Cpf", "Sede", "Cargo", "Ações"];
 	const dispatch = useDispatch<AppDispatch>();
@@ -100,7 +101,7 @@ export default function CadastroProfessor() {
 					) : null}
 
 					<div className="w-full h-auto flex items-center justify-end">
-						<ClipboardList size={26} className="cursor-pointer" />
+						<ClipboardList size={26} className="cursor-pointer" onClick={() => setModalInactive(true)} />
 					</div>
 
 					<TableRegisters
@@ -121,6 +122,16 @@ export default function CadastroProfessor() {
 						createFormSchema={createFormSchema}
 						modalName="Teacher"
 						key={"modal-cadastro-professor"}
+					/>
+				) : null}
+
+				{modalInactive ? (
+					<Modal
+						setModal={setModalInactive}
+						modalName="Teacher"
+						editInfo={editInfo}
+						title="Professores Inativas"
+						thead={thead}
 					/>
 				) : null}
 
@@ -173,7 +184,7 @@ export default function CadastroProfessor() {
 			else {
 				const { inactive, ...rest } = info;
 				const aux: TeacherInfos = { inactive: !inactive, ...rest, };
-				await editTeacher(aux, info.thirst);
+				await editTeacher(aux, info.thirst.id);
 				dispatch(refreshInfosTeacher(await readAllTeacher()));
 			}
 		}
