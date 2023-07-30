@@ -32,7 +32,7 @@ public class UserControllers {
     }
 
     @GetMapping("/school/{schoolId}")
-    public User getUserBySchoolId(@PathVariable Integer schoolId){
+    public ResponseEntity<User> getUserBySchoolId(@PathVariable Integer schoolId){
         return userService.getUserBySchoolId(schoolId);
     }
 
@@ -42,8 +42,8 @@ public class UserControllers {
     }
 
     @PutMapping("/{id}")
-    public User editUser(@RequestBody User user, @PathVariable Integer id){
-        return userService.ediUser(user, id);
+    public User edit(@RequestBody User user, @PathVariable Integer id){
+        return userService.edit(user, id);
     }
 
     @DeleteMapping("/{id}")

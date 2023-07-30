@@ -47,7 +47,7 @@ public class RegisterLessonService {
         return result;
     }
 
-    public List<RegisterLesson> findByCadastroProfessor(String name){
+    public List<RegisterLesson> findByRegisterTeacher(String name){
         List<RegisterTeacher> professores = registerTeacherRepository.filterByName(name);
         List<Integer> professoresIds = professores.stream().map(RegisterTeacher::getId).collect(Collectors.toList());
 
@@ -86,7 +86,7 @@ public class RegisterLessonService {
         return registerLessonRepository.save(registerLesson);
     }
 
-    public RegisterLesson update(Integer escolaId, Integer professorId , RegisterLesson registerLesson){
+    public RegisterLesson edit(Integer escolaId, Integer professorId , RegisterLesson registerLesson){
         RegisterSchool school = registerSchoolRepository.findById(escolaId)
                 .orElseThrow(() -> new RuntimeException("Escola não encontrada"));
         RegisterTeacher teacher = registerTeacherRepository.findById(professorId)

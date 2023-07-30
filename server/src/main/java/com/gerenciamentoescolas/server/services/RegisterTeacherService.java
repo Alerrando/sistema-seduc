@@ -2,7 +2,7 @@ package com.gerenciamentoescolas.server.services;
 
 import java.util.*;
 
-import com.gerenciamentoescolas.server.dto.RegisterTeacherDTO;
+import com.gerenciamentoescolas.server.entities.BulletinTeacher;
 import com.gerenciamentoescolas.server.exception.TeacherAlreadyRegistered;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,10 +25,10 @@ public class RegisterTeacherService {
         return result;
     }
 
-    public List<RegisterTeacherDTO> findProfessorAulas(String professorId, Date dataInicial, Date dataFinal) {
+    public List<BulletinTeacher> findProfessorAulas(String professorId, Date dataInicial, Date dataFinal) {
         Integer idProfessorInteger = Integer.parseInt(professorId);
         List<Object[]> results = registerTeacherRepository.findProfessorAulas(idProfessorInteger, dataInicial, dataFinal);
-        Map<Date, RegisterTeacherDTO> professoresMap = new HashMap<>();
+        Map<Date, BulletinTeacher> professoresMap = new HashMap<>();
 
         for (Object[] result : results) {
             Integer amountTime = (Integer) result[0];
@@ -36,10 +36,10 @@ public class RegisterTeacherService {
             Date lessonDay = (Date) result[2];
             RegisterSchool registerSchool = (RegisterSchool) result[3];
 
-            RegisterTeacherDTO professorDTO = professoresMap.get(lessonDay);
+            BulletinTeacher professorDTO = professoresMap.get(lessonDay);
 
             if (professorDTO == null) {
-                professorDTO = new RegisterTeacherDTO(amountTime, name, lessonDay, registerSchool);
+                professorDTO = new BulletinTeacher(amountTime, name, lessonDay, registerSchool);
                 professoresMap.put(lessonDay, professorDTO);
             }
         }

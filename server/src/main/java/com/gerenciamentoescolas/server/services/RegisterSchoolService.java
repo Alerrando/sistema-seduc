@@ -1,6 +1,7 @@
 package com.gerenciamentoescolas.server.services;
 
-import com.gerenciamentoescolas.server.dto.RegisterSchoolDTO;
+import com.gerenciamentoescolas.server.entities.BulletinSchool;
+import com.gerenciamentoescolas.server.entities.RegisterOffice;
 import com.gerenciamentoescolas.server.entities.RegisterSchool;
 import com.gerenciamentoescolas.server.exception.SchoolAlreadyRegistered;
 import com.gerenciamentoescolas.server.repository.RegisterSchoolRepository;
@@ -23,33 +24,37 @@ public class RegisterSchoolService {
         return result;
     }
 
-    public List<RegisterSchoolDTO> findEscolasAulas(String schoolId, Date startDate, Date endDate) {
+    public RegisterSchool findById(Integer id) {
+        return registerSchoolRepository.findById(id).orElse(null);
+    }
+
+    public List<BulletinSchool> findEscolasAulas(String schoolId, Date startDate, Date endDate) {
         Integer idSchool = Integer.parseInt(schoolId);
         List<Object[]> results = registerSchoolRepository.findEscolasAulas(idSchool, startDate, endDate);
-        Map<Integer, RegisterSchoolDTO> escolasAulas = new HashMap<>();
+        Map<Integer, BulletinSchool> escolasAulas = new HashMap<>();
 
         for (Object[] result : results) {
             Integer id = (Integer) result[0];
             String name = (String) result[1];
             Date lessonDay = (Date) result[2];
             Long amountTime = Long.valueOf("0");
-            String office = (String) result[4];
+            RegisterOffice office = (RegisterOffice) result[4];
 
-            RegisterSchoolDTO registerSchoolDTO = escolasAulas.get(id);
+            BulletinSchool bulletinSchool = escolasAulas.get(id);
             
             if (result[4] != null) {
                 amountTime = (Long) result[3];
             }
 
-            if (registerSchoolDTO == null) {
+            if (bulletinSchool == null) {
 
-                registerSchoolDTO = new RegisterSchoolDTO(id, name, new ArrayList<Object[]>(), amountTime.intValue(), office);
-                escolasAulas.put(id, registerSchoolDTO);
+                bulletinSchool = new BulletinSchool(id, name, new ArrayList<Object[]>(), amountTime.intValue(), office);
+                escolasAulas.put(id, bulletinSchool);
             } else {
-                registerSchoolDTO.setAmountTime(registerSchoolDTO.getAmountTime() + amountTime.intValue());
+                bulletinSchool.setAmountTime(bulletinSchool.getAmountTime() + amountTime.intValue());
             }
 
-            registerSchoolDTO.getDatesWork().add(new Object[]{lessonDay, amountTime});
+            bulletinSchool.getDatesWork().add(new Object[]{lessonDay, amountTime});
         }
 
         return new ArrayList<>(escolasAulas.values());
@@ -72,9 +77,5 @@ public class RegisterSchoolService {
 
     public void delete(Integer id){
         registerSchoolRepository.deleteById(id);
-    }
-
-    public RegisterSchool findById(Integer id) {
-        return registerSchoolRepository.findById(id).orElse(null);
     }
 }

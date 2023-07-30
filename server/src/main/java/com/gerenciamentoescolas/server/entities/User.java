@@ -8,14 +8,20 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String name;
     private String email;
     private String rg;
     private String password;
-    private String office;
+
+    @ManyToOne
+    @JoinColumn(name = "user_office")
+    private RegisterOffice office;
+    
     @ManyToOne
     @JoinColumn(name = "user_school")
     private RegisterSchool registerSchool;
+    
     private Integer level;
     private Integer mandatoryBulletin;
     private Boolean inactive;
@@ -23,7 +29,7 @@ public class User {
     public User(){
     }
 
-    public User(Integer id, String name, String email, String rg, String password, String office, RegisterSchool registerSchool, Integer level, Integer mandatoryBulletin, Boolean inactive) {
+    public User(Integer id, String name, String email, String rg, String password, RegisterOffice office, RegisterSchool registerSchool, Integer level, Integer mandatoryBulletin, Boolean inactive) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -76,11 +82,11 @@ public class User {
         this.password = password;
     }
 
-    public String getOffice(){
+    public RegisterOffice getOffice(){
         return office;
     }
 
-    public void setOffice(String office) { 
+    public void setOffice(RegisterOffice office) { 
         this.office = office;
     }
 

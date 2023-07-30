@@ -16,7 +16,7 @@ public class RegisterLessonControllers {
     private RegisterLessonService registerLessonService;
 
     @GetMapping
-    public List<RegisterLesson> findall(){
+    public List<RegisterLesson> findAll(){
         List<RegisterLesson> result = registerLessonService.findAll();
         return result;
     }
@@ -28,8 +28,8 @@ public class RegisterLessonControllers {
     }
 
     @GetMapping("/{name}")
-    public List<RegisterLesson> findByCadastroProfessor(@PathVariable String name){
-        List<RegisterLesson> aulas = registerLessonService.findByCadastroProfessor(name);
+    public List<RegisterLesson> findByRegisterTeacher(@PathVariable String name){
+        List<RegisterLesson> aulas = registerLessonService.findByRegisterTeacher(name);
         return aulas;
     }
 
@@ -39,8 +39,8 @@ public class RegisterLessonControllers {
     }
 
     @PutMapping("/{escolaId}&{professorId}")
-    public RegisterLesson update(@PathVariable Integer escolaId, @PathVariable Integer professorId, @RequestBody RegisterLesson registerLesson){
-        return registerLessonService.update(escolaId, professorId, registerLesson);
+    public RegisterLesson edit(@PathVariable Integer escolaId, @PathVariable Integer professorId, @RequestBody RegisterLesson registerLesson){
+        return registerLessonService.edit(escolaId, professorId, registerLesson);
     }
 
     @DeleteMapping("/{id}")

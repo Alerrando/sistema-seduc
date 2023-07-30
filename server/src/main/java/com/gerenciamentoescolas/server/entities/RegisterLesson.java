@@ -11,12 +11,15 @@ public class RegisterLesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @ManyToOne
     @JoinColumn(name = "teacher_Id")
     private RegisterTeacher registerTeacher;
+
     private Integer amountTime;
     @Temporal(TemporalType.TIMESTAMP)
     private Date lessonDay;
+    
     @ManyToOne
     @JoinColumn(name = "school_id")
     private RegisterSchool registerSchool;

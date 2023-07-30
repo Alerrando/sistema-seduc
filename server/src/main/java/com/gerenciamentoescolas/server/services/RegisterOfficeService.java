@@ -18,6 +18,8 @@ public class RegisterOfficeService {
         return registerOfficeRepository.findAll();
     }
 
+    public RegisterOffice findById(Integer id){ return registerOfficeRepository.findById(id).orElse(null); }
+
     public RegisterOffice create(RegisterOffice registerOffice){
         if(registerOfficeRepository.existsByName(registerOffice.getName())){
             throw new RegisterOfficeException("Cargo já cadastrado!");
@@ -26,7 +28,7 @@ public class RegisterOfficeService {
         return registerOfficeRepository.save(registerOffice);
     }
 
-    public RegisterOffice update(Integer id, RegisterOffice registerOffice){
+    public RegisterOffice edit(Integer id, RegisterOffice registerOffice){
         RegisterOffice registerOfficeEdit = registerOfficeRepository.findById(id).orElseThrow(() -> new RuntimeException("Cargo não encontrado"));
         registerOffice.setId(registerOfficeEdit.getId());
 

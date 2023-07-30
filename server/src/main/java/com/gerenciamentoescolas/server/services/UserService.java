@@ -38,31 +38,37 @@ public class UserService {
         return users;
     }
 
-    public User getUserBySchoolId(Integer schoolId){
+    public ResponseEntity<User> getUserBySchoolId(Integer schoolId){
         User user = userRepository.findUserBySchoolId(schoolId);
 
-        return user;
+        if(user != null){
+            return ResponseEntity.ok(user);
+        }
+        else{
+            return ResponseEntity.notFound().build();
+        }
     }
 
 
     public ResponseEntity<Object> create(User user){
-        User userSchool = userRepository.findUserBySchoolId(user.getRegisterSchool().getId());
+        List<User> userSchool = userRepository.findAll();
 
         if(userRepository.existsByRg(user.getRg())){
             throw  new UserJaCadastradoException("Usuário já cadastrado!");
         }
         
-        if(userSchool.getRegisterSchool().getId().equals(user.getRegisterSchool().getId())){
-            throw new UserJaCadastradoException("Essa escola já está associada a um usuário");
+        for (User userAux : userSchool){
+            if(userAux.getRegisterSchool() == user.getRegisterSchool()){
+                throw  new UserJaCadastradoException("Essa escola já está atribuidá a um usuário");
+            }
         }
 
         User novoUsuario = userRepository.save(user);
-        String token = JWTTokenProvider.createToken(novoUsuario);
 
-        return ResponseEntity.ok().body(token);
+        return ResponseEntity.ok().body(novoUsuario);
     }
 
-    public User ediUser(User user, Integer id){
+    public User edit(User user, Integer id){
         User userEdit = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
         user.setId(userEdit.getId());
 

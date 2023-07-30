@@ -3,7 +3,7 @@ package com.gerenciamentoescolas.server.controllers;
 import java.util.Date;
 import java.util.List;
 
-import com.gerenciamentoescolas.server.dto.RegisterTeacherDTO;
+import com.gerenciamentoescolas.server.entities.BulletinTeacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,11 +32,22 @@ public class RegisterTeacherControllers {
         return result;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<RegisterTeacher> findById(@PathVariable String id) {
+        RegisterTeacher professor = registerTeacherService.findById(id);
+        if (professor != null) {
+            return ResponseEntity.ok(professor);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/boletim/{professorId}&{dataInicial}&{dataFinal}")
-    public List<RegisterTeacherDTO> findProfessorAulas(@PathVariable String professorId, @PathVariable Date dataInicial, @PathVariable Date dataFinal){
-        List<RegisterTeacherDTO> result = registerTeacherService.findProfessorAulas(professorId, dataInicial, dataFinal);
+    public List<BulletinTeacher> findProfessorAulas(@PathVariable String professorId, @PathVariable Date dataInicial, @PathVariable Date dataFinal){
+        List<BulletinTeacher> result = registerTeacherService.findProfessorAulas(professorId, dataInicial, dataFinal);
         return result;
     }
+
 
     @PostMapping("/{escolaId}")
     public void create(@RequestBody RegisterTeacher registerTeacher, @PathVariable Integer escolaId){
@@ -53,13 +64,4 @@ public class RegisterTeacherControllers {
         registerTeacherService.delete(id);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<RegisterTeacher> findById(@PathVariable String id) {
-        RegisterTeacher professor = registerTeacherService.findById(id);
-        if (professor != null) {
-            return ResponseEntity.ok(professor);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 }

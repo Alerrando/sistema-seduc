@@ -1,6 +1,6 @@
 package com.gerenciamentoescolas.server.controllers;
 
-import com.gerenciamentoescolas.server.dto.RegisterSchoolDTO;
+import com.gerenciamentoescolas.server.entities.BulletinSchool;
 import com.gerenciamentoescolas.server.entities.RegisterSchool;
 import com.gerenciamentoescolas.server.services.RegisterSchoolService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +23,19 @@ public class RegisterSchoolControllers {
         return result;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<RegisterSchool> findById(@PathVariable Integer id) {
+        RegisterSchool escola = registerSchoolService.findById(id);
+        if (escola != null) {
+            return ResponseEntity.ok(escola);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/relatorio/{schoolId}&{startDate}&{endDate}")
-    public List<RegisterSchoolDTO> findEscolasAulas(@PathVariable String schoolId, @PathVariable Date startDate, @PathVariable Date endDate){
-        List<RegisterSchoolDTO> result = registerSchoolService.findEscolasAulas(schoolId, startDate, endDate);
+    public List<BulletinSchool> findEscolasAulas(@PathVariable String schoolId, @PathVariable Date startDate, @PathVariable Date endDate){
+        List<BulletinSchool> result = registerSchoolService.findEscolasAulas(schoolId, startDate, endDate);
         return result;
     }
 
@@ -42,16 +52,6 @@ public class RegisterSchoolControllers {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id){
         registerSchoolService.delete(id);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<RegisterSchool> findById(@PathVariable Integer id) {
-        RegisterSchool escola = registerSchoolService.findById(id);
-        if (escola != null) {
-            return ResponseEntity.ok(escola);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
     }
 
 }
