@@ -1,17 +1,19 @@
 "use client";
-import { Switch } from "@headlessui/react";
-import { Eye, EyeOff, Pencil, Trash } from "lucide-react";
+import { AxiosError } from "axios";
+import { ClipboardList } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import { InputConfig } from "../../../../../slice";
-import { DefaultUserInfos, UserInfos } from "../../../../../slice/LoginSlice";
+import { RootState } from "../../../../../configureStore";
+import { InputConfig, OfficeInfos, OfficeValuesDefault, SchoolValuesDefault, changeRegisterType } from "../../../../../slice";
+import { DefaultUserInfos, UserInfos, refreshInfosUser } from "../../../../../slice/LoginSlice";
 import CreateHeaderRegisters from "../../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../../Components/Modal";
-import { createUser, deleteUser, editUser, getUsers } from "../../../../api";
+import TableRegisters, { InfosTableRegisterData } from "../../../../Components/TableRegisters";
+import { createUser, editUser, getIdSchool, getOfficeById, findAllUser } from "../../../../api";
 import { maskRG } from "../../../../utils/maskUtils";
-import { AxiosError } from "axios";
 
 const createFormSchema = z.object({
 	name: z.string().nonempty("O campo Nome é obrigatório!"),
@@ -26,11 +28,13 @@ const createFormSchema = z.object({
 export type CreateFormDataUser = z.infer<typeof createFormSchema>
 
 export default function UsersList(){
-	const [usersAll, setUsersAll] = useState<UserInfos[] | null>(null);
+	const { usersAll } = useSelector((root: RootState) => root.SliceLogin);
 	const [modal, setModal] = useState<boolean>(false);
+	const [modalInactive, setModalInactive] = useState<boolean>(false);
 	const [infosEdit, setInfosEdit] = useState<UserInfos>(DefaultUserInfos);
-	const [viewPassword, setViewPassword] = useState<boolean>(false);
 	const tableHead = ["Id", "Nome", "Email", "Rg", "Cargo", "Escola", "Assinatura Obrigatória no boletim", "Senha", "Inatividade", "Ações"];
+	const dispatch = useDispatch();
+
 	const inputs: InputConfig[] = [
 		{
 			htmlFor: "name",
@@ -103,7 +107,8 @@ export default function UsersList(){
 
 	useEffect(() => {
 		(async () => {
-			setUsersAll(await getUsers());
+			dispatch(refreshInfosUser(await findAllUser()));
+			dispatch(changeRegisterType("User"));
 		})();
 	}, []);
 
@@ -112,12 +117,8 @@ export default function UsersList(){
 			<header className="w-full h-auto flex items-center justify-between border-b border-b-[#efefef] p-3">
 				<h1 className="text-3xl">Lista de Usuários</h1>
 
-				<div className="w-auto h-auto flex items-center justify-center">
-					<div className="inline-block h-5 w-5 cursor-pointer hover:animate-spin rounded-full border-4 border-solid border-current border-b-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-						role="status"
-						onClick={() => handleLoadingClick()}
-					>
-					</div>
+				<div className="w-auto h-auto flex items-center justify-end">
+					<ClipboardList size={26} className="cursor-pointer" onClick={() => setModalInactive(true)} />
 				</div>
 			</header>
 
@@ -130,67 +131,13 @@ export default function UsersList(){
 
 				<div className="w-full h-[1px] border border-b border-[#cfcfcf]"></div>
 
-				<div className="w-full overflow-x-auto border border-gray-200">
-					<table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-						<thead className="ltr:text-left rtl:text-right">
-							<tr>
-								{tableHead.map(head => <th key={head} scope="col" className="whitespace-nowrap text-start px-4 py-2 font-medium text-gray-900">{head}</th>)}
-							</tr>
-						</thead>
-
-						<tbody className="divide-y divide-gray-200">
-							{usersAll != undefined && usersAll.map((info: UserInfos, index: number) => {
-								return (
-									<tr key={`${info.id}-${index}`}>
-										<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
-										<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
-										<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.email}</td>
-										<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.rg}</td>
-										<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.office}</td>
-										<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.registerSchool !== null ? info.registerSchool : "Não Atribuido"}</td>
-										<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.mandatoryBulletin === 1 ? "Obrigatório" : "Não Obrigatório"}</td>
-										<td className="flex flex-row items-center gap-2 whitespace-nowrap px-4 py-2 font-medium text-gray-900">{!viewPassword ? (
-											<EyeOff size={26} className="cursor-pointer" onClick={() => setViewPassword(true)} />
-										) : (
-											<>
-												{info.password}
-												<Eye size={26} className="cursor-pointer" onClick={() => setViewPassword(false)} />
-											</>
-										)}</td>
-										<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-											<Switch
-												checked={info.inactive}
-												onClick={() => editInfo(info, true)}
-												className={`${info.inactive ? "bg-teal-900" : "bg-teal-700"}
-                                                    relative inline-flex h-[26px] w-[60px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-											>
-												<span className="sr-only">Inatividade</span>
-												<span
-													aria-hidden="true"
-													className={`${info.inactive ? "translate-x-9" : "translate-x-0"}
-                                                    pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-												/>
-											</Switch>
-										</td>
-										<td className="">
-											<div className="flex flex-row gap-4 items-center justify-between">
-												<div className="flex items-center gap-2 px-2 py-1 border border-blue-500 text-blue-500 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white transition-colors" onClick={() => editInfo(info)}>
-													<Pencil size={18} />
-													<span>Edit</span>
-												</div>
-
-												<div className="flex items-center gap-2 px-2 py-1 border border-red-500 text-red-500 rounded-lg cursor-pointer hover:bg-red-500 hover:text-white transition-colors" onClick={() => deleteUserAside(info.id, info.name)}>
-													<Trash size={18} />
-													<span>Delete</span>
-												</div>
-											</div>
-										</td>
-									</tr>
-								);
-							})}
-						</tbody>
-					</table>
-				</div>
+				<TableRegisters
+					deleteInfo={deleteUser}
+					editInfo={editInfo}
+					infosAll={usersAll}
+					tableHead={tableHead}
+					key="Table Users"
+				/>
 			</section>
 
 			<ToastContainer />
@@ -207,6 +154,16 @@ export default function UsersList(){
 					title="Cadastro de Usuário"
 				/>
 			) : null}
+			
+			{modalInactive ? (
+				<Modal
+					setModal={setModalInactive}
+					modalName="User"
+					editInfo={editInfo}
+					title="Usuários Inativos"
+					thead={tableHead}
+				/>
+			) : null}
 
 			<ToastContainer />
 		</>
@@ -217,15 +174,18 @@ export default function UsersList(){
 			if(infosEdit != null){
 				let message: string | AxiosError;
 				const { id, level, edit } = infosEdit;
-				const { registerSchool, ...rest } = data;
-				const school = await getIdSchool(registerSchool);
-            
+				const { registerSchool, office, ...restData } = data;
+				const school: UserInfos = await getIdSchool(registerSchool);
+				const officeUser: OfficeInfos = await getOfficeById(Number(office));
+
 				const formData: UserInfos = {
 					id,
 					level,
 					edit,
-					registerSchool: school,
-					...rest,
+					registerSchool: school === undefined ? SchoolValuesDefault : school,
+					office: officeUser === undefined ? OfficeValuesDefault : officeUser,
+					inactive: false,
+					...restData,
 				};
 
 				if(!infosEdit.edit){
@@ -236,47 +196,44 @@ export default function UsersList(){
 					message = await editUser(formData, infosEdit.id);
 				}
             
-				setUsersAll(await getUsers());
+				dispatch(refreshInfosUser(await findAllUser()));
 				setModal(false);
 				messageToast(message);
 			}
 		}
 	}
 
-	async function editInfo(info: UserInfos, inactive = false){
-		if(!inactive){
-			const { edit,...rest } = info;
-    
-			const aux = {
-				edit: !edit,
-				...rest,
-			};
-    
-			setInfosEdit(aux);
-			setModal(true);
-		}
-		else{
-			const { inactive, ...rest } = info;
-			const aux = { inactive: !inactive, ...rest };
-			await editUser(aux, infosEdit.id);
-			setUsersAll(await getUsers());
-		}
-	}
-    
-	async function deleteUserAside(id:number, name: string){
-		if(window.confirm(`Quer mesmo deletar o usuário ${name}?`)){
-			const message: string | AxiosError = await deleteUser(id);
-			setUsersAll(await getUsers());
-			messageToast(message);
-		}
-	}
+	async function editInfo(info: InfosTableRegisterData, inactive = false){
+		if("name" in info && "email" in info && "rg" in info && "office" in info && "password" in info && "registerSchool" in info && "mandatoryBulletin" in info){
+			if(!inactive){
+				const { edit,...rest } = info;
+		
+				const aux = {
+					edit: !edit,
+					...rest,
+				};
+		
+				setInfosEdit(aux);
+				setModal(true);
+			}
+			else{
+				const { inactive, ...rest } = info;
+				const aux = { inactive: !inactive, ...rest };
+				await editUser(aux, info.id);
+				dispatch(refreshInfosUser(await findAllUser()));
 
-	async function handleLoadingClick() {
-		try {
-			const data = await getUsers();
-			setUsersAll(data);
-		} catch (error) {
-			console.error("Erro ao atualizar os dados:", error);
+			}
+		}
+	}
+    
+	async function deleteUser(id:number, name: string){
+		if("name" in info && "email" in info && "rg" in info && "office" in info && "password" in info && "registerSchool" in info && "mandatoryBulletin" in info){
+			if(window.confirm(`Quer mesmo deletar o usuário ${name}?`)){
+				const message: string | AxiosError = await deleteUser(id);
+				dispatch(refreshInfosUser(await findAllUser()));
+
+				messageToast(message);
+			}
 		}
 	}
 

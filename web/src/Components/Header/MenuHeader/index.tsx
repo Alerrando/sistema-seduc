@@ -33,17 +33,15 @@ export default function MenuHeader() {
 						<div className="px-1 py-1 ">
 							<Menu.Item as="div">
 								<>
-									{userInfos.level === 1 ? (
-										<>
-											<button
-												className={"hover:bg-violet-500 hover:text-white text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm"}
-												onClick={() => router.replace("/admin")}
-											>
-												<ShieldAlert className="mr-2 h-5 w-5 text-[#A78BFA] group-hover:text-[##C4B5FD]"/>
+									<>
+										<button
+											className={"hover:bg-violet-500 hover:text-white text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm"}
+											onClick={() => router.replace("/admin")}
+										>
+											<ShieldAlert className="mr-2 h-5 w-5 text-[#A78BFA] group-hover:text-[##C4B5FD]"/>
                               Administrador
-											</button>
-										</>
-									) : null}
+										</button>
+									</>
 								</>
 							</Menu.Item>
 						</div>

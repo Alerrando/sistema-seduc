@@ -36,7 +36,7 @@ export default function TableReports(props: TableReportsProps) {
 										</td>
 
 										<td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">
-											{info.office}
+											{info.office.name}
 										</td>
 
 										<td className="items-center h-full px-4 font-medium text-gray-900 border-r border-gray-200">
@@ -51,7 +51,7 @@ export default function TableReports(props: TableReportsProps) {
 											</div>
 										</td>
 										<td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">
-											{`${info.office.split("-")[0].trim()} = ${info.amountTime}h`}
+											{`${info.office.name.split("-")[0].trim()} = ${info.amountTime}h`}
 										</td>
 
 										<td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">

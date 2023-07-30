@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../configureStore";
 import { OfficeInfos, refreshDefinitionPeriods, refreshInfosLesson, refreshInfosOffice, refreshInfosSchool, refreshInfosTeacher } from "../../../slice";
 import { refreshAllFilterInfosSchool, refreshFilterInfosSchool } from "../../../slice/FilterSlice";
-import { getDefinitionPeriods, getRegisterOffice, readAllLesson, readAllSchool, readAllTeacher } from "../../api";
+import { findAllDefinitionPeriods, getRegisterOffice, readAllLesson, readAllSchool, readAllTeacher } from "../../api";
 import RootLayout from "../layout";
 
 export default function Dashboard(){
@@ -19,7 +19,7 @@ export default function Dashboard(){
 			dispatch(refreshInfosLesson(await readAllLesson()));
 			dispatch(refreshInfosSchool(await readAllSchool()));
 			dispatch(refreshInfosTeacher(await readAllTeacher()));
-			dispatch(refreshDefinitionPeriods(await getDefinitionPeriods()));
+			dispatch(refreshDefinitionPeriods(await findAllDefinitionPeriods()));
 			dispatch(refreshAllFilterInfosSchool([]));
 			dispatch(refreshFilterInfosSchool({}));
 			const allInfos: OfficeInfos[] | string = await getRegisterOffice();

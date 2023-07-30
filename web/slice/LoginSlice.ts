@@ -1,48 +1,54 @@
 import { PayloadAction, Slice, createSlice } from "@reduxjs/toolkit";
-import { TypeDefault } from ".";
+import { OfficeInfos, TypeDefault, OfficeValuesDefault, SchoolInfos, SchoolValuesDefault } from ".";
 
 export type UserInfos = {
     email: string,
     password: string,
-    office: string,
+    office: number | OfficeInfos,
     rg: string,
-    cadastroEscola: string,
+    registerSchool: number | SchoolInfos,
     level: number,
     mandatoryBulletin: number,
 } & TypeDefault
 
 export const DefaultUserInfos: UserInfos = {
-    id: 0,
-    name: "",
-    email: "",
-    password: "",
-    office: "",
-    rg: "",
-    cadastroEscola: "",
-    level: 2,
-    mandatoryBulletin: 0,
-    edit: false,
-    inactive: false,
-}
+	id: 0,
+	name: "",
+	email: "",
+	password: "",
+	office: "" || OfficeValuesDefault,
+	rg: "",
+	registerSchool: 0 || SchoolValuesDefault,
+	level: 2,
+	mandatoryBulletin: 0,
+	edit: false,
+	inactive: false,
+};
 
 type StateProps = {
     userInfos: UserInfos,
+	usersAll: UserInfos[],
 }
 
 const initialState: StateProps = {
-    userInfos: {} as UserInfos,
-}
+	userInfos: {} as UserInfos,
+	usersAll: [],
+};
 
 export const sliceLogin: Slice<StateProps> = createSlice({
-    name: "sliceLogin",
-    initialState,
-    reducers: {
-        changeLoginLogout: (state, action: PayloadAction<UserInfos>) =>{
-            state.userInfos = action.payload;
-        },
-    }
-})
+	name: "sliceLogin",
+	initialState,
+	reducers: {
+		refreshInfosUser: (state, action: PayloadAction<UserInfos[]>) => {
+			state.usersAll = action.payload;
+		},
 
-export const { changeLoginLogout } = sliceLogin.actions;
+		changeLoginLogout: (state, action: PayloadAction<UserInfos>) =>{
+			state.userInfos = action.payload;
+		},
+	}
+});
+
+export const { changeLoginLogout, refreshInfosUser } = sliceLogin.actions;
 
 export default sliceLogin.reducer;

@@ -1,16 +1,16 @@
 import { X } from "lucide-react";
+import { useSelector } from "react-redux";
 import { ZodType } from "zod";
+import { RootState } from "../../../configureStore";
 import { InputConfig } from "../../../slice";
 import { CreateFormDataSchool } from "../../app/(cadastros)/cadastro-escola/page";
 import { CreateFormDataTeacher } from "../../app/(cadastros)/cadastro-professor/page";
 import { CreateFormDataLesson } from "../../app/(cadastros)/controle-aulas-eventuais/page";
 import { CreateFormDataOffice } from "../../app/admin/AsideAdmin/RegisterOffice";
 import { CreateFormDataUser } from "../../app/admin/AsideAdmin/UsersList";
+import { InfosTableRegisterData } from "../TableRegisters";
 import { ModalForm } from "./ModalForm";
 import ModalInactive from "./ModalInactive";
-import { InfosTableRegisterData } from "../TableRegisters";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../configureStore";
 
 export type SubmitDataModal = CreateFormDataSchool | CreateFormDataTeacher | CreateFormDataLesson | CreateFormDataOffice | CreateFormDataUser
 
@@ -29,7 +29,8 @@ type ModalProps = {
 
 export default function Modal(props: ModalProps){
 	const { setInfosInput, infosInput, setModal, submitInfos, title, inputs, createFormSchema, editInfo, thead, modalName } = props;
-	const { allInfosOffice, allInfosSchool, allInfosTeacher } = useSelector((root: RootState) => root.Slice);
+	const { allInfosOffice, allInfosSchool, allInfosTeacher, allInfosLesson } = useSelector((root: RootState) => root.Slice);
+	const { usersAll } = useSelector((root: RootState) => root.SliceLogin);
 	
 	return(
 		<div className="w-screen h-auto flex items-center justify-center bg-modal fixed inset-0">
@@ -52,7 +53,13 @@ export default function Modal(props: ModalProps){
 						)}
 					</>
 				) : (
-					<ModalInactive editInfo={editInfo} modalName={modalName} thead={thead} infosAll={modalName === "School" ? allInfosSchool : modalName === "Teacher" ? allInfosTeacher : allInfosOffice} />
+					<ModalInactive editInfo={editInfo} modalName={modalName} thead={thead} infosAll={
+						modalName === "Lesson" ? 
+							allInfosLesson : modalName === "School" ? 
+								allInfosSchool : modalName === "Teacher" ? 
+									allInfosTeacher : modalName === "Office" ? 
+										allInfosOffice : usersAll}
+					/>
 				) }
 
 			</div>

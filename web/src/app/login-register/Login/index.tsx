@@ -89,13 +89,27 @@ export default function Login(){
 			messageToast(aux);
 		}
 		else{
-			messageToast(aux);
-            
-			localStorage.setItem("token", tokenAux);
-			dispatch(changeLoginLogout(aux.usuario));
-			setTimeout(() => {
-				router.replace("/dashboard");
-			}, 3000);
+			if(aux.usuario.inactive === false){
+				messageToast(aux);
+				
+				localStorage.setItem("token", tokenAux);
+				dispatch(changeLoginLogout(aux.usuario));
+				setTimeout(() => {
+					router.replace("/dashboard");
+				}, 3000);
+			}
+			else{
+				toast.error("Seu usuário está inativo, não é possível fazer login!", {
+					position: "bottom-left",
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+					theme: "light",
+				});
+			}
 		}
 	}
 

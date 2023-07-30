@@ -6,11 +6,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
 import { AppDispatch, RootState } from "../../../../configureStore";
-import { InputConfig, OfficeInfos, TeacherInfos, TeacherValuesDefault, changeRegisterType, refreshInfosOffice, refreshInfosTeacher } from "../../../../slice";
+import { InputConfig, OfficeInfos, SchoolInfos, TeacherInfos, TeacherValuesDefault, changeRegisterType, refreshInfosOffice, refreshInfosTeacher } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
-import { createTeacher, deleteTeacher, editTeacher, getIdSchool, getRegisterOffice, readAllTeacher } from "../../../api";
+import { createTeacher, deleteTeacher, editTeacher, getIdSchool, getOfficeById, getRegisterOffice, readAllTeacher } from "../../../api";
 import RootLayout from "../../../app/layout";
 import { isValidCPF, maskCPF } from "../../../utils/maskUtils";
 import { AxiosError } from "axios";
@@ -142,11 +142,13 @@ export default function CadastroProfessor() {
 
 	async function submitTeacher(data: SubmitDataModal) {
 		if ("thirst" in data && "cpf" in data && "office" in data && "name" in data) {
-			const { thirst, ...rest } = data;
-			const school = await getIdSchool(thirst);
+			const { thirst, office, ...rest } = data;
+			const school: SchoolInfos = await getIdSchool(thirst);
+			const OfficeTeacher: OfficeInfos = await getOfficeById(office);
 
 			const aux: TeacherInfos = {
 				thirst: school,
+				office: OfficeTeacher,
 				edit: false,
 				id: infosInput.id,
 				cpf: data.cpf.replaceAll(".", "").replaceAll("-", ""),
@@ -156,10 +158,10 @@ export default function CadastroProfessor() {
 
 			let message: AxiosError | string;
 			if (!infosInput.edit) {
-				message = await createTeacher(aux, data.thirst);
+				message = await createTeacher(aux, aux.thirst.id);
 			}
 			else {
-				message = await editTeacher(aux, data.thirst);
+				message = await editTeacher(aux, aux.thirst.id);
 				setModal(false);
 			}
 
@@ -173,19 +175,23 @@ export default function CadastroProfessor() {
 		if ("thirst" in info && "cpf" in info && "office" in info && "name" in info) {
 			if (!inactive) {
 				const { thirst, ...rest } = info;
+
 				const aux: TeacherInfos = {
 					edit: true,
-					thirst: thirst.id,
+					thirst: thirst,
 					...rest,
 				};
 				setInfosInput(aux);
 				setModal(true);
 			}
 			else {
-				const { inactive, ...rest } = info;
-				const aux: TeacherInfos = { inactive: !inactive, ...rest, };
-				await editTeacher(aux, info.thirst.id);
-				dispatch(refreshInfosTeacher(await readAllTeacher()));
+				if (window.confirm(`Quer mesmo ${!inactive === true ? "inativar" : "ativar"} o professor ${info.name}?`)) {
+					const { inactive, ...rest } = info;
+					const aux: TeacherInfos = { inactive: !inactive, ...rest, };
+					await editTeacher(aux, String(info.thirst));
+					messageToast(!inactive === true ? "Inativação do Professor feito com sucesso!" : "Ativação do Professor feito com sucesso!");
+					dispatch(refreshInfosTeacher(await readAllTeacher()));
+				}
 			}
 		}
 	}

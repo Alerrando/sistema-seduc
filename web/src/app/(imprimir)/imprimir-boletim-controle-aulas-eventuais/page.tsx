@@ -8,7 +8,6 @@ import RootLayout from "../../layout";
 
 export default function ImprimirBoletimControleAulasEventuais(){
 	const { filterInfosTeacher, allFilterInfosTeacher } = useSelector((root: RootState) => root.SliceFilter);
-	const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
 
 
 	return(
@@ -31,12 +30,12 @@ export default function ImprimirBoletimControleAulasEventuais(){
 							<div className="w-full flex items-center justify-between">
 								<div className="w-auto flex flex-row items-center gap-1 md:gap-2">
 									<h3 className="font-bold text-base md:text-xl">CARGO: </h3>
-									<span className="font-bold text-sm md:text-lg">{filterInfosTeacher?.office}</span>
+									<span className="font-bold text-sm md:text-lg">{filterInfosTeacher?.office.name}</span>
 								</div>
 
 								<div className="w-auto flex flex-row items-center gap-1 md:gap-2">
 									<h3 className="font-bold text-base md:text-xl">SEDE: </h3>
-									<span className="font-bold text-sm md:text-lg">{allInfosSchool.find((school) => String(school.id) == filterInfosTeacher?.thirst)?.name}</span>
+									<span className="font-bold text-sm md:text-lg">{filterInfosTeacher.thirst.name}</span>
 								</div>
 
 								<div className="w-auto flex flex-row items-center gap-1 md:gap-2">
@@ -62,7 +61,7 @@ export default function ImprimirBoletimControleAulasEventuais(){
 								<tr className="border-b border-neutral-500" key={`imprimir-professor-tbody-${index}`}>
 									<td className="text-start whitespace-nowrap border-r px-3 py-2 font-medium border-neutral-500">{isValid(new Date(info.lessonDay)) ? format(new Date(info.lessonDay), "dd/MM/yyyy") : ""}</td>
 									<td className="text-start whitespace-nowrap border-r px-3 py-2 font-medium border-neutral-500">{info.registerSchool.name}</td>
-									<td className="text-start whitespace-nowrap border-r px-3 py-2 font-medium border-neutral-500">{`${info.horaAulas}h`}</td>
+									<td className="text-start whitespace-nowrap border-r px-3 py-2 font-medium border-neutral-500">{`${info.amountTime}h`}</td>
 								</tr>
 							))}
 						</tbody>

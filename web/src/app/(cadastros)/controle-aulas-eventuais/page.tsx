@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
 import { AppDispatch, RootState } from "../../../../configureStore";
-import { HorasValuesDefault, InputConfig, LessonsInfos, TeacherInfos, changeRegisterType, refreshInfosLesson } from "../../../../slice";
+import { HorasValuesDefault, InputConfig, LessonsInfos, SchoolInfos, TeacherInfos, changeRegisterType, refreshInfosLesson } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
@@ -31,6 +31,7 @@ export default function ControleAulasEventuais() {
 	const dispatch = useDispatch<AppDispatch>();
 	const [search, setSearch] = useState("");
 	const [modal, setModal] = useState(false);
+	const [modalInactive, setModalInactive] = useState<boolean>(false);
 	const [lessonsLengthall, setLessonsLengthall] = useState(0);
 	const tableHead = ["Id", "Nome Completo", "Horas de aulas dadas", "Escola",  "Dia da aula", "Ações"];
 	const inputs: InputConfig[] = [
@@ -111,7 +112,7 @@ export default function ControleAulasEventuais() {
 						</div>
 
 						<div className="w-auto h-full flex items-center justify-center">
-							<ClipboardList size={26} className="cursor-pointer" />
+							<ClipboardList size={26} className="cursor-pointer" onClick={() => setModalInactive(true)} />
 						</div>
 					</div>
 
@@ -134,6 +135,16 @@ export default function ControleAulasEventuais() {
 					/>
 				) : null}
 
+				{modalInactive ? (
+					<Modal
+						setModal={setModalInactive}
+						modalName="Lesson"
+						editInfo={editInfo}
+						title="Aulas Inativas"
+						thead={tableHead}
+					/>
+				) : null}
+
 				<ToastContainer />
 			</section>
 		</RootLayout>
@@ -144,8 +155,8 @@ export default function ControleAulasEventuais() {
 		if("amountTime" in data && "registerTeacher" in data && "registerSchool" in data){
 			let message: AxiosError | string;
 			const { registerSchool, registerTeacher, ...rest} = data;
-			const schoolLesson = await getIdSchool(registerSchool);
-			const teacherLesson = await getNameByIdTeacher(registerTeacher);
+			const schoolLesson: SchoolInfos = await getIdSchool(registerSchool);
+			const teacherLesson: TeacherInfos = await getNameByIdTeacher(registerTeacher);
       
 			const aux: LessonsInfos = {
 				id: infosInput.id,
@@ -153,15 +164,17 @@ export default function ControleAulasEventuais() {
 				edit: false,
 				registerSchool: schoolLesson,
 				registerTeacher: teacherLesson,
+				inactive: false,
 				...rest,
 			};
+			console.log(aux);
 
 			if (!infosInput.edit) {
 				message = await createLesson(aux, aux.registerSchool.id, aux.registerTeacher.id);
           
 			} else {
 				aux.id = infosInput.id;
-				message = await editLesson(aux, aux.registerSchool.id, aux.registerTeacher.id);
+				message = await editLesson(aux, aux.registerSchool, aux.registerTeacher);
 				setModal(false);
 			}
       
@@ -185,33 +198,27 @@ export default function ControleAulasEventuais() {
 				setModal(true);
 			}
 			else{
-				const { inactive, ...rest } = info;
-				const aux = { inactive: !inactive, ...rest };
-				await editLesson(aux, aux.registerSchool.id, aux.registerTeacher.id);
-				dispatch(refreshInfosLesson(await readAllLesson()));
+				if(window.confirm(`Quer mesmo ${!inactive === true ? "inativar" : "ativar"} a aula do professor ${info.registerTeacher.name} no dia ${format(new Date(info.lessonDay), "dd/MM/yyyy")}?`)){
+					const { inactive, ...rest } = info;
+					const aux = { inactive: !inactive, ...rest };
+					await editLesson(aux, aux.registerSchool.id, aux.registerTeacher.id);
+					messageToast(!inactive === true ? "Inativação da Aula feito com sucesso!" : "Ativação da Aula feito com sucesso!");
+					dispatch(refreshInfosLesson(await readAllLesson()));
+				}
 			}
 		}
 	}
 
 	async function deleteInfo(info: InfosTableRegisterData) {
 		if("amountTime" in info && "registerTeacher" in info && "registerSchool" in info){
-			if(window.confirm(`Deseja deletar a aula do professor ${getNameTeacher(info.registerTeacher)} no dia ${format(new Date(info.diaAula), "dd/MM/yyyy")}?`)){
+			if(window.confirm(`Deseja deletar a aula do professor ${info.registerTeacher.name} 
+				no dia ${format(new Date(info.lessonDay), "dd/MM/yyyy")}?`)
+			){
 				const message = await deleteLesson(info.id);
 				messageToast(message);
 				dispatch(refreshInfosLesson(await readAllLesson()));
 			}
 		}
-	}
-
-	function getNameTeacher(id: string){
-		let aux = "";
-		allInfosTeacher?.forEach((teacher: TeacherInfos) => {
-			if(String(teacher.id) == id){
-				aux = teacher.name;
-			}
-		});
-
-		return aux;
 	}
 
 	function messageToast(message: AxiosError | string){
@@ -228,7 +235,7 @@ export default function ControleAulasEventuais() {
 			});
 		}
 		else{
-			toast.error(message.response.data, {
+			toast.error(message?.response?.data, {
 				position: "bottom-left",
 				autoClose: 5000,
 				hideProgressBar: false,

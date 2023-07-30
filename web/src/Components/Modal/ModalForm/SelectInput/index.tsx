@@ -16,22 +16,20 @@ type SelectInputProps = {
 export default function SelectInput<T extends FieldValues>(props: SelectInputProps){
 	const { label, htmlFor, name, optionDefault, optionType, register } = props;
 	const { allInfosSchool, allInfosTeacher, allInfosOffice } = useSelector((root: RootState) => root.Slice);
-
-	console.log(props);
     
 	return(
 		<div className="w-full flex flex-col gap-2">
 			<label htmlFor={htmlFor} className="font-bold">{label}</label>
 			<select id={name} className="border border-[#999] rounded-lg p-2 outline-none" { ...register(name) }>
-				<option value="" className="outline-none border-none" defaultChecked>{optionDefault}</option>
+				<option key={`default ${optionType}`} value="" className="outline-none border-none" defaultChecked={true}>{optionDefault}</option>
                 
 				{optionType === "School" ? (
 					<>
 						{allInfosSchool?.map((school: SchoolInfos) => (
 							<>
-								{school.inactive === false && (
-									<option key={`escola-${school.name}`} value={`${school.id.toString()}`} className="outline-none border-none">{school.name}</option>
-								)}
+								{school.inactive === false ? (
+									<option key={`escola-${school.name}`} value={school.id.toString()} defaultChecked={true} className="outline-none border-none">{school.name}</option>
+								) : null}
 							</>
 						))}
 					</>
@@ -54,8 +52,8 @@ export default function SelectInput<T extends FieldValues>(props: SelectInputPro
 					<>
 						{allInfosOffice?.map((office: OfficeInfos) => (
 							<>
-								{office.type === "2" ? (
-									<option key={`office-${office.name}`} value={office.name} className="outline-none border-none">{office.name}</option>
+								{office.type === "2" && office.inactive === false ? (
+									<option key={`office-${office.name}`} value={office.id} className="outline-none border-none">{office.name}</option>
 								) : null}
 							</>
 						))}
@@ -64,8 +62,8 @@ export default function SelectInput<T extends FieldValues>(props: SelectInputPro
 					<>
 						{allInfosOffice?.map((office: OfficeInfos) => (
 							<>
-								{office.type === "1" ? (
-									<option key={`office-${office.name}`} value={office.name} className="outline-none border-none">{office.name}</option>
+								{office.type === "1" && office.inactive === false ? (
+									<option key={`office-${office.name}`} value={office.id} className="outline-none border-none">{office.name}</option>
 								) : null}
 							</>
 						))}

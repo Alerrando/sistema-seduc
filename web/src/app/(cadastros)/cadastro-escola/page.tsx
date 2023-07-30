@@ -180,10 +180,13 @@ export default function CadastroEscola(){
 				setModal(true);
 			}
 			else{
-				const { inactive, ...rest } = info;
-				const aux: SchoolInfos = { inactive: !inactive, ...rest, };
-				await editSchool(aux, aux.id);
-				dispatch(refreshInfosSchool(await readAllSchool()));
+				if(window.confirm(`Quer mesmo ${!inactive === true ? "inativar" : "ativar"} a escola ${info.name}?`)){
+					const { inactive, ...rest } = info;
+					const aux: SchoolInfos = { inactive: !inactive, ...rest, };
+					await editSchool(aux, aux.id);
+					messageToast(!inactive === true ? "Inativação da Escola feito com sucesso!" : "Ativação da Escola feito com sucesso!");
+					dispatch(refreshInfosSchool(await readAllSchool()));
+				}
 			}
 		}
 	}

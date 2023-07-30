@@ -27,7 +27,7 @@ export default function RegisterOffice(){
 	const [modalInactive, setModalInactive] = useState<boolean>(false);
 	const [search, setSearch] = useState<string>("");
 	const dispatch = useDispatch();
-	const tableHead = ["Id", "Nome", "Tipo de Cargo"];
+	const tableHead = ["Id", "Nome", "Tipo de Cargo", "Inatividade", "Ações"];
 	const inputs: InputConfig[] = [
 		{
 			htmlFor: "name",
@@ -124,7 +124,12 @@ export default function RegisterOffice(){
 			let message: AxiosError | string;
 			let allInfos: OfficeInfos[] = [];
 			const { ...rest }  = data;
-			const aux = { ...rest, id: infosRegister.id, edit: infosRegister.edit };
+			const aux: OfficeInfos = { 
+				id: infosRegister.id,
+				edit: infosRegister.edit,
+				inactive: false,
+				...rest, 
+			};
     
 			if(!infosRegister.edit){
 				message = await createRegisterOffice(aux);
@@ -153,17 +158,20 @@ export default function RegisterOffice(){
 				setModal(true);
 			}
 			else{
-				let allInfos: OfficeInfos[] = [];
-				const { inactive, ...rest } = info;
-				const aux: OfficeInfos = { inactive: !inactive, ...rest };
-				await editRegisterOffice(aux, infosRegister.id);
-
-				allInfos = await getRegisterOffice();
-				const sortedInfos = allInfos.slice().sort((info1: OfficeInfos, info2: OfficeInfos) =>
-					info1.type.localeCompare(info2.type)
-				);
-                    
-				dispatch(refreshInfosOffice(sortedInfos));
+				if(window.confirm(`Quer mesmo ${!inactive === true ? "inativar" : "ativar"} o cargo ${info.name}?`)){
+					let allInfos: OfficeInfos[] = [];
+					const { inactive, ...rest } = info;
+					const aux: OfficeInfos = { inactive: !inactive, ...rest };
+					await editRegisterOffice(aux, info.id);
+					messageToast(!inactive === true ? "Inativação do Cargo feito com sucesso!" : "Ativação do Cargo feito com sucesso!");
+	
+					allInfos = await getRegisterOffice();
+					const sortedInfos = allInfos.slice().sort((info1: OfficeInfos, info2: OfficeInfos) =>
+						info1.type.localeCompare(info2.type)
+					);
+						
+					dispatch(refreshInfosOffice(sortedInfos));
+				}
 			}
 		}
 	}

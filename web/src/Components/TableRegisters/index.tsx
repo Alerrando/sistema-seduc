@@ -1,12 +1,13 @@
 import { format, isValid } from "date-fns";
-import { Pencil, Trash, X } from "lucide-react";
-import { useEffect } from "react";
+import { Eye, EyeOff, Pencil, Trash, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../configureStore";
 import { LessonsInfos, OfficeInfos, SchoolInfos, TeacherInfos, refreshInfosSchool, refreshInfosTeacher } from "../../../slice";
+import { UserInfos } from "../../../slice/LoginSlice";
 import { readAllSchool, readAllTeacher } from "../../api";
 
-export type InfosTableRegisterData = LessonsInfos | SchoolInfos | TeacherInfos | OfficeInfos;
+export type InfosTableRegisterData = LessonsInfos | SchoolInfos | TeacherInfos | OfficeInfos | UserInfos;
 
 type TableRegistersProps = {
   tableHead: string[],
@@ -18,6 +19,7 @@ type TableRegistersProps = {
 export default function TableRegisters(props: TableRegistersProps) {
 	const { tableHead, editInfo, deleteInfo, infosAll } = props;
 	const { registerType } = useSelector((root: RootState) => root.Slice);
+	const [viewPassword, setViewPassword] = useState<boolean>(false);
 	const dispatch = useDispatch<AppDispatch>();
 
 	useEffect(() => {
@@ -61,7 +63,29 @@ export default function TableRegisters(props: TableRegistersProps) {
 				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
 				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.cpf}</td>
 				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.thirst.name}</td>
-				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.office}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.office.name}</td>
+			</>
+		);
+	}
+
+	function renderUserColumns(info: UserInfos, index: number){
+		return (
+			<>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.email}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.rg}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.office?.name}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.registerSchool !== null ? info.registerSchool.name : "Não Atribuido"}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.mandatoryBulletin === 1 ? "Obrigatório" : "Não Obrigatório"}</td>
+				<td className="flex flex-row items-center gap-2 whitespace-nowrap p-4 font-medium text-gray-900">{!viewPassword ? (
+					<EyeOff size={26} className="cursor-pointer" onClick={() => setViewPassword(true)} />
+				) : (
+					<>
+						{info.password}
+						<Eye size={26} className="cursor-pointer" onClick={() => setViewPassword(false)} />
+					</>
+				)}</td>
 			</>
 		);
 	}
@@ -77,7 +101,7 @@ export default function TableRegisters(props: TableRegistersProps) {
 	}
 
 	return (
-		<div className="overflow-x-auto border border-gray-200">
+		<div className="w-full overflow-x-auto border border-gray-200">
 			<table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
 				<thead className="ltr:text-left rtl:text-right">
 					<tr>
@@ -85,7 +109,7 @@ export default function TableRegisters(props: TableRegistersProps) {
 					</tr>
 				</thead>
 				<tbody className="divide-y divide-gray-200">
-					{infosAll !== null && infosAll.map((info: InfosTableRegisterData, index: number) => (
+					{infosAll !== null && infosAll?.map((info: InfosTableRegisterData, index: number) => (
 						<>
 							{info.inactive === false && (
 								<tr key={`${info.id}-${index}`}>
@@ -94,10 +118,12 @@ export default function TableRegisters(props: TableRegistersProps) {
 										: registerType === "School" && "name" in info && "adress" in info && "zip" in info && "fone" in info && "email" in info ? 
 											renderSchoolColumns(info, index) 
 											: registerType === "Teacher" && "thirst" in info ? 
-												renderTeacherColumns(info, index)  : renderOtherColumns(info, index)
+												renderTeacherColumns(info, index)
+												: registerType === "User" && "name" in info && "email" in info && "rg" in info && "office" in info && "password" in info && "registerSchool" in info && "mandatoryBulletin" in info ? 
+													renderUserColumns(info, index) : renderOtherColumns(info, index)
 									}
 									<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-										<div 
+										<div
 											className="h-10 w-10 flex items-center justify-center rounded-full bg-red-600 text-white hover:bg-red-700 cursor-pointer"
 											onClick={() => editInfo(info, true)}
 										>

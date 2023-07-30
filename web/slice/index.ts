@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction, Slice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, Slice } from "@reduxjs/toolkit";
 
 export type InputConfig = {
   label: string;
@@ -22,10 +22,10 @@ export type TypeDefault = {
 
 export type LessonsInfos = {
   id: number;
-  registerTeacher: TeacherInfos;
+  registerTeacher: number | TeacherInfos;
   amountTime: string;
   lessonDay: Date | string;
-  registerSchool: SchoolInfos;
+  registerSchool: number | SchoolInfos;
   edit: boolean;
 };
 
@@ -38,8 +38,8 @@ export type SchoolInfos = {
 
 export type TeacherInfos = {
   cpf: string;
-  thirst: SchoolInfos;
-  office: string;
+  thirst: SchoolInfos | number;
+  office: OfficeInfos | number;
 } & TypeDefault
 
 export type DefinitionPeriodsInfos = {
@@ -56,7 +56,7 @@ export type SchoolDTOInfos = {
   name: string,
   datesWork: any,
   amountTime: number,
-  office: string,
+  office: OfficeInfos,
 }
 
 export type TeacherDTOInfos = {
@@ -67,59 +67,63 @@ export type TeacherDTOInfos = {
 }
 
 export const registerTypes = {
-  Lesson: {},
+	Lesson: {},
 
-  School: {},
+	School: {},
 
-  Teacher: {},
-}
+	Teacher: {},
 
-const reportsTypes = {
-  School: {},
-
-  Teacher: {},
-}
-
-const ValuesDefault: TypeDefault = {
-  id: 0,
-  name: "",
-  edit: false,
-  inactive: false,
-}
-
-export const HorasValuesDefault: LessonsInfos = {
-  id: 0,
-  lessonDay: new Date().toString(),
-  edit: false,
-  amountTime: "",
-  registerSchool: "",
-  registerTeacher: "",
+	User: {},
 };
 
+const reportsTypes = {
+	School: {},
+
+	Teacher: {},
+};
+
+const ValuesDefault: TypeDefault = {
+	id: 0,
+	name: "",
+	edit: false,
+	inactive: false,
+};
+
+
 export const SchoolValuesDefault: SchoolInfos = {
-  ...ValuesDefault,
-  adress: "",
-  email: "",
-  fone: "",
-  zip: "",
-}
+	...ValuesDefault,
+	adress: "",
+	email: "",
+	fone: "",
+	zip: "",
+};
+
 
 export const OfficeValuesDefault: OfficeInfos = {
-  ...ValuesDefault,
-  type: "",
-}
+	...ValuesDefault,
+	type: "",
+};
 
 export const TeacherValuesDefault: TeacherInfos = {
-  ...ValuesDefault,
-  cpf: "",
-  office: "",
-  thirst: "",
+	...ValuesDefault,
+	cpf: "",
+	office: 0 || OfficeValuesDefault,
+	thirst: 0 || SchoolValuesDefault,
+};
+
+export const HorasValuesDefault: LessonsInfos = {
+	id: 0,
+	lessonDay: new Date().toString(),
+	edit: false,
+	amountTime: "",
+	registerSchool: 0 || SchoolValuesDefault,
+	registerTeacher: 0 || TeacherValuesDefault,
 };
 
 export const DefinitionPeriodsValuesDefault: DefinitionPeriodsInfos = {
-  startDate: new Date().toString(),
-  endDate: new Date().toString(),
-}
+	startDate: new Date().toString(),
+	endDate: new Date().toString(),
+};
 
 type StateProps = {
   allInfosLesson: LessonsInfos[];
@@ -132,62 +136,62 @@ type StateProps = {
 };
 
 const initialState: StateProps = {
-  allInfosLesson: [],
-  allInfosSchool: [],
-  allInfosTeacher: [],
-  infosDefinitionPeriods: [],
-  allInfosOffice: [],
-  registerType: null,
-  reportsTypes: null,
+	allInfosLesson: [],
+	allInfosSchool: [],
+	allInfosTeacher: [],
+	infosDefinitionPeriods: [],
+	allInfosOffice: [],
+	registerType: null,
+	reportsTypes: null,
 };
 
 export const slice: Slice<StateProps> = createSlice({
-  name: "slice",
-  initialState,
-  reducers: {
+	name: "slice",
+	initialState,
+	reducers: {
 
-    refreshInfosLesson: (state, action: PayloadAction<LessonsInfos[]>) => {
-      state.allInfosLesson = action.payload;
-    },
+		refreshInfosLesson: (state, action: PayloadAction<LessonsInfos[]>) => {
+			state.allInfosLesson = action.payload;
+		},
 
-    refreshInfosSchool: (state, action: PayloadAction<SchoolInfos[]>) => {
-      state.allInfosSchool = action.payload;
-    },
+		refreshInfosSchool: (state, action: PayloadAction<SchoolInfos[]>) => {
+			state.allInfosSchool = action.payload;
+		},
 
-    refreshInfosTeacher: (state, action: PayloadAction<TeacherInfos[]>) => {
-      state.allInfosTeacher = action.payload;
-    },
+		refreshInfosTeacher: (state, action: PayloadAction<TeacherInfos[]>) => {
+			state.allInfosTeacher = action.payload;
+		},
 
-    refreshDefinitionPeriods: (state, action: PayloadAction<DefinitionPeriodsInfos[]>) => {
-      state.infosDefinitionPeriods = action.payload;
-    },
+		refreshDefinitionPeriods: (state, action: PayloadAction<DefinitionPeriodsInfos[]>) => {
+			state.infosDefinitionPeriods = action.payload;
+		},
 
-    refreshInfosOffice: (state, action: PayloadAction<OfficeInfos[]>) => {
-      state.allInfosOffice = action.payload;
-    },
+		refreshInfosOffice: (state, action: PayloadAction<OfficeInfos[]>) => {
+			state.allInfosOffice = action.payload;
+		},
 
-    changeRegisterType: (state, action: PayloadAction<keyof typeof registerTypes>) => {
-      state.registerType = action.payload;
-    },
+		changeRegisterType: (state, action: PayloadAction<keyof typeof registerTypes>) => {
+			state.registerType = action.payload;
+		},
 
-    changeReportsType: (state, action: PayloadAction<keyof typeof reportsTypes>) => {
-      state.reportsTypes = action.payload;
-    },
-  },
+		changeReportsType: (state, action: PayloadAction<keyof typeof reportsTypes>) => {
+			state.reportsTypes = action.payload;
+		},
+	},
 });
 
 export function objectEmptyValue(obj: LessonsInfos | SchoolInfos | TeacherInfos){
-  for (const key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      const value = obj[key as keyof (LessonsInfos | SchoolInfos | TeacherInfos)];
-      if (typeof value === "string" && (value === "" || value === null || value === undefined)) {
-        return true;
-      }
-    }
-  }
+	for (const key in obj) {
+		if (Object.prototype.hasOwnProperty.call(obj, key)) {
+			const value = obj[key as keyof (LessonsInfos | SchoolInfos | TeacherInfos)];
+			if (typeof value === "string" && (value === "" || value === null || value === undefined)) {
+				return true;
+			}
+		}
+	}
   
-  return false;
-};
+	return false;
+}
 
 export const { refreshInfosLesson, refreshInfosSchool, refreshInfosTeacher, refreshDefinitionPeriods, refreshInfosOffice, changeRegisterType, changeReportsType } = slice.actions;
 

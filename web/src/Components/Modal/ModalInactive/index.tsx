@@ -1,4 +1,7 @@
-import { Check, Pencil, Trash } from "lucide-react";
+"use client";
+import { format, isValid } from "date-fns";
+import { Check, Eye, EyeOff, Pencil, Trash } from "lucide-react";
+import { useState } from "react";
 import { SchoolInfos, TeacherInfos } from "../../../../slice";
 import { InfosTableRegisterData } from "../../../Components/TableRegisters";
 
@@ -10,8 +13,21 @@ type ModalInactiveProps = {
 }
 
 export default function ModalInactive({ editInfo, modalName, thead, infosAll }: ModalInactiveProps){
+	const [viewPassword, setViewPassword] = useState<boolean>(false);
 
-	console.log(infosAll);
+	function renderLessonColumns(info: LessonsInfos, index: number){
+		return (
+			<>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.registerTeacher.name}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.amountTime}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.registerSchool.name}</td>
+				<td className='whitespace-nowrap px-4 py-2 font-medium text-gray-900'>
+					<span className='whitespace-nowrap'>{isValid(new Date(info.lessonDay)) ? format(new Date(info.lessonDay), "dd/MM/yyyy") : ""}</span>
+				</td>
+			</>
+		);
+	}
 
 	function renderSchoolColumns(info: SchoolInfos, index: number){
 		return (
@@ -38,6 +54,28 @@ export default function ModalInactive({ editInfo, modalName, thead, infosAll }: 
 		);
 	}
 
+	function renderUserColumns(info: UserInfos, index: number){
+		return (
+			<>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.email}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.rg}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.office?.name}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.registerSchool !== null ? info.registerSchool.name : "Não Atribuido"}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.mandatoryBulletin === 1 ? "Obrigatório" : "Não Obrigatório"}</td>
+				<td className="flex flex-row items-center gap-2 whitespace-nowrap p-4 font-medium text-gray-900">{!viewPassword ? (
+					<EyeOff size={26} className="cursor-pointer" onClick={() => setViewPassword(true)} />
+				) : (
+					<>
+						{info.password}
+						<Eye size={26} className="cursor-pointer" onClick={() => setViewPassword(false)} />
+					</>
+				)}</td>
+			</>
+		);
+	}
+
 	function renderOtherColumns(info: InfosTableRegisterData, index: number){
 		return (
 			<>
@@ -60,10 +98,14 @@ export default function ModalInactive({ editInfo, modalName, thead, infosAll }: 
 					<>
 						{info.inactive === true && (
 							<tr key={`${info.id}-${index}`}>
-								{modalName === "School" && "name" in info && "adress" in info && "zip" in info && "fone" in info && "email" in info ? 
-									renderSchoolColumns(info, index) 
-									: modalName === "Teacher" && "thirst" in info ? 
-										renderTeacherColumns(info, index)  : renderOtherColumns(info, index)
+								{modalName === "Lesson" && "registerTeacher" in info && "registerSchool" in info ? 
+									renderLessonColumns(info, index) :
+									modalName === "School" && "name" in info && "adress" in info && "zip" in info && "fone" in info && "email" in info ? 
+										renderSchoolColumns(info, index) 
+										: modalName === "Teacher" && "thirst" in info ? 
+											renderTeacherColumns(info, index) 
+											: modalName === "User" && "name" in info && "email" in info && "rg" in info && "office" in info && "password" in info && "registerSchool" in info && "mandatoryBulletin" in info ?
+												renderUserColumns(info, index) : renderOtherColumns(info, index)
 								}
 								<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
 									<div 

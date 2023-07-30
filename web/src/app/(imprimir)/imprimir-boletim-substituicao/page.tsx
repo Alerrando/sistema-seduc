@@ -23,7 +23,7 @@ export default function ImprimirBoletimSubstituicao() {
 		})();
 	}, []);
 
-	console.log(usersMandatoryBulletin, schoolBulletinUser, filterInfosSchool);
+	console.log(schoolBulletinUser);
 
 	return (
 		<RootLayout showHeaderAside={false}>
@@ -101,10 +101,7 @@ export default function ImprimirBoletimSubstituicao() {
 							<tbody className="">
 								{allFilterInfosSchool != undefined &&
                   allFilterInfosSchool.map((info: SchoolDTOInfos, index: number) => (
-                  	<tr
-                  		className="border border-neutral-500"
-                  		key={`${info.name}-${index}`}
-                  	>
+                  	<tr className="border border-neutral-500" key={`${info.name}-${index}`} >
                   		<>
                   			<td className="max-w-[200px] text-start whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-neutral-500">
                   				<span className="whitespace-normal">
@@ -112,7 +109,7 @@ export default function ImprimirBoletimSubstituicao() {
                   				</span>
                   			</td>
                   			<td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-neutral-500">
-                  				{info.office}
+                  				{info.office.name}
                   			</td>
                   			<td className="items-center h-full px-4 font-medium text-gray-900 border-r border-neutral-500">
                   				<div className="grid grid-cols-report-teacher">
@@ -121,7 +118,7 @@ export default function ImprimirBoletimSubstituicao() {
                   							<div
                   								key={`date-${index}`}
                   								className={`h-auto break-inside-avoid flex flex-row items-center justify-start px-2 gap-1 ${index !== info.datesWork.length - 1 &&
-                                      (index === 0 || index % 4 !== 0)
+										(index === 0 || index % 4 !== 0)
                   									? "border-r border-neutral-500"
                   									: ""}`}
                   							>
@@ -141,7 +138,7 @@ export default function ImprimirBoletimSubstituicao() {
                   				</div>
                   			</td>
                   			<td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-neutral-500">
-                  				{`${info.office.split("-")[0].trim()} = ${info.amountTime}h`}
+                  				{`${info.office.name.split("-")[0].trim()} = ${info.amountTime}h`}
                   			</td>
                   			<td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-neutral-500">
                   				<textarea
@@ -177,7 +174,7 @@ export default function ImprimirBoletimSubstituicao() {
 									<>
 										<span className="text-sm">{schoolBulletinUser.name}</span>
 										<span className="text-sm">{`RG: ${schoolBulletinUser.rg}`}</span>
-										<span className="text-sm">{`${schoolBulletinUser.office}`}</span>
+										<span className="text-sm">{`${schoolBulletinUser.office?.name}`}</span>
 									</>
 								)}
 							</div>
@@ -188,7 +185,7 @@ export default function ImprimirBoletimSubstituicao() {
 										<div className="w-1/4 h-auto flex flex-col items-center justify-center before:block before:w-full before:border-t-[1px] before:border-t-black">
 											<span className="text-sm">{user.name}</span>
 											<span className="text-sm">{`RG: ${user.rg}`}</span>
-											<span className="text-sm">{`${user.office}`}</span>
+											<span className="text-sm">{`${user.office?.name}`}</span>
 										</div>
 									) : null}
 								</>

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { AppDispatch, RootState } from "../../../../../configureStore";
 import { DefinitionPeriodsInfos, refreshDefinitionPeriods } from "../../../../../slice";
-import { createDefinitionPeriods, getDefinitionPeriods } from "../../../../api";
+import { createDefinitionPeriods, findAllDefinitionPeriods } from "../../../../api";
 
 export default function DefinitionPeriods(){
 	const { infosDefinitionPeriods } = useSelector((root: RootState) => root.Slice);
@@ -16,7 +16,7 @@ export default function DefinitionPeriods(){
 
 	useEffect(() => {
 		(async () => {
-			const periods: DefinitionPeriodsInfos[] = await getDefinitionPeriods();
+			const periods: DefinitionPeriodsInfos[] = await findAllDefinitionPeriods();
 			const formattedPeriods: DefinitionPeriodsInfos[] = periods.map(period => ({
 				startDate: new Date(period.startDate).toISOString(),
 				endDate: new Date(period.endDate).toISOString(),
@@ -108,7 +108,7 @@ export default function DefinitionPeriods(){
 
 		if(datas.startDate !== null && datas.endDate !== null){
 			const message: string | AxiosError = await createDefinitionPeriods(datas);
-			const aux = await getDefinitionPeriods();
+			const aux = await findAllDefinitionPeriods();
 			dispatch(refreshDefinitionPeriods(aux));
 			messageToast(message);
 		}
@@ -116,7 +116,7 @@ export default function DefinitionPeriods(){
 
 	async function handleLoadingClick() {
 		try {
-			const data = await getDefinitionPeriods();
+			const data = await findAllDefinitionPeriods();
 			dispatch(refreshDefinitionPeriods(data));
 		} catch (error) {
 			console.error("Erro ao atualizar os dados:", error);
