@@ -6,7 +6,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { ZodType, z } from "zod";
+import { ZodType } from "zod";
 import { AppDispatch } from "../../../configureStore";
 import { refreshInfosSchool, refreshInfosTeacher } from "../../../slice";
 import { readAllSchool, readAllTeacher } from "../../api";

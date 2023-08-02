@@ -1,5 +1,4 @@
-import { Key } from "react";
-import { FieldValues, UseFormRegister } from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../configureStore";
 import { OfficeInfos, SchoolInfos, TeacherInfos } from "../../../../../slice";
@@ -13,7 +12,7 @@ type SelectInputProps = {
     register: UseFormRegister<any>,
 }
 
-export default function SelectInput<T extends FieldValues>(props: SelectInputProps){
+export default function SelectInput(props: SelectInputProps){
 	const { label, htmlFor, name, optionDefault, optionType, register } = props;
 	const { allInfosSchool, allInfosTeacher, allInfosOffice } = useSelector((root: RootState) => root.Slice);
     

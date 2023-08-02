@@ -26,7 +26,7 @@ export type CreateFormDataLesson = z.infer<typeof createFormSchema>
 
 export default function ControleAulasEventuais() {
 	const [infosInput, setInfosInput] = useState<LessonsInfos>(HorasValuesDefault);
-	const { allInfosLesson, allInfosTeacher } = useSelector((slice: RootState) => slice.Slice);
+	const { allInfosLesson } = useSelector((slice: RootState) => slice.Slice);
 	const { infosDefinitionPeriods } = useSelector((root: RootState) => root.Slice);
 	const dispatch = useDispatch<AppDispatch>();
 	const [search, setSearch] = useState("");

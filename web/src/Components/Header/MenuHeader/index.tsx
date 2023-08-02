@@ -3,12 +3,11 @@ import { Menu, Transition } from "@headlessui/react";
 import { LogOut, ShieldAlert, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Fragment } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../../configureStore";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../../configureStore";
 import { changeLoginLogout } from "../../../../slice/LoginSlice";
 
 export default function MenuHeader() {
-	const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
 	const router = useRouter();
 	const dispatch = useDispatch<AppDispatch>();
 
