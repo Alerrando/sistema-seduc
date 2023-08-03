@@ -20,7 +20,7 @@ const createFormSchema = z.object({
 	cpf: z.string().max(15).refine((value) => isValidCPF(value), {
 		message: "CPF inválido",
 	}),
-	thirst: z.string().nonempty("Selecione qual a sede"),
+	thirst: z.string().nonempty("Selecione qual a sede").transform(school => Number(school)),
 	office: z.string().nonempty("Selecione qual o cargo"),
 });
 

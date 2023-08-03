@@ -27,7 +27,7 @@ export default function SelectInput(props: SelectInputProps){
 						{allInfosSchool?.map((school: SchoolInfos) => (
 							<>
 								{school.inactive === false ? (
-									<option key={`escola-${school.name}`} value={school.id.toString()} defaultChecked={true} className="outline-none border-none">{school.name}</option>
+									<option key={`escola-${school.name}`} value={school.id} defaultChecked={true} className="outline-none border-none">{school.name}</option>
 								) : null}
 							</>
 						))}

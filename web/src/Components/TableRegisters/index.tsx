@@ -130,7 +130,7 @@ export default function TableRegisters(props: TableRegistersProps) {
 											<X size={28} />
 										</div>
 									</td>
-									<td className="">
+									<td className="px-2">
 										<div className="flex flex-row gap-4 items-center justify-between">
 											<div className="flex items-center gap-2 px-2 py-1 border border-blue-500 text-blue-500 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white transition-colors" onClick={() => editInfo(info)}>
 												<Pencil size={18} />

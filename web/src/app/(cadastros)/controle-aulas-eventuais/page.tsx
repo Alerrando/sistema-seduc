@@ -19,7 +19,7 @@ import { AxiosError } from "axios";
 const createFormSchema = z.object({
 	amountTime: z.string().nonempty("Digite a quantidade de aulas!"),
 	registerTeacher: z.string().nonempty("Selecione um professor ou adicione!"),
-	registerSchool: z.string().nonempty("Selecione uma escola ou adicione!"),
+	registerSchool: z.string().nonempty("Selecione uma escola ou adicione!").transform(school => Number(school)),
 });
 
 export type CreateFormDataLesson = z.infer<typeof createFormSchema>
@@ -167,8 +167,7 @@ export default function ControleAulasEventuais() {
 				inactive: false,
 				...rest,
 			};
-			console.log(aux);
-
+			
 			if (!infosInput.edit) {
 				message = await createLesson(aux, aux.registerSchool.id, aux.registerTeacher.id);
           

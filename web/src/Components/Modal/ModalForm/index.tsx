@@ -9,6 +9,8 @@ import { InputConfig } from "../../../../slice";
 import Input from "./Input";
 import SelectInput from "./SelectInput";
 
+export type ValideKeys = keyof SubmitDataModal;
+
 type ModalFormProps = {
   schema: ZodType<any, any, any>,
   inputs: InputConfig[],
@@ -74,7 +76,7 @@ export function ModalForm(props: ModalFormProps) {
 									htmlFor={input.htmlFor}
 									label={input.label}
 									type={input.type}
-									name={input.name}
+									name={input.name as ValideKeys}
 									placeholder={input.placeholder}
 									setValue={setValue}
 									maskHandleForm={input.maskHandleForm}

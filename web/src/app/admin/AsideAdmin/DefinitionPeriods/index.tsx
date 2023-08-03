@@ -17,7 +17,7 @@ export default function DefinitionPeriods(){
 	useEffect(() => {
 		(async () => {
 			const periods: DefinitionPeriodsInfos[] = await findAllDefinitionPeriods();
-			const formattedPeriods: DefinitionPeriodsInfos[] = periods.map(period => ({
+			const formattedPeriods: DefinitionPeriodsInfos[] = periods?.map(period => ({
 				startDate: new Date(period.startDate).toISOString(),
 				endDate: new Date(period.endDate).toISOString(),
 			}));
