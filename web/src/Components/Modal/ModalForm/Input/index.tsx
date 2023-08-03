@@ -7,16 +7,17 @@ type InputProps = {
 	htmlFor: string,
 	type: string,
 	placeholder?: string,
-	name: keyof SubmitDataModal,
+	name: SubmitDataModal,
 	register: UseFormRegister<any>,
 	setValue: UseFormSetValue<SubmitDataModal>
 	maskHandleForm?: (value: string) => string,
 	maxChars?: number,
+	initialValues: any,
 }
 
 export default function Input<T extends FieldValues>(props: InputProps) {
-	const { label, htmlFor, type, placeholder, name, register, setValue, maskHandleForm, maxChars } = props;
-
+	const { label, htmlFor, type, placeholder, name, register, setValue, maskHandleForm, maxChars, initialValues } = props;
+		
 	return (
 		<div className="w-full flex flex-col gap-2">
 			<label htmlFor={htmlFor} className="font-bold">{label}</label>
@@ -34,7 +35,7 @@ export default function Input<T extends FieldValues>(props: InputProps) {
 	function handleMask(e: React.ChangeEvent<HTMLInputElement>) {
 		if (setValue && maskHandleForm) {
 			const aux = maskHandleForm(e.target.value);
-			setValue(`${name}`, aux);
+			name as typeof initialValues ? setValue(`${name}`, aux) : null;
 		}
 	}
 }

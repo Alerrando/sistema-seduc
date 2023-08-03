@@ -80,6 +80,7 @@ export function ModalForm(props: ModalFormProps) {
 									maskHandleForm={input.maskHandleForm}
 									register={register}
 									maxChars={input.maxChars}
+									initialValues={initialValues}
 									key={`input-${input.name}`}
 								/>
 							)}
