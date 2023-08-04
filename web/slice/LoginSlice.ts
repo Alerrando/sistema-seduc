@@ -4,9 +4,9 @@ import { OfficeInfos, TypeDefault, OfficeValuesDefault, SchoolInfos, SchoolValue
 export type UserInfos = {
     email: string,
     password: string,
-    office: number | OfficeInfos,
+    office: OfficeInfos,
     rg: string,
-    registerSchool: number | SchoolInfos,
+    registerSchool: SchoolInfos,
     level: number,
     mandatoryBulletin: number,
 } & TypeDefault
@@ -16,9 +16,9 @@ export const DefaultUserInfos: UserInfos = {
 	name: "",
 	email: "",
 	password: "",
-	office: "" || OfficeValuesDefault,
+	office: OfficeValuesDefault,
 	rg: "",
-	registerSchool: 0 || SchoolValuesDefault,
+	registerSchool: SchoolValuesDefault,
 	level: 2,
 	mandatoryBulletin: 0,
 	edit: false,

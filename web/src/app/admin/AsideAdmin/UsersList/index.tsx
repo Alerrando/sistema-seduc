@@ -19,9 +19,9 @@ const createFormSchema = z.object({
 	name: z.string().nonempty("O campo Nome é obrigatório!"),
 	email: z.string().nonempty("O campo Email é obrigatório!"),
 	rg: z.string().nonempty("O campo Rg é obrigatório!"),
-	office: z.string(),
+	office: z.string().transform((office) => Number(office)),
 	password: z.string().nonempty("O campo Senha é obrigatório!"),
-	registerSchool: z.string(),
+	registerSchool: z.string().transform((school) => Number(school)),
 	mandatoryBulletin: z.coerce.number().int(),
 });
 

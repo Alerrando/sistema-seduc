@@ -30,14 +30,14 @@ export function ModalForm(props: ModalFormProps) {
 		if (modalName === "Lesson") {
 			reset({
 				name: "",
-				registerSchool: "",
+				registerSchool: 0,
 				amountTime: "",
 			});
 		} else if (modalName === "Teacher") {
 			reset({
 				name: "",
 				cpf: "",
-				office: "",
+				office: 0,
 			});
 		} else {
 			reset();
