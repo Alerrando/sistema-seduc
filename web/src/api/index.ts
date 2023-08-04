@@ -37,9 +37,9 @@ export async function readPaginationLesson(pageNumber: number, pageSize: number)
 	}
 }
 
-export async function createLesson(info: LessonsInfos, escolaId: number, professorId: number){
+export async function createLesson(info: LessonsInfos, schoolId: number, teacherId: number){
 	try {
-		const message = await axios.post(`${urlLesson}/${escolaId}&${professorId}`,info , {
+		const message = await axios.post(`${urlLesson}/${schoolId}&${teacherId}`,info , {
 			headers: { "Authorization":  `${localStorage.getItem("token")}` },
 		})
 			.then(() => "Aula cadastrada com sucesso")
@@ -53,9 +53,9 @@ export async function createLesson(info: LessonsInfos, escolaId: number, profess
 	}
 }
 
-export async function editLesson(info: LessonsInfos, escolaId: string, professorId: string) {
+export async function editLesson(info: LessonsInfos, schoolId: number, teacherId: number) {
 	try {
-		const message = await axios.put(`${urlLesson}/${escolaId}&${professorId}`, info,{
+		const message = await axios.put(`${urlLesson}/${schoolId}&${teacherId}`, info,{
 			headers: { "Authorization":  `${localStorage.getItem("token")}` },
 		})
 			.then(() => "Aula editada com sucesso")
@@ -97,7 +97,7 @@ export async function readAllSchool() {
 	}
 }
 
-export async function getIdSchool(id: string) {  
+export async function getIdSchool(id: number) {  
 	const aux = await axios.get(`${urlSchool}/${id}`, {
 		headers: { "Authorization":  `${localStorage.getItem("token")}` },
 	})
@@ -165,7 +165,7 @@ export async function readAllTeacher() {
 	}
 }
 
-export async function getNameByIdTeacher(id: string) {
+export async function getNameByIdTeacher(id: number) {
 	let aux: TeacherInfos = TeacherValuesDefault;
   
 	await axios.get(`${urlTeacher}/${id}`, {

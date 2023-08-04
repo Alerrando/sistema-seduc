@@ -21,7 +21,7 @@ const createFormSchema = z.object({
 		message: "CPF inválido",
 	}),
 	thirst: z.string().nonempty("Selecione qual a sede").transform(school => Number(school)),
-	office: z.string().nonempty("Selecione qual o cargo"),
+	office: z.string().nonempty("Selecione qual o cargo").transform(office => Number(office)),
 });
 
 export type CreateFormDataTeacher = z.infer<typeof createFormSchema>
