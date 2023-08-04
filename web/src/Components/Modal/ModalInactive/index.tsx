@@ -2,8 +2,9 @@
 import { format, isValid } from "date-fns";
 import { Check, Eye, EyeOff, Pencil, Trash } from "lucide-react";
 import { useState } from "react";
-import { SchoolInfos, TeacherInfos } from "../../../../slice";
+import { LessonsInfos, SchoolInfos, TeacherInfos } from "../../../../slice";
 import { InfosTableRegisterData } from "../../../Components/TableRegisters";
+import { UserInfos } from "../../../../slice/LoginSlice";
 
 type ModalInactiveProps = {
     editInfo?: (info: InfosTableRegisterData, inactive: boolean) => void,
@@ -19,9 +20,9 @@ export default function ModalInactive({ editInfo, modalName, thead, infosAll }: 
 		return (
 			<>
 				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
-				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.registerTeacher.name}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.registerTeacher?.name}</td>
 				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.amountTime}</td>
-				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.registerSchool.name}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.registerSchool?.name}</td>
 				<td className='whitespace-nowrap px-4 py-2 font-medium text-gray-900'>
 					<span className='whitespace-nowrap'>{isValid(new Date(info.lessonDay)) ? format(new Date(info.lessonDay), "dd/MM/yyyy") : ""}</span>
 				</td>
@@ -48,7 +49,7 @@ export default function ModalInactive({ editInfo, modalName, thead, infosAll }: 
 				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
 				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
 				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.cpf}</td>
-				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.thirst.name}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.thirst?.name}</td>
 				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.office}</td>
 			</>
 		);
@@ -62,7 +63,7 @@ export default function ModalInactive({ editInfo, modalName, thead, infosAll }: 
 				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.email}</td>
 				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.rg}</td>
 				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.office?.name}</td>
-				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.registerSchool !== null ? info.registerSchool.name : "Não Atribuido"}</td>
+				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.registerSchool !== null ? info.registerSchool?.name : "Não Atribuido"}</td>
 				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.mandatoryBulletin === 1 ? "Obrigatório" : "Não Obrigatório"}</td>
 				<td className="flex flex-row items-center gap-2 whitespace-nowrap p-4 font-medium text-gray-900">{!viewPassword ? (
 					<EyeOff size={26} className="cursor-pointer" onClick={() => setViewPassword(true)} />

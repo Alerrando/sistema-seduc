@@ -9,8 +9,6 @@ import { InputConfig } from "../../../../slice";
 import Input from "./Input";
 import SelectInput from "./SelectInput";
 
-export type ValideKeys = keyof SubmitDataModal;
-
 type ModalFormProps = {
   schema: ZodType<any, any, any>,
   inputs: InputConfig[],
@@ -32,14 +30,14 @@ export function ModalForm(props: ModalFormProps) {
 		if (modalName === "Lesson") {
 			reset({
 				name: "",
-				cadastroEscola: "",
-				horaAulas: "",
+				registerSchool: "",
+				amountTime: "",
 			});
 		} else if (modalName === "Teacher") {
 			reset({
 				name: "",
 				cpf: "",
-				cargo: "",
+				office: "",
 			});
 		} else {
 			reset();
@@ -50,12 +48,23 @@ export function ModalForm(props: ModalFormProps) {
 
 	return (
 		<>
-			{initialValues && "lessonDay" in initialValues && (
+			{initialValues && "lessonDay" in initialValues && setInfosInput && (
 				<Calendar
 					className="w-[100%!important] calendar shadow-md rounded-md calendar"
 					value={initialValues.lessonDay}
-					onChange={e => setInfosInput({ ...initialValues, lessonDay: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.toString()) : "",})}
-				/>
+					onChange={(e) =>
+						setInfosInput({
+							...initialValues,
+							lessonDay: e
+							? typeof e === "string"
+								? e
+								: e instanceof Date
+								? e.toISOString()
+								: e.toString()
+							: "",
+						})
+					}
+			  	/>
 			)}
 			<form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(handleFormSubmit)}>
 				<div className="w-full flex flex-col gap-3">
@@ -76,7 +85,7 @@ export function ModalForm(props: ModalFormProps) {
 									htmlFor={input.htmlFor}
 									label={input.label}
 									type={input.type}
-									name={input.name as ValideKeys}
+									name={input.name}
 									placeholder={input.placeholder}
 									setValue={setValue}
 									maskHandleForm={input.maskHandleForm}

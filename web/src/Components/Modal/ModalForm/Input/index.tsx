@@ -1,16 +1,15 @@
 import React from "react";
 import { FieldValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { SubmitDataModal } from "../..";
-import { ValideKeys } from "..";
 
 type InputProps = {
 	label: string,
 	htmlFor: string,
 	type: string,
 	placeholder?: string,
-	name: ValideKeys,
+	name: string,
 	register: UseFormRegister<any>,
-	setValue: UseFormSetValue<SubmitDataModal>
+	setValue: UseFormSetValue<any>
 	maskHandleForm?: (value: string) => string,
 	maxChars?: number,
 	initialValues: any,
