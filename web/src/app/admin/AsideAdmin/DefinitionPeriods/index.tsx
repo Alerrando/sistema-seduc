@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { AppDispatch, RootState } from "../../../../../configureStore";
 import { DefinitionPeriodsInfos, refreshDefinitionPeriods } from "../../../../../slice";
 import { createDefinitionPeriods, findAllDefinitionPeriods } from "../../../../api";
+import { AxiosError } from "axios";
 
 export default function DefinitionPeriods(){
 	const { infosDefinitionPeriods } = useSelector((root: RootState) => root.Slice);
@@ -137,7 +138,8 @@ export default function DefinitionPeriods(){
 			});
 		}
 		else{
-			toast.error(message.response.data, {
+			const errorMessage = message?.response?.data || "Erro desconhecido";
+			toast.error(errorMessage.toString(), {
 				position: "bottom-left",
 				autoClose: 5000,
 				hideProgressBar: false,

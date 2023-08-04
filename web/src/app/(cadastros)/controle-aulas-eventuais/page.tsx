@@ -197,11 +197,11 @@ export default function ControleAulasEventuais() {
 				setModal(true);
 			}
 			else{
-				if(window.confirm(`Quer mesmo ${!inactive === true ? "inativar" : "ativar"} a aula do professor ${info.registerTeacher.name} no dia ${format(new Date(info.lessonDay), "dd/MM/yyyy")}?`)){
+				if(window.confirm(`Quer mesmo ${inactive ? "inativar" : "ativar"} a aula do professor ${info.registerTeacher.name} no dia ${format(new Date(info.lessonDay), "dd/MM/yyyy")}?`)){
 					const { inactive, ...rest } = info;
 					const aux = { inactive: !inactive, ...rest };
 					await editLesson(aux, aux.registerSchool.id, aux.registerTeacher.id);
-					messageToast(!inactive === true ? "Inativação da Aula feito com sucesso!" : "Ativação da Aula feito com sucesso!");
+					messageToast(inactive ? "Inativação da Aula feito com sucesso!" : "Ativação da Aula feito com sucesso!");
 					dispatch(refreshInfosLesson(await readAllLesson()));
 				}
 			}
@@ -234,7 +234,8 @@ export default function ControleAulasEventuais() {
 			});
 		}
 		else{
-			toast.error(message?.response?.data, {
+			const errorMessage = message?.response?.data || "Erro desconhecido";
+			toast.error(errorMessage.toString(), {
 				position: "bottom-left",
 				autoClose: 5000,
 				hideProgressBar: false,

@@ -179,11 +179,11 @@ export default function CadastroEscola(){
 				setModal(true);
 			}
 			else{
-				if(window.confirm(`Quer mesmo ${!inactive === true ? "inativar" : "ativar"} a escola ${info.name}?`)){
+				if(window.confirm(`Quer mesmo ${inactive ? "inativar" : "ativar"} a escola ${info.name}?`)){
 					const { inactive, ...rest } = info;
 					const aux: SchoolInfos = { inactive: !inactive, ...rest, };
 					await editSchool(aux, aux.id);
-					messageToast(!inactive === true ? "Inativação da Escola feito com sucesso!" : "Ativação da Escola feito com sucesso!");
+					messageToast(inactive ? "Inativação da Escola feito com sucesso!" : "Ativação da Escola feito com sucesso!");
 					dispatch(refreshInfosSchool(await readAllSchool()));
 				}
 			}
@@ -214,7 +214,8 @@ export default function CadastroEscola(){
 			});
 		}
 		else{
-			toast.error(message.response.data, {
+			const errorMessage = message?.response?.data || "Erro desconhecido";
+			toast.error(errorMessage.toString(), {
 				position: "bottom-left",
 				autoClose: 5000,
 				hideProgressBar: false,

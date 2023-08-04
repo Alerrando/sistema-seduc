@@ -142,7 +142,7 @@ export default function CadastroProfessor() {
 
 	async function submitTeacher(data: SubmitDataModal) {
 		if ("thirst" in data && "cpf" in data && "office" in data && "name" in data) {
-			const { thirst, office, ...rest } = data;
+			const { thirst, office, cpf, ...rest } = data;
 			const school: SchoolInfos = await getIdSchool(thirst);
 			const OfficeTeacher: OfficeInfos = await getOfficeById(office);
 
@@ -174,7 +174,7 @@ export default function CadastroProfessor() {
 	async function editInfo(info: InfosTableRegisterData, inactive = false) {
 		if ("thirst" in info && "cpf" in info && "office" in info && "name" in info) {
 			if (!inactive) {
-				const { thirst, ...rest } = info;
+				const { thirst, edit, ...rest } = info;
 
 				const aux: TeacherInfos = {
 					edit: true,
@@ -185,11 +185,11 @@ export default function CadastroProfessor() {
 				setModal(true);
 			}
 			else {
-				if (window.confirm(`Quer mesmo ${!inactive === true ? "inativar" : "ativar"} o professor ${info.name}?`)) {
+				if (window.confirm(`Quer mesmo ${inactive ? "inativar" : "ativar"} o professor ${info.name}?`)) {
 					const { inactive, ...rest } = info;
 					const aux: TeacherInfos = { inactive: !inactive, ...rest, };
-					await editTeacher(aux, String(info.thirst));
-					messageToast(!inactive === true ? "Inativação do Professor feito com sucesso!" : "Ativação do Professor feito com sucesso!");
+					await editTeacher(aux, info.thirst.id);
+					messageToast(inactive ? "Inativação do Professor feito com sucesso!" : "Ativação do Professor feito com sucesso!");
 					dispatch(refreshInfosTeacher(await readAllTeacher()));
 				}
 			}
@@ -220,7 +220,8 @@ export default function CadastroProfessor() {
 			});
 		}
 		else {
-			toast.error(message?.response?.data?.url, {
+			const errorMessage = message?.response?.data || "Erro desconhecido";
+			toast.error(errorMessage.toString(), {
 				position: "bottom-left",
 				autoClose: 5000,
 				hideProgressBar: false,
