@@ -11,7 +11,7 @@ export type InfosTableRegisterData = LessonsInfos | SchoolInfos | TeacherInfos |
 
 type TableRegistersProps = {
   tableHead: string[],
-  editInfo: (info: InfosTableRegisterData) => void,
+  editInfo: (info: InfosTableRegisterData, inactive: boolean) => void,
   deleteInfo: (info: InfosTableRegisterData) => void,
   infosAll: InfosTableRegisterData[],
 }
@@ -132,7 +132,7 @@ export default function TableRegisters(props: TableRegistersProps) {
 									</td>
 									<td className="px-2">
 										<div className="flex flex-row gap-4 items-center justify-between">
-											<div className="flex items-center gap-2 px-2 py-1 border border-blue-500 text-blue-500 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white transition-colors" onClick={() => editInfo(info)}>
+											<div className="flex items-center gap-2 px-2 py-1 border border-blue-500 text-blue-500 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white transition-colors" onClick={() => editInfo(info, false)}>
 												<Pencil size={18} />
 												<span>Edit</span>
 											</div>

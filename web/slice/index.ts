@@ -26,6 +26,7 @@ export type LessonsInfos = {
   amountTime: string;
   lessonDay: Date | string;
   registerSchool: SchoolInfos;
+  inactive: boolean;
   edit: boolean;
 };
 
@@ -118,6 +119,7 @@ export const HorasValuesDefault: LessonsInfos = {
 	amountTime: "",
 	registerSchool: SchoolValuesDefault,
 	registerTeacher: TeacherValuesDefault,
+	inactive: false,
 };
 
 export const DefinitionPeriodsValuesDefault: DefinitionPeriodsInfos = {

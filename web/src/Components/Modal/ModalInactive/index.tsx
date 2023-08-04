@@ -7,7 +7,7 @@ import { InfosTableRegisterData } from "../../../Components/TableRegisters";
 import { UserInfos } from "../../../../slice/LoginSlice";
 
 type ModalInactiveProps = {
-    editInfo?: (info: InfosTableRegisterData, inactive: boolean) => void,
+    editInfo?: ((info: InfosTableRegisterData, inactive: boolean) => void) | undefined,
     modalName: string,
     thead: string[],
     infosAll: InfosTableRegisterData[],
@@ -77,7 +77,7 @@ export default function ModalInactive({ editInfo, modalName, thead, infosAll }: 
 		);
 	}
 
-	function renderOtherColumns(info: InfosTableRegisterData, index: number){
+	function renderOffice(info: InfosTableRegisterData, index: number){
 		return (
 			<>
 				<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
@@ -106,23 +106,23 @@ export default function ModalInactive({ editInfo, modalName, thead, infosAll }: 
 										: modalName === "Teacher" && "thirst" in info ? 
 											renderTeacherColumns(info, index) 
 											: modalName === "User" && "name" in info && "email" in info && "rg" in info && "office" in info && "password" in info && "registerSchool" in info && "mandatoryBulletin" in info ?
-												renderUserColumns(info, index) : renderOtherColumns(info, index)
+												renderUserColumns(info, index) : null
 								}
 								<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
 									<div 
 										className="h-10 w-10 flex items-center justify-center rounded-full bg-green-600 text-white hover:bg-green-700 cursor-pointer"
-										onClick={() => editInfo(info, true)}
+										onClick={() => editInfo && editInfo(info, true)}
 									>
 										<Check size={28} />
 									</div>
 								</td>
 								<td className="">
 									<div className="flex flex-row gap-4 items-center justify-between">
-										<div className="flex items-center gap-2 px-2 py-1 border border-blue-500 text-blue-500 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white transition-colors" onClick={() => editInfo(info)}>
+										<div className="flex items-center gap-2 px-2 py-1 border border-blue-500 text-blue-500 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white transition-colors">
 											<Pencil size={18} />
 											<span>Edit</span>
 										</div>
-										<div className="flex items-center gap-2 px-2 py-1 border border-red-500 text-red-500 rounded-lg cursor-pointer hover:bg-red-500 hover:text-white transition-colors" onClick={() => deleteInfo(info)}>
+										<div className="flex items-center gap-2 px-2 py-1 border border-red-500 text-red-500 rounded-lg cursor-pointer hover:bg-red-500 hover:text-white transition-colors">
 											<Trash size={18} />
 											<span>Delete</span>
 										</div>
