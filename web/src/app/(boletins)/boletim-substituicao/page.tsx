@@ -14,11 +14,11 @@ import { getIdSchool, getReportsSchool } from "../../../api";
 import RootLayout from "../../../app/layout";
 
 const createFormSchema = z.object({
-	cadastroEscola: z.string().nonempty("Selecione uma escola ou adicione!"),
+	cadastroEscola: z.string().nonempty("Selecione uma escola ou adicione!").transform((school) => Number(school)),
 });
 
 export type InitalValuesTypeSubstitutionBulletin = {
-    cadastroEscola: string,
+    cadastroEscola: number,
 }
 
 export default function BoletimSubstituicao(){

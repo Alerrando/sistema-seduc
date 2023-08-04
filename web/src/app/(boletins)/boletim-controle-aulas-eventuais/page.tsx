@@ -13,11 +13,11 @@ import { getNameByIdTeacher, getReportsTeacher, readAllSchool, readAllTeacher } 
 import RootLayout from "../../../app/layout";
 
 const createFormSchema = z.object({
-	cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!"),
+	cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!").transform((teacher) => Number(teacher)),
 });
 
 export type InitalValuesBulletinControlOccasionalClasses = {
-    cadastroProfessor: string,
+    cadastroProfessor: number,
 }
 
 export default function BoletimControleAulasEventuais(){

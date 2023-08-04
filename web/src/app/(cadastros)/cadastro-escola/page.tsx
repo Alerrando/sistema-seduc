@@ -121,7 +121,6 @@ export default function CadastroEscola(){
 						createFormSchema={createFormSchema}
 						inputs={inputs}
 						modalName="School"
-						maxChars={9}
 						key={"modal-cadastro-escola"}
 					/>
 				) : null}

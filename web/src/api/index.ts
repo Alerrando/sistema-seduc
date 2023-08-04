@@ -221,7 +221,7 @@ export async function deleteTeacher(id: number) {
 
 
 // ----------------------------- ROUTER REPORTS ----------------------------- //]
-export async function getReportsSchool(schoolId: string, startDate: Date, endDate: Date) {
+export async function getReportsSchool(schoolId: number, startDate: Date, endDate: Date) {
 	const aux = await axios.get(`${urlSchool}/relatorio/${schoolId}&${startDate}&${endDate}`, {
 		headers: { "Authorization":  `${localStorage.getItem("token")}` },
 	})
@@ -231,7 +231,7 @@ export async function getReportsSchool(schoolId: string, startDate: Date, endDat
 	return aux;
 }
 
-export async function getReportsTeacher(teacherId: string, startDate: Date, endDate: Date) {
+export async function getReportsTeacher(teacherId: number, startDate: Date, endDate: Date) {
 	const aux = await axios.get(`${urlTeacher}/boletim/${teacherId}&${startDate}&${endDate}`, {
 		headers: { "Authorization":  `${localStorage.getItem("token")}` },
 	})
