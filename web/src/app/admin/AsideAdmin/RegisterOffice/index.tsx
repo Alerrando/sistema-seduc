@@ -158,12 +158,13 @@ export default function RegisterOffice(){
 				setModal(true);
 			}
 			else{
-				if(window.confirm(`Quer mesmo ${!inactive === true ? "inativar" : "ativar"} o cargo ${info.name}?`)){
+				if(window.confirm(`Quer mesmo ${inactive ? "inativar" : "ativar"} o cargo ${info.name}?`)){
 					let allInfos: OfficeInfos[] = [];
 					const { inactive, ...rest } = info;
 					const aux: OfficeInfos = { inactive: !inactive, ...rest };
 					await editRegisterOffice(aux, info.id);
-					messageToast(!inactive === true ? "Inativação do Cargo feito com sucesso!" : "Ativação do Cargo feito com sucesso!");
+					
+					messageToast(inactive ? "Inativação do Cargo feito com sucesso!" : "Ativação do Cargo feito com sucesso!");
 	
 					allInfos = await getRegisterOffice();
 					const sortedInfos = allInfos.slice().sort((info1: OfficeInfos, info2: OfficeInfos) =>
@@ -205,7 +206,8 @@ export default function RegisterOffice(){
 			});
 		}
 		else{
-			toast.error(message.response.data, {
+			const errorMessage = message?.response?.data || "Erro desconhecido";
+			toast.error(errorMessage.toString(), {
 				position: "bottom-left",
 				autoClose: 5000,
 				hideProgressBar: false,

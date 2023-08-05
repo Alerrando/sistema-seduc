@@ -7,21 +7,21 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
 import { RootState } from "../../../../../configureStore";
-import { InputConfig, OfficeInfos, OfficeValuesDefault, SchoolValuesDefault, changeRegisterType } from "../../../../../slice";
+import { InputConfig, OfficeInfos, OfficeValuesDefault, SchoolInfos, SchoolValuesDefault, changeRegisterType } from "../../../../../slice";
 import { DefaultUserInfos, UserInfos, refreshInfosUser } from "../../../../../slice/LoginSlice";
 import CreateHeaderRegisters from "../../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../../Components/TableRegisters";
-import { createUser, editUser, getIdSchool, getOfficeById, findAllUser } from "../../../../api";
+import { createUser, editUser, getIdSchool, getOfficeById, findAllUser, deleteUser } from "../../../../api";
 import { maskRG } from "../../../../utils/maskUtils";
 
 const createFormSchema = z.object({
 	name: z.string().nonempty("O campo Nome é obrigatório!"),
 	email: z.string().nonempty("O campo Email é obrigatório!"),
 	rg: z.string().nonempty("O campo Rg é obrigatório!"),
-	office: z.string(),
+	office: z.string().transform((office) => Number(office)),
 	password: z.string().nonempty("O campo Senha é obrigatório!"),
-	registerSchool: z.string(),
+	registerSchool: z.string().transform((school) => Number(school)),
 	mandatoryBulletin: z.coerce.number().int(),
 });
 
@@ -132,7 +132,7 @@ export default function UsersList(){
 				<div className="w-full h-[1px] border border-b border-[#cfcfcf]"></div>
 
 				<TableRegisters
-					deleteInfo={deleteUser}
+					deleteInfo={deleteInfo}
 					editInfo={editInfo}
 					infosAll={usersAll}
 					tableHead={tableHead}
@@ -175,7 +175,7 @@ export default function UsersList(){
 				let message: string | AxiosError;
 				const { id, level, edit } = infosEdit;
 				const { registerSchool, office, ...restData } = data;
-				const school: UserInfos = await getIdSchool(registerSchool);
+				const school: SchoolInfos = await getIdSchool(registerSchool);
 				const officeUser: OfficeInfos = await getOfficeById(Number(office));
 
 				const formData: UserInfos = {
@@ -217,19 +217,21 @@ export default function UsersList(){
 				setModal(true);
 			}
 			else{
-				const { inactive, ...rest } = info;
-				const aux = { inactive: !inactive, ...rest };
-				await editUser(aux, info.id);
-				dispatch(refreshInfosUser(await findAllUser()));
-
+				if(window.confirm(`Quer mesmo ${inactive ? "inativar" : "ativar"} o usuário ${info.name}?`)){
+					const { inactive, ...rest } = info;
+					const aux = { inactive: !inactive, ...rest };
+					await editUser(aux, info.id);
+					messageToast(inactive ? "Inativação do Usuário feito com sucesso!" : "Ativação do Usuário feito com sucesso!");
+					dispatch(refreshInfosUser(await findAllUser()));
+				}
 			}
 		}
 	}
     
-	async function deleteUser(id:number, name: string){
+	async function deleteInfo(info: InfosTableRegisterData){
 		if("name" in info && "email" in info && "rg" in info && "office" in info && "password" in info && "registerSchool" in info && "mandatoryBulletin" in info){
 			if(window.confirm(`Quer mesmo deletar o usuário ${name}?`)){
-				const message: string | AxiosError = await deleteUser(id);
+				const message: string | AxiosError = await deleteUser(info.id);
 				dispatch(refreshInfosUser(await findAllUser()));
 
 				messageToast(message);
@@ -251,7 +253,8 @@ export default function UsersList(){
 			});
 		}
 		else{
-			toast.error(message?.response.data, {
+			const errorMessage = message?.response?.data || "Erro desconhecido";
+			toast.error(errorMessage.toString(), {
 				position: "bottom-left",
 				autoClose: 5000,
 				hideProgressBar: false,

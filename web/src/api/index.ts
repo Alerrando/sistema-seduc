@@ -29,7 +29,7 @@ export async function readPaginationLesson(pageNumber: number, pageSize: number)
 			headers: { "Authorization":  `${localStorage.getItem("token")}` },
 		})
 			.then((response) => response.data.content)
-			.catch((err) => console.log(err));
+			.catch((err) => err);
 
 		return aux;
 	} catch (error) {
@@ -37,9 +37,9 @@ export async function readPaginationLesson(pageNumber: number, pageSize: number)
 	}
 }
 
-export async function createLesson(info: LessonsInfos, escolaId: number, professorId: number){
+export async function createLesson(info: LessonsInfos, schoolId: number, teacherId: number){
 	try {
-		const message = await axios.post(`${urlLesson}/${escolaId}&${professorId}`,info , {
+		const message = await axios.post(`${urlLesson}/${schoolId}&${teacherId}`,info , {
 			headers: { "Authorization":  `${localStorage.getItem("token")}` },
 		})
 			.then(() => "Aula cadastrada com sucesso")
@@ -53,9 +53,9 @@ export async function createLesson(info: LessonsInfos, escolaId: number, profess
 	}
 }
 
-export async function editLesson(info: LessonsInfos, escolaId: string, professorId: string) {
+export async function editLesson(info: LessonsInfos, schoolId: number, teacherId: number) {
 	try {
-		const message = await axios.put(`${urlLesson}/${escolaId}&${professorId}`, info,{
+		const message = await axios.put(`${urlLesson}/${schoolId}&${teacherId}`, info,{
 			headers: { "Authorization":  `${localStorage.getItem("token")}` },
 		})
 			.then(() => "Aula editada com sucesso")
@@ -89,7 +89,7 @@ export async function readAllSchool() {
 			headers: { "Authorization":  `${localStorage.getItem("token")}` },
 		})
 			.then((response) => response.data)
-			.catch((err) => console.log(err));
+			.catch((err) => err);
     
 		return aux;
 	} catch (error) {
@@ -97,12 +97,12 @@ export async function readAllSchool() {
 	}
 }
 
-export async function getIdSchool(id: string) {  
+export async function getIdSchool(id: number) {  
 	const aux = await axios.get(`${urlSchool}/${id}`, {
 		headers: { "Authorization":  `${localStorage.getItem("token")}` },
 	})
 		.then((res) => res.data)
-		.catch((err) => console.log(err));
+		.catch((err) => err);
 
 	return aux;
 }
@@ -157,7 +157,7 @@ export async function readAllTeacher() {
 			headers: { "Authorization":  `${localStorage.getItem("token")}` },
 		})
 			.then((response) => response.data)
-			.catch((err) => console.log(err));
+			.catch((err) => err);
     
 		return aux;
 	} catch (error) {
@@ -165,14 +165,14 @@ export async function readAllTeacher() {
 	}
 }
 
-export async function getNameByIdTeacher(id: string) {
+export async function getNameByIdTeacher(id: number) {
 	let aux: TeacherInfos = TeacherValuesDefault;
   
 	await axios.get(`${urlTeacher}/${id}`, {
 		headers: { "Authorization":  `${localStorage.getItem("token")}` },
 	})
 		.then((res) => (aux = res.data))
-		.catch((err) => console.log(err));
+		.catch((err) => err);
 
 	return aux;
 }
@@ -221,22 +221,22 @@ export async function deleteTeacher(id: number) {
 
 
 // ----------------------------- ROUTER REPORTS ----------------------------- //]
-export async function getReportsSchool(schoolId: string, startDate: Date, endDate: Date) {
+export async function getReportsSchool(schoolId: number, startDate: Date, endDate: Date) {
 	const aux = await axios.get(`${urlSchool}/relatorio/${schoolId}&${startDate}&${endDate}`, {
 		headers: { "Authorization":  `${localStorage.getItem("token")}` },
 	})
 		.then((res) => res.data)
-		.catch((err) => console.log(err));
+		.catch((err) => err);
 
 	return aux;
 }
 
-export async function getReportsTeacher(teacherId: string, startDate: Date, endDate: Date) {
+export async function getReportsTeacher(teacherId: number, startDate: Date, endDate: Date) {
 	const aux = await axios.get(`${urlTeacher}/boletim/${teacherId}&${startDate}&${endDate}`, {
 		headers: { "Authorization":  `${localStorage.getItem("token")}` },
 	})
 		.then((res) => res.data)
-		.catch((err) => console.log(err));
+		.catch((err) => err);
 
 	return aux;
 }
@@ -249,7 +249,7 @@ export async function findAllUser() {
 		},
 	})
 		.then((res) => res.data)
-		.catch((err) => console.log(err));
+		.catch((err) => err);
 
 	return message;
 }
@@ -259,7 +259,7 @@ export async function getUserByEmail(email: string, password: string, token: str
 		headers: { "Authorization":  token },
 	})
 		.then((res) => res.data)
-		.catch((err) => console.log(err));
+		.catch((err) => err);
 
 	return message;
 }
@@ -289,7 +289,7 @@ export async function createUser(user: UserInfos) {
 		headers: { "Authorization":  `${localStorage.getItem("token")}` },
 	})
 		.then(() => "Usuário criado com sucesso")
-		.catch((err) => console.log(err));
+		.catch((err) => err);
 
 	return message;
 }
@@ -318,7 +318,7 @@ export async function deleteUser(id: number){
 export async function createToken(){
 	const aux = await axios.get(`${urlFree}`)
 		.then((res) => res.data)
-		.catch((err) => console.log(err));
+		.catch((err) => err);
   
 	return aux;
 }

@@ -10,14 +10,13 @@ type InputProps = {
 	placeholder?: string,
 	name: ValideKeys,
 	register: UseFormRegister<any>,
-	setValue: UseFormSetValue<SubmitDataModal>
+	setValue?: UseFormSetValue<SubmitDataModal>
 	maskHandleForm?: (value: string) => string,
 	maxChars?: number,
-	initialValues: any,
 }
 
 export default function Input<T extends FieldValues>(props: InputProps) {
-	const { label, htmlFor, type, placeholder, name, register, setValue, maskHandleForm, maxChars, initialValues } = props;
+	const { label, htmlFor, type, placeholder, name, register, setValue, maskHandleForm, maxChars } = props;
 		
 	return (
 		<div className="w-full flex flex-col gap-2">
