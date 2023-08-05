@@ -13,6 +13,7 @@ import { AppDispatch } from "../../../../configureStore";
 import { changeLoginLogout } from "../../../../slice/LoginSlice";
 import Input from "../../../Components/Modal/ModalForm/Input";
 import { createToken, getUserByEmail } from "../../../api";
+import { AxiosError } from "axios";
 
 const createFormSchema = z.object({
 	email: z.string().nonempty("O campo Email é obrigatório!"),
