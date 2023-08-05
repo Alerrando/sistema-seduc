@@ -29,14 +29,14 @@ export default function TableReports(props: TableReportsProps) {
 
 						return (
 							<tr key={`${info.name}-${index}`}>
-								{reportsTypes == "School" && "amountTime" in info ? (
+								{reportsTypes == "School" && "amountTime" in info && "datesWork" in info ? (
 									<>
 										<td className="max-w-[200px] text-start whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">
 											<span className="whitespace-normal">{info.name}</span>
 										</td>
 
 										<td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">
-											{info.office.name}
+											{"datesWork" in info && info.office?.name}
 										</td>
 
 										<td className="items-center h-full px-4 font-medium text-gray-900 border-r border-gray-200">
@@ -51,7 +51,7 @@ export default function TableReports(props: TableReportsProps) {
 											</div>
 										</td>
 										<td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">
-											{`${info.office.name.split("-")[0].trim()} = ${info.amountTime}h`}
+											{"datesWork" in info && `${info.office?.name.split("-")[0].trim()} = ${info.amountTime}h`}
 										</td>
 
 										<td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">
@@ -68,8 +68,8 @@ export default function TableReports(props: TableReportsProps) {
 										<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
 										<td className='whitespace-nowrap px-4 py-2 font-medium text-gray-900'>
 											{"lessonDay" in info && (
-												<span className='whitespace-nowrap'>{isValid(new Date(info.lessonDay)) ? format(new Date(info.lessonDay), "dd/MM/yyyy") : ""}</span>
-											)
+													<span className='whitespace-nowrap'>{isValid(new Date(info.lessonDay)) ? format(new Date(info.lessonDay), "dd/MM/yyyy") : ""}</span>
+												)
 											}
 										</td>
 										<td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">

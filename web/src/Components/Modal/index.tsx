@@ -42,7 +42,7 @@ export default function Modal(props: ModalProps){
 					</div>
 				</header>
 
-				{submitInfos !== undefined ? (
+				{submitInfos !== undefined && inputs && setInfosInput && createFormSchema ? (
 					<>
 						{modalName === "Lesson" ? (
 							<div className="w-full flex flex-col sm:grid sm:grid-cols-2">
@@ -53,14 +53,14 @@ export default function Modal(props: ModalProps){
 						)}
 					</>
 				) : (
-					<ModalInactive editInfo={editInfo} modalName={modalName} thead={thead} infosAll={
+					<ModalInactive editInfo={editInfo} modalName={modalName} thead={thead || []} infosAll={
 						modalName === "Lesson" ? 
 							allInfosLesson : modalName === "School" ? 
 								allInfosSchool : modalName === "Teacher" ? 
 									allInfosTeacher : modalName === "Office" ? 
 										allInfosOffice : usersAll}
 					/>
-				) }
+				)}
 
 			</div>
 		</div>

@@ -21,12 +21,13 @@ export type TypeDefault = {
 }
 
 export type LessonsInfos = {
-  id: number;
-  registerTeacher: number | TeacherInfos;
-  amountTime: string;
-  lessonDay: Date | string;
-  registerSchool: number | SchoolInfos;
-  edit: boolean;
+  id: number,
+  registerTeacher: TeacherInfos,
+  amountTime: string,
+  lessonDay: Date | string,
+  registerSchool: SchoolInfos,
+  edit: boolean,
+  inactive: boolean,
 };
 
 export type SchoolInfos = {
@@ -38,8 +39,8 @@ export type SchoolInfos = {
 
 export type TeacherInfos = {
   cpf: string;
-  thirst: SchoolInfos | number;
-  office: OfficeInfos | number;
+  thirst: SchoolInfos;
+  office: OfficeInfos;
 } & TypeDefault
 
 export type DefinitionPeriodsInfos = {
@@ -107,8 +108,8 @@ export const OfficeValuesDefault: OfficeInfos = {
 export const TeacherValuesDefault: TeacherInfos = {
 	...ValuesDefault,
 	cpf: "",
-	office: 0 || OfficeValuesDefault,
-	thirst: 0 || SchoolValuesDefault,
+	office: OfficeValuesDefault,
+	thirst: SchoolValuesDefault,
 };
 
 export const HorasValuesDefault: LessonsInfos = {
@@ -116,8 +117,9 @@ export const HorasValuesDefault: LessonsInfos = {
 	lessonDay: new Date().toString(),
 	edit: false,
 	amountTime: "",
-	registerSchool: 0 || SchoolValuesDefault,
-	registerTeacher: 0 || TeacherValuesDefault,
+	registerSchool: SchoolValuesDefault,
+	registerTeacher: TeacherValuesDefault,
+	inactive: false,
 };
 
 export const DefinitionPeriodsValuesDefault: DefinitionPeriodsInfos = {
