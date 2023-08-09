@@ -2,13 +2,13 @@ import axios from "axios";
 import { DefinitionPeriodsInfos, LessonsInfos, OfficeInfos, SchoolInfos, TeacherInfos, TeacherValuesDefault } from "../../slice";
 import { UserInfos } from "../../slice/LoginSlice";
 
-const urlLesson = "http://localhost:9090/security/cadastro-aulas";
-const urlSchool = "http://localhost:9090/security/cadastro-escola";
-const urlTeacher = "http://localhost:9090/security/cadastro-professor";
-const urlUser = "http://localhost:9090/security/users";
-const urlFree = "http://localhost:9090/free";
-const urlDefinitionPeriods = "http://localhost:9090/security/definition-periods";
-const urlOffice = "http://localhost:9090/security/office";
+const urlLesson = "https://api-sistema-seduc-production.up.railway.app/security/cadastro-aulas";
+const urlSchool = "https://api-sistema-seduc-production.up.railway.app/security/cadastro-escola";
+const urlTeacher = "https://api-sistema-seduc-production.up.railway.app/security/cadastro-professor";
+const urlUser = "https://api-sistema-seduc-production.up.railway.app/security/users";
+const urlFree = "https://api-sistema-seduc-production.up.railway.app/free";
+const urlDefinitionPeriods = "https://api-sistema-seduc-production.up.railway.app/security/definition-periods";
+const urlOffice = "https://api-sistema-seduc-production.up.railway.app/security/office";
 
 export async function readAllLesson() {
 	try {
