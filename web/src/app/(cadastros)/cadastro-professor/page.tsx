@@ -116,6 +116,7 @@ export default function CadastroProfessor() {
 					<Modal
 						infosInput={infosInput}
 						setModal={setModal}
+						setInfosInput={setInfosInput}
 						submitInfos={submitTeacher}
 						title="Cadastro de Professor"
 						inputs={inputs}

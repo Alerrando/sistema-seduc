@@ -116,6 +116,7 @@ export default function CadastroEscola(){
 					<Modal 
 						infosInput={infosInput} 
 						setModal={setModal} 
+						setInfosInput={setInfosInput}
 						submitInfos={submitSchool} 
 						title="Cadastro de Escolas"
 						createFormSchema={createFormSchema}
