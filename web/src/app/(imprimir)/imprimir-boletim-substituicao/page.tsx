@@ -9,6 +9,7 @@ import { SchoolDTOInfos } from "../../../../slice";
 import { DefaultUserInfos, UserInfos } from "../../../../slice/LoginSlice";
 import { getUserByIdSchool, getUserByMandatoryBulletin } from "../../../api";
 import RootLayout from "../../layout";
+import { AxiosError } from "axios";
 
 export default function ImprimirBoletimSubstituicao() {
 	const { filterInfosSchool, allFilterInfosSchool, filterStartEndDate } = useSelector((root: RootState) => root.SliceFilter);
@@ -18,10 +19,21 @@ export default function ImprimirBoletimSubstituicao() {
 
 	useEffect(() => {
 		(async () => {
-			setUsersMandatoryBulletin(await getUserByMandatoryBulletin());
-			setSchoolBulletinUser(await getUserByIdSchool(filterInfosSchool.id));
+		  setUsersMandatoryBulletin(await getUserByMandatoryBulletin());
+	  
+		  try {
+			const auxSchoolBulletinUser = await getUserByIdSchool(filterInfosSchool.id);
+	  
+			if ("AxiosError" in auxSchoolBulletinUser) {
+			  setSchoolBulletinUser(DefaultUserInfos);
+			} else {
+			  setSchoolBulletinUser(auxSchoolBulletinUser);
+			}
+		  } catch (error) {
+			console.error("Error fetching user:", error);
+		  }
 		})();
-	}, []);
+	  }, []);
 
 	console.log(schoolBulletinUser);
 
