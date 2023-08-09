@@ -9,7 +9,6 @@ import { SchoolDTOInfos } from "../../../../slice";
 import { DefaultUserInfos, UserInfos } from "../../../../slice/LoginSlice";
 import { getUserByIdSchool, getUserByMandatoryBulletin } from "../../../api";
 import RootLayout from "../../layout";
-import { AxiosError } from "axios";
 
 export default function ImprimirBoletimSubstituicao() {
 	const { filterInfosSchool, allFilterInfosSchool, filterStartEndDate } = useSelector((root: RootState) => root.SliceFilter);
@@ -34,8 +33,6 @@ export default function ImprimirBoletimSubstituicao() {
 		  }
 		})();
 	  }, []);
-
-	console.log(schoolBulletinUser);
 
 	return (
 		<RootLayout showHeaderAside={false}>
@@ -181,15 +178,13 @@ export default function ImprimirBoletimSubstituicao() {
 						<span className="text-xl">Elaborado por: </span>
                 
 						<section className="w-5/6 h-auto flex items-center justify-between ml-auto">
-							<div className="w-1/4 h-auto flex flex-col items-center justify-center before:block before:w-full before:border-t-[1px] before:border-t-black">
-								{schoolBulletinUser !== undefined && (
-									<>
-										<span className="text-sm">{schoolBulletinUser?.name}</span>
-										<span className="text-sm">{`RG: ${schoolBulletinUser?.rg}`}</span>
-										<span className="text-sm">{`${schoolBulletinUser?.office?.name}`}</span>
-									</>
-								)}
-							</div>
+							{schoolBulletinUser !== undefined && schoolBulletinUser.name !== undefined && schoolBulletinUser.rg !== undefined && schoolBulletinUser.office.name !== undefined && (
+								<div className="w-1/4 h-auto flex flex-col items-center justify-center before:block before:w-full before:border-t-[1px] before:border-t-black">
+									<span className="text-sm">{schoolBulletinUser?.name}</span>
+									<span className="text-sm">{`RG: ${schoolBulletinUser?.rg}`}</span>
+									<span className="text-sm">{`${schoolBulletinUser?.office?.name}`}</span>
+								</div>
+							)}
 
 							{usersMandatoryBulletin?.map((user: UserInfos) => (
 								<>
@@ -197,7 +192,7 @@ export default function ImprimirBoletimSubstituicao() {
 										<div className="w-1/4 h-auto flex flex-col items-center justify-center before:block before:w-full before:border-t-[1px] before:border-t-black">
 											<span className="text-sm">{user.name}</span>
 											<span className="text-sm">{`RG: ${user.rg}`}</span>
-											<span className="text-sm">{`${user.office?.name}`}</span>
+											<span className="text-sm">{`${user.office?.name === undefined ? "" : user.office?.name}`}</span>
 										</div>
 									) : null}
 								</>
