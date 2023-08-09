@@ -172,9 +172,9 @@ export default function ImprimirBoletimSubstituicao() {
 							<div className="w-1/4 h-auto flex flex-col items-center justify-center before:block before:w-full before:border-t-[1px] before:border-t-black">
 								{schoolBulletinUser !== undefined && (
 									<>
-										<span className="text-sm">{schoolBulletinUser.name}</span>
-										<span className="text-sm">{`RG: ${schoolBulletinUser.rg}`}</span>
-										<span className="text-sm">{`${schoolBulletinUser.office?.name}`}</span>
+										<span className="text-sm">{schoolBulletinUser?.name}</span>
+										<span className="text-sm">{`RG: ${schoolBulletinUser?.rg}`}</span>
+										<span className="text-sm">{`${schoolBulletinUser?.office?.name}`}</span>
 									</>
 								)}
 							</div>
