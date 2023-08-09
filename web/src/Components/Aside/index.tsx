@@ -11,7 +11,7 @@ export default function Aside() {
 	return (
 		<>
 			<AlignJustify className="absolute text-white top-3 left-3 md:hidden close" onClick={() => setMenu(true)} size={24} />
-			<aside className={` ${menu ? "flex h-full w-full bg-modal" : "hidden md:flex md:w-1/6 md:h-full bg-principal "} fixed top-0 left-0 flex flex-col gap-8 close`}>
+			<aside className={` ${menu ? "flex h-full w-full bg-modal" : "hidden md:flex md:w-1/6 md:h-full bg-principal "} fixed top-0 left-0 flex-col gap-8 close`}>
 				<div className={`${menu ? "w-[55%]" : "w-full"} h-full bg-principal flex flex-col justify-between py-[22px] relative`}>
 					<div className="w-full h-auto flex flex-col items-center justify-center gap-4">
 						<header className={`w-10/12 ${menu ? "flex" : "hidden sm:flex"} flex-col gap-2 items-center justify-start after:w-full after:h-1 after:border-b after:border-[#203F5C]`}>
