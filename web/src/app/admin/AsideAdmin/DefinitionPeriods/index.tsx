@@ -27,6 +27,8 @@ export default function DefinitionPeriods(){
 		})();
 	}, []);
 
+	console.log(infosDefinitionPeriods);
+
 	return(
 		<>
 			<header className="w-full h-auto flex items-center justify-between border-b border-b-[#efefef] p-3">
@@ -72,8 +74,8 @@ export default function DefinitionPeriods(){
 
 							<div className="w-auto h-full flex p-2 border border-[#cfcfcf] rounded shadow-lg">
 								<span>
-									{infosDefinitionPeriods?.length > 0 && isValid(new Date(infosDefinitionPeriods[0]?.startDate))
-										? format(new Date(infosDefinitionPeriods[0]?.startDate), "dd/MM/yyyy")
+									{infosDefinitionPeriods?.length > 0 && isValid(new Date(infosDefinitionPeriods?.at(-1)?.startDate))
+										? format(new Date(infosDefinitionPeriods?.at(-1)?.startDate), "dd/MM/yyyy")
 										: ""}
 								</span>
 							</div>
@@ -86,8 +88,8 @@ export default function DefinitionPeriods(){
 
 							<div className="w-auto h-full flex p-2 border border-[#cfcfcf] rounded shadow-lg">
 								<span>
-									{infosDefinitionPeriods?.length > 0 && isValid(new Date(infosDefinitionPeriods[0]?.endDate))
-										? format(new Date(infosDefinitionPeriods[0]?.endDate), "dd/MM/yyyy")
+									{infosDefinitionPeriods?.length > 0 && isValid(new Date(infosDefinitionPeriods?.at(-1)?.endDate))
+										? format(new Date(infosDefinitionPeriods?.at(-1)?.endDate), "dd/MM/yyyy")
 										: ""}
 								</span>
 							</div>
@@ -110,7 +112,11 @@ export default function DefinitionPeriods(){
 		if(datas.startDate !== null && datas.endDate !== null){
 			const message: string | AxiosError = await createDefinitionPeriods(datas);
 			const aux = await findAllDefinitionPeriods();
-			dispatch(refreshDefinitionPeriods(aux));
+			const formattedPeriods: DefinitionPeriodsInfos[] = aux?.map(period => ({
+				startDate: new Date(period.startDate).toISOString(),
+				endDate: new Date(period.endDate).toISOString(),
+			}));
+			dispatch(refreshDefinitionPeriods(formattedPeriods));
 			messageToast(message);
 		}
 	}

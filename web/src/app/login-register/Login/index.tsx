@@ -85,12 +85,12 @@ export default function Login(){
 		const tokenAux = await createToken();
         
 		const aux = await getUserByEmail(e.email, e.senha, tokenAux);
-        
+        console.log(aux);
 		if(aux === undefined){
 			messageToast(aux);
 		}
 		else{
-			if(aux.usuario.inactive === false){
+			if(aux?.usuario?.inactive === false){
 				messageToast(aux);
 				
 				localStorage.setItem("token", tokenAux);
