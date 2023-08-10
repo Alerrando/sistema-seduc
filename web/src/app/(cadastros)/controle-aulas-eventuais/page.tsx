@@ -89,8 +89,8 @@ export default function ControleAulasEventuais() {
 
 								<div className="w-auto h-full flex p-2 border border-[#cfcfcf] rounded shadow-lg">
 									<span>
-										{infosDefinitionPeriods?.length > 0 && isValid(new Date(infosDefinitionPeriods?.at(-1)?.startDate))
-											? format(new Date(infosDefinitionPeriods?.at(-1)?.startDate), "dd/MM/yyyy")
+										{infosDefinitionPeriods?.length > 0 && isValid(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.startDate))
+											? format(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.startDate), "dd/MM/yyyy")
 											: ""}
 									</span>
 								</div>
@@ -103,8 +103,8 @@ export default function ControleAulasEventuais() {
 
 								<div className="w-auto h-full flex p-2 border border-[#cfcfcf] rounded shadow-lg">
 									<span>
-										{infosDefinitionPeriods?.length > 0 && isValid(new Date(infosDefinitionPeriods?.at(-1)?.endDate))
-											? format(new Date(infosDefinitionPeriods?.at(-1)?.endDate), "dd/MM/yyyy")
+										{infosDefinitionPeriods?.length > 0 && isValid(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.endDate))
+											? format(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.endDate), "dd/MM/yyyy")
 											: ""}
 									</span>
 								</div>
