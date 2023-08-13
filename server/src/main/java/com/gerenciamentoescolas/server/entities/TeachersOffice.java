@@ -19,10 +19,10 @@ public class TeachersOffice {
     @JoinColumn(name = "office_id")
     private RegisterOffice registerOffice;
 
-    private TeachersOffice(){
+    public TeachersOffice(){
     }
 
-    private TeachersOffice(Integer id, RegisterTeacher registerTeacher, RegisterOffice registerOffice){
+    public TeachersOffice(Integer id, RegisterTeacher registerTeacher, RegisterOffice registerOffice){
         this.id = id;
         this.registerTeacher = registerTeacher;
         this.registerOffice = registerOffice;
