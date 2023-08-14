@@ -13,6 +13,7 @@ import { AppDispatch } from "../../../../configureStore";
 import { changeLoginLogout } from "../../../../slice/LoginSlice";
 import Input from "../../../Components/Modal/ModalForm/Input";
 import { createToken, getUserByEmail } from "../../../api";
+import { AxiosError } from "axios";
 
 const createFormSchema = z.object({
 	email: z.string().nonempty("O campo Email é obrigatório!"),
@@ -84,12 +85,12 @@ export default function Login(){
 		const tokenAux = await createToken();
         
 		const aux = await getUserByEmail(e.email, e.senha, tokenAux);
-        
+        console.log(aux);
 		if(aux === undefined){
 			messageToast(aux);
 		}
 		else{
-			if(aux.usuario.inactive === false){
+			if(aux?.usuario?.inactive === false){
 				messageToast(aux);
 				
 				localStorage.setItem("token", tokenAux);

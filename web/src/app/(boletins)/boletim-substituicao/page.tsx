@@ -17,9 +17,13 @@ const createFormSchema = z.object({
 	cadastroEscola: z.string().nonempty("Selecione uma escola ou adicione!").transform((school) => Number(school)),
 });
 
+<<<<<<< HEAD
 export type InitalValuesTypeSubstitutionBulletin = {
     cadastroEscola: number,
 }
+=======
+export type InitalValuesTypeSubstitutionBulletin = z.infer<typeof createFormSchema>
+>>>>>>> a73c427ca72c353eae4d10ba97520336b5f63c70
 
 export default function BoletimSubstituicao(){
 	const [filter, setFilter] = useState<boolean>(false);

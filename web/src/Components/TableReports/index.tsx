@@ -29,14 +29,22 @@ export default function TableReports(props: TableReportsProps) {
 
 						return (
 							<tr key={`${info.name}-${index}`}>
+<<<<<<< HEAD
 								{reportsTypes === "School" && "amountTime" in info && "datesWork" in info ? (
+=======
+								{reportsTypes == "School" && "amountTime" in info && "datesWork" in info ? (
+>>>>>>> a73c427ca72c353eae4d10ba97520336b5f63c70
 									<>
 										<td className="max-w-[200px] text-start whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">
 											<span className="whitespace-normal">{info.name}</span>
 										</td>
 
 										<td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">
+<<<<<<< HEAD
 											{info.office?.name}
+=======
+											{"datesWork" in info && info.office?.name}
+>>>>>>> a73c427ca72c353eae4d10ba97520336b5f63c70
 										</td>
 
 										<td className="items-center h-full px-4 font-medium text-gray-900 border-r border-gray-200">
@@ -51,7 +59,7 @@ export default function TableReports(props: TableReportsProps) {
 											</div>
 										</td>
 										<td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">
-											{`${info.office.name.split("-")[0].trim()} = ${info.amountTime}h`}
+											{"datesWork" in info && `${info.office?.name.split("-")[0].trim()} = ${info.amountTime}h`}
 										</td>
 
 										<td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">

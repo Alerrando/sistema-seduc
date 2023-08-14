@@ -16,9 +16,13 @@ const createFormSchema = z.object({
 	cadastroProfessor: z.string().nonempty("Selecione um professor ou adicione!").transform((teacher) => Number(teacher)),
 });
 
+<<<<<<< HEAD
 export type InitalValuesBulletinControlOccasionalClasses = {
     cadastroProfessor: number,
 }
+=======
+export type InitalValuesBulletinControlOccasionalClasses = z.infer<typeof createFormSchema>
+>>>>>>> a73c427ca72c353eae4d10ba97520336b5f63c70
 
 export default function BoletimControleAulasEventuais(){
 	const [initalValues, setInitialValues] = useState<InitalValuesBulletinControlOccasionalClasses>({} as InitalValuesBulletinControlOccasionalClasses);

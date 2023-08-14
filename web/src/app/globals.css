@@ -40,15 +40,6 @@
     }
 }
 
-.slide-left {
-    animation: slideToLeft 0.6s ease-in-out;
-}
-
-.slide-right {
-    animation: slideToRight 0.6s ease-in-out;
-}
-
-
 .bar:hover::after{
     animation: bar 1s forwards;
     background-color: #f00;
