@@ -23,10 +23,10 @@ import TableRegisters, {
   InfosTableRegisterData,
 } from "../../../Components/TableRegisters";
 import {
+  createTeacher,
   deleteTeacher,
   editTeacher,
   getIdSchool,
-  getOfficeById,
   getRegisterOffice,
   readAllTeacher,
 } from "../../../api";
@@ -45,11 +45,6 @@ const createFormSchema = z.object({
     .string()
     .nonempty("Selecione qual a sede")
     .transform((school) => Number(school)),
-  office: z.array(
-    z.object({
-      officeId: z.number(),
-    }),
-  ),
 });
 
 export type CreateFormDataTeacher = z.infer<typeof createFormSchema>;
@@ -181,21 +176,16 @@ export default function CadastroProfessor() {
     </RootLayout>
   );
 
-  async function submitTeacher(data: SubmitDataModal) {
-    debugger;
-    if (
-      "thirst" in data &&
-      "cpf" in data &&
-      "office" in data &&
-      "name" in data
-    ) {
-      const { thirst, office, cpf, ...rest } = data;
+  async function submitTeacher(
+    data: SubmitDataModal,
+    officesTeacher: number[],
+  ) {
+    if ("thirst" in data && "cpf" in data && "name" in data) {
+      const { thirst, cpf, ...rest } = data;
       const school: SchoolInfos = await getIdSchool(thirst);
-      const OfficeTeacher: OfficeInfos = await getOfficeById(office);
 
       const aux: TeacherInfos = {
         thirst: school,
-        office: OfficeTeacher,
         edit: false,
         id: infosInput.id,
         cpf: data.cpf.replaceAll(".", "").replaceAll("-", ""),
@@ -205,7 +195,7 @@ export default function CadastroProfessor() {
 
       let message: AxiosError | string;
       if (!infosInput.edit) {
-        console.log(aux, data);
+        message = await createTeacher(aux, aux.thirst.id, officesTeacher);
       } else {
         message = await editTeacher(aux, aux.thirst.id);
         setModal(false);

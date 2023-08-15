@@ -1,6 +1,7 @@
 "use client";
 import { ErrorMessage } from "@hookform/error-message";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import Calendar from "react-calendar";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -17,12 +18,13 @@ type ModalFormProps = {
   inputs: InputConfig[];
   initialValues: any;
   setInfosInput?: (initalValues: any) => void;
-  onSubmit: (data: SubmitDataModal) => void;
+  onSubmit: (data: SubmitDataModal, officesTeacher?: number[]) => void;
   modalName: string;
 };
 
 export function ModalForm(props: ModalFormProps) {
   const { allInfosOffice } = useSelector((root: RootState) => root.Slice);
+  const [officesTeacher, setOfficesTeacher] = useState<number[]>([]);
   const { schema, inputs, initialValues, setInfosInput, onSubmit, modalName } =
     props;
   const {
@@ -44,12 +46,10 @@ export function ModalForm(props: ModalFormProps) {
     } else if (modalName === "Teacher") {
       setValue("name", "");
       setValue("cpf", "");
-      setValue("office", 0);
+      onSubmit(data, officesTeacher);
     } else {
       reset();
     }
-
-    onSubmit(data);
   }
 
   return (
@@ -84,7 +84,8 @@ export function ModalForm(props: ModalFormProps) {
                   offices={allInfosOffice.filter(
                     (office: OfficeInfos) => office.type === "2",
                   )}
-                  register={register}
+                  officesTeacher={officesTeacher}
+                  setOfficesTeacher={setOfficesTeacher}
                   key={`input-checkbox-dropdown-office-teacher`}
                 />
               ) : input?.input === "select" &&

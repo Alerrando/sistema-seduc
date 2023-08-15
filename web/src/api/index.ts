@@ -216,7 +216,11 @@ export async function getNameByIdTeacher(id: number) {
   return aux;
 }
 
-export async function createTeacher(info: TeacherInfos, idEscola: number) {
+export async function createTeacher(
+  info: TeacherInfos,
+  idEscola: number,
+  officesTeacher: number[],
+) {
   try {
     const message = await axios
       .post(`${urlTeacher}/${idEscola}`, info, {
