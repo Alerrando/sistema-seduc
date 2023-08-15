@@ -43,12 +43,14 @@ export function ModalForm(props: ModalFormProps) {
       setValue("name", "");
       setValue("registerSchool", 0);
       setValue("amountTime", "");
+      onSubmit(data);
     } else if (modalName === "Teacher") {
       setValue("name", "");
       setValue("cpf", "");
       onSubmit(data, officesTeacher);
     } else {
       reset();
+      onSubmit(data);
     }
   }
 
