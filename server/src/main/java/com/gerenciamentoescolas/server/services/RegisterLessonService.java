@@ -66,7 +66,7 @@ public class RegisterLessonService {
         if(localDateCadastroAula.compareTo(startDatePeriod) >= 0 && localDateCadastroAula.compareTo(endDatePeriod) <= 0){
             for (RegisterLesson aula : aulas){
                 LocalDate localDateAula = aula.getLessonDay().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                if(localDateCadastroAula.equals(localDateAula) && registerLesson.getRegisterTeacher() == aula.getRegisterTeacher() && registerLesson.getRegisterSchool() == aula.getRegisterSchool()){
+                if(localDateCadastroAula.equals(localDateAula) && registerLesson.getRegisterTeacher().getId() == aula.getRegisterTeacher().getId() && registerLesson.getRegisterSchool().getId() == aula.getRegisterSchool().getId()){
                     throw new LessonAlreadyRegistered("Aula já cadastrada");
                 }
             }

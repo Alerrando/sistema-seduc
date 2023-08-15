@@ -6,7 +6,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "teachers_office")
-public class TeachersOffice {
+public class RegisterTeachersOffice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -19,10 +19,10 @@ public class TeachersOffice {
     @JoinColumn(name = "office_id")
     private RegisterOffice registerOffice;
 
-    public TeachersOffice(){
+    public RegisterTeachersOffice(){
     }
 
-    public TeachersOffice(Integer id, RegisterTeacher registerTeacher, RegisterOffice registerOffice){
+    public RegisterTeachersOffice(Integer id, RegisterTeacher registerTeacher, RegisterOffice registerOffice){
         this.id = id;
         this.registerTeacher = registerTeacher;
         this.registerOffice = registerOffice;
@@ -56,7 +56,7 @@ public class TeachersOffice {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TeachersOffice that = (TeachersOffice) o;
+        RegisterTeachersOffice that = (RegisterTeachersOffice) o;
         return Objects.equals(id, that.id) && Objects.equals(registerTeacher, that.registerTeacher) && Objects.equals(registerOffice, that.registerOffice);
     }
 

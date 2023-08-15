@@ -8,11 +8,7 @@ import com.gerenciamentoescolas.server.repository.RegisterSchoolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class RegisterSchoolService {
@@ -41,20 +37,21 @@ public class RegisterSchoolService {
             RegisterOffice office = (RegisterOffice) result[4];
 
             BulletinSchool bulletinSchool = escolasAulas.get(id);
-            
+
             if (result[4] != null) {
                 amountTime = (Long) result[3];
             }
 
             if (bulletinSchool == null) {
-
                 bulletinSchool = new BulletinSchool(id, name, new ArrayList<Object[]>(), amountTime.intValue(), office);
+                bulletinSchool.getDatesWork().add(new Object[]{lessonDay, amountTime});
                 escolasAulas.put(id, bulletinSchool);
             } else {
+                if(bulletinSchool.getId() == id){
+                    bulletinSchool.getDatesWork().add(new Object[]{lessonDay, amountTime});
+                }
                 bulletinSchool.setAmountTime(bulletinSchool.getAmountTime() + amountTime.intValue());
             }
-
-            bulletinSchool.getDatesWork().add(new Object[]{lessonDay, amountTime});
         }
 
         return new ArrayList<>(escolasAulas.values());
