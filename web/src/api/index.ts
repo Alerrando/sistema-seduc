@@ -476,12 +476,23 @@ export async function deleteRegisterOffice(id: number) {
 
 // ----------------------------- ROUTER Teachers Office ---------------- //
 
-async function findAllTeachersOffice() {
+export async function findAllTeachersOffice() {
   const message = await axios
     .get(urlTeachersOffice, {
       headers: { Authorization: `${localStorage.getItem("token")}` },
     })
     .then((res) => res.data)
+    .catch((err) => err);
+
+  return message;
+}
+
+export async function creteTeachersOffice(infos: number[], teacherId: number) {
+  const message = await axios
+    .post(`${urlTeachersOffice}/${teacherId}`, infos, {
+      headers: { Authorization: `${localStorage.getItem("token")}` },
+    })
+    .then(() => "Cargos Cadastrados")
     .catch((err) => err);
 
   return message;
