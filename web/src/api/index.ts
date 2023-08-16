@@ -483,6 +483,17 @@ export async function findAllTeachersOffice() {
   return message;
 }
 
+export async function findTeachersOfficeById(teacherId: number) {
+  const message = await axios
+    .get(`${urlTeachersOffice}/${teacherId}`, {
+      headers: { Authorization: `${localStorage.getItem("token")}` },
+    })
+    .then((res) => res.data)
+    .catch((err) => err);
+
+  return message;
+}
+
 export async function createTeachersOffice(infos: number[], teacherId: number) {
   const message = await axios
     .post(`${urlTeachersOffice}/${teacherId}`, infos, {

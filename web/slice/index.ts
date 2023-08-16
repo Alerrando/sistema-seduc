@@ -69,8 +69,8 @@ export type TeacherDTOInfos = {
 
 export type TeachersOffice = {
   id: number;
-  teacherId: TeacherInfos;
-  officeId: OfficeInfos;
+  registerTeacher: TeacherInfos;
+  registerOffice: OfficeInfos;
 };
 
 export const registerTypes = {

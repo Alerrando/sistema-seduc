@@ -13,6 +13,7 @@ import {
 } from "../../../slice";
 import { UserInfos } from "../../../slice/LoginSlice";
 import { readAllSchool, readAllTeacher } from "../../api";
+import RenderTeacherColumns from "./RenderTeacherColumns";
 
 export type InfosTableRegisterData =
   | LessonsInfos
@@ -87,25 +88,6 @@ export default function TableRegisters(props: TableRegistersProps) {
         </td>
         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
           {info.email}
-        </td>
-      </>
-    );
-  }
-
-  function renderTeacherColumns(info: TeacherInfos, index: number) {
-    return (
-      <>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {index + 1}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {info.name}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {info.cpf}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {info.thirst.name}
         </td>
       </>
     );
@@ -199,27 +181,29 @@ export default function TableRegisters(props: TableRegistersProps) {
                   <tr key={info.id}>
                     {registerType === "Lesson" &&
                     "registerTeacher" in info &&
-                    "registerSchool" in info
-                      ? renderLessonColumns(info, index)
-                      : registerType === "School" &&
-                        "name" in info &&
-                        "adress" in info &&
-                        "zip" in info &&
-                        "fone" in info &&
-                        "email" in info
-                      ? renderSchoolColumns(info, index)
-                      : registerType === "Teacher" && "thirst" in info
-                      ? renderTeacherColumns(info, index)
-                      : registerType === "User" &&
-                        "name" in info &&
-                        "email" in info &&
-                        "rg" in info &&
-                        "office" in info &&
-                        "password" in info &&
-                        "registerSchool" in info &&
-                        "mandatoryBulletin" in info
-                      ? renderUserColumns(info, index)
-                      : renderOtherColumns(info, index)}
+                    "registerSchool" in info ? (
+                      renderLessonColumns(info, index)
+                    ) : registerType === "School" &&
+                      "name" in info &&
+                      "adress" in info &&
+                      "zip" in info &&
+                      "fone" in info &&
+                      "email" in info ? (
+                      renderSchoolColumns(info, index)
+                    ) : registerType === "Teacher" && "thirst" in info ? (
+                      <RenderTeacherColumns teacher={info} index={index} />
+                    ) : registerType === "User" &&
+                      "name" in info &&
+                      "email" in info &&
+                      "rg" in info &&
+                      "office" in info &&
+                      "password" in info &&
+                      "registerSchool" in info &&
+                      "mandatoryBulletin" in info ? (
+                      renderUserColumns(info, index)
+                    ) : (
+                      renderOtherColumns(info, index)
+                    )}
                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                       <div
                         className="h-10 w-10 flex items-center justify-center rounded-full bg-red-600 text-white hover:bg-red-700 cursor-pointer"
