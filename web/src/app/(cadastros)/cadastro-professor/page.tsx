@@ -24,7 +24,7 @@ import TableRegisters, {
 } from "../../../Components/TableRegisters";
 import {
   createTeacher,
-  creteTeachersOffice,
+  createTeachersOffice,
   deleteTeacher,
   editTeacher,
   getIdSchool,
@@ -196,8 +196,13 @@ export default function CadastroProfessor() {
 
       let message: AxiosError | string;
       if (!infosInput.edit) {
-        message = await createTeacher(aux, aux.thirst.id, officesTeacher);
-        const messageOffice = await creteTeachersOffice(officesTeacher, aux.id);
+        const auxData: AxiosError | TeacherInfos = await createTeacher(
+          aux,
+          aux.thirst.id,
+        );
+        message =
+          auxData !== undefined ? "Professor cadastrada com sucesso" : auxData;
+        await createTeachersOffice(officesTeacher, auxData.id);
       } else {
         message = await editTeacher(aux, aux.thirst.id);
         setModal(false);

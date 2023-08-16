@@ -216,17 +216,13 @@ export async function getNameByIdTeacher(id: number) {
   return aux;
 }
 
-export async function createTeacher(
-  info: TeacherInfos,
-  idEscola: number,
-  officesTeacher: number[],
-) {
+export async function createTeacher(info: TeacherInfos, idEscola: number) {
   try {
     const message = await axios
       .post(`${urlTeacher}/${idEscola}`, info, {
         headers: { Authorization: `${localStorage.getItem("token")}` },
       })
-      .then(() => "Professor cadastrada com sucesso")
+      .then((res) => res.data)
       .catch((err) => err);
 
     return message;
@@ -487,7 +483,7 @@ export async function findAllTeachersOffice() {
   return message;
 }
 
-export async function creteTeachersOffice(infos: number[], teacherId: number) {
+export async function createTeachersOffice(infos: number[], teacherId: number) {
   const message = await axios
     .post(`${urlTeachersOffice}/${teacherId}`, infos, {
       headers: { Authorization: `${localStorage.getItem("token")}` },
