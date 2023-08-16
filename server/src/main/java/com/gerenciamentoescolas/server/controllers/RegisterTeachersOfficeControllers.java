@@ -19,8 +19,13 @@ public class RegisterTeachersOfficeControllers {
         return registerTeachersOfficeService.findAll();
     }
 
+    @GetMapping("/{teacherId}")
+    public List<RegisterTeachersOffice> findById(@PathVariable Integer teacherId){
+        return registerTeachersOfficeService.findById(teacherId);
+    }
+
     @PostMapping("/{teacherId}")
-    public void create(@PathVariable Integer teacherId, @RequestBody List<Object[]> offices){
+    public void create(@PathVariable Integer teacherId, @RequestBody List<Integer> offices){
         registerTeachersOfficeService.create(teacherId, offices);
     }
 }

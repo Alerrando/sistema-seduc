@@ -24,12 +24,14 @@ public class RegisterTeachersOfficeService {
         return teachersOfficeRepository.findAll();
     }
 
-    public void create(Integer teacherId, List<Object[]> offices){
-        for(Object[] office : offices) {
-            Integer idOffice = (Integer) office[0];
+    public List<RegisterTeachersOffice> findById(Integer teacherId){
+        return teachersOfficeRepository.findByTeacherId(teacherId);
+    }
 
+    public void create(Integer teacherId, List<Integer> offices){
+        for(Integer office : offices) {
             RegisterTeacher registerTeacher = registerTeacherRepository.getReferenceById(teacherId);
-            RegisterOffice registerOffice = registerOfficeRepository.getReferenceById(idOffice);
+            RegisterOffice registerOffice = registerOfficeRepository.getReferenceById(office);
 
             RegisterTeachersOffice registerTeachersOffice = new RegisterTeachersOffice(0, registerTeacher, registerOffice);
 
