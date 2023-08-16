@@ -50,8 +50,8 @@ public class RegisterTeacherControllers {
 
 
     @PostMapping("/{escolaId}")
-    public void create(@RequestBody RegisterTeacher registerTeacher, @PathVariable Integer escolaId){
-        registerTeacherService.create(registerTeacher, escolaId);
+    public RegisterTeacher create(@RequestBody RegisterTeacher registerTeacher, @PathVariable Integer escolaId){
+        return registerTeacherService.create(registerTeacher, escolaId);
     }
 
     @PutMapping("/{escolaId}")

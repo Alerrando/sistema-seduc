@@ -9,7 +9,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(name = "/security/teachers-office")
+@RequestMapping(value = "/security/teachers-office")
 public class RegisterTeachersOfficeControllers {
     @Autowired
     private RegisterTeachersOfficeService registerTeachersOfficeService;
@@ -19,7 +19,7 @@ public class RegisterTeachersOfficeControllers {
         return registerTeachersOfficeService.findAll();
     }
 
-    @PostMapping("{teacherId}")
+    @PostMapping("/{teacherId}")
     public void create(@PathVariable Integer teacherId, @RequestBody List<Object[]> offices){
         registerTeachersOfficeService.create(teacherId, offices);
     }

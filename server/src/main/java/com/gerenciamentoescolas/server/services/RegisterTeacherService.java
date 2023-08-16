@@ -49,7 +49,7 @@ public class RegisterTeacherService {
         return new ArrayList<>(professoresMap.values());
     }
 
-    public void create(RegisterTeacher registerTeacher, Integer escolaId){
+    public RegisterTeacher create(RegisterTeacher registerTeacher, Integer escolaId){
         if(registerTeacherRepository.existsByCpf(registerTeacher.getCpf())){
             throw new TeacherAlreadyRegistered("Professor já cadastrado!");
         }
@@ -60,7 +60,7 @@ public class RegisterTeacherService {
         registerTeacher.setThirst(school);
 
         registerSchoolRepository.save(school);
-        registerTeacherRepository.save(registerTeacher);
+        return registerTeacherRepository.save(registerTeacher);
     }
 
     public RegisterTeacher edit(RegisterTeacher registerTeacher, Integer escolaId){
