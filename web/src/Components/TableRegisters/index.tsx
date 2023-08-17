@@ -1,6 +1,5 @@
-import { format, isValid } from "date-fns";
-import { Eye, EyeOff, Pencil, Trash, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Pencil, Trash, X } from "lucide-react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../configureStore";
 import {
@@ -13,7 +12,11 @@ import {
 } from "../../../slice";
 import { UserInfos } from "../../../slice/LoginSlice";
 import { readAllSchool, readAllTeacher } from "../../api";
+import RenderLessonColumns from "./RenderLessonColumns";
+import RenderSchoolColumns from "./RenderSchoolColumns";
 import RenderTeacherColumns from "./RenderTeacherColumns";
+import RenderUserColumns from "./RenderUserColumns";
+import RenderOtherColumns from "./RenderOtherColumns";
 
 export type InfosTableRegisterData =
   | LessonsInfos
@@ -32,7 +35,6 @@ type TableRegistersProps = {
 export default function TableRegisters(props: TableRegistersProps) {
   const { tableHead, editInfo, deleteInfo, infosAll } = props;
   const { registerType } = useSelector((root: RootState) => root.Slice);
-  const [viewPassword, setViewPassword] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -41,121 +43,6 @@ export default function TableRegisters(props: TableRegistersProps) {
       dispatch(refreshInfosTeacher(await readAllTeacher()));
     })();
   }, []);
-
-  function renderLessonColumns(info: LessonsInfos, index: number) {
-    return (
-      <>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {index + 1}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {info.registerTeacher.name}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {info.amountTime}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {info.registerSchool.name}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          <span className="whitespace-nowrap">
-            {isValid(new Date(info.lessonDay))
-              ? format(new Date(info.lessonDay), "dd/MM/yyyy")
-              : ""}
-          </span>
-        </td>
-      </>
-    );
-  }
-
-  function renderSchoolColumns(info: SchoolInfos, index: number) {
-    return (
-      <>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {index + 1}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {info.name}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {info.adress}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {info.zip}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {info.fone}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {info.email}
-        </td>
-      </>
-    );
-  }
-
-  function renderUserColumns(info: UserInfos, index: number) {
-    return (
-      <>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {index + 1}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {info.name}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {info.email}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {info.rg}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {info.office?.name}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {info.registerSchool !== null
-            ? info.registerSchool.name
-            : "Não Atribuido"}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {info.mandatoryBulletin === 1 ? "Obrigatório" : "Não Obrigatório"}
-        </td>
-        <td className="flex flex-row items-center gap-2 whitespace-nowrap p-4 font-medium text-gray-900">
-          {!viewPassword ? (
-            <EyeOff
-              size={26}
-              className="cursor-pointer"
-              onClick={() => setViewPassword(true)}
-            />
-          ) : (
-            <>
-              {info.password}
-              <Eye
-                size={26}
-                className="cursor-pointer"
-                onClick={() => setViewPassword(false)}
-              />
-            </>
-          )}
-        </td>
-      </>
-    );
-  }
-
-  function renderOtherColumns(info: InfosTableRegisterData, index: number) {
-    return (
-      <>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {index + 1}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {"name" in info && info.name}
-        </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {"type" in info && info.type === "1" ? "Usuário" : "Professor"}
-        </td>
-      </>
-    );
-  }
 
   return (
     <div className="w-full overflow-x-auto border border-gray-200">
@@ -182,14 +69,14 @@ export default function TableRegisters(props: TableRegistersProps) {
                     {registerType === "Lesson" &&
                     "registerTeacher" in info &&
                     "registerSchool" in info ? (
-                      renderLessonColumns(info, index)
+                      <RenderLessonColumns lesson={info} index={index} />
                     ) : registerType === "School" &&
                       "name" in info &&
                       "adress" in info &&
                       "zip" in info &&
                       "fone" in info &&
                       "email" in info ? (
-                      renderSchoolColumns(info, index)
+                      <RenderSchoolColumns school={info} index={index} />
                     ) : registerType === "Teacher" && "thirst" in info ? (
                       <RenderTeacherColumns teacher={info} index={index} />
                     ) : registerType === "User" &&
@@ -200,9 +87,9 @@ export default function TableRegisters(props: TableRegistersProps) {
                       "password" in info &&
                       "registerSchool" in info &&
                       "mandatoryBulletin" in info ? (
-                      renderUserColumns(info, index)
+                      <RenderUserColumns user={info} index={index} />
                     ) : (
-                      renderOtherColumns(info, index)
+                      <RenderOtherColumns office={info} index={index} />
                     )}
                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                       <div
