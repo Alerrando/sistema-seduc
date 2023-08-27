@@ -1,7 +1,6 @@
 "use client";
 import { ErrorMessage } from "@hookform/error-message";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import Calendar from "react-calendar";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -24,15 +23,15 @@ type ModalFormProps = {
 
 export function ModalForm(props: ModalFormProps) {
   const { allInfosOffice } = useSelector((root: RootState) => root.Slice);
-  const [officesTeacher, setOfficesTeacher] = useState<number[]>([]);
-  const { schema, inputs, initialValues, setInfosInput, onSubmit, modalName } =
-    props;
+  const { schema, inputs, initialValues, setInfosInput, onSubmit, modalName } = props;
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
     setValue,
+    control,
   } = useForm<SubmitDataModal>({
     resolver: zodResolver(schema),
     defaultValues: initialValues as (typeof schema)["_input"],
@@ -43,15 +42,13 @@ export function ModalForm(props: ModalFormProps) {
       setValue("name", "");
       setValue("registerSchool", 0);
       setValue("amountTime", "");
-      onSubmit(data);
     } else if (modalName === "Teacher") {
       setValue("name", "");
       setValue("cpf", "");
-      onSubmit(data, officesTeacher);
     } else {
       reset();
-      onSubmit(data);
     }
+    onSubmit(data);
   }
 
   return (
@@ -63,35 +60,23 @@ export function ModalForm(props: ModalFormProps) {
           onChange={(e) =>
             setInfosInput({
               ...initialValues,
-              lessonDay: e
-                ? typeof e === "string"
-                  ? e
-                  : e instanceof Date
-                  ? e.toISOString()
-                  : e.toString()
-                : "",
+              lessonDay: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.toString()) : "",
             })
           }
         />
       )}
-      <form
-        className="w-full flex flex-col gap-8 py-2 px-4"
-        onSubmit={handleSubmit(handleFormSubmit)}
-      >
+      <form className="w-full flex flex-col gap-8 py-2 px-4" onSubmit={handleSubmit(handleFormSubmit)}>
         <div className="w-full flex flex-col gap-3">
           {inputs?.map((input: InputConfig, indexInputs: number) => (
             <div key={input.name} className="w-full flex flex-col gap-2">
               {input?.optionType === "OfficeTeacher" ? (
                 <CheckboxDropdownOfficeTeacher
-                  offices={allInfosOffice.filter(
-                    (office: OfficeInfos) => office.type === "2",
-                  )}
-                  officesTeacher={officesTeacher}
-                  setOfficesTeacher={setOfficesTeacher}
+                  offices={allInfosOffice.filter((office: OfficeInfos) => office.type === "2")}
+                  control={control}
+                  values={initialValues.id}
                   key={`input-checkbox-dropdown-office-teacher`}
                 />
-              ) : input?.input === "select" &&
-                input?.optionType !== undefined ? (
+              ) : input?.input === "select" && input?.optionType !== undefined ? (
                 <SelectInput
                   name={input.name}
                   htmlFor={input.htmlFor}
@@ -119,9 +104,7 @@ export function ModalForm(props: ModalFormProps) {
               <ErrorMessage
                 errors={errors}
                 name={input.name}
-                render={({ message }) => (
-                  <span className="text-red-600">{message}</span>
-                )}
+                render={({ message }) => <span className="text-red-600">{message}</span>}
                 key={`error-mensagge-${indexInputs}`}
               />
             </div>

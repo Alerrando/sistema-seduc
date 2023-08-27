@@ -7,10 +7,7 @@ type RenderTeacherColumnsProps = {
   index: number;
 };
 
-export default function RenderTeacherColumns({
-  teacher,
-  index,
-}: RenderTeacherColumnsProps) {
+export default function RenderTeacherColumns({ teacher, index }: RenderTeacherColumnsProps) {
   const [officesTeacher, setOfficesTeacher] = useState<TeachersOffice[]>([]);
 
   useEffect(() => {
@@ -26,20 +23,14 @@ export default function RenderTeacherColumns({
     fetchOffices();
   }, []);
 
+  console.log(officesTeacher);
+
   return (
     <>
-      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-        {index + 1}
-      </td>
-      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-        {teacher?.name}
-      </td>
-      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-        {teacher?.cpf}
-      </td>
-      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-        {teacher?.thirst.name}
-      </td>
+      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
+      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{teacher?.name}</td>
+      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{teacher?.cpf}</td>
+      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{teacher?.thirst.name}</td>
 
       <td className="flex flex-row whitespace-nowrap px-4 py-6 font-medium text-gray-900 divide-x-[1px] divide-gray-400">
         {officesTeacher.map((office: TeachersOffice, indexOffice: number) => (

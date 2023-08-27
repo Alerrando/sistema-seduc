@@ -19,14 +19,13 @@ import {
 } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
-import TableRegisters, {
-  InfosTableRegisterData,
-} from "../../../Components/TableRegisters";
+import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
 import {
   createTeacher,
   createTeachersOffice,
   deleteTeacher,
   editTeacher,
+  editTeacherOffice,
   getIdSchool,
   getRegisterOffice,
   readAllTeacher,
@@ -34,7 +33,7 @@ import {
 import RootLayout from "../../../app/layout";
 import { isValidCPF, maskCPF } from "../../../utils/maskUtils";
 
-const createFormSchema = z.object({
+export const createFormSchema = z.object({
   name: z.string().nonempty("Nome é obrigatório!"),
   cpf: z
     .string()
@@ -46,14 +45,14 @@ const createFormSchema = z.object({
     .string()
     .nonempty("Selecione qual a sede")
     .transform((school) => Number(school)),
+  officesTeacher: z.array(z.number()).min(1, "Selecione pelo menos um cargo"),
 });
 
 export type CreateFormDataTeacher = z.infer<typeof createFormSchema>;
 
 export default function CadastroProfessor() {
   const { allInfosTeacher } = useSelector((root: RootState) => root.Slice);
-  const [infosInput, setInfosInput] =
-    useState<TeacherInfos>(TeacherValuesDefault);
+  const [infosInput, setInfosInput] = useState<TeacherInfos>(TeacherValuesDefault);
   const [search, setSearch] = useState("");
   const [modalInactive, setModalInactive] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
@@ -133,11 +132,7 @@ export default function CadastroProfessor() {
           ) : null}
 
           <div className="w-full h-auto flex items-center justify-end">
-            <ClipboardList
-              size={26}
-              className="cursor-pointer"
-              onClick={() => setModalInactive(true)}
-            />
+            <ClipboardList size={26} className="cursor-pointer" onClick={() => setModalInactive(true)} />
           </div>
 
           <TableRegisters
@@ -177,12 +172,9 @@ export default function CadastroProfessor() {
     </RootLayout>
   );
 
-  async function submitTeacher(
-    data: SubmitDataModal,
-    officesTeacher: number[],
-  ) {
+  async function submitTeacher(data: SubmitDataModal) {
     if ("thirst" in data && "cpf" in data && "name" in data) {
-      const { thirst, cpf, ...rest } = data;
+      const { thirst, cpf, officesTeacher, ...rest } = data;
       const school: SchoolInfos = await getIdSchool(thirst);
 
       const aux: TeacherInfos = {
@@ -195,16 +187,16 @@ export default function CadastroProfessor() {
       };
 
       let message: AxiosError | string;
+      let auxData: AxiosError | TeacherInfos;
+
       if (!infosInput.edit) {
-        const auxData: AxiosError | TeacherInfos = await createTeacher(
-          aux,
-          aux.thirst.id,
-        );
-        message =
-          auxData !== undefined ? "Professor cadastrada com sucesso" : auxData;
-        await createTeachersOffice(officesTeacher, auxData.id);
+        auxData = await createTeacher(aux, aux.thirst.id);
+        message = auxData !== undefined ? "Professor cadastrada com sucesso" : auxData;
+        await createTeachersOffice(data.officesTeacher, auxData.id);
       } else {
-        message = await editTeacher(aux, aux.thirst.id);
+        auxData = await editTeacher(aux, aux.thirst.id);
+        message = auxData !== undefined ? "Professor editado com sucesso" : auxData;
+        await editTeacherOffice(data.officesTeacher, auxData.id);
         setModal(false);
       }
 
@@ -215,12 +207,7 @@ export default function CadastroProfessor() {
   }
 
   async function editInfo(info: InfosTableRegisterData, inactive = false) {
-    if (
-      "thirst" in info &&
-      "cpf" in info &&
-      "office" in info &&
-      "name" in info
-    ) {
+    if ("thirst" in info && "cpf" in info && "office" in info && "name" in info) {
       if (!inactive) {
         const { thirst, edit, ...rest } = info;
 
@@ -229,23 +216,16 @@ export default function CadastroProfessor() {
           thirst,
           ...rest,
         };
+
         setInfosInput(aux);
         setModal(true);
       } else {
-        if (
-          window.confirm(
-            `Quer mesmo ${inactive ? "inativar" : "ativar"} o professor ${
-              info.name
-            }?`,
-          )
-        ) {
+        if (window.confirm(`Quer mesmo ${inactive ? "inativar" : "ativar"} o professor ${info.name}?`)) {
           const { inactive, ...rest } = info;
           const aux: TeacherInfos = { inactive: !inactive, ...rest };
           await editTeacher(aux, info.thirst.id);
           messageToast(
-            inactive
-              ? "Inativação do Professor feito com sucesso!"
-              : "Ativação do Professor feito com sucesso!",
+            inactive ? "Inativação do Professor feito com sucesso!" : "Ativação do Professor feito com sucesso!",
           );
           dispatch(refreshInfosTeacher(await readAllTeacher()));
         }
@@ -254,12 +234,7 @@ export default function CadastroProfessor() {
   }
 
   async function deleteInfo(info: InfosTableRegisterData) {
-    if (
-      "thirst" in info &&
-      "cpf" in info &&
-      "office" in info &&
-      "name" in info
-    ) {
+    if ("thirst" in info && "cpf" in info && "office" in info && "name" in info) {
       if (window.confirm(`Quer mesmo deletar o professor ${info.name}?`)) {
         const message: AxiosError | string = await deleteTeacher(info.id);
         messageToast(message);

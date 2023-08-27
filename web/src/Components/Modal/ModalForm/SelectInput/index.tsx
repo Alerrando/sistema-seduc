@@ -14,26 +14,15 @@ type SelectInputProps = {
 
 export default function SelectInput(props: SelectInputProps) {
   const { label, htmlFor, name, optionDefault, optionType, register } = props;
-  const { allInfosSchool, allInfosTeacher, allInfosOffice } = useSelector(
-    (root: RootState) => root.Slice,
-  );
+  const { allInfosSchool, allInfosTeacher, allInfosOffice } = useSelector((root: RootState) => root.Slice);
 
   return (
     <div className="w-full flex flex-col gap-2">
       <label htmlFor={htmlFor} className="font-bold">
         {label}
       </label>
-      <select
-        id={name}
-        className="border border-[#999] rounded-lg p-2 outline-none"
-        {...register(name)}
-      >
-        <option
-          key={`default ${optionType}`}
-          value=""
-          className="outline-none border-none"
-          defaultChecked={true}
-        >
+      <select id={name} className="border border-[#999] rounded-lg p-2 outline-none" {...register(name)}>
+        <option key={`default ${optionType}`} value="" className="outline-none border-none" defaultChecked={true}>
           {optionDefault}
         </option>
 
@@ -59,11 +48,7 @@ export default function SelectInput(props: SelectInputProps) {
             {allInfosTeacher?.map((teacher: TeacherInfos) => (
               <>
                 {teacher.inactive === false && (
-                  <option
-                    key={`professor-${teacher.name}`}
-                    value={teacher.id}
-                    className="outline-none border-none"
-                  >
+                  <option key={`professor-${teacher.name}`} value={teacher.id} className="outline-none border-none">
                     {teacher.name}
                   </option>
                 )}
@@ -72,18 +57,10 @@ export default function SelectInput(props: SelectInputProps) {
           </>
         ) : optionType === "Office" ? (
           <>
-            <option
-              key="office-user"
-              value={1}
-              className="outline-none border-none"
-            >
+            <option key="office-user" value={1} className="outline-none border-none">
               Usuário
             </option>
-            <option
-              key="office-teacher"
-              value={2}
-              className="outline-none border-none"
-            >
+            <option key="office-teacher" value={2} className="outline-none border-none">
               Professor
             </option>
           </>
@@ -92,11 +69,7 @@ export default function SelectInput(props: SelectInputProps) {
             {allInfosOffice?.map((office: OfficeInfos) => (
               <>
                 {office.type === "1" && office.inactive === false ? (
-                  <option
-                    key={`office-${office.name}`}
-                    value={office.id}
-                    className="outline-none border-none"
-                  >
+                  <option key={`office-${office.name}`} value={office.id} className="outline-none border-none">
                     {office.name}
                   </option>
                 ) : null}
@@ -105,35 +78,19 @@ export default function SelectInput(props: SelectInputProps) {
           </>
         ) : optionType === "permission" ? (
           <>
-            <option
-              key="permission-on"
-              value={1}
-              className="outline-none border-none"
-            >
+            <option key="permission-on" value={1} className="outline-none border-none">
               Permitido
             </option>
-            <option
-              key="permission-off"
-              value={0}
-              className="outline-none border-none"
-            >
+            <option key="permission-off" value={0} className="outline-none border-none">
               Não Permitido
             </option>
           </>
         ) : (
           <>
-            <option
-              key="mandatory-on"
-              value={1}
-              className="outline-none border-none"
-            >
+            <option key="mandatory-on" value={1} className="outline-none border-none">
               Obrigatório
             </option>
-            <option
-              key="mandatory-off"
-              value={0}
-              className="outline-none border-none"
-            >
+            <option key="mandatory-off" value={0} className="outline-none border-none">
               Não Obrigatório
             </option>
           </>

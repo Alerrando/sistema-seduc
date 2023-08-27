@@ -14,8 +14,7 @@ const urlSchool = "http://localhost:9090/security/cadastro-escola";
 const urlTeacher = "http://localhost:9090/security/cadastro-professor";
 const urlUser = "http://localhost:9090/security/users";
 const urlFree = "http://localhost:9090/free";
-const urlDefinitionPeriods =
-  "http://localhost:9090/security/definition-periods";
+const urlDefinitionPeriods = "http://localhost:9090/security/definition-periods";
 const urlOffice = "http://localhost:9090/security/office";
 const urlTeachersOffice = "http://localhost:9090/security/teachers-office";
 
@@ -33,10 +32,7 @@ export async function readAllLesson() {
   }
 }
 
-export async function readPaginationLesson(
-  pageNumber: number,
-  pageSize: number,
-) {
+export async function readPaginationLesson(pageNumber: number, pageSize: number) {
   try {
     const aux = await axios
       .get(`${urlLesson}/page?pageNumber=${pageNumber}&pageSize=${pageSize}`, {
@@ -51,11 +47,7 @@ export async function readPaginationLesson(
   }
 }
 
-export async function createLesson(
-  info: LessonsInfos,
-  schoolId: number,
-  teacherId: number,
-) {
+export async function createLesson(info: LessonsInfos, schoolId: number, teacherId: number) {
   try {
     const message = await axios
       .post(`${urlLesson}/${schoolId}&${teacherId}`, info, {
@@ -72,11 +64,7 @@ export async function createLesson(
   }
 }
 
-export async function editLesson(
-  info: LessonsInfos,
-  schoolId: number,
-  teacherId: number,
-) {
+export async function editLesson(info: LessonsInfos, schoolId: number, teacherId: number) {
   try {
     const message = await axios
       .put(`${urlLesson}/${schoolId}&${teacherId}`, info, {
@@ -237,7 +225,7 @@ export async function editTeacher(info: TeacherInfos, idEscola: number) {
       .put(`${urlTeacher}/${idEscola}`, info, {
         headers: { Authorization: `${localStorage.getItem("token")}` },
       })
-      .then(() => "Professor editada com sucesso")
+      .then((res) => res.data)
       .catch((err) => err);
 
     return message;
@@ -262,11 +250,7 @@ export async function deleteTeacher(id: number) {
 }
 
 // ----------------------------- ROUTER REPORTS ----------------------------- //]
-export async function getReportsSchool(
-  schoolId: number,
-  startDate: Date,
-  endDate: Date,
-) {
+export async function getReportsSchool(schoolId: number, startDate: Date, endDate: Date) {
   const aux = await axios
     .get(`${urlSchool}/relatorio/${schoolId}&${startDate}&${endDate}`, {
       headers: { Authorization: `${localStorage.getItem("token")}` },
@@ -277,11 +261,7 @@ export async function getReportsSchool(
   return aux;
 }
 
-export async function getReportsTeacher(
-  teacherId: number,
-  startDate: Date,
-  endDate: Date,
-) {
+export async function getReportsTeacher(teacherId: number, startDate: Date, endDate: Date) {
   const aux = await axios
     .get(`${urlTeacher}/boletim/${teacherId}&${startDate}&${endDate}`, {
       headers: { Authorization: `${localStorage.getItem("token")}` },
@@ -306,11 +286,7 @@ export async function findAllUser() {
   return message;
 }
 
-export async function getUserByEmail(
-  email: string,
-  password: string,
-  token: string,
-) {
+export async function getUserByEmail(email: string, password: string, token: string) {
   const message = await axios
     .get(`${urlUser}/find/${email}&${password}`, {
       headers: { Authorization: token },
@@ -500,6 +476,17 @@ export async function createTeachersOffice(infos: number[], teacherId: number) {
       headers: { Authorization: `${localStorage.getItem("token")}` },
     })
     .then(() => "Cargos Cadastrados")
+    .catch((err) => err);
+
+  return message;
+}
+
+export async function editTeacherOffice(infos: number[], teacherId: number) {
+  const message = await axios
+    .put(`${urlTeachersOffice}/${teacherId}`, infos, {
+      headers: { Authorization: `${localStorage.getItem("token")}` },
+    })
+    .then(() => "Cargos Editado com Sucesso")
     .catch((err) => err);
 
   return message;

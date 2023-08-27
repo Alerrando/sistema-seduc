@@ -45,8 +45,9 @@ export default function Modal(props: ModalProps) {
     thead,
     modalName,
   } = props;
-  const { allInfosOffice, allInfosSchool, allInfosTeacher, allInfosLesson } =
-    useSelector((root: RootState) => root.Slice);
+  const { allInfosOffice, allInfosSchool, allInfosTeacher, allInfosLesson } = useSelector(
+    (root: RootState) => root.Slice,
+  );
   const { usersAll } = useSelector((root: RootState) => root.SliceLogin);
 
   return (
@@ -55,19 +56,11 @@ export default function Modal(props: ModalProps) {
         <header className="min-w-full h-auto flex flex-col gap-2 p-2 after:block after:border-b after:border-[#999]">
           <div className="w-full flex flex-row items-center justify-between">
             <h2 className="text-xl md:text-3xl font-bold">{title}</h2>
-            <X
-              size={32}
-              className="cursor-pointer"
-              onClick={() => setModal(false)}
-            />
+            <X size={32} className="cursor-pointer" onClick={() => setModal(false)} />
           </div>
         </header>
 
-        {submitInfos !== undefined &&
-        inputs &&
-        setInfosInput &&
-        createFormSchema &&
-        thead === undefined ? (
+        {submitInfos !== undefined && inputs && setInfosInput && createFormSchema && thead === undefined ? (
           <>
             {modalName === "Lesson" ? (
               <div className="w-full flex flex-col sm:grid sm:grid-cols-2">

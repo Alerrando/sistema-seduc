@@ -20,16 +20,6 @@ export type TypeDefault = {
   inactive: boolean;
 };
 
-export type LessonsInfos = {
-  id: number;
-  registerTeacher: TeacherInfos;
-  amountTime: string;
-  lessonDay: Date | string;
-  registerSchool: SchoolInfos;
-  inactive: boolean;
-  edit: boolean;
-};
-
 export type SchoolInfos = {
   adress: string;
   zip: string;
@@ -40,8 +30,18 @@ export type SchoolInfos = {
 export type TeacherInfos = {
   cpf: string;
   thirst: SchoolInfos;
-  office: OfficeInfos;
+  officesTeacher: number[];
 } & TypeDefault;
+
+export type LessonsInfos = {
+  id: number;
+  registerTeacher: TeacherInfos;
+  amountTime: string;
+  lessonDay: Date | string;
+  registerSchool: SchoolInfos;
+  inactive: boolean;
+  edit: boolean;
+};
 
 export type DefinitionPeriodsInfos = {
   startDate: Date | string;
@@ -112,7 +112,7 @@ export const OfficeValuesDefault: OfficeInfos = {
 export const TeacherValuesDefault: TeacherInfos = {
   ...ValuesDefault,
   cpf: "",
-  office: OfficeValuesDefault,
+  officesTeacher: [],
   thirst: SchoolValuesDefault,
 };
 
@@ -169,50 +169,32 @@ export const slice: Slice<StateProps> = createSlice({
       state.allInfosTeacher = action.payload;
     },
 
-    refreshDefinitionPeriods: (
-      state,
-      action: PayloadAction<DefinitionPeriodsInfos[]>,
-    ) => {
+    refreshDefinitionPeriods: (state, action: PayloadAction<DefinitionPeriodsInfos[]>) => {
       state.infosDefinitionPeriods = action.payload;
     },
 
     refreshInfosOffice: (state, action: PayloadAction<OfficeInfos[]>) => {
       state.allInfosOffice = action.payload;
     },
-    refreshInfosTeachersOffice: (
-      state,
-      action: PayloadAction<TeachersOffice[]>,
-    ) => {
+    refreshInfosTeachersOffice: (state, action: PayloadAction<TeachersOffice[]>) => {
       state.allInfosTeachersOffice = action.payload;
     },
 
-    changeRegisterType: (
-      state,
-      action: PayloadAction<keyof typeof registerTypes>,
-    ) => {
+    changeRegisterType: (state, action: PayloadAction<keyof typeof registerTypes>) => {
       state.registerType = action.payload;
     },
 
-    changeReportsType: (
-      state,
-      action: PayloadAction<keyof typeof reportsTypes>,
-    ) => {
+    changeReportsType: (state, action: PayloadAction<keyof typeof reportsTypes>) => {
       state.reportsTypes = action.payload;
     },
   },
 });
 
-export function objectEmptyValue(
-  obj: LessonsInfos | SchoolInfos | TeacherInfos,
-) {
+export function objectEmptyValue(obj: LessonsInfos | SchoolInfos | TeacherInfos) {
   for (const key in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      const value =
-        obj[key as keyof (LessonsInfos | SchoolInfos | TeacherInfos)];
-      if (
-        typeof value === "string" &&
-        (value === "" || value === null || value === undefined)
-      ) {
+      const value = obj[key as keyof (LessonsInfos | SchoolInfos | TeacherInfos)];
+      if (typeof value === "string" && (value === "" || value === null || value === undefined)) {
         return true;
       }
     }

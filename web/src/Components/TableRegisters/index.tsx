@@ -13,17 +13,12 @@ import {
 import { UserInfos } from "../../../slice/LoginSlice";
 import { readAllSchool, readAllTeacher } from "../../api";
 import RenderLessonColumns from "./RenderLessonColumns";
+import RenderOtherColumns from "./RenderOtherColumns";
 import RenderSchoolColumns from "./RenderSchoolColumns";
 import RenderTeacherColumns from "./RenderTeacherColumns";
 import RenderUserColumns from "./RenderUserColumns";
-import RenderOtherColumns from "./RenderOtherColumns";
 
-export type InfosTableRegisterData =
-  | LessonsInfos
-  | SchoolInfos
-  | TeacherInfos
-  | OfficeInfos
-  | UserInfos;
+export type InfosTableRegisterData = LessonsInfos | SchoolInfos | TeacherInfos | OfficeInfos | UserInfos;
 
 type TableRegistersProps = {
   tableHead: string[];
@@ -50,11 +45,7 @@ export default function TableRegisters(props: TableRegistersProps) {
         <thead className="ltr:text-left rtl:text-right">
           <tr>
             {tableHead.map((head) => (
-              <th
-                key={head}
-                scope="col"
-                className="whitespace-nowrap text-start px-4 py-2 font-medium text-gray-900"
-              >
+              <th key={head} scope="col" className="whitespace-nowrap text-start px-4 py-2 font-medium text-gray-900">
                 {head}
               </th>
             ))}
@@ -66,9 +57,7 @@ export default function TableRegisters(props: TableRegistersProps) {
               <>
                 {info.inactive === false && (
                   <tr key={info.id}>
-                    {registerType === "Lesson" &&
-                    "registerTeacher" in info &&
-                    "registerSchool" in info ? (
+                    {registerType === "Lesson" && "registerTeacher" in info && "registerSchool" in info ? (
                       <RenderLessonColumns lesson={info} index={index} />
                     ) : registerType === "School" &&
                       "name" in info &&

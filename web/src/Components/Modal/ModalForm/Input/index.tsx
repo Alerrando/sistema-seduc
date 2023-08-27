@@ -14,17 +14,7 @@ type InputProps = {
 };
 
 export default function Input(props: InputProps) {
-  const {
-    label,
-    htmlFor,
-    type,
-    placeholder,
-    name,
-    register,
-    setValue,
-    maskHandleForm,
-    maxChars,
-  } = props;
+  const { label, htmlFor, type, placeholder, name, register, setValue, maskHandleForm, maxChars } = props;
 
   return (
     <div className="w-full flex flex-col gap-2">
