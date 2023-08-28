@@ -10,6 +10,8 @@ type RenderTeacherColumnsProps = {
 export default function RenderTeacherColumns({ teacher, index }: RenderTeacherColumnsProps) {
   const { allInfosOfficesTeacher } = useSelector((root: RootState) => root.Slice);
 
+  console.log(allInfosOfficesTeacher);
+
   return (
     <>
       <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>

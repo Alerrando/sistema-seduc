@@ -221,7 +221,7 @@ export const {
   refreshInfosTeacher,
   refreshDefinitionPeriods,
   refreshInfosOffice,
-  refreshInfosTeachersOffice,
+  refreshInfosOfficesTeacher,
   changeRegisterType,
   changeReportsType,
 } = slice.actions;

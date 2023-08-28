@@ -16,7 +16,7 @@ import {
   changeRegisterType,
   refreshInfosOffice,
   refreshInfosTeacher,
-  refreshInfosTeachersOffice,
+  refreshInfosOfficesTeacher,
 } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
@@ -148,7 +148,7 @@ export default function CadastroProfessor() {
         {modal ? (
           <Modal
             infosInput={infosInput}
-            setModal={setModal}
+            setModal={handleCloseModal}
             setInfosInput={setInfosInput}
             submitInfos={submitTeacher}
             title="Cadastro de Professor"
@@ -188,14 +188,14 @@ export default function CadastroProfessor() {
         ...rest,
       };
 
-      submitEditTeacher(aux, data);
-      dispatch(refreshInfosTeachersOffice(await findAllTeachersOffice()));
+      await submitEditTeacher(aux, data);
+      dispatch(refreshInfosOfficesTeacher(await findAllTeachersOffice()));
       dispatch(refreshInfosTeacher(await readAllTeacher()));
       setInfosInput(TeacherValuesDefault);
     }
   }
 
-  function submitEditTeacher(aux: TeacherInfos, data: SubmitDataModal) {
+  async function submitEditTeacher(aux: TeacherInfos, data: SubmitDataModal) {
     let message: AxiosError | string;
     let auxData: AxiosError | TeacherInfos;
 
@@ -275,5 +275,10 @@ export default function CadastroProfessor() {
         theme: "light",
       });
     }
+  }
+
+  function handleCloseModal() {
+    setModal(false);
+    setInfosInput(TeacherValuesDefault);
   }
 }

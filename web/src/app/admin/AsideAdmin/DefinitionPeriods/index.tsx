@@ -7,40 +7,21 @@ import "react-calendar/dist/Calendar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { AppDispatch, RootState } from "../../../../../configureStore";
-<<<<<<< HEAD
 import { DefinitionPeriodsInfos, refreshDefinitionPeriods } from "../../../../../slice";
 import { createDefinitionPeriods, findAllDefinitionPeriods } from "../../../../api";
-import { AxiosError } from "axios";
-=======
-import {
-  DefinitionPeriodsInfos,
-  refreshDefinitionPeriods,
-} from "../../../../../slice";
-import {
-  createDefinitionPeriods,
-  findAllDefinitionPeriods,
-} from "../../../../api";
->>>>>>> a73c427ca72c353eae4d10ba97520336b5f63c70
 
 export default function DefinitionPeriods() {
-  const { infosDefinitionPeriods } = useSelector(
-    (root: RootState) => root.Slice,
-  );
-  const [datas, setDatas] = useState<DefinitionPeriodsInfos>(
-    {} as DefinitionPeriodsInfos,
-  );
+  const { infosDefinitionPeriods } = useSelector((root: RootState) => root.Slice);
+  const [datas, setDatas] = useState<DefinitionPeriodsInfos>({} as DefinitionPeriodsInfos);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     (async () => {
-      const periods: DefinitionPeriodsInfos[] =
-        await findAllDefinitionPeriods();
-      const formattedPeriods: DefinitionPeriodsInfos[] = periods?.map(
-        (period) => ({
-          startDate: new Date(period.startDate).toISOString(),
-          endDate: new Date(period.endDate).toISOString(),
-        }),
-      );
+      const periods: DefinitionPeriodsInfos[] = await findAllDefinitionPeriods();
+      const formattedPeriods: DefinitionPeriodsInfos[] = periods?.map((period) => ({
+        startDate: new Date(period.startDate).toISOString(),
+        endDate: new Date(period.endDate).toISOString(),
+      }));
 
       dispatch(refreshDefinitionPeriods(formattedPeriods));
     })();
@@ -51,9 +32,7 @@ export default function DefinitionPeriods() {
   return (
     <>
       <header className="w-full h-auto flex items-center justify-between border-b border-b-[#efefef] p-3">
-        <h1 className="text-3xl">
-          Definição do período de Cadastro de Aulas Eventuais
-        </h1>
+        <h1 className="text-3xl">Definição do período de Cadastro de Aulas Eventuais</h1>
 
         <div className="w-auto h-auto">
           <div
@@ -64,10 +43,7 @@ export default function DefinitionPeriods() {
         </div>
       </header>
 
-      <form
-        className="h-full w-full flex flex-col items-start justify-between p-12"
-        onSubmit={submit}
-      >
+      <form className="h-full w-full flex flex-col items-start justify-between p-12" onSubmit={submit}>
         <div className="h-full w-full flex items-start justify-between">
           <div className="h-auto w-1/3 grid justify-center text-center gap-3">
             <h2 className="text-2xl">Data inicial</h2>
@@ -78,13 +54,7 @@ export default function DefinitionPeriods() {
               onChange={(e) =>
                 setDatas({
                   ...datas,
-                  startDate: e
-                    ? typeof e === "string"
-                      ? e
-                      : e instanceof Date
-                      ? e.toISOString()
-                      : e.toString()
-                    : "",
+                  startDate: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.toString()) : "",
                 })
               }
             />
@@ -99,13 +69,7 @@ export default function DefinitionPeriods() {
               onChange={(e) =>
                 setDatas({
                   ...datas,
-                  endDate: e
-                    ? typeof e === "string"
-                      ? e
-                      : e instanceof Date
-                      ? e.toISOString()
-                      : e.toString()
-                    : "",
+                  endDate: e ? (typeof e === "string" ? e : e instanceof Date ? e.toISOString() : e.toString()) : "",
                 })
               }
             />
@@ -120,18 +84,9 @@ export default function DefinitionPeriods() {
               <div className="w-auto h-full flex p-2 border border-[#cfcfcf] rounded shadow-lg">
                 <span>
                   {infosDefinitionPeriods?.length > 0 &&
-                  isValid(
-                    new Date(
-                      infosDefinitionPeriods[infosDefinitionPeriods.length - 1]
-                        ?.startDate,
-                    ),
-                  )
+                  isValid(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.startDate))
                     ? format(
-                        new Date(
-                          infosDefinitionPeriods[
-                            infosDefinitionPeriods.length - 1
-                          ]?.startDate,
-                        ),
+                        new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.startDate),
                         "dd/MM/yyyy",
                       )
                     : ""}
@@ -147,20 +102,8 @@ export default function DefinitionPeriods() {
               <div className="w-auto h-full flex p-2 border border-[#cfcfcf] rounded shadow-lg">
                 <span>
                   {infosDefinitionPeriods?.length > 0 &&
-                  isValid(
-                    new Date(
-                      infosDefinitionPeriods[infosDefinitionPeriods.length - 1]
-                        ?.endDate,
-                    ),
-                  )
-                    ? format(
-                        new Date(
-                          infosDefinitionPeriods[
-                            infosDefinitionPeriods.length - 1
-                          ]?.endDate,
-                        ),
-                        "dd/MM/yyyy",
-                      )
+                  isValid(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.endDate))
+                    ? format(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.endDate), "dd/MM/yyyy")
                     : ""}
                 </span>
               </div>
@@ -186,12 +129,10 @@ export default function DefinitionPeriods() {
     if (datas.startDate !== null && datas.endDate !== null) {
       const message: string | AxiosError = await createDefinitionPeriods(datas);
       const aux = await findAllDefinitionPeriods();
-      const formattedPeriods: DefinitionPeriodsInfos[] = aux?.map(
-        (period: DefinitionPeriodsInfos) => ({
-          startDate: new Date(period.startDate).toISOString(),
-          endDate: new Date(period.endDate).toISOString(),
-        }),
-      );
+      const formattedPeriods: DefinitionPeriodsInfos[] = aux?.map((period: DefinitionPeriodsInfos) => ({
+        startDate: new Date(period.startDate).toISOString(),
+        endDate: new Date(period.endDate).toISOString(),
+      }));
       dispatch(refreshDefinitionPeriods(formattedPeriods));
       messageToast(message);
     }
@@ -206,35 +147,6 @@ export default function DefinitionPeriods() {
     }
   }
 
-<<<<<<< HEAD
-	function messageToast(message: AxiosError | string){
-		if(typeof message !== "object"){
-			toast.success(message, {
-				position: "bottom-left",
-				autoClose: 5000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-				theme: "light",
-			});
-		}
-		else{
-			const errorMessage = message?.response?.data || "Erro desconhecido";
-			toast.error(errorMessage.toString(), {
-				position: "bottom-left",
-				autoClose: 5000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-				theme: "light",
-			});
-		}
-	}
-=======
   function messageToast(message: AxiosError | string) {
     if (typeof message !== "object") {
       toast.success(message, {
@@ -261,5 +173,4 @@ export default function DefinitionPeriods() {
       });
     }
   }
->>>>>>> a73c427ca72c353eae4d10ba97520336b5f63c70
 }

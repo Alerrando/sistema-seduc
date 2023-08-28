@@ -20,17 +20,8 @@ import {
 } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
-import TableRegisters, {
-  InfosTableRegisterData,
-} from "../../../Components/TableRegisters";
-import {
-  createLesson,
-  deleteLesson,
-  editLesson,
-  getIdSchool,
-  getNameByIdTeacher,
-  readAllLesson,
-} from "../../../api";
+import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
+import { createLesson, deleteLesson, editLesson, getIdSchool, getNameByIdTeacher, readAllLesson } from "../../../api";
 import RootLayout from "../../../app/layout";
 
 const createFormSchema = z.object({
@@ -48,25 +39,15 @@ const createFormSchema = z.object({
 export type CreateFormDataLesson = z.infer<typeof createFormSchema>;
 
 export default function ControleAulasEventuais() {
-  const [infosInput, setInfosInput] =
-    useState<LessonsInfos>(HorasValuesDefault);
+  const [infosInput, setInfosInput] = useState<LessonsInfos>(HorasValuesDefault);
   const { allInfosLesson } = useSelector((slice: RootState) => slice.Slice);
-  const { infosDefinitionPeriods } = useSelector(
-    (root: RootState) => root.Slice,
-  );
+  const { infosDefinitionPeriods } = useSelector((root: RootState) => root.Slice);
   const dispatch = useDispatch<AppDispatch>();
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState(false);
   const [modalInactive, setModalInactive] = useState<boolean>(false);
   const [lessonsLengthall, setLessonsLengthall] = useState(0);
-  const tableHead = [
-    "Id",
-    "Nome Completo",
-    "Horas de aulas dadas",
-    "Escola",
-    "Dia da aula",
-    "Ações",
-  ];
+  const tableHead = ["Id", "Nome Completo", "Horas de aulas dadas", "Escola", "Dia da aula", "Ações"];
   const inputs: InputConfig[] = [
     {
       type: "string",
@@ -109,11 +90,9 @@ export default function ControleAulasEventuais() {
     <RootLayout showHeaderAside>
       <section className="w-full sm:w-5/6 h-max ml-auto">
         <div className="w-full flex flex-col gap-4 px-6 py-3">
-          <h1 className="text-[27px] md:text-[42px]">
-            Controle de Aulas Eventuais
-          </h1>
+          <h1 className="text-[27px] md:text-[42px]">Controle de Aulas Eventuais</h1>
 
-          {allInfosLesson != undefined ? (
+          {allInfosLesson !== undefined ? (
             <CreateHeaderRegisters
               setModal={setModal}
               setSearch={setSearch}
@@ -130,19 +109,9 @@ export default function ControleAulasEventuais() {
                 <div className="w-auto h-full flex p-2 border border-[#cfcfcf] rounded shadow-lg">
                   <span>
                     {infosDefinitionPeriods?.length > 0 &&
-                    isValid(
-                      new Date(
-                        infosDefinitionPeriods[
-                          infosDefinitionPeriods.length - 1
-                        ]?.startDate,
-                      ),
-                    )
+                    isValid(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.startDate))
                       ? format(
-                          new Date(
-                            infosDefinitionPeriods[
-                              infosDefinitionPeriods.length - 1
-                            ]?.startDate,
-                          ),
+                          new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.startDate),
                           "dd/MM/yyyy",
                         )
                       : ""}
@@ -158,19 +127,9 @@ export default function ControleAulasEventuais() {
                 <div className="w-auto h-full flex p-2 border border-[#cfcfcf] rounded shadow-lg">
                   <span>
                     {infosDefinitionPeriods?.length > 0 &&
-                    isValid(
-                      new Date(
-                        infosDefinitionPeriods[
-                          infosDefinitionPeriods.length - 1
-                        ]?.endDate,
-                      ),
-                    )
+                    isValid(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.endDate))
                       ? format(
-                          new Date(
-                            infosDefinitionPeriods[
-                              infosDefinitionPeriods.length - 1
-                            ]?.endDate,
-                          ),
+                          new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.endDate),
                           "dd/MM/yyyy",
                         )
                       : ""}
@@ -180,11 +139,7 @@ export default function ControleAulasEventuais() {
             </div>
 
             <div className="w-auto h-full flex items-center justify-center">
-              <ClipboardList
-                size={26}
-                className="cursor-pointer"
-                onClick={() => setModalInactive(true)}
-              />
+              <ClipboardList size={26} className="cursor-pointer" onClick={() => setModalInactive(true)} />
             </div>
           </div>
 
@@ -203,7 +158,7 @@ export default function ControleAulasEventuais() {
           <Modal
             infosInput={infosInput}
             setInfosInput={setInfosInput}
-            setModal={setModal}
+            setModal={handleCloseModal}
             submitInfos={submitLesson}
             title="Controle de Aulas Eventuais"
             inputs={inputs}
@@ -229,17 +184,11 @@ export default function ControleAulasEventuais() {
   );
 
   async function submitLesson(data: SubmitDataModal) {
-    if (
-      "amountTime" in data &&
-      "registerTeacher" in data &&
-      "registerSchool" in data
-    ) {
+    if ("amountTime" in data && "registerTeacher" in data && "registerSchool" in data) {
       let message: AxiosError | string;
       const { registerSchool, registerTeacher, ...rest } = data;
       const schoolLesson: SchoolInfos = await getIdSchool(registerSchool);
-      const teacherLesson: TeacherInfos = await getNameByIdTeacher(
-        registerTeacher,
-      );
+      const teacherLesson: TeacherInfos = await getNameByIdTeacher(registerTeacher);
 
       const aux: LessonsInfos = {
         id: infosInput.id,
@@ -252,18 +201,10 @@ export default function ControleAulasEventuais() {
       };
 
       if (!infosInput.edit) {
-        message = await createLesson(
-          aux,
-          aux.registerSchool.id,
-          aux.registerTeacher.id,
-        );
+        message = await createLesson(aux, aux.registerSchool.id, aux.registerTeacher.id);
       } else {
         aux.id = infosInput.id;
-        message = await editLesson(
-          aux,
-          aux.registerSchool.id,
-          aux.registerTeacher.id,
-        );
+        message = await editLesson(aux, aux.registerSchool.id, aux.registerTeacher.id);
         setModal(false);
       }
 
@@ -275,11 +216,7 @@ export default function ControleAulasEventuais() {
   }
 
   async function editInfo(info: InfosTableRegisterData, inactive = false) {
-    if (
-      "amountTime" in info &&
-      "registerTeacher" in info &&
-      "registerSchool" in info
-    ) {
+    if ("amountTime" in info && "registerTeacher" in info && "registerSchool" in info) {
       if (!inactive) {
         const { ...rest } = info;
         const aux = {
@@ -292,22 +229,15 @@ export default function ControleAulasEventuais() {
       } else {
         if (
           window.confirm(
-            `Quer mesmo ${
-              inactive ? "inativar" : "ativar"
-            } a aula do professor ${info.registerTeacher.name} no dia ${format(
-              new Date(info.lessonDay),
-              "dd/MM/yyyy",
-            )}?`,
+            `Quer mesmo ${inactive ? "inativar" : "ativar"} a aula do professor ${
+              info.registerTeacher.name
+            } no dia ${format(new Date(info.lessonDay), "dd/MM/yyyy")}?`,
           )
         ) {
           const { inactive, ...rest } = info;
           const aux = { inactive: !inactive, ...rest };
           await editLesson(aux, aux.registerSchool.id, aux.registerTeacher.id);
-          messageToast(
-            inactive
-              ? "Inativação da Aula feito com sucesso!"
-              : "Ativação da Aula feito com sucesso!",
-          );
+          messageToast(inactive ? "Inativação da Aula feito com sucesso!" : "Ativação da Aula feito com sucesso!");
           dispatch(refreshInfosLesson(await readAllLesson()));
         }
       }
@@ -315,15 +245,9 @@ export default function ControleAulasEventuais() {
   }
 
   async function deleteInfo(info: InfosTableRegisterData) {
-    if (
-      "amountTime" in info &&
-      "registerTeacher" in info &&
-      "registerSchool" in info
-    ) {
+    if ("amountTime" in info && "registerTeacher" in info && "registerSchool" in info) {
       if (
-        window.confirm(`Deseja deletar a aula do professor ${
-          info.registerTeacher.name
-        } 
+        window.confirm(`Deseja deletar a aula do professor ${info.registerTeacher.name} 
 				no dia ${format(new Date(info.lessonDay), "dd/MM/yyyy")}?`)
       ) {
         const message = await deleteLesson(info.id);
@@ -358,5 +282,10 @@ export default function ControleAulasEventuais() {
         theme: "light",
       });
     }
+  }
+
+  function handleCloseModal() {
+    setModal(false);
+    setInfosInput(HorasValuesDefault);
   }
 }

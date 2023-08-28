@@ -16,15 +16,8 @@ import {
 } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
-import TableRegisters, {
-  InfosTableRegisterData,
-} from "../../../Components/TableRegisters";
-import {
-  createSchool,
-  deleteSchool,
-  editSchool,
-  readAllSchool,
-} from "../../../api";
+import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
+import { createSchool, deleteSchool, editSchool, readAllSchool } from "../../../api";
 import RootLayout from "../../../app/layout";
 import { applyCEPFormat, maskTelefone } from "../../../utils/maskUtils";
 
@@ -46,21 +39,11 @@ export type CreateFormDataSchool = z.infer<typeof createFormSchema>;
 
 export default function CadastroEscola() {
   const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
-  const [infosInput, setInfosInput] =
-    useState<SchoolInfos>(SchoolValuesDefault);
+  const [infosInput, setInfosInput] = useState<SchoolInfos>(SchoolValuesDefault);
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState<boolean>(false);
   const [modalInactive, setModalInactive] = useState<boolean>(false);
-  const thead = [
-    "Id",
-    "Nome da Escola",
-    "Endereço da Escola",
-    "Cep",
-    "Telefone",
-    "Email",
-    "Inatividade",
-    "Ações",
-  ];
+  const thead = ["Id", "Nome da Escola", "Endereço da Escola", "Cep", "Telefone", "Email", "Inatividade", "Ações"];
   const dispatch = useDispatch<AppDispatch>();
   const inputs: InputConfig[] = [
     {
@@ -136,11 +119,7 @@ export default function CadastroEscola() {
           ) : null}
 
           <div className="w-full h-auto flex items-center justify-end">
-            <ClipboardList
-              size={26}
-              className="cursor-pointer"
-              onClick={() => setModalInactive(true)}
-            />
+            <ClipboardList size={26} className="cursor-pointer" onClick={() => setModalInactive(true)} />
           </div>
 
           <TableRegisters
@@ -154,7 +133,7 @@ export default function CadastroEscola() {
         {modal ? (
           <Modal
             infosInput={infosInput}
-            setModal={setModal}
+            setModal={handleCloseModal}
             setInfosInput={setInfosInput}
             submitInfos={submitSchool}
             title="Cadastro de Escolas"
@@ -181,13 +160,7 @@ export default function CadastroEscola() {
   );
 
   async function submitSchool(data: SubmitDataModal) {
-    if (
-      "name" in data &&
-      "adress" in data &&
-      "zip" in data &&
-      "fone" in data &&
-      "email" in data
-    ) {
+    if ("name" in data && "adress" in data && "zip" in data && "fone" in data && "email" in data) {
       const { ...rest } = data;
       const { id } = infosInput;
       const aux: SchoolInfos = {
@@ -213,13 +186,7 @@ export default function CadastroEscola() {
   }
 
   async function editInfo(info: InfosTableRegisterData, inactive = false) {
-    if (
-      "name" in info &&
-      "adress" in info &&
-      "zip" in info &&
-      "fone" in info &&
-      "email" in info
-    ) {
+    if ("name" in info && "adress" in info && "zip" in info && "fone" in info && "email" in info) {
       if (!inactive) {
         const { ...rest } = info;
         const aux = {
@@ -229,21 +196,11 @@ export default function CadastroEscola() {
         setInfosInput(aux);
         setModal(true);
       } else {
-        if (
-          window.confirm(
-            `Quer mesmo ${inactive ? "inativar" : "ativar"} a escola ${
-              info.name
-            }?`,
-          )
-        ) {
+        if (window.confirm(`Quer mesmo ${inactive ? "inativar" : "ativar"} a escola ${info.name}?`)) {
           const { inactive, ...rest } = info;
           const aux: SchoolInfos = { inactive: !inactive, ...rest };
           await editSchool(aux, aux.id);
-          messageToast(
-            inactive
-              ? "Inativação da Escola feito com sucesso!"
-              : "Ativação da Escola feito com sucesso!",
-          );
+          messageToast(inactive ? "Inativação da Escola feito com sucesso!" : "Ativação da Escola feito com sucesso!");
           dispatch(refreshInfosSchool(await readAllSchool()));
         }
       }
@@ -251,13 +208,7 @@ export default function CadastroEscola() {
   }
 
   async function deleteInfo(info: InfosTableRegisterData) {
-    if (
-      "name" in info &&
-      "adress" in info &&
-      "zip" in info &&
-      "fone" in info &&
-      "email" in info
-    ) {
+    if ("name" in info && "adress" in info && "zip" in info && "fone" in info && "email" in info) {
       if (window.confirm(`Quer mesmo deletar a escola ${info.name}?`)) {
         const message: AxiosError | string = await deleteSchool(info.id);
         messageToast(message);
@@ -291,5 +242,10 @@ export default function CadastroEscola() {
         theme: "light",
       });
     }
+  }
+
+  function handleCloseModal() {
+    setModal(false);
+    setInfosInput(SchoolValuesDefault);
   }
 }

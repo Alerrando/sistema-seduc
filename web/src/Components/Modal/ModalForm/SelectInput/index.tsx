@@ -1,4 +1,5 @@
-import { UseFormRegister } from "react-hook-form";
+import { useEffect } from "react";
+import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../configureStore";
 import { OfficeInfos, SchoolInfos, TeacherInfos } from "../../../../../slice";
@@ -10,11 +11,28 @@ type SelectInputProps = {
   optionDefault: string;
   optionType: string;
   register: UseFormRegister<any>;
+  initialValues: any;
+  setValue: UseFormSetValue<any>;
+  modalName: string;
 };
 
 export default function SelectInput(props: SelectInputProps) {
-  const { label, htmlFor, name, optionDefault, optionType, register } = props;
+  const { label, htmlFor, name, optionDefault, optionType, register, initialValues, setValue, modalName } = props;
   const { allInfosSchool, allInfosTeacher, allInfosOffice } = useSelector((root: RootState) => root.Slice);
+
+  useEffect(() => {
+    debugger;
+    if (!initialValues.edit) {
+      setValue(name, 0);
+    } else {
+      if (modalName === "Lesson") {
+        setValue(name, initialValues.registerTeacher.id);
+        setValue(name, initialValues.registerSchool.id);
+      } else if (modalName === "Teacher") {
+        setValue(name, initialValues.thirst.id);
+      }
+    }
+  }, []);
 
   return (
     <div className="w-full flex flex-col gap-2">
@@ -22,7 +40,7 @@ export default function SelectInput(props: SelectInputProps) {
         {label}
       </label>
       <select id={name} className="border border-[#999] rounded-lg p-2 outline-none" {...register(name)}>
-        <option key={`default ${optionType}`} value="" className="outline-none border-none" defaultChecked={true}>
+        <option key={`default ${optionType}`} value={0} className="outline-none border-none" defaultChecked={true}>
           {optionDefault}
         </option>
 

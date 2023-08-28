@@ -22,7 +22,7 @@ export type SubmitDataModal =
 type ModalProps = {
   setInfosInput?: (infosInput: any) => void;
   infosInput?: any;
-  setModal: (modal: boolean) => void;
+  setModal: () => void;
   submitInfos?: (data: SubmitDataModal) => void;
   title: string;
   inputs?: InputConfig[];
@@ -56,7 +56,7 @@ export default function Modal(props: ModalProps) {
         <header className="min-w-full h-auto flex flex-col gap-2 p-2 after:block after:border-b after:border-[#999]">
           <div className="w-full flex flex-row items-center justify-between">
             <h2 className="text-xl md:text-3xl font-bold">{title}</h2>
-            <X size={32} className="cursor-pointer" onClick={() => setModal(false)} />
+            <X size={32} className="cursor-pointer" onClick={() => setModal()} />
           </div>
         </header>
 
