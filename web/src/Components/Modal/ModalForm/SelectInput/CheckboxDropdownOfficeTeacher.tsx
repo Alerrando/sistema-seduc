@@ -28,7 +28,7 @@ export default function CheckboxDropdownOfficeTeacher({
   useEffect(() => {
     (async () => {
       const fetchedOffices: TeachersOffice[] = await findTeachersOfficeById(values);
-      const updatedOffices = fetchedOffices.map((office: OfficeInfos) => office.id);
+      const updatedOffices = fetchedOffices.map((officeTeacher: TeachersOffice) => officeTeacher.registerOffice.id);
       onChange(updatedOffices);
     })();
   }, []);

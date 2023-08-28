@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { TeacherInfos, TeachersOffice } from "../../../slice";
 import { findTeachersOfficeById } from "../../api";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../configureStore";
 
 type RenderTeacherColumnsProps = {
   teacher: TeacherInfos;
@@ -8,6 +10,7 @@ type RenderTeacherColumnsProps = {
 };
 
 export default function RenderTeacherColumns({ teacher, index }: RenderTeacherColumnsProps) {
+  const { allInfosTeacher } = useSelector((root: RootState) => root.Slice);
   const [officesTeacher, setOfficesTeacher] = useState<TeachersOffice[]>([]);
 
   useEffect(() => {
@@ -21,7 +24,7 @@ export default function RenderTeacherColumns({ teacher, index }: RenderTeacherCo
     }
 
     fetchOffices();
-  }, []);
+  }, [allInfosTeacher]);
 
   console.log(officesTeacher);
 
@@ -33,7 +36,7 @@ export default function RenderTeacherColumns({ teacher, index }: RenderTeacherCo
       <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{teacher?.thirst.name}</td>
 
       <td className="flex flex-row whitespace-nowrap px-4 py-6 font-medium text-gray-900 divide-x-[1px] divide-gray-400">
-        {officesTeacher.map((office: TeachersOffice, indexOffice: number) => (
+        {officesTeacher?.map((office: TeachersOffice, indexOffice: number) => (
           <span key={indexOffice} className="px-2">
             {office.registerOffice.name}
           </span>
