@@ -5,7 +5,7 @@ import com.gerenciamentoescolas.server.entities.RegisterTeacher;
 import com.gerenciamentoescolas.server.entities.RegisterTeachersOffice;
 import com.gerenciamentoescolas.server.repository.RegisterOfficeRepository;
 import com.gerenciamentoescolas.server.repository.RegisterTeacherRepository;
-import com.gerenciamentoescolas.server.repository.TeachersOfficeRepository;
+import com.gerenciamentoescolas.server.repository.RegisterTeachersOfficeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +18,14 @@ public class RegisterTeachersOfficeService {
     @Autowired
     private RegisterOfficeRepository registerOfficeRepository;
     @Autowired
-    private TeachersOfficeRepository teachersOfficeRepository;
+    private RegisterTeachersOfficeRepository registerTeachersOfficeRepository;
 
     public List<RegisterTeachersOffice> findAll(){
-        return teachersOfficeRepository.findAll();
+        return registerTeachersOfficeRepository.findAll();
     }
 
     public List<RegisterTeachersOffice> findById(Integer teacherId){
-        return teachersOfficeRepository.findByTeacherId(teacherId);
+        return registerTeachersOfficeRepository.findByTeacherId(teacherId);
     }
 
     public void create(Integer teacherId, List<Integer> offices){
@@ -35,8 +35,12 @@ public class RegisterTeachersOfficeService {
 
             RegisterTeachersOffice registerTeachersOffice = new RegisterTeachersOffice(0, registerTeacher, registerOffice);
 
-            teachersOfficeRepository.save(registerTeachersOffice);
+            registerTeachersOfficeRepository.save(registerTeachersOffice);
         }
+    }
 
+    public void edit(Integer teacherId, List<Integer> offices){
+        registerTeachersOfficeRepository.deleteByIdTeacher(teacherId);
+        this.create(teacherId, offices);
     }
 }

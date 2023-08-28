@@ -28,4 +28,9 @@ public class RegisterTeachersOfficeControllers {
     public void create(@PathVariable Integer teacherId, @RequestBody List<Integer> offices){
         registerTeachersOfficeService.create(teacherId, offices);
     }
+
+    @PutMapping("/{teacherId}")
+    public void edit(@PathVariable Integer teacherId, @RequestBody List<Integer> offices){
+        registerTeachersOfficeService.edit(teacherId, offices);
+    }
 }
