@@ -52,6 +52,12 @@ export type OfficeInfos = {
   type: string;
 } & TypeDefault;
 
+export type OfficesTeacher = {
+  id: number;
+  idOffice: OfficeInfos;
+  idTeacher: TeacherInfos;
+};
+
 export type SchoolDTOInfos = {
   id: number;
   name: string;
@@ -138,6 +144,7 @@ type StateProps = {
   infosDefinitionPeriods: DefinitionPeriodsInfos[];
   allInfosOffice: OfficeInfos[];
   allInfosTeachersOffice: TeachersOffice[];
+  allInfosOfficesTeacher: OfficesTeacher[];
   registerType: keyof typeof registerTypes | null;
   reportsTypes: keyof typeof reportsTypes | null;
 };
@@ -149,6 +156,7 @@ const initialState: StateProps = {
   infosDefinitionPeriods: [],
   allInfosOffice: [],
   allInfosTeachersOffice: [],
+  allInfosOfficesTeacher: [],
   registerType: null,
   reportsTypes: null,
 };
@@ -178,6 +186,10 @@ export const slice: Slice<StateProps> = createSlice({
     },
     refreshInfosTeachersOffice: (state, action: PayloadAction<TeachersOffice[]>) => {
       state.allInfosTeachersOffice = action.payload;
+    },
+
+    refreshInfosOfficesTeacher: (state, action: PayloadAction<OfficesTeacher>) => {
+      state.allInfosOfficesTeacher = action.payload;
     },
 
     changeRegisterType: (state, action: PayloadAction<keyof typeof registerTypes>) => {

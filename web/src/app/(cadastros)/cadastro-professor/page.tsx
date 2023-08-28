@@ -16,6 +16,7 @@ import {
   changeRegisterType,
   refreshInfosOffice,
   refreshInfosTeacher,
+  refreshInfosTeachersOffice,
 } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
@@ -26,6 +27,7 @@ import {
   deleteTeacher,
   editTeacher,
   editTeacherOffice,
+  findAllTeachersOffice,
   getIdSchool,
   getRegisterOffice,
   readAllTeacher,
@@ -186,24 +188,29 @@ export default function CadastroProfessor() {
         ...rest,
       };
 
-      let message: AxiosError | string;
-      let auxData: AxiosError | TeacherInfos;
-
-      if (!infosInput.edit) {
-        auxData = await createTeacher(aux, aux.thirst.id);
-        message = auxData !== undefined ? "Professor cadastrada com sucesso" : auxData;
-        await createTeachersOffice(data.officesTeacher, auxData.id);
-      } else {
-        auxData = await editTeacher(aux, aux.thirst.id);
-        message = auxData !== undefined ? "Professor editado com sucesso" : auxData;
-        await editTeacherOffice(data.officesTeacher, auxData.id);
-        setModal(false);
-      }
-
+      submitEditTeacher(aux, data);
+      dispatch(refreshInfosTeachersOffice(await findAllTeachersOffice()));
       dispatch(refreshInfosTeacher(await readAllTeacher()));
-      messageToast(message);
       setInfosInput(TeacherValuesDefault);
     }
+  }
+
+  function submitEditTeacher(aux: TeacherInfos, data: SubmitDataModal) {
+    let message: AxiosError | string;
+    let auxData: AxiosError | TeacherInfos;
+
+    if (!infosInput.edit) {
+      auxData = await createTeacher(aux, aux.thirst.id);
+      message = auxData !== undefined ? "Professor cadastrada com sucesso" : auxData;
+      await createTeachersOffice(data.officesTeacher, auxData.id);
+    } else {
+      auxData = await editTeacher(aux, aux.thirst.id);
+      message = auxData !== undefined ? "Professor editado com sucesso" : auxData;
+      await editTeacherOffice(data.officesTeacher, auxData.id);
+      setModal(false);
+    }
+
+    messageToast(message);
   }
 
   async function editInfo(info: InfosTableRegisterData, inactive = false) {
