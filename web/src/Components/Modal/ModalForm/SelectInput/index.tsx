@@ -21,15 +21,16 @@ export default function SelectInput(props: SelectInputProps) {
   const { allInfosSchool, allInfosTeacher, allInfosOffice } = useSelector((root: RootState) => root.Slice);
 
   useEffect(() => {
-    debugger;
-    if (!initialValues.edit) {
-      setValue(name, 0);
-    } else {
-      if (modalName === "Lesson") {
-        setValue(name, initialValues.registerTeacher.id);
-        setValue(name, initialValues.registerSchool.id);
-      } else if (modalName === "Teacher") {
-        setValue(name, initialValues.thirst.id);
+    if (initialValues !== undefined) {
+      if (!initialValues?.edit) {
+        setValue(name, 0);
+      } else {
+        if (modalName === "Lesson") {
+          setValue(name, initialValues.registerTeacher.id);
+          setValue(name, initialValues.registerSchool.id);
+        } else if (modalName === "Teacher") {
+          setValue(name, initialValues.thirst.id);
+        }
       }
     }
   }, []);

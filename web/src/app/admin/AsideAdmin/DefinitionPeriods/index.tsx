@@ -27,8 +27,6 @@ export default function DefinitionPeriods() {
     })();
   }, []);
 
-  console.log(infosDefinitionPeriods);
-
   return (
     <>
       <header className="w-full h-auto flex items-center justify-between border-b border-b-[#efefef] p-3">

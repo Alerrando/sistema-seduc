@@ -12,10 +12,7 @@ import {
   refreshFilterInfosSchool,
   refreshFilterStartEndDate,
 } from "../../../../slice/FilterSlice";
-import Filter, {
-  DatasTypes,
-  SubmitDataFilter,
-} from "../../../Components/Filter";
+import Filter, { DatasTypes, SubmitDataFilter } from "../../../Components/Filter";
 import TableReports from "../../../Components/TableReports";
 import { getIdSchool, getReportsSchool } from "../../../api";
 import RootLayout from "../../../app/layout";
@@ -33,21 +30,12 @@ export type InitalValuesTypeSubstitutionBulletin = {
 
 export default function BoletimSubstituicao() {
   const [filter, setFilter] = useState<boolean>(false);
-  const [initalValues, setInitialValues] =
-    useState<InitalValuesTypeSubstitutionBulletin>(
-      {} as InitalValuesTypeSubstitutionBulletin,
-    );
-  const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
-  const tableHead = [
-    "Nome",
-    "Formação",
-    "Dias Trabalhados",
-    "Total a pagar",
-    "Observações",
-  ];
-  const { allFilterInfosSchool } = useSelector(
-    (root: RootState) => root.SliceFilter,
+  const [initalValues, setInitialValues] = useState<InitalValuesTypeSubstitutionBulletin>(
+    {} as InitalValuesTypeSubstitutionBulletin,
   );
+  const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
+  const tableHead = ["Nome", "Formação", "Dias Trabalhados", "Total a pagar", "Observações"];
+  const { allFilterInfosSchool } = useSelector((root: RootState) => root.SliceFilter);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -61,19 +49,14 @@ export default function BoletimSubstituicao() {
       <main className="w-full h-[88vh] md:h-[83vh] md:w-5/6 flex flex-col items-center justify-between ml-auto px-6 overflow-y-auto">
         <div className="w-full h-100%">
           <div className="w-full flex flex-row items-center justify-between gap-4 py-3">
-            <h1 className="text-[19px] font-bold md:text-[42px]">
-              Boletim de Substituições
-            </h1>
+            <h1 className="text-[19px] font-bold md:text-[42px]">Boletim de Substituições</h1>
             <SlidersHorizontal
               className="w-6 h-6 md:w-8 md:h-8 absolute top-3 right-3 text-white md:relative md:inset-0 md:text-black cursor-pointer"
               onClick={() => setFilter(!filter)}
             />
           </div>
 
-          <TableReports
-            tableHead={tableHead}
-            allFilterInfos={allFilterInfosSchool}
-          />
+          <TableReports tableHead={tableHead} allFilterInfos={allFilterInfosSchool} />
         </div>
 
         <div className="w-full flex items-center justify-end">
@@ -110,16 +93,13 @@ export default function BoletimSubstituicao() {
       );
 
       if (typeof aux === "object") {
-        const sortedInfos: TeacherDTOInfos[] = aux?.sort(
-          (info1: TeacherDTOInfos, info2: TeacherDTOInfos) => {
-            info1.name.localeCompare(info2.name);
-          },
-        );
+        // eslint-disable-next-line array-callback-return
+        const sortedInfos: TeacherDTOInfos[] = aux?.sort((info1: TeacherDTOInfos, info2: TeacherDTOInfos) => {
+          info1.name.localeCompare(info2.name);
+        });
 
         dispatch(refreshAllFilterInfosSchool(sortedInfos));
-        dispatch(
-          refreshFilterInfosSchool(await getIdSchool(data.cadastroEscola)),
-        );
+        dispatch(refreshFilterInfosSchool(await getIdSchool(data.cadastroEscola)));
         dispatch(refreshFilterStartEndDate(datas));
       }
 

@@ -107,7 +107,7 @@ export default function RegisterOffice() {
             createFormSchema={createFormSchema}
             infosInput={infosRegister}
             setInfosInput={setInfosRegister}
-            setModal={setModal}
+            setModal={handleCloseModal}
             submitInfos={submit}
             inputs={inputs}
             modalName="Office"
@@ -227,5 +227,10 @@ export default function RegisterOffice() {
         theme: "light",
       });
     }
+  }
+
+  function handleCloseModal() {
+    setModal(false);
+    setInfosRegister(OfficeValuesDefault);
   }
 }

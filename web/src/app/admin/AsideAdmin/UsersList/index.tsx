@@ -167,7 +167,7 @@ export default function UsersList() {
           inputs={inputs}
           modalName="User"
           setInfosInput={setInfosEdit}
-          setModal={setModal}
+          setModal={handleCloseModal}
           submitInfos={submit}
           title="Cadastro de Usuário"
         />
@@ -305,5 +305,10 @@ export default function UsersList() {
         theme: "light",
       });
     }
+  }
+
+  function handleCloseModal() {
+    setModal(false);
+    setInfosEdit(DefaultUserInfos);
   }
 }
