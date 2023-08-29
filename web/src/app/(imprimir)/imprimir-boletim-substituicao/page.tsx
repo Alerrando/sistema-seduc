@@ -35,6 +35,8 @@ export default function ImprimirBoletimSubstituicao() {
         console.error("Error fetching user:", error);
       }
     })();
+
+    setDateNow(new Date());
   }, []);
 
   return (
@@ -114,36 +116,35 @@ export default function ImprimirBoletimSubstituicao() {
                           <span className="whitespace-normal">{info.name}</span>
                         </td>
                         <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-neutral-500">
-                          {info.office.name}
+                          {info.id}
                         </td>
                         <td className="items-center h-full px-4 font-medium text-gray-900 border-r border-neutral-500">
-                          <div className="grid grid-cols-report-teacher">
+                          <div className="flex flex-row divide-x-2 divide-zinc-400">
                             {info.datesWork.map((dateWork: any, index: number) => (
                               <div
                                 key={`date-${index}`}
-                                className={`h-auto break-inside-avoid flex flex-row items-center justify-start px-2 gap-1 ${
-                                  index !== info.datesWork.length - 1 && (index === 0 || index % 4 !== 0)
-                                    ? "border-r border-neutral-500"
-                                    : ""
-                                }`}
+                                className={`h-auto break-inside-avoid flex flex-row items-center justify-start px-2 gap-1`}
                               >
                                 <span>
                                   {isValid(new Date(dateWork[0])) ? format(new Date(dateWork[0]), "dd/MM") : ""}
                                 </span>
-                                <span>-</span>
                                 <span>{dateWork[1]}h</span>
                               </div>
                             ))}
                           </div>
                         </td>
-                        <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-neutral-500">
-                          {`${allInfosOfficesTeacher
-                            .filter((officesTeacher: OfficesTeacher) => officesTeacher.idTeacher.id === info.id)
-                            .map((officesTeacher: OfficesTeacher, index: number) => (
-                              <span className="flex flex-row gap-2 items-center" key={index}>
-                                {officesTeacher.idOffice.name}
-                              </span>
-                            ))} = ${info.amountTime}h`}
+                        <td className="whitespace-nowrap flex flex-row px-4 py-1 font-medium text-gray-900 border-r border-neutral-500">
+                          <span className="flex divide-x-2 divide-zinc-400">
+                            {allInfosOfficesTeacher
+                              .filter((officesTeacher: OfficesTeacher) => officesTeacher.registerTeacher.id === info.id)
+                              .map((officesTeacher: OfficesTeacher, index: number) => (
+                                <span className="flex flex-row gap-2 items-center px-2" key={index}>
+                                  {officesTeacher.registerOffice.name}
+                                </span>
+                              ))}
+                          </span>
+
+                          <span>= {info.amountTime}h</span>
                         </td>
                         <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-neutral-500">
                           <textarea

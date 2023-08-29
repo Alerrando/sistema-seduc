@@ -54,8 +54,8 @@ export type OfficeInfos = {
 
 export type OfficesTeacher = {
   id: number;
-  idOffice: OfficeInfos;
-  idTeacher: TeacherInfos;
+  registerOffice: OfficeInfos;
+  registerTeacher: TeacherInfos;
 };
 
 export type SchoolDTOInfos = {
@@ -63,7 +63,6 @@ export type SchoolDTOInfos = {
   name: string;
   datesWork: any;
   amountTime: number;
-  office: OfficeInfos;
 };
 
 export type TeacherDTOInfos = {

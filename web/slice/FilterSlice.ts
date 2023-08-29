@@ -22,17 +22,11 @@ export const sliceFilter: Slice<StateProps> = createSlice({
   name: "sliceFilter",
   initialState,
   reducers: {
-    refreshAllFilterInfosTeacher: (
-      state,
-      action: PayloadAction<TeacherDTOInfos[]>,
-    ) => {
+    refreshAllFilterInfosTeacher: (state, action: PayloadAction<TeacherDTOInfos[]>) => {
       state.allFilterInfosTeacher = action.payload;
     },
 
-    refreshAllFilterInfosSchool: (
-      state,
-      action: PayloadAction<SchoolDTOInfos[]>,
-    ) => {
+    refreshAllFilterInfosSchool: (state, action: PayloadAction<SchoolDTOInfos[]>) => {
       state.allFilterInfosSchool = action.payload;
     },
 

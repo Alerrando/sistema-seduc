@@ -23,22 +23,24 @@ export default function ImprimirBoletimControleAulasEventuais() {
               <div className="w-full flex flex-row gap-1 relative items-center">
                 <h3 className="font-bold text-xl">NOME: </h3>
                 <div className="w-full flex flex-col text-lg after:absolute after:bottom-1 after:block after:w-[calc(390px_-_110px)] md:after:w-[93%] after:h-[2px] after:bg-zinc-900">
-                  <div className="flex flex-row items-center">
-                    {allInfosOfficesTeacher
-                      ?.filter(
-                        (officesTeacher: OfficesTeacher) => officesTeacher.idTeacher.id === filterInfosTeacher.id,
-                      )
-                      .map((officesTeacher: OfficesTeacher, index: number) => (
-                        <span key={index}>{officesTeacher.idTeacher.name}</span>
-                      ))}
-                  </div>
+                  <div className="flex flex-row items-center">{filterInfosTeacher.name}</div>
                 </div>
               </div>
-
               <div className="w-full flex items-center justify-between">
                 <div className="w-auto flex flex-row items-center gap-1 md:gap-2">
                   <h3 className="font-bold text-base md:text-xl">CARGO: </h3>
-                  <span className="font-bold text-sm md:text-lg">{filterInfosTeacher?.office.name}</span>
+                  <span className="font-bold text-sm md:text-lg divide-x-2 divide-zinc-600">
+                    {allInfosOfficesTeacher
+                      ?.filter(
+                        (officesTeacher: OfficesTeacher) =>
+                          officesTeacher?.registerTeacher?.id === filterInfosTeacher.id,
+                      )
+                      .map((officesTeacher: OfficesTeacher, index: number) => (
+                        <span key={index} className="px-2">
+                          {officesTeacher?.registerOffice?.name}
+                        </span>
+                      ))}
+                  </span>
                 </div>
 
                 <div className="w-auto flex flex-row items-center gap-1 md:gap-2">

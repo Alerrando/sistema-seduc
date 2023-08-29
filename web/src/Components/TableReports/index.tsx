@@ -38,11 +38,13 @@ export default function TableReports(props: TableReportsProps) {
                         <span className="whitespace-normal">{info.name}</span>
                       </td>
 
-                      <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">
+                      <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200 divide-x-2 divide-zinc-600">
                         {allInfosOfficesTeacher?.map((officeTeacher: OfficesTeacher, index: number) => (
                           <>
-                            {officeTeacher.idTeacher.id === info.id && (
-                              <span key={index}>{officeTeacher.idTeacher.name}</span>
+                            {officeTeacher.registerTeacher.id === info.id && (
+                              <span key={index} className="px-2">
+                                {officeTeacher.registerOffice.name}
+                              </span>
                             )}
                           </>
                         ))}
@@ -64,8 +66,14 @@ export default function TableReports(props: TableReportsProps) {
                           ))}
                         </div>
                       </td>
+                      {console.log(allInfosOfficesTeacher, index)}
                       <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">
-                        {"datesWork" in info && `${info.office?.name.split("-")[0].trim()} = ${info.amountTime}h`}
+                        {"datesWork" in info &&
+                          `${
+                            allInfosOfficesTeacher[index].registerTeacher.id === info.id
+                              ? allInfosOfficesTeacher[index].registerOffice.name
+                              : "Professor sem cargo"
+                          } = ${info.amountTime}h`}
                       </td>
 
                       <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r ">
@@ -79,6 +87,7 @@ export default function TableReports(props: TableReportsProps) {
                     </>
                   ) : (
                     <>
+                      {console.log(info)}
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                         {"lessonDay" in info && (

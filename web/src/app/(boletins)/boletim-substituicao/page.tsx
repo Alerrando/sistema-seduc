@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { z } from "zod";
 import { AppDispatch, RootState } from "../../../../configureStore";
-import { TeacherDTOInfos, changeReportsType } from "../../../../slice";
+import { SchoolDTOInfos, changeReportsType } from "../../../../slice";
 import {
   refreshAllFilterInfosSchool,
   refreshFilterInfosSchool,
@@ -86,17 +86,17 @@ export default function BoletimSubstituicao() {
 
   async function submit(data: SubmitDataFilter) {
     if ("cadastroEscola" in data) {
-      const aux: TeacherDTOInfos[] = await getReportsSchool(
+      const aux: SchoolDTOInfos[] = await getReportsSchool(
         data.cadastroEscola,
         new Date(datas.dataInicial),
         new Date(datas.dataFinal),
       );
+      console.log(aux);
 
       if (typeof aux === "object") {
-        // eslint-disable-next-line array-callback-return
-        const sortedInfos: TeacherDTOInfos[] = aux?.sort((info1: TeacherDTOInfos, info2: TeacherDTOInfos) => {
-          info1.name.localeCompare(info2.name);
-        });
+        const sortedInfos: SchoolDTOInfos[] = aux?.sort((info1: SchoolDTOInfos, info2: SchoolDTOInfos) =>
+          info1.name.localeCompare(info2.name),
+        );
 
         dispatch(refreshAllFilterInfosSchool(sortedInfos));
         dispatch(refreshFilterInfosSchool(await getIdSchool(data.cadastroEscola)));

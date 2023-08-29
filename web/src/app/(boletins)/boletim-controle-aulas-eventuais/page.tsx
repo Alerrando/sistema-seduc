@@ -89,8 +89,6 @@ export default function BoletimControleAulasEventuais() {
         new Date(datas.dataFinal),
       );
 
-      console.log(aux);
-
       if (typeof aux === "object") {
         dispatch(
           refreshAllFilterInfosTeacher(
