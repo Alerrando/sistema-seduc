@@ -7,17 +7,14 @@ public class BulletinSchool {
     private String name;
     private ArrayList<Object[]> datesWork;
     private Integer amountTime;
-    private RegisterOffice office;
-
     public BulletinSchool(){
     }
 
-    public BulletinSchool(Integer id, String name, ArrayList<Object[]> datesWork, Integer amountTime, RegisterOffice office){
+    public BulletinSchool(Integer id, String name, ArrayList<Object[]> datesWork, Integer amountTime){
         this.id = id;
         this.name = name;
         this.datesWork = datesWork;
         this.amountTime = amountTime;
-        this.office = office;
     }
 
     public Integer getId() {
@@ -52,11 +49,4 @@ public class BulletinSchool {
         this.datesWork = datesWork;
     }
 
-    public RegisterOffice getOffice() {
-        return office;
-    }
-
-    public void setOffice(RegisterOffice office) {
-        this.office = office;
-    }
 }

@@ -1,7 +1,6 @@
 package com.gerenciamentoescolas.server.services;
 
 import com.gerenciamentoescolas.server.entities.BulletinSchool;
-import com.gerenciamentoescolas.server.entities.RegisterOffice;
 import com.gerenciamentoescolas.server.entities.RegisterSchool;
 import com.gerenciamentoescolas.server.exception.SchoolAlreadyRegistered;
 import com.gerenciamentoescolas.server.repository.RegisterSchoolRepository;
@@ -24,9 +23,8 @@ public class RegisterSchoolService {
         return registerSchoolRepository.findById(id).orElse(null);
     }
 
-    public List<BulletinSchool> findEscolasAulas(String schoolId, Date startDate, Date endDate) {
-        Integer idSchool = Integer.parseInt(schoolId);
-        List<Object[]> results = registerSchoolRepository.findEscolasAulas(idSchool, startDate, endDate);
+    public List<BulletinSchool> findEscolasAulas(Integer schoolId, Date startDate, Date endDate) {
+        List<Object[]> results = registerSchoolRepository.findEscolasAulas(schoolId, startDate, endDate);
         Map<Integer, BulletinSchool> escolasAulas = new HashMap<>();
 
         for (Object[] result : results) {
@@ -34,16 +32,15 @@ public class RegisterSchoolService {
             String name = (String) result[1];
             Date lessonDay = (Date) result[2];
             Long amountTime = Long.valueOf("0");
-            RegisterOffice office = (RegisterOffice) result[4];
 
             BulletinSchool bulletinSchool = escolasAulas.get(id);
 
-            if (result[4] != null) {
+            if (result[3] != null) {
                 amountTime = (Long) result[3];
             }
 
             if (bulletinSchool == null) {
-                bulletinSchool = new BulletinSchool(id, name, new ArrayList<Object[]>(), amountTime.intValue(), office);
+                bulletinSchool = new BulletinSchool(id, name, new ArrayList<Object[]>(), amountTime.intValue());
                 bulletinSchool.getDatesWork().add(new Object[]{lessonDay, amountTime});
                 escolasAulas.put(id, bulletinSchool);
             } else {

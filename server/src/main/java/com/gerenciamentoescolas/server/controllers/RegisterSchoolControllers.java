@@ -34,7 +34,7 @@ public class RegisterSchoolControllers {
     }
 
     @GetMapping("/relatorio/{schoolId}&{startDate}&{endDate}")
-    public List<BulletinSchool> findEscolasAulas(@PathVariable String schoolId, @PathVariable Date startDate, @PathVariable Date endDate){
+    public List<BulletinSchool> findEscolasAulas(@PathVariable Integer schoolId, @PathVariable Date startDate, @PathVariable Date endDate){
         List<BulletinSchool> result = registerSchoolService.findEscolasAulas(schoolId, startDate, endDate);
         return result;
     }
