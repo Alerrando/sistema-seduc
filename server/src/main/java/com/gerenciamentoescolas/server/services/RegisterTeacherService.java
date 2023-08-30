@@ -53,21 +53,11 @@ public class RegisterTeacherService {
         if(registerTeacherRepository.existsByCpf(registerTeacher.getCpf())){
             throw new TeacherAlreadyRegistered("Professor já cadastrado!");
         }
-        
-        RegisterSchool school = registerSchoolRepository.findById(escolaId)
-                .orElseThrow(() -> new RuntimeException("Escola não encontrada"));
 
-        registerTeacher.setThirst(school);
-
-        registerSchoolRepository.save(school);
         return registerTeacherRepository.save(registerTeacher);
     }
 
     public RegisterTeacher edit(RegisterTeacher registerTeacher, Integer escolaId){
-        RegisterSchool school = registerSchoolRepository.findById(escolaId)
-                .orElseThrow(() -> new RuntimeException("Escola não encontrada"));
-
-        registerTeacher.setThirst(school);
         return registerTeacherRepository.save(registerTeacher);
     }
 

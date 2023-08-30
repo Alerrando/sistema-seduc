@@ -18,20 +18,15 @@ public class RegisterTeacher {
     private Integer id;
     private String name;
     private String cpf;
-
-    @ManyToOne
-    @JoinColumn(name = "thirst_teacher")
-    private RegisterSchool thirst;
     private Boolean inactive;
 
     public RegisterTeacher(){
     }
 
-    public RegisterTeacher(Integer id, String name, String cpf, RegisterSchool thirst, Boolean inactive){
+    public RegisterTeacher(Integer id, String name, String cpf, Boolean inactive){
         this.id = id;
         this.name = name;
         this.cpf = cpf;
-        this.thirst = thirst;
         this.inactive = inactive;
     }
 
@@ -57,14 +52,6 @@ public class RegisterTeacher {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
-    }
-
-    public RegisterSchool getThirst() {
-        return thirst;
-    }
-
-    public void setThirst(RegisterSchool thirst) {
-        this.thirst = thirst;
     }
 
     public Boolean getInactive(){
