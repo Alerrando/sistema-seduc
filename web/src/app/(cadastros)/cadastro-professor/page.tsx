@@ -16,7 +16,7 @@ import {
   refreshInfosOffice,
   refreshInfosTeacher,
   refreshInfosTeachersOffice,
-  refreshInfosTeachersThrist,
+  refreshInfosTeachersThirst,
 } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
@@ -173,6 +173,7 @@ export default function CadastroProfessor() {
   );
 
   async function submitTeacher(data: SubmitDataModal) {
+    debugger;
     if ("cpf" in data && "name" in data) {
       const { Thirst, cpf, teachersOffice, ...rest } = data;
 
@@ -186,7 +187,7 @@ export default function CadastroProfessor() {
 
       await submitEditTeacher(aux, data);
       dispatch(refreshInfosTeachersOffice(await findAllTeachersOffice()));
-      dispatch(refreshInfosTeachersThrist(await findAllTeachersThirst()));
+      dispatch(refreshInfosTeachersThirst(await findAllTeachersThirst()));
       dispatch(refreshInfosTeacher(await readAllTeacher()));
       setInfosInput(TeacherValuesDefault);
     }

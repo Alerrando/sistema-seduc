@@ -10,7 +10,7 @@ import { RootState } from "../../../../configureStore";
 import { InputConfig, OfficeInfos } from "../../../../slice";
 import Input from "./Input";
 import SelectInput from "./SelectInput";
-import CheckboxDropdownOfficeTeacher from "./SelectInput/CheckboxDropdownOfficeTeacher";
+import CheckboxDropdown from "./SelectInput/CheckboxDropdown";
 
 type ModalFormProps = {
   schema: ZodType<any, any, any>;
@@ -22,7 +22,7 @@ type ModalFormProps = {
 };
 
 export function ModalForm(props: ModalFormProps) {
-  const { allInfosOffice, allInfosTeachersThirst } = useSelector((root: RootState) => root.Slice);
+  const { allInfosOffice, allInfosSchool } = useSelector((root: RootState) => root.Slice);
   const { schema, inputs, initialValues, setInfosInput, onSubmit, modalName } = props;
 
   const {
@@ -38,6 +38,7 @@ export function ModalForm(props: ModalFormProps) {
   });
 
   function handleFormSubmit(data: SubmitDataModal) {
+    debugger;
     if (modalName === "Lesson") {
       setValue("name", "");
       setValue("registerSchool", 0);
@@ -70,16 +71,18 @@ export function ModalForm(props: ModalFormProps) {
           {inputs?.map((input: InputConfig, indexInputs: number) => (
             <div key={input.name} className="w-full flex flex-col gap-2">
               {input?.optionType === "TeachersOffice" || input?.optionType === "TeachersThrist" ? (
-                <CheckboxDropdownOfficeTeacher
+                <CheckboxDropdown
                   infos={
                     input?.optionType === "TeachersOffice"
                       ? allInfosOffice.filter((office: OfficeInfos) => office.type === "2")
-                      : allInfosTeachersThirst
+                      : allInfosSchool
                   }
                   control={control}
                   values={initialValues.id}
                   optionDefault={input.optionDefault}
-                  key={`input-checkbox-dropdown-office-teacher`}
+                  checkboxOptionType={input.optionType}
+                  checkboxName={input.name}
+                  key={`input-checkbox-dropdown`}
                 />
               ) : input?.input === "select" && input?.optionType !== undefined ? (
                 <SelectInput

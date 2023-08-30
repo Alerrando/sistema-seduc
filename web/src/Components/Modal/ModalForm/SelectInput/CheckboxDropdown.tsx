@@ -10,19 +10,23 @@ type CheckboxDropdownOfficeTeacherProps = {
   control: Control<SubmitDataModal, any>;
   values: number[];
   optionDefault: string;
+  checkboxOptionType: string;
+  checkboxName: string;
 };
 
-export default function CheckboxDropdownOfficeTeacher({
+export default function CheckboxDropdown({
   infos,
   control,
   values,
   optionDefault,
+  checkboxOptionType,
+  checkboxName,
 }: CheckboxDropdownOfficeTeacherProps) {
   const [menuHandle, setMenuHandle] = useState<boolean>(false);
   const {
     field: { value, onChange },
   } = useController({
-    name: "officesTeacher",
+    name: checkboxOptionType,
     control,
     rules: { validate: (value) => createFormSchema.safeParse(value).success },
     defaultValue: [],
@@ -30,9 +34,11 @@ export default function CheckboxDropdownOfficeTeacher({
 
   useEffect(() => {
     (async () => {
-      const fetchedOffices: TeachersOffice[] = await findTeachersOfficeById(values);
-      const updatedOffices = fetchedOffices.map((officeTeacher: TeachersOffice) => officeTeacher.registerOffice.id);
-      onChange(updatedOffices);
+      if (checkboxOptionType === "office") {
+        const fetchedOffices: TeachersOffice[] = await findTeachersOfficeById(values);
+        const updatedOffices = fetchedOffices.map((officeTeacher: TeachersOffice) => officeTeacher.registerOffice.id);
+        onChange(updatedOffices);
+      }
     })();
   }, []);
 
@@ -64,7 +70,7 @@ export default function CheckboxDropdownOfficeTeacher({
                 type="checkbox"
                 className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                 value={option.id}
-                name="office"
+                name={checkboxName}
                 checked={value?.includes(option.id)}
                 onChange={(e) => handleSelectInfos(e, value, onChange)}
               />
@@ -84,8 +90,8 @@ function handleSelectInfos(
   const selectedInfo = parseInt(e.target.value);
   if (value) {
     if (value.includes(selectedInfo)) {
-      const updatedOffices = value.filter((office: number) => office !== selectedInfo);
-      onChange(updatedOffices);
+      const updatedInfo = value.filter((info: number) => info !== selectedInfo);
+      onChange(updatedInfo);
     } else {
       onChange([...value, selectedInfo]);
     }

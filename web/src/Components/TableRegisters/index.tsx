@@ -45,7 +45,11 @@ export default function TableRegisters(props: TableRegistersProps) {
         <thead className="ltr:text-left rtl:text-right">
           <tr>
             {tableHead.map((head) => (
-              <th key={head} scope="col" className="whitespace-nowrap text-start px-4 py-2 font-medium text-gray-900">
+              <th
+                key={`${head}`}
+                scope="col"
+                className="whitespace-nowrap text-start px-4 py-2 font-medium text-gray-900"
+              >
                 {head}
               </th>
             ))}
