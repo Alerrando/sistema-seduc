@@ -83,7 +83,7 @@ export default function RegisterOffice() {
         </header>
 
         <section className="w-full flex flex-col gap-4 px-6">
-          {allInfosOffice != undefined ? (
+          {allInfosOffice !== undefined ? (
             <CreateHeaderRegisters
               setModal={setModal}
               setSearch={setSearch}

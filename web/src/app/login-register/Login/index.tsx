@@ -57,9 +57,7 @@ export default function Login() {
                 key={"email-login"}
                 register={register}
               />
-              <span className="text-red-600">
-                {errors.email && errors.email.message}
-              </span>
+              <span className="text-red-600">{errors.email && errors.email.message}</span>
             </div>
 
             <div className="w-full flex flex-col gap-1">
@@ -72,19 +70,12 @@ export default function Login() {
                 key={"password-login"}
                 register={register}
               />
-              <span className="text-red-600">
-                {errors.senha && errors.senha.message}
-              </span>
+              <span className="text-red-600">{errors.senha && errors.senha.message}</span>
             </div>
 
             <div className="w-full flex items-center justify-between">
               <div className="flex flex-row items-center gap-2">
-                <input
-                  type="checkbox"
-                  name="remember"
-                  id="remember"
-                  className="w-[14px] h-[14px]"
-                />
+                <input type="checkbox" name="remember" id="remember" className="w-[14px] h-[14px]" />
                 <span>Lembre de mim!</span>
               </div>
 
@@ -103,12 +94,7 @@ export default function Login() {
       </div>
 
       <div className="w-1/2 h-full relative">
-        <Image
-          src="/login-img-background.png"
-          alt="img-login-main"
-          fill
-          className="object-cover"
-        />
+        <Image src="/login-img-background.png" alt="img-login-main" fill className="object-cover" />
       </div>
 
       <ToastContainer />
