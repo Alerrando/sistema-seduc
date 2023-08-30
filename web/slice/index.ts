@@ -29,8 +29,7 @@ export type SchoolInfos = {
 
 export type TeacherInfos = {
   cpf: string;
-  thirst: SchoolInfos;
-  officesTeacher: number[];
+  teachersOffice: number[];
 } & TypeDefault;
 
 export type LessonsInfos = {
@@ -52,9 +51,15 @@ export type OfficeInfos = {
   type: string;
 } & TypeDefault;
 
-export type OfficesTeacher = {
+export type TeachersOffice = {
   id: number;
   registerOffice: OfficeInfos;
+  registerTeacher: TeacherInfos;
+};
+
+export type TeachersThirst = {
+  id: number;
+  registerSchool: SchoolInfos;
   registerTeacher: TeacherInfos;
 };
 
@@ -70,12 +75,6 @@ export type TeacherDTOInfos = {
   amountTime: number;
   lessonDay: Date | string;
   registerSchool: TeacherInfos;
-};
-
-export type TeachersOffice = {
-  id: number;
-  registerTeacher: TeacherInfos;
-  registerOffice: OfficeInfos;
 };
 
 export const registerTypes = {
@@ -117,7 +116,7 @@ export const OfficeValuesDefault: OfficeInfos = {
 export const TeacherValuesDefault: TeacherInfos = {
   ...ValuesDefault,
   cpf: "",
-  officesTeacher: [],
+  teachersOffice: [],
   thirst: SchoolValuesDefault,
 };
 
@@ -143,7 +142,7 @@ type StateProps = {
   infosDefinitionPeriods: DefinitionPeriodsInfos[];
   allInfosOffice: OfficeInfos[];
   allInfosTeachersOffice: TeachersOffice[];
-  allInfosOfficesTeacher: OfficesTeacher[];
+  allInfosTeachersThirst: TeachersThirst[];
   registerType: keyof typeof registerTypes | null;
   reportsTypes: keyof typeof reportsTypes | null;
 };
@@ -155,7 +154,7 @@ const initialState: StateProps = {
   infosDefinitionPeriods: [],
   allInfosOffice: [],
   allInfosTeachersOffice: [],
-  allInfosOfficesTeacher: [],
+  allInfosTeachersThirst: [],
   registerType: null,
   reportsTypes: null,
 };
@@ -187,8 +186,8 @@ export const slice: Slice<StateProps> = createSlice({
       state.allInfosTeachersOffice = action.payload;
     },
 
-    refreshInfosOfficesTeacher: (state, action: PayloadAction<OfficesTeacher>) => {
-      state.allInfosOfficesTeacher = action.payload;
+    refreshInfosTeachersThirst: (state, action: PayloadAction<TeachersThirst[]>) => {
+      state.allInfosTeachersThirst = action.payload;
     },
 
     changeRegisterType: (state, action: PayloadAction<keyof typeof registerTypes>) => {
@@ -220,7 +219,8 @@ export const {
   refreshInfosTeacher,
   refreshDefinitionPeriods,
   refreshInfosOffice,
-  refreshInfosOfficesTeacher,
+  refreshInfosTeachersOffice,
+  refreshInfosTeachersThirst,
   changeRegisterType,
   changeReportsType,
 } = slice.actions;

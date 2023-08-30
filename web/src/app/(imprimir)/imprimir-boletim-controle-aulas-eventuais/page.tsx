@@ -3,11 +3,11 @@ import { format, isValid } from "date-fns";
 import { Key } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../configureStore";
-import { OfficesTeacher, TeacherDTOInfos } from "../../../../slice";
+import { TeachersOffice, TeacherDTOInfos } from "../../../../slice";
 import RootLayout from "../../layout";
 
 export default function ImprimirBoletimControleAulasEventuais() {
-  const { allInfosOfficesTeacher } = useSelector((root: RootState) => root.Slice);
+  const { allInfosTeachersOffice } = useSelector((root: RootState) => root.Slice);
   const { filterInfosTeacher, allFilterInfosTeacher } = useSelector((root: RootState) => root.SliceFilter);
 
   return (
@@ -30,14 +30,14 @@ export default function ImprimirBoletimControleAulasEventuais() {
                 <div className="w-auto flex flex-row items-center gap-1 md:gap-2">
                   <h3 className="font-bold text-base md:text-xl">CARGO: </h3>
                   <span className="font-bold text-sm md:text-lg divide-x-2 divide-zinc-600">
-                    {allInfosOfficesTeacher
+                    {allInfosTeachersOffice
                       ?.filter(
-                        (officesTeacher: OfficesTeacher) =>
-                          officesTeacher?.registerTeacher?.id === filterInfosTeacher.id,
+                        (teachersOffice: TeachersOffice) =>
+                          teachersOffice?.registerTeacher?.id === filterInfosTeacher.id,
                       )
-                      .map((officesTeacher: OfficesTeacher, index: number) => (
+                      .map((teachersOffice: TeachersOffice, index: number) => (
                         <span key={index} className="px-2">
-                          {officesTeacher?.registerOffice?.name}
+                          {teachersOffice?.registerOffice?.name}
                         </span>
                       ))}
                   </span>

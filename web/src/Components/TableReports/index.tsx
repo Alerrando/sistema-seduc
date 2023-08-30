@@ -12,7 +12,7 @@ type TableReportsProps = {
 
 export default function TableReports(props: TableReportsProps) {
   const { tableHead, allFilterInfos } = props;
-  const { reportsTypes, allInfosOfficesTeacher } = useSelector((root: RootState) => root.Slice);
+  const { reportsTypes, allInfosTeachersOffice } = useSelector((root: RootState) => root.Slice);
 
   return (
     <div className="max-h-[77%] overflow-x-auto rounded-lg border border-gray-200">
@@ -39,7 +39,7 @@ export default function TableReports(props: TableReportsProps) {
                       </td>
 
                       <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200 divide-x-2 divide-zinc-600">
-                        {allInfosOfficesTeacher?.map((officeTeacher: OfficesTeacher, index: number) => (
+                        {allInfosTeachersOffice?.map((officeTeacher: OfficesTeacher, index: number) => (
                           <>
                             {officeTeacher.registerTeacher.id === info.id && (
                               <span key={index} className="px-2">
@@ -66,12 +66,12 @@ export default function TableReports(props: TableReportsProps) {
                           ))}
                         </div>
                       </td>
-                      {console.log(allInfosOfficesTeacher, index)}
+
                       <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">
                         {"datesWork" in info &&
                           `${
-                            allInfosOfficesTeacher[index].registerTeacher.id === info.id
-                              ? allInfosOfficesTeacher[index].registerOffice.name
+                            allInfosTeachersOffice[index].registerTeacher.id === info.id
+                              ? allInfosTeachersOffice[index].registerOffice.name
                               : "Professor sem cargo"
                           } = ${info.amountTime}h`}
                       </td>

@@ -12,7 +12,7 @@ import {
   refreshInfosOffice,
   refreshInfosSchool,
   refreshInfosTeacher,
-  refreshInfosOfficesTeacher,
+  refreshInfosTeachersOffice,
 } from "../../../slice";
 import { refreshAllFilterInfosSchool, refreshFilterInfosSchool } from "../../../slice/FilterSlice";
 import {
@@ -37,7 +37,7 @@ export default function Dashboard() {
       dispatch(refreshDefinitionPeriods(await findAllDefinitionPeriods()));
       dispatch(refreshAllFilterInfosSchool([]));
       dispatch(refreshFilterInfosSchool({}));
-      dispatch(refreshInfosOfficesTeacher(await findAllTeachersOffice()));
+      dispatch(refreshInfosTeachersOffice(await findAllTeachersOffice()));
       const allInfos: OfficeInfos[] | string = await getRegisterOffice();
       if (allInfos !== undefined && typeof allInfos !== "string") {
         const sortedInfos = allInfos

@@ -8,9 +8,7 @@ type RenderTeacherColumnsProps = {
 };
 
 export default function RenderTeacherColumns({ teacher, index }: RenderTeacherColumnsProps) {
-  const { allInfosOfficesTeacher } = useSelector((root: RootState) => root.Slice);
-
-  console.log(allInfosOfficesTeacher);
+  const { allInfosTeachersOffice } = useSelector((root: RootState) => root.Slice);
 
   return (
     <>
@@ -20,7 +18,7 @@ export default function RenderTeacherColumns({ teacher, index }: RenderTeacherCo
       <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{teacher?.thirst.name}</td>
 
       <td className="flex flex-row whitespace-nowrap px-4 py-6 font-medium text-gray-900 divide-x-[1px] divide-gray-400">
-        {allInfosOfficesTeacher?.map((office: TeachersOffice, indexOffice: number) => (
+        {allInfosTeachersOffice?.map((office: TeachersOffice, indexOffice: number) => (
           <>
             {office.registerTeacher.id === teacher.id && (
               <span key={indexOffice} className="px-2">

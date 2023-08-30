@@ -52,7 +52,7 @@ export default function Modal(props: ModalProps) {
 
   return (
     <div className="w-screen h-auto flex items-center justify-center bg-modal fixed inset-0">
-      <div className="w-auto sm:w-[65%] max-h-[90%] sm:h-auto p-3 bg-white rounded-md overflow-y-auto">
+      <div className="w-auto sm:w-[65%] max-h-[75%] sm:h-auto p-3 bg-white rounded-md overflow-y-auto">
         <header className="min-w-full h-auto flex flex-col gap-2 p-2 after:block after:border-b after:border-[#999]">
           <div className="w-full flex flex-row items-center justify-between">
             <h2 className="text-xl md:text-3xl font-bold">{title}</h2>

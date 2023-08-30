@@ -22,7 +22,7 @@ type ModalFormProps = {
 };
 
 export function ModalForm(props: ModalFormProps) {
-  const { allInfosOffice } = useSelector((root: RootState) => root.Slice);
+  const { allInfosOffice, allInfosTeachersThirst } = useSelector((root: RootState) => root.Slice);
   const { schema, inputs, initialValues, setInfosInput, onSubmit, modalName } = props;
 
   const {
@@ -69,11 +69,16 @@ export function ModalForm(props: ModalFormProps) {
         <div className="w-full flex flex-col gap-3">
           {inputs?.map((input: InputConfig, indexInputs: number) => (
             <div key={input.name} className="w-full flex flex-col gap-2">
-              {input?.optionType === "OfficeTeacher" ? (
+              {input?.optionType === "TeachersOffice" || input?.optionType === "TeachersThrist" ? (
                 <CheckboxDropdownOfficeTeacher
-                  offices={allInfosOffice.filter((office: OfficeInfos) => office.type === "2")}
+                  infos={
+                    input?.optionType === "TeachersOffice"
+                      ? allInfosOffice.filter((office: OfficeInfos) => office.type === "2")
+                      : allInfosTeachersThirst
+                  }
                   control={control}
                   values={initialValues.id}
+                  optionDefault={input.optionDefault}
                   key={`input-checkbox-dropdown-office-teacher`}
                 />
               ) : input?.input === "select" && input?.optionType !== undefined ? (

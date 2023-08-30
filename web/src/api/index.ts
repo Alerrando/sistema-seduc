@@ -17,6 +17,7 @@ const urlFree = "http://localhost:9090/free";
 const urlDefinitionPeriods = "http://localhost:9090/security/definition-periods";
 const urlOffice = "http://localhost:9090/security/office";
 const urlTeachersOffice = "http://localhost:9090/security/teachers-office";
+const urlTeachersThirst = "http://localhost:9090/security/teachers-Thirst";
 
 export async function readAllLesson() {
   try {
@@ -487,6 +488,29 @@ export async function editTeacherOffice(infos: number[], teacherId: number) {
       headers: { Authorization: `${localStorage.getItem("token")}` },
     })
     .then(() => "Cargos Editado com Sucesso")
+    .catch((err) => err);
+
+  return message;
+}
+
+// ----------------------------- ROUTER Teachers Thirst ---------------- //
+export async function findAllTeachersThirst() {
+  const message = await axios
+    .get(urlTeachersThirst, {
+      headers: { Authorization: `${localStorage.getItem("token")}` },
+    })
+    .then((res) => res.data)
+    .catch((err) => err);
+
+  return message;
+}
+
+export async function createTeachersThirst(infos: number[], teacherId: number) {
+  const message = await axios
+    .post(`${urlTeachersThirst}/${teacherId}`, infos, {
+      headers: { Authorization: `${localStorage.getItem("token")}` },
+    })
+    .then(() => "Cargos Cadastrados")
     .catch((err) => err);
 
   return message;

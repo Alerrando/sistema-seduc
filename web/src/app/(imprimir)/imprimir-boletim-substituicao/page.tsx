@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../configureStore";
-import { OfficesTeacher, SchoolDTOInfos } from "../../../../slice";
+import { TeachersOffice, SchoolDTOInfos } from "../../../../slice";
 import { DefaultUserInfos, UserInfos } from "../../../../slice/LoginSlice";
 import { getUserByIdSchool, getUserByMandatoryBulletin } from "../../../api";
 import RootLayout from "../../layout";
@@ -14,7 +14,7 @@ export default function ImprimirBoletimSubstituicao() {
   const { filterInfosSchool, allFilterInfosSchool, filterStartEndDate } = useSelector(
     (root: RootState) => root.SliceFilter,
   );
-  const { allInfosOfficesTeacher } = useSelector((root: RootState) => root.Slice);
+  const { allInfosTeachersOffice } = useSelector((root: RootState) => root.Slice);
   const [usersMandatoryBulletin, setUsersMandatoryBulletin] = useState<UserInfos[]>([]);
   const [schoolBulletinUser, setSchoolBulletinUser] = useState<UserInfos>(DefaultUserInfos);
   const [dateNow, setDateNow] = useState<Date>(new Date());
@@ -135,11 +135,11 @@ export default function ImprimirBoletimSubstituicao() {
                         </td>
                         <td className="whitespace-nowrap flex flex-row px-4 py-1 font-medium text-gray-900 border-r border-neutral-500">
                           <span className="flex divide-x-2 divide-zinc-400">
-                            {allInfosOfficesTeacher
-                              .filter((officesTeacher: OfficesTeacher) => officesTeacher.registerTeacher.id === info.id)
-                              .map((officesTeacher: OfficesTeacher, index: number) => (
+                            {allInfosTeachersOffice
+                              .filter((teachersOffice: TeachersOffice) => teachersOffice.registerTeacher.id === info.id)
+                              .map((teachersOffice: TeachersOffice, index: number) => (
                                 <span className="flex flex-row gap-2 items-center px-2" key={index}>
-                                  {officesTeacher.registerOffice.name}
+                                  {teachersOffice.registerOffice.name}
                                 </span>
                               ))}
                           </span>
