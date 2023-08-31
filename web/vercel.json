@@ -1,5 +1,0 @@
-{
-    "installCommand": "npm install",
-    "framework": "nextjs",
-    "trailingSlash": false
-}
