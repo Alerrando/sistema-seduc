@@ -28,6 +28,7 @@ export default function Input(props: InputProps) {
         {...register(name)}
         onChange={(e) => handleMask(e)}
         maxLength={maxChars}
+        autoComplete="on"
       />
     </div>
   );

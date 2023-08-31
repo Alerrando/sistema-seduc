@@ -29,7 +29,6 @@ export type SchoolInfos = {
 
 export type TeacherInfos = {
   cpf: string;
-  teachersOffice: number[];
 } & TypeDefault;
 
 export type LessonsInfos = {

@@ -31,6 +31,7 @@ export function ModalForm(props: ModalFormProps) {
     reset,
     formState: { errors },
     setValue,
+    getValues,
     control,
   } = useForm<SubmitDataModal>({
     resolver: zodResolver(schema),
@@ -51,6 +52,8 @@ export function ModalForm(props: ModalFormProps) {
     }
     onSubmit(data);
   }
+
+  console.log(getValues());
 
   return (
     <>
@@ -78,10 +81,8 @@ export function ModalForm(props: ModalFormProps) {
                       : allInfosSchool
                   }
                   control={control}
-                  values={initialValues.id}
                   optionDefault={input.optionDefault}
                   checkboxOptionType={input.optionType}
-                  checkboxName={input.name}
                   key={`input-checkbox-dropdown`}
                 />
               ) : input?.input === "select" && input?.optionType !== undefined ? (

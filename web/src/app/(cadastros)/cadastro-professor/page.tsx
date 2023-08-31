@@ -175,7 +175,7 @@ export default function CadastroProfessor() {
   async function submitTeacher(data: SubmitDataModal) {
     debugger;
     if ("cpf" in data && "name" in data) {
-      const { Thirst, cpf, teachersOffice, ...rest } = data;
+      const { teachersThirst, cpf, teachersOffice, ...rest } = data;
 
       const aux: TeacherInfos = {
         edit: false,
