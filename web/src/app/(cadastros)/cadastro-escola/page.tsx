@@ -101,7 +101,7 @@ export default function CadastroEscola() {
       dispatch(refreshInfosSchool(await readAllSchool()));
       dispatch(changeRegisterType("School"));
     })();
-  }, []);
+  }, [dispatch]);
 
   return (
     <RootLayout showHeaderAside>
@@ -124,7 +124,9 @@ export default function CadastroEscola() {
 
           <TableRegisters
             tableHead={thead}
-            infosAll={allInfosSchool}
+            infosAll={allInfosSchool.filter((school: SchoolInfos) =>
+              school.name.toLowerCase().includes(search.toLowerCase()),
+            )}
             editInfo={editInfo}
             deleteInfo={deleteInfo}
             key={"Table-Escola"}

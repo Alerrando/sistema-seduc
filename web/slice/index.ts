@@ -65,7 +65,7 @@ export type TeachersThirst = {
 export type SchoolDTOInfos = {
   id: number;
   name: string;
-  datesWork: any;
+  datesWork: unknown;
   amountTime: number;
 };
 

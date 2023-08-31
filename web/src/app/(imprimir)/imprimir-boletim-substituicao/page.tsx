@@ -37,7 +37,7 @@ export default function ImprimirBoletimSubstituicao() {
     })();
 
     setDateNow(new Date());
-  }, []);
+  }, [filterInfosSchool.id]);
 
   return (
     <RootLayout showHeaderAside={false}>
@@ -120,7 +120,7 @@ export default function ImprimirBoletimSubstituicao() {
                         </td>
                         <td className="items-center h-full px-4 font-medium text-gray-900 border-r border-neutral-500">
                           <div className="flex flex-row divide-x-2 divide-zinc-400">
-                            {info.datesWork.map((dateWork: any, index: number) => (
+                            {info.datesWork.map((dateWork: unknown, index: number) => (
                               <div
                                 key={`date-${index}`}
                                 className={`h-auto break-inside-avoid flex flex-row items-center justify-start px-2 gap-1`}

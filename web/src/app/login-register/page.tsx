@@ -19,7 +19,7 @@ export default function LoginRegister() {
     if (Object.values(userInfos).length > 0) {
       router.replace("/dashboard");
     }
-  }, []);
+  }, [dispatch, router, userInfos]);
 
   return (
     <RootLayout showHeaderAside={false}>

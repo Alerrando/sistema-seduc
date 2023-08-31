@@ -128,7 +128,7 @@ export default function UsersList() {
       dispatch(refreshInfosUser(await findAllUser()));
       dispatch(changeRegisterType("User"));
     })();
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

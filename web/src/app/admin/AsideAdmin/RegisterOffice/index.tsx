@@ -69,7 +69,7 @@ export default function RegisterOffice() {
         dispatch(changeRegisterType(""));
       }
     })();
-  }, []);
+  }, [dispatch]);
 
   return (
     <main className="w-full h-max ml-auto">
@@ -95,7 +95,7 @@ export default function RegisterOffice() {
           <TableRegisters
             deleteInfo={deleteInfo}
             editInfo={editInfo}
-            infosAll={allInfosOffice}
+            infosAll={allInfosOffice.map((info: OfficeInfos) => info.name.toLowerCase().includes(search.toLowerCase()))}
             tableHead={tableHead}
             key={"table-office"}
           />

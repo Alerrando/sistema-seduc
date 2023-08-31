@@ -10,9 +10,9 @@ type SelectInputProps = {
   name: string;
   optionDefault: string;
   optionType: string;
-  register: UseFormRegister<any>;
-  initialValues: any;
-  setValue: UseFormSetValue<any>;
+  register: UseFormRegister<unknown>;
+  initialValues: unknown;
+  setValue: UseFormSetValue<unknown>;
   modalName: string;
 };
 
@@ -33,7 +33,7 @@ export default function SelectInput(props: SelectInputProps) {
         }
       }
     }
-  }, []);
+  }, [initialValues, modalName, name, setValue]);
 
   return (
     <div className="w-full flex flex-col gap-2">

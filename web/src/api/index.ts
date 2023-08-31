@@ -17,7 +17,7 @@ const urlFree = "http://localhost:9090/free";
 const urlDefinitionPeriods = "http://localhost:9090/security/definition-periods";
 const urlOffice = "http://localhost:9090/security/office";
 const urlTeachersOffice = "http://localhost:9090/security/teachers-office";
-const urlTeachersThirst = "http://localhost:9090/security/teachers-Thirst";
+const urlTeachersThirst = "http://localhost:9090/security/teachers-thirst";
 
 export async function readAllLesson() {
   try {
@@ -205,10 +205,10 @@ export async function getNameByIdTeacher(id: number) {
   return aux;
 }
 
-export async function createTeacher(info: TeacherInfos, idEscola: number) {
+export async function createTeacher(info: TeacherInfos) {
   try {
     const message = await axios
-      .post(`${urlTeacher}/${idEscola}`, info, {
+      .post(`${urlTeacher}`, info, {
         headers: { Authorization: `${localStorage.getItem("token")}` },
       })
       .then((res) => res.data)
@@ -220,10 +220,10 @@ export async function createTeacher(info: TeacherInfos, idEscola: number) {
   }
 }
 
-export async function editTeacher(info: TeacherInfos, idEscola: number) {
+export async function editTeacher(info: TeacherInfos) {
   try {
     const message = await axios
-      .put(`${urlTeacher}/${idEscola}`, info, {
+      .put(`${urlTeacher}`, info, {
         headers: { Authorization: `${localStorage.getItem("token")}` },
       })
       .then((res) => res.data)
@@ -505,12 +505,34 @@ export async function findAllTeachersThirst() {
   return message;
 }
 
+export async function findTeachersThirstById(teacherId: number) {
+  const message = await axios
+    .get(`${urlTeachersThirst}/${teacherId}`, {
+      headers: { Authorization: `${localStorage.getItem("token")}` },
+    })
+    .then((res) => res.data)
+    .catch((err) => err);
+
+  return message;
+}
+
 export async function createTeachersThirst(infos: number[], teacherId: number) {
   const message = await axios
     .post(`${urlTeachersThirst}/${teacherId}`, infos, {
       headers: { Authorization: `${localStorage.getItem("token")}` },
     })
-    .then(() => "Cargos Cadastrados")
+    .then(() => "Sede Cadastrada")
+    .catch((err) => err);
+
+  return message;
+}
+
+export async function editTeacherThirst(infos: number[], teacherId: number) {
+  const message = await axios
+    .put(`${urlTeachersThirst}/${teacherId}`, infos, {
+      headers: { Authorization: `${localStorage.getItem("token")}` },
+    })
+    .then(() => "Cargos Editado com Sucesso")
     .catch((err) => err);
 
   return message;

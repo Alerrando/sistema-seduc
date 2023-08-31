@@ -14,10 +14,7 @@ function Home({ children }: any) {
       router.replace("/login-register");
     }
 
-    if (
-      typeof window !== "undefined" &&
-      Object.values(userInfos).length !== 0
-    ) {
+    if (typeof window !== "undefined" && Object.values(userInfos).length !== 0) {
       if (pathName === "/admin" && userInfos.level === 1) {
         router.replace("/admin");
       }

@@ -13,11 +13,13 @@ import {
   refreshInfosSchool,
   refreshInfosTeacher,
   refreshInfosTeachersOffice,
+  refreshInfosTeachersThirst,
 } from "../../../slice";
 import { refreshAllFilterInfosSchool, refreshFilterInfosSchool } from "../../../slice/FilterSlice";
 import {
   findAllDefinitionPeriods,
   findAllTeachersOffice,
+  findAllTeachersThirst,
   getRegisterOffice,
   readAllLesson,
   readAllSchool,
@@ -38,6 +40,7 @@ export default function Dashboard() {
       dispatch(refreshAllFilterInfosSchool([]));
       dispatch(refreshFilterInfosSchool({}));
       dispatch(refreshInfosTeachersOffice(await findAllTeachersOffice()));
+      dispatch(refreshInfosTeachersThirst(await findAllTeachersThirst()));
       const allInfos: OfficeInfos[] | string = await getRegisterOffice();
       if (allInfos !== undefined && typeof allInfos !== "string") {
         const sortedInfos = allInfos
@@ -48,7 +51,7 @@ export default function Dashboard() {
         dispatch(refreshInfosOffice(sortedInfos));
       }
     })();
-  }, []);
+  }, [dispatch]);
 
   return (
     <RootLayout showHeaderAside>

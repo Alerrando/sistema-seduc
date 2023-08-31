@@ -1,27 +1,34 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Control, Controller } from "react-hook-form";
 import { SubmitDataModal } from "../..";
-import { OfficeInfos, TeacherInfos } from "../../../../../slice";
+import { OfficeInfos, TeacherInfos, TeachersOffice, TeachersThirst } from "../../../../../slice";
+import { findTeachersOfficeById, findTeachersThirstById } from "../../../../api";
 
 type CheckboxDropdownOfficeTeacherProps = {
   infos: OfficeInfos[] | TeacherInfos[];
-  control: Control<SubmitDataModal, any>;
+  control: Control<SubmitDataModal, unknown>;
   optionDefault: string;
   checkboxOptionType: string;
+  initalValuesId: number;
 };
 
 export default function CheckboxDropdown(props: CheckboxDropdownOfficeTeacherProps) {
-  const { checkboxOptionType, control, infos, optionDefault } = props;
+  const { checkboxOptionType, control, infos, optionDefault, initalValuesId } = props;
   const [defaultValueController, setDefaultValueController] = useState<OfficeInfos[] | TeacherInfos[]>([]);
   const [menuHandle, setMenuHandle] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
-      if (checkboxOptionType === "office") {
-        setDefaultValueController(infos);
+      let fetched: TeachersOffice[] | TeachersThirst = [];
+      if (checkboxOptionType === "teachersOffice") {
+        fetched = await findTeachersOfficeById(initalValuesId);
+        setDefaultValueController(fetched.map((officeTeacher: TeachersOffice) => officeTeacher.registerOffice.id));
+      } else if (checkboxOptionType === "teachersThirst") {
+        fetched = await findTeachersThirstById(initalValuesId);
+        setDefaultValueController(fetched.map((teacherThirst: TeachersThirst) => teacherThirst.registerSchool.id));
       }
     })();
-  }, []);
+  }, [checkboxOptionType, initalValuesId]);
 
   return (
     <div className="inline-block text-left">
@@ -42,7 +49,7 @@ export default function CheckboxDropdown(props: CheckboxDropdownOfficeTeacherPro
         >
           <Controller
             control={control}
-            name={checkboxOptionType === "office" ? "teachersOffice" : "teachersThirst"}
+            name={checkboxOptionType}
             defaultValue={defaultValueController}
             render={({ field: { onChange, value } }) => (
               <>
@@ -57,8 +64,9 @@ export default function CheckboxDropdown(props: CheckboxDropdownOfficeTeacherPro
                       type="checkbox"
                       className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                       value={option.id}
-                      name={checkboxOptionType === "office" ? "teachersOffice" : "teachersThirst"}
-                      onChange={(e) => onChange([...value, parseInt(e.target.value)])}
+                      checked={value.indexOf(option.id) !== -1}
+                      name={checkboxOptionType}
+                      onChange={(e) => handleSelectInfos(onChange, value, e, option.id)}
                     />
                   </div>
                 ))}
@@ -69,4 +77,20 @@ export default function CheckboxDropdown(props: CheckboxDropdownOfficeTeacherPro
       )}
     </div>
   );
+
+  function handleSelectInfos(
+    onChange: (...event: unknown[]) => void,
+    value: string | number | number[],
+    e: ChangeEvent<HTMLInputElement>,
+    optionId: number,
+  ) {
+    const aux = value.indexOf(optionId) !== -1;
+
+    if (aux) {
+      const updatedOffices = value.filter((valueId: number) => valueId !== optionId);
+      onChange(updatedOffices);
+    } else {
+      onChange([...value, parseInt(e.target.value)]);
+    }
+  }
 }

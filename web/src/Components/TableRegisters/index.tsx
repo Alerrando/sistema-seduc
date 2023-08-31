@@ -9,9 +9,11 @@ import {
   TeacherInfos,
   refreshInfosSchool,
   refreshInfosTeacher,
+  refreshInfosTeachersOffice,
+  refreshInfosTeachersThirst,
 } from "../../../slice";
 import { UserInfos } from "../../../slice/LoginSlice";
-import { readAllSchool, readAllTeacher } from "../../api";
+import { findAllTeachersOffice, findAllTeachersThirst, readAllSchool, readAllTeacher } from "../../api";
 import RenderLessonColumns from "./RenderLessonColumns";
 import RenderOtherColumns from "./RenderOtherColumns";
 import RenderSchoolColumns from "./RenderSchoolColumns";
@@ -36,8 +38,10 @@ export default function TableRegisters(props: TableRegistersProps) {
     (async () => {
       dispatch(refreshInfosSchool(await readAllSchool()));
       dispatch(refreshInfosTeacher(await readAllTeacher()));
+      dispatch(refreshInfosTeachersOffice(await findAllTeachersOffice()));
+      dispatch(refreshInfosTeachersThirst(await findAllTeachersThirst()));
     })();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="w-full overflow-x-auto border border-gray-200">
@@ -76,7 +80,7 @@ export default function TableRegisters(props: TableRegistersProps) {
                         "fone" in info &&
                         "email" in info ? (
                         <RenderSchoolColumns school={info} index={index} />
-                      ) : registerType === "Teacher" && "thirst" in info ? (
+                      ) : registerType === "Teacher" && "cpf" in info ? (
                         <RenderTeacherColumns teacher={info} index={index} />
                       ) : registerType === "User" &&
                         "name" in info &&

@@ -84,7 +84,7 @@ export default function ControleAulasEventuais() {
       dispatch(changeRegisterType("Lesson"));
       setLessonsLengthall(await readAllLesson().then((data) => data?.length));
     })();
-  }, []);
+  }, [dispatch]);
 
   return (
     <RootLayout showHeaderAside>
@@ -148,7 +148,9 @@ export default function ControleAulasEventuais() {
               tableHead={tableHead}
               editInfo={editInfo}
               deleteInfo={deleteInfo}
-              infosAll={allInfosLesson}
+              infosAll={allInfosLesson.filter((lesson: LessonsInfos) =>
+                lesson.registerTeacher.name.toLowerCase().includes(search.toLowerCase()),
+              )}
               key={"Table-Cadastro"}
             />
           </div>

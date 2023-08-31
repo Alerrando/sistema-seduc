@@ -1,7 +1,7 @@
 "use client";
 import { AxiosError } from "axios";
 import { format, isValid } from "date-fns";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,7 +25,7 @@ export default function DefinitionPeriods() {
 
       dispatch(refreshDefinitionPeriods(formattedPeriods));
     })();
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -121,7 +121,7 @@ export default function DefinitionPeriods() {
     </>
   );
 
-  async function submit(e: any) {
+  async function submit(e: ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
 
     if (datas.startDate !== null && datas.endDate !== null) {

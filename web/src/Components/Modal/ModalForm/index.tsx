@@ -13,10 +13,10 @@ import SelectInput from "./SelectInput";
 import CheckboxDropdown from "./SelectInput/CheckboxDropdown";
 
 type ModalFormProps = {
-  schema: ZodType<any, any, any>;
+  schema: ZodType<unknown, unknown, unknown>;
   inputs: InputConfig[];
-  initialValues: any;
-  setInfosInput?: (initalValues: any) => void;
+  initialValues: unknown;
+  setInfosInput?: (initalValues: unknown) => void;
   onSubmit: (data: SubmitDataModal, officesTeacher?: number[]) => void;
   modalName: string;
 };
@@ -31,7 +31,6 @@ export function ModalForm(props: ModalFormProps) {
     reset,
     formState: { errors },
     setValue,
-    getValues,
     control,
   } = useForm<SubmitDataModal>({
     resolver: zodResolver(schema),
@@ -39,7 +38,6 @@ export function ModalForm(props: ModalFormProps) {
   });
 
   function handleFormSubmit(data: SubmitDataModal) {
-    debugger;
     if (modalName === "Lesson") {
       setValue("name", "");
       setValue("registerSchool", 0);
@@ -52,8 +50,6 @@ export function ModalForm(props: ModalFormProps) {
     }
     onSubmit(data);
   }
-
-  console.log(getValues());
 
   return (
     <>
@@ -77,12 +73,13 @@ export function ModalForm(props: ModalFormProps) {
                 <CheckboxDropdown
                   infos={
                     input?.optionType === "TeachersOffice"
-                      ? allInfosOffice.filter((office: OfficeInfos) => office.type === "2")
+                      ? allInfosOffice?.filter((office: OfficeInfos) => office.type === "2")
                       : allInfosSchool
                   }
                   control={control}
                   optionDefault={input.optionDefault}
-                  checkboxOptionType={input.optionType}
+                  checkboxOptionType={input.name}
+                  initalValuesId={initialValues.id}
                   key={`input-checkbox-dropdown`}
                 />
               ) : input?.input === "select" && input?.optionType !== undefined ? (

@@ -27,7 +27,7 @@ import {
   createTeachersThirst,
   deleteTeacher,
   editTeacher,
-  editTeacherOffice,
+  editTeacherThirst,
   findAllTeachersOffice,
   findAllTeachersThirst,
   getRegisterOffice,
@@ -56,7 +56,7 @@ export default function CadastroProfessor() {
   const [search, setSearch] = useState("");
   const [modalInactive, setModalInactive] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
-  const thead = ["Id", "Nome do Professor(a)", "Cpf", "Sede", "Cargo", "Ações"];
+  const thead = ["Id", "Nome do Professor(a)", "Cpf", "Sede", "Cargo", "Inatividade", "Ações"];
   const dispatch = useDispatch<AppDispatch>();
   const inputs: InputConfig[] = [
     {
@@ -81,9 +81,9 @@ export default function CadastroProfessor() {
 
     {
       type: "text",
-      htmlFor: "Thirst",
+      htmlFor: "teachersThirst",
       label: "Sede",
-      name: "Thirst",
+      name: "teachersThirst",
       optionDefault: "Selecione a Sede",
       optionType: "TeachersThrist",
       input: "select",
@@ -91,9 +91,9 @@ export default function CadastroProfessor() {
 
     {
       type: "text",
-      htmlFor: "office",
+      htmlFor: "teachersOffice",
       label: "Cargo",
-      name: "office",
+      name: "teachersOffice",
       optionDefault: "Selecione o cargo",
       optionType: "TeachersOffice",
       input: "select",
@@ -114,7 +114,7 @@ export default function CadastroProfessor() {
         dispatch(refreshInfosOffice(sortedInfos));
       }
     })();
-  }, []);
+  }, [dispatch]);
 
   return (
     <RootLayout showHeaderAside>
@@ -137,7 +137,9 @@ export default function CadastroProfessor() {
 
           <TableRegisters
             tableHead={thead}
-            infosAll={allInfosTeacher.filter((infosTeacher: TeacherInfos) => Object.keys(infosTeacher))}
+            infosAll={allInfosTeacher.filter((infosTeacher: TeacherInfos) =>
+              infosTeacher.name.toLowerCase().includes(search.toLowerCase()),
+            )}
             editInfo={editInfo}
             deleteInfo={deleteInfo}
             key={"Table-Escola"}
@@ -173,8 +175,8 @@ export default function CadastroProfessor() {
   );
 
   async function submitTeacher(data: SubmitDataModal) {
-    debugger;
     if ("cpf" in data && "name" in data) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { teachersThirst, cpf, teachersOffice, ...rest } = data;
 
       const aux: TeacherInfos = {
@@ -186,8 +188,6 @@ export default function CadastroProfessor() {
       };
 
       await submitEditTeacher(aux, data);
-      dispatch(refreshInfosTeachersOffice(await findAllTeachersOffice()));
-      dispatch(refreshInfosTeachersThirst(await findAllTeachersThirst()));
       dispatch(refreshInfosTeacher(await readAllTeacher()));
       setInfosInput(TeacherValuesDefault);
     }
@@ -198,28 +198,29 @@ export default function CadastroProfessor() {
     let auxData: AxiosError | TeacherInfos;
 
     if (!infosInput.edit) {
-      auxData = await createTeacher(aux, aux.Thirst.id);
+      auxData = await createTeacher(aux, data);
       message = auxData !== undefined ? "Professor cadastrada com sucesso" : auxData;
       await createTeachersOffice(data.teachersOffice, auxData.id);
       await createTeachersThirst(data.teachersThirst, auxData.id);
     } else {
-      auxData = await editTeacher(aux, aux.Thirst.id);
+      auxData = await editTeacher(aux, data);
       message = auxData !== undefined ? "Professor editado com sucesso" : auxData;
-      await editTeacherOffice(data.teachersOffice, auxData.id);
+      await editTeacherThirst(data.teachersOffice, auxData.id);
       setModal(false);
     }
 
     messageToast(message);
+    dispatch(refreshInfosTeachersOffice(await findAllTeachersOffice()));
+    dispatch(refreshInfosTeachersThirst(await findAllTeachersThirst()));
   }
 
   async function editInfo(info: InfosTableRegisterData, inactive = false) {
-    if ("Thirst" in info && "cpf" in info && "office" in info && "name" in info) {
+    if ("cpf" in info && "name" in info) {
       if (!inactive) {
-        const { Thirst, edit, ...rest } = info;
+        const { edit, ...rest } = info;
 
         const aux: TeacherInfos = {
-          edit: true,
-          Thirst,
+          edit: !edit,
           ...rest,
         };
 
@@ -240,7 +241,7 @@ export default function CadastroProfessor() {
   }
 
   async function deleteInfo(info: InfosTableRegisterData) {
-    if ("Thirst" in info && "cpf" in info && "office" in info && "name" in info) {
+    if ("cpf" in info && "name" in info) {
       if (window.confirm(`Quer mesmo deletar o professor ${info.name}?`)) {
         const message: AxiosError | string = await deleteTeacher(info.id);
         messageToast(message);

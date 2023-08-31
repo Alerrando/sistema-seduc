@@ -52,7 +52,7 @@ export default function TableReports(props: TableReportsProps) {
 
                       <td className="items-center h-full px-4 font-medium text-gray-900 border-r border-gray-200">
                         <div className="grid grid-cols-report-teacher divide-x divide-gray-600">
-                          {info.datesWork.map((dateWork: any, index: number) => (
+                          {info.datesWork.map((dateWork: unknown, index: number) => (
                             <div
                               key={`date=${index}`}
                               className={`w-fill h-auto break-inside-avoid flex flex-row items-center justify-start px-2 gap-1`}

@@ -27,7 +27,7 @@ type FilterProps = {
   datas: DatasTypes;
   setDatas: (datas: DatasTypes) => void;
   filterName: string;
-  schema: ZodType<any, any, any>;
+  schema: ZodType<unknown, unknown, unknown>;
   initialValues: SubmitDataFilter;
 };
 
@@ -52,7 +52,7 @@ export default function Filter(props: FilterProps) {
         dispatch(refreshInfosSchool(await readAllSchool()));
       }
     })();
-  }, []);
+  }, [dispatch, filterName]);
 
   return (
     <div className="w-screen h-full fixed flex items-center justify-end bg-modal top-0 left-0 ">

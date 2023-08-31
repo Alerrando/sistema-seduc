@@ -30,6 +30,7 @@ export type InitalValuesTypeSubstitutionBulletin = {
 
 export default function BoletimSubstituicao() {
   const [filter, setFilter] = useState<boolean>(false);
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const [initalValues, setInitialValues] = useState<InitalValuesTypeSubstitutionBulletin>(
     {} as InitalValuesTypeSubstitutionBulletin,
   );
@@ -42,7 +43,7 @@ export default function BoletimSubstituicao() {
     (async () => {
       dispatch(changeReportsType("School"));
     })();
-  }, []);
+  }, [dispatch]);
 
   return (
     <RootLayout showHeaderAside>

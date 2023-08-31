@@ -20,13 +20,13 @@ export type SubmitDataModal =
   | CreateFormDataUser;
 
 type ModalProps = {
-  setInfosInput?: (infosInput: any) => void;
-  infosInput?: any;
+  setInfosInput?: (infosInput: unknown) => void;
+  infosInput?: unknown;
   setModal: () => void;
   submitInfos?: (data: SubmitDataModal) => void;
   title: string;
   inputs?: InputConfig[];
-  createFormSchema?: ZodType<any, any, any>;
+  createFormSchema?: ZodType<unknown, unknown, unknown>;
   editInfo?: (info: InfosTableRegisterData, inactive: boolean) => void;
   thead?: string[];
   modalName: string;

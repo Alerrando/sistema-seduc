@@ -24,6 +24,7 @@ export type InitalValuesBulletinControlOccasionalClasses = {
 };
 
 export default function BoletimControleAulasEventuais() {
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const [initalValues, setInitialValues] = useState<InitalValuesBulletinControlOccasionalClasses>(
     {} as InitalValuesBulletinControlOccasionalClasses,
   );
@@ -39,7 +40,7 @@ export default function BoletimControleAulasEventuais() {
       dispatch(refreshInfosTeacher(await readAllTeacher()));
       dispatch(changeReportsType("Teacher"));
     })();
-  }, []);
+  }, [dispatch]);
 
   return (
     <RootLayout showHeaderAside>
