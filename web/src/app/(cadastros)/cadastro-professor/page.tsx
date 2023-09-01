@@ -36,7 +36,7 @@ import {
 import RootLayout from "../../../app/layout";
 import { isValidCPF, maskCPF } from "../../../utils/maskUtils";
 
-export const createFormSchema = z.object({
+const createFormSchema = z.object({
   name: z.string().nonempty("Nome é obrigatório!"),
   cpf: z
     .string()
