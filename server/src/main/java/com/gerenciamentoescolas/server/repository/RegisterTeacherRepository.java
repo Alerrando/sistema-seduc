@@ -17,4 +17,6 @@ public interface RegisterTeacherRepository extends JpaRepository<RegisterTeacher
 
     @Query("SELECT l.amountTime, t.name, l.lessonDay, l.registerSchool FROM RegisterTeacher t LEFT JOIN RegisterLesson l ON l.registerTeacher.id = t.id WHERE l.registerTeacher.id = :idProfessor AND l.lessonDay BETWEEN :dataInicial AND :dataFinal GROUP BY l.amountTime, t.name, l.lessonDay, l.registerSchool")
     List<Object[]> findProfessorAulas(@Param("idProfessor") Integer idProfessor, @Param("dataInicial") Date dataInicial, @Param("dataFinal") Date dataFinal);
+
+
 }

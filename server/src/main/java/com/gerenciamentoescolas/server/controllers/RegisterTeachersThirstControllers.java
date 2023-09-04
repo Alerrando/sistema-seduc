@@ -19,8 +19,18 @@ public class RegisterTeachersThirstControllers {
         return registerTeachersThirstService.findAll();
     }
 
+    @GetMapping("/{idTeacher}")
+    public List<RegisterTeachersThirst> findById(@PathVariable Integer idTeacher){
+        return registerTeachersThirstService.findById(idTeacher);
+    }
+
     @PostMapping("/{idTeacher}")
-    public void create(@PathVariable Integer idTeacher, @RequestBody List<Integer> thrists){
-        registerTeachersThirstService.create(idTeacher, thrists);
+    public void create(@PathVariable Integer idTeacher, @RequestBody List<Integer> thirsts){
+        registerTeachersThirstService.create(idTeacher, thirsts);
+    }
+
+    @PutMapping("/{idTeacher}")
+    public void edit(@PathVariable Integer idTeacher, @RequestBody List<Integer> thirsts){
+        registerTeachersThirstService.edit(idTeacher, thirsts);
     }
 }
