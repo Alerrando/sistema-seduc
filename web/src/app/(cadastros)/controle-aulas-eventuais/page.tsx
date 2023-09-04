@@ -84,7 +84,8 @@ export default function ControleAulasEventuais() {
       dispatch(changeRegisterType("Lesson"));
       setLessonsLengthall(await readAllLesson().then((data) => data?.length));
     })();
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <RootLayout showHeaderAside>

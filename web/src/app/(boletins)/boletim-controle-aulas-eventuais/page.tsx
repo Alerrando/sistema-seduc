@@ -2,11 +2,11 @@
 import { SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { z } from "zod";
-import { AppDispatch, RootState } from "../../../../configureStore";
+import { AppDispatch } from "../../../../configureStore";
 import { TeacherDTOInfos, changeReportsType, refreshInfosSchool, refreshInfosTeacher } from "../../../../slice";
-import { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from "../../../../slice/FilterSlice";
+import { refreshAllFilterInfosTeacher } from "../../../../slice/FilterSlice";
 import Filter, { DatasTypes, SubmitDataFilter } from "../../../Components/Filter";
 import TableReports from "../../../Components/TableReports";
 import { getNameByIdTeacher, getReportsTeacher, readAllSchool, readAllTeacher } from "../../../api";
@@ -30,7 +30,7 @@ export default function BoletimControleAulasEventuais() {
   );
   const [filter, setFilter] = useState<boolean>(false);
   const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
-  const { allFilterInfosTeacher } = useSelector((root: RootState) => root.SliceFilter);
+  const [auxAllFilterInfosTeacher, setAuxAllFilterInfosTeacher] = useState<TeacherDTOInfos[]>([]);
   const tableHead = ["Nome Professor", "Data", "Escola", "N° de Aulas"];
   const dispatch = useDispatch<AppDispatch>();
 
@@ -40,7 +40,8 @@ export default function BoletimControleAulasEventuais() {
       dispatch(refreshInfosTeacher(await readAllTeacher()));
       dispatch(changeReportsType("Teacher"));
     })();
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <RootLayout showHeaderAside>
@@ -54,16 +55,18 @@ export default function BoletimControleAulasEventuais() {
             />
           </div>
 
-          <TableReports tableHead={tableHead} allFilterInfos={allFilterInfosTeacher} />
+          <TableReports tableHead={tableHead} allFilterInfos={auxAllFilterInfosTeacher} />
         </div>
 
         <div className="w-full flex items-center justify-end">
-          <Link
-            href="/imprimir-boletim-controle-aulas-eventuais"
-            className="w-36 py-2 border border-zinc-500 text-zinc-500 rounded-lg text-center hover:bg-zinc-500 hover:text-white transition-colors"
-          >
-            Imprimir
-          </Link>
+          {Object.keys(auxAllFilterInfosTeacher).length > 0 && (
+            <Link
+              href="/imprimir-boletim-controle-aulas-eventuais"
+              className="w-36 py-2 border border-zinc-500 text-zinc-500 rounded-lg text-center hover:bg-zinc-500 hover:text-white transition-colors"
+            >
+              Imprimir
+            </Link>
+          )}
         </div>
       </main>
 
@@ -99,7 +102,7 @@ export default function BoletimControleAulasEventuais() {
             ),
           ),
         );
-        dispatch(refreshFilterInfosTeacher(await getNameByIdTeacher(data.cadastroProfessor)));
+        setAuxAllFilterInfosTeacher(await getNameByIdTeacher(data.cadastroProfessor));
       }
 
       setFilter(false);

@@ -51,7 +51,8 @@ export default function Dashboard() {
         dispatch(refreshInfosOffice(sortedInfos));
       }
     })();
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <RootLayout showHeaderAside>

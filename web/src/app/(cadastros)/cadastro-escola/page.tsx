@@ -101,7 +101,8 @@ export default function CadastroEscola() {
       dispatch(refreshInfosSchool(await readAllSchool()));
       dispatch(changeRegisterType("School"));
     })();
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <RootLayout showHeaderAside>

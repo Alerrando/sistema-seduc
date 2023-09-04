@@ -19,7 +19,8 @@ export default function LoginRegister() {
     if (Object.values(userInfos).length > 0) {
       router.replace("/dashboard");
     }
-  }, [dispatch, router, userInfos]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <RootLayout showHeaderAside={false}>
