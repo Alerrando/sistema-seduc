@@ -128,7 +128,8 @@ export default function UsersList() {
       dispatch(refreshInfosUser(await findAllUser()));
       dispatch(changeRegisterType("User"));
     })();
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

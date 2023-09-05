@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../configureStore";
 
-function Home({ children }: any) {
+function Home({ children }: unknown) {
   const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
   const router = useRouter();
   const pathName = usePathname();
@@ -21,7 +21,8 @@ function Home({ children }: any) {
     } else {
       router.replace("/login-register");
     }
-  }, [userInfos]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return <>{children}</>;
 }

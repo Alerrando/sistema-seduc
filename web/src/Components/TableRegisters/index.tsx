@@ -41,7 +41,8 @@ export default function TableRegisters(props: TableRegistersProps) {
       dispatch(refreshInfosTeachersOffice(await findAllTeachersOffice()));
       dispatch(refreshInfosTeachersThirst(await findAllTeachersThirst()));
     })();
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="w-full overflow-x-auto border border-gray-200">

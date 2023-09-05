@@ -28,7 +28,8 @@ export default function CheckboxDropdown(props: CheckboxDropdownOfficeTeacherPro
         setDefaultValueController(fetched.map((teacherThirst: TeachersThirst) => teacherThirst.registerSchool.id));
       }
     })();
-  }, [checkboxOptionType, initalValuesId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="inline-block text-left">

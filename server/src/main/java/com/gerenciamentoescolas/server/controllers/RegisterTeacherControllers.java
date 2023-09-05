@@ -49,14 +49,14 @@ public class RegisterTeacherControllers {
     }
 
 
-    @PostMapping("/{escolaId}")
-    public RegisterTeacher create(@RequestBody RegisterTeacher registerTeacher, @PathVariable Integer escolaId){
-        return registerTeacherService.create(registerTeacher, escolaId);
+    @PostMapping
+    public RegisterTeacher create(@RequestBody RegisterTeacher registerTeacher){
+        return registerTeacherService.create(registerTeacher);
     }
 
-    @PutMapping("/{escolaId}")
-    public RegisterTeacher edit(@RequestBody RegisterTeacher registerTeacher, @PathVariable Integer escolaId){
-        return registerTeacherService.edit(registerTeacher, escolaId);
+    @PutMapping
+    public RegisterTeacher edit(@RequestBody RegisterTeacher registerTeacher){
+        return registerTeacherService.edit(registerTeacher);
     }
 
     @DeleteMapping("/{id}")

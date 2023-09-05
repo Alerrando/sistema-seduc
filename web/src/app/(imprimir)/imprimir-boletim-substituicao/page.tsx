@@ -37,7 +37,8 @@ export default function ImprimirBoletimSubstituicao() {
     })();
 
     setDateNow(new Date());
-  }, [filterInfosSchool.id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <RootLayout showHeaderAside={false}>

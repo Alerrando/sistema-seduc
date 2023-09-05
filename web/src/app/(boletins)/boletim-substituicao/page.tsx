@@ -43,7 +43,8 @@ export default function BoletimSubstituicao() {
     (async () => {
       dispatch(changeReportsType("School"));
     })();
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <RootLayout showHeaderAside>
@@ -92,9 +93,8 @@ export default function BoletimSubstituicao() {
         new Date(datas.dataInicial),
         new Date(datas.dataFinal),
       );
-      console.log(aux);
 
-      if (typeof aux === "object") {
+      if (typeof aux === "object" && Object.keys(aux).length > 0) {
         const sortedInfos: SchoolDTOInfos[] = aux?.sort((info1: SchoolDTOInfos, info2: SchoolDTOInfos) =>
           info1.name.localeCompare(info2.name),
         );

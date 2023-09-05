@@ -52,7 +52,8 @@ export default function Filter(props: FilterProps) {
         dispatch(refreshInfosSchool(await readAllSchool()));
       }
     })();
-  }, [dispatch, filterName]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="w-screen h-full fixed flex items-center justify-end bg-modal top-0 left-0 ">

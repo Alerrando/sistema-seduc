@@ -24,6 +24,10 @@ public class RegisterTeachersThirstService {
         return  registerTeachersThirstRepository.findAll();
     }
 
+    public  List<RegisterTeachersThirst> findById(Integer idTeacher){
+        return registerTeachersThirstRepository.findByIdTeacher(idTeacher);
+    }
+
     public void create(Integer idTeacher, List<Integer> thirsts){
         RegisterTeacher registerTeacher = registerTeacherRepository.getReferenceById(idTeacher);
         for (Integer thirst : thirsts){
@@ -33,5 +37,10 @@ public class RegisterTeachersThirstService {
 
             registerTeachersThirstRepository.save(registerTeachersThirst);
         }
+    }
+
+    public void edit(Integer teacherId, List<Integer> thirsts){
+        registerTeachersThirstRepository.deleteByIdTeacher(teacherId);
+        this.create(teacherId, thirsts);
     }
 }

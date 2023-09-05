@@ -114,7 +114,8 @@ export default function CadastroProfessor() {
         dispatch(refreshInfosOffice(sortedInfos));
       }
     })();
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <RootLayout showHeaderAside>
@@ -205,7 +206,7 @@ export default function CadastroProfessor() {
     } else {
       auxData = await editTeacher(aux, data);
       message = auxData !== undefined ? "Professor editado com sucesso" : auxData;
-      await editTeacherThirst(data.teachersOffice, auxData.id);
+      await editTeacherThirst(data.teachersThirst, auxData.id);
       setModal(false);
     }
 

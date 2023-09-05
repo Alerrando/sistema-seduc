@@ -69,6 +69,7 @@ export default function RegisterOffice() {
         dispatch(changeRegisterType(""));
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   return (
