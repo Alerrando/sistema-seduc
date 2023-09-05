@@ -27,6 +27,7 @@ import {
   createTeachersThirst,
   deleteTeacher,
   editTeacher,
+  editTeacherOffice,
   editTeacherThirst,
   findAllTeachersOffice,
   findAllTeachersThirst,
@@ -207,6 +208,7 @@ export default function CadastroProfessor() {
       auxData = await editTeacher(aux, data);
       message = auxData !== undefined ? "Professor editado com sucesso" : auxData;
       await editTeacherThirst(data.teachersThirst, auxData.id);
+      await editTeacherOffice(data.teachersOffice, auxData.id);
       setModal(false);
     }
 

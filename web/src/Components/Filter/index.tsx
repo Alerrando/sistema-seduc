@@ -12,7 +12,7 @@ import { refreshInfosSchool, refreshInfosTeacher } from "../../../slice";
 import { readAllSchool, readAllTeacher } from "../../api";
 import { InitalValuesBulletinControlOccasionalClasses } from "../../app/(boletins)/boletim-controle-aulas-eventuais/page";
 import { InitalValuesTypeSubstitutionBulletin } from "../../app/(boletins)/boletim-substituicao/page";
-import { SelectInput } from "../Modal/ModalForm/SelectInput";
+import SelectInput from "../Modal/ModalForm/SelectInput";
 
 export type SubmitDataFilter = InitalValuesTypeSubstitutionBulletin | InitalValuesBulletinControlOccasionalClasses;
 

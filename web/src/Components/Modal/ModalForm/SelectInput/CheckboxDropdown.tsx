@@ -3,6 +3,7 @@ import { Control, Controller } from "react-hook-form";
 import { SubmitDataModal } from "../..";
 import { OfficeInfos, TeacherInfos, TeachersOffice, TeachersThirst } from "../../../../../slice";
 import { findTeachersOfficeById, findTeachersThirstById } from "../../../../api";
+import { AxiosError } from "axios";
 
 type CheckboxDropdownOfficeTeacherProps = {
   infos: OfficeInfos[] | TeacherInfos[];
@@ -19,13 +20,15 @@ export default function CheckboxDropdown(props: CheckboxDropdownOfficeTeacherPro
 
   useEffect(() => {
     (async () => {
-      let fetched: TeachersOffice[] | TeachersThirst = [];
+      let fetched: TeachersOffice[] | TeachersThirst[] | AxiosError = [];
       if (checkboxOptionType === "teachersOffice") {
         fetched = await findTeachersOfficeById(initalValuesId);
         setDefaultValueController(fetched.map((officeTeacher: TeachersOffice) => officeTeacher.registerOffice.id));
       } else if (checkboxOptionType === "teachersThirst") {
         fetched = await findTeachersThirstById(initalValuesId);
-        setDefaultValueController(fetched.map((teacherThirst: TeachersThirst) => teacherThirst.registerSchool.id));
+        if (!(fetched instanceof AxiosError)) {
+          setDefaultValueController(fetched?.map((teacherThirst: TeachersThirst) => teacherThirst.registerSchool.id));
+        }
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
