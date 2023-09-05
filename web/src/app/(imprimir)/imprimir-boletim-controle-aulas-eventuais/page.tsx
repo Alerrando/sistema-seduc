@@ -45,7 +45,7 @@ export default function ImprimirBoletimControleAulasEventuais() {
 
                 <div className="w-auto flex flex-row items-center gap-1 md:gap-2">
                   <h3 className="font-bold text-base md:text-xl">SEDE: </h3>
-                  <span className="font-bold text-sm md:text-lg">{filterInfosTeacher.thirst.name}</span>
+                  <span className="font-bold text-sm md:text-lg">{allFilterInfosTeacher[0]?.registerSchool?.name}</span>
                 </div>
 
                 <div className="w-auto flex flex-row items-center gap-1 md:gap-2">

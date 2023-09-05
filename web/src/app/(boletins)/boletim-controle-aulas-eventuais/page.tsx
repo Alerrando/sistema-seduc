@@ -1,12 +1,18 @@
 "use client";
 import { SlidersHorizontal } from "lucide-react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { z } from "zod";
-import { AppDispatch } from "../../../../configureStore";
-import { TeacherDTOInfos, changeReportsType, refreshInfosSchool, refreshInfosTeacher } from "../../../../slice";
-import { refreshAllFilterInfosTeacher } from "../../../../slice/FilterSlice";
+import { AppDispatch, RootState } from "../../../../configureStore";
+import {
+  TeacherDTOInfos,
+  TeachersThirst,
+  changeReportsType,
+  refreshInfosSchool,
+  refreshInfosTeacher,
+} from "../../../../slice";
+import { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from "../../../../slice/FilterSlice";
 import Filter, { DatasTypes, SubmitDataFilter } from "../../../Components/Filter";
 import TableReports from "../../../Components/TableReports";
 import { getNameByIdTeacher, getReportsTeacher, readAllSchool, readAllTeacher } from "../../../api";
@@ -30,9 +36,11 @@ export default function BoletimControleAulasEventuais() {
   );
   const [filter, setFilter] = useState<boolean>(false);
   const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
-  const [auxAllFilterInfosTeacher, setAuxAllFilterInfosTeacher] = useState<TeacherDTOInfos[]>([]);
   const tableHead = ["Nome Professor", "Data", "Escola", "N° de Aulas"];
   const dispatch = useDispatch<AppDispatch>();
+  const { allInfosTeachersThirst } = useSelector((root: RootState) => root.Slice);
+  const { allFilterInfosTeacher, filterInfosTeacher } = useSelector((root: RootState) => root.SliceFilter);
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -55,17 +63,25 @@ export default function BoletimControleAulasEventuais() {
             />
           </div>
 
-          <TableReports tableHead={tableHead} allFilterInfos={auxAllFilterInfosTeacher} />
+          <TableReports tableHead={tableHead} allFilterInfos={allFilterInfosTeacher} />
         </div>
 
-        <div className="w-full flex items-center justify-end">
-          {Object.keys(auxAllFilterInfosTeacher).length > 0 && (
-            <Link
-              href="/imprimir-boletim-controle-aulas-eventuais"
-              className="w-36 py-2 border border-zinc-500 text-zinc-500 rounded-lg text-center hover:bg-zinc-500 hover:text-white transition-colors"
-            >
-              Imprimir
-            </Link>
+        <div className="w-full flex flex-row gap-4 items-center justify-end">
+          {Object.keys(filterInfosTeacher).length > 0 && (
+            <>
+              {allInfosTeachersThirst.map((teachersThirst: TeachersThirst) => (
+                <>
+                  {teachersThirst.registerTeacher.id === filterInfosTeacher.id && (
+                    <button
+                      onClick={() => redirectPrintOut(teachersThirst.registerSchool.id)}
+                      className="w-auto p-2 border border-zinc-500 text-zinc-500 rounded-lg text-center hover:bg-zinc-500 hover:text-white transition-colors"
+                    >
+                      {`Imprimir com a sede ${teachersThirst.registerSchool.name}`}
+                    </button>
+                  )}
+                </>
+              ))}
+            </>
           )}
         </div>
       </main>
@@ -85,6 +101,16 @@ export default function BoletimControleAulasEventuais() {
     </RootLayout>
   );
 
+  function redirectPrintOut(idThirst: number) {
+    const aux = allFilterInfosTeacher.filter(
+      (infosTeacher: TeacherDTOInfos) => infosTeacher.registerSchool.id === idThirst,
+    );
+
+    dispatch(refreshAllFilterInfosTeacher(aux));
+
+    router.replace("/imprimir-boletim-controle-aulas-eventuais");
+  }
+
   async function submit(data: SubmitDataFilter) {
     if ("cadastroProfessor" in data) {
       const aux: TeacherDTOInfos[] = await getReportsTeacher(
@@ -97,14 +123,12 @@ export default function BoletimControleAulasEventuais() {
         dispatch(
           refreshAllFilterInfosTeacher(
             aux?.sort(
-              (data1: TeacherDTOInfos, data2: TeacherDTOInfos) =>
-                new Date(data1.lessonDay).getTime() - new Date(data2.lessonDay).getTime(),
+              (info1: TeacherDTOInfos, info2: TeacherDTOInfos) => info1.registerSchool.name - info2.registerSchool.name,
             ),
           ),
         );
-        setAuxAllFilterInfosTeacher(await getNameByIdTeacher(data.cadastroProfessor));
+        dispatch(refreshFilterInfosTeacher(await getNameByIdTeacher(data.cadastroProfessor)));
       }
-
       setFilter(false);
     }
   }
