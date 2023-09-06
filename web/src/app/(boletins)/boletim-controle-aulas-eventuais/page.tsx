@@ -47,6 +47,8 @@ export default function BoletimControleAulasEventuais() {
       dispatch(refreshInfosSchool(await readAllSchool()));
       dispatch(refreshInfosTeacher(await readAllTeacher()));
       dispatch(changeReportsType("Teacher"));
+      dispatch(refreshFilterInfosTeacher([]));
+      dispatch(refreshAllFilterInfosTeacher([]));
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -101,14 +103,14 @@ export default function BoletimControleAulasEventuais() {
     </RootLayout>
   );
 
-  function redirectPrintOut(idThirst: number) {
+  async function redirectPrintOut(idThirst: number) {
     const aux = allFilterInfosTeacher.filter(
       (infosTeacher: TeacherDTOInfos) => infosTeacher.registerSchool.id === idThirst,
     );
 
     dispatch(refreshAllFilterInfosTeacher(aux));
 
-    router.replace("/imprimir-boletim-controle-aulas-eventuais");
+    router.replace(`/imprimir-boletim-controle-aulas-eventuais/${idThirst}`);
   }
 
   async function submit(data: SubmitDataFilter) {

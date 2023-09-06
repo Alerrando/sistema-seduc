@@ -2,12 +2,12 @@
 import { format, isValid } from "date-fns";
 import { Key } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../configureStore";
-import { TeachersOffice, TeacherDTOInfos } from "../../../../slice";
-import RootLayout from "../../layout";
+import { RootState } from "../../../../../configureStore";
+import { TeacherDTOInfos, TeachersOffice, TeachersThirst } from "../../../../../slice";
+import RootLayout from "../../../layout";
 
-export default function ImprimirBoletimControleAulasEventuais() {
-  const { allInfosTeachersOffice } = useSelector((root: RootState) => root.Slice);
+export default function ImprimirBoletimControleAulasEventuais({ params }: { params: { slug: string } }) {
+  const { allInfosTeachersOffice, allInfosTeachersThirst } = useSelector((root: RootState) => root.Slice);
   const { filterInfosTeacher, allFilterInfosTeacher } = useSelector((root: RootState) => root.SliceFilter);
 
   return (
@@ -45,7 +45,13 @@ export default function ImprimirBoletimControleAulasEventuais() {
 
                 <div className="w-auto flex flex-row items-center gap-1 md:gap-2">
                   <h3 className="font-bold text-base md:text-xl">SEDE: </h3>
-                  <span className="font-bold text-sm md:text-lg">{allFilterInfosTeacher[0]?.registerSchool?.name}</span>
+                  <span className="font-bold text-sm md:text-lg">
+                    {
+                      allInfosTeachersThirst.find(
+                        (teacherThirst: TeachersThirst) => teacherThirst.registerSchool.id === Number(params.slug),
+                      )?.registerSchool.name
+                    }
+                  </span>
                 </div>
 
                 <div className="w-auto flex flex-row items-center gap-1 md:gap-2">
