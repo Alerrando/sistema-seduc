@@ -30,18 +30,24 @@ public class RegisterTeacherService {
         Integer idProfessorInteger = Integer.parseInt(professorId);
         List<Object[]> results = registerTeacherRepository.findProfessorAulas(idProfessorInteger, dataInicial, dataFinal);
         Map<LessonKey, BulletinTeacher> professoresMap = new HashMap<>();
+        Integer amountTimeTotalAux = 0;
 
         for (Object[] result : results) {
             Integer amountTime = (Integer) result[0];
             String name = (String) result[1];
             Date lessonDay = (Date) result[2];
             RegisterSchool registerSchool = (RegisterSchool) result[3];
+            Long amountTimeTotal = Long.valueOf("0");
 
             LessonKey lessonKey = new LessonKey(lessonDay, registerSchool.getId());
             BulletinTeacher professorDTO = professoresMap.get(lessonKey);
 
+            if(result[4] != null)
+                amountTimeTotal = (Long) result[4];
+
             if (professorDTO == null) {
-                professorDTO = new BulletinTeacher(amountTime, name, lessonDay, registerSchool);
+                amountTimeTotalAux = amountTimeTotalAux + amountTimeTotal.intValue();
+                professorDTO = new BulletinTeacher(amountTime, name, lessonDay, registerSchool, amountTimeTotalAux);
                 professoresMap.put(lessonKey, professorDTO);
             }
         }

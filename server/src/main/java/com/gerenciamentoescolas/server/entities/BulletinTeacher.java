@@ -11,15 +11,17 @@ public class BulletinTeacher {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lessonDay;
     private RegisterSchool registerSchool;
+    private Integer amountTimeTotal;
 
     public BulletinTeacher(){
     }
 
-    public BulletinTeacher(Integer amountTime, String name, Date lessonDay, RegisterSchool registerSchool) {
+    public BulletinTeacher(Integer amountTime, String name, Date lessonDay, RegisterSchool registerSchool, Integer amountTimeTotal) {
         this.amountTime = amountTime;
         this.name = name;
         this.lessonDay = lessonDay;
         this.registerSchool = registerSchool;
+        this.amountTimeTotal = amountTimeTotal;
     }
 
     public Integer getAmountTime() {
@@ -50,4 +52,11 @@ public class BulletinTeacher {
         this.registerSchool = registerSchool;
     }
 
+    public Integer getAmountTimeTotal() {
+        return amountTimeTotal;
+    }
+
+    public void setAmountTimeTotal(Integer amountTimeTotal) {
+        this.amountTimeTotal = amountTimeTotal;
+    }
 }
