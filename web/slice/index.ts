@@ -74,6 +74,7 @@ export type TeacherDTOInfos = {
   amountTime: number;
   lessonDay: Date | string;
   registerSchool: TeacherInfos;
+  amountTimeTotal: number;
 };
 
 export const registerTypes = {

@@ -115,20 +115,16 @@ export default function BoletimControleAulasEventuais() {
 
   async function submit(data: SubmitDataFilter) {
     if ("cadastroProfessor" in data) {
-      const aux: TeacherDTOInfos[] = await getReportsTeacher(
+      let aux: TeacherDTOInfos[] = await getReportsTeacher(
         data.cadastroProfessor,
         new Date(datas.dataInicial),
         new Date(datas.dataFinal),
       );
-
+      aux = aux?.sort(
+        (info1: TeacherDTOInfos, info2: TeacherDTOInfos) => info1.registerSchool.id - info2.registerSchool.id,
+      );
       if (typeof aux === "object") {
-        dispatch(
-          refreshAllFilterInfosTeacher(
-            aux?.sort(
-              (info1: TeacherDTOInfos, info2: TeacherDTOInfos) => info1.registerSchool.name - info2.registerSchool.name,
-            ),
-          ),
-        );
+        dispatch(refreshAllFilterInfosTeacher(aux));
         dispatch(refreshFilterInfosTeacher(await getNameByIdTeacher(data.cadastroProfessor)));
       }
       setFilter(false);
