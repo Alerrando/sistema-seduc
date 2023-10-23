@@ -19,6 +19,7 @@ public class DefinitionPeriodsService {
     }
 
     public DefinitionPeriods create(DefinitionPeriods definitionPeriods){
+        definitionPeriodsRepository.deleteAll();
         return definitionPeriodsRepository.save(definitionPeriods);
     }
 }

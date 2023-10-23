@@ -57,7 +57,7 @@ public class RegisterLessonService {
     public RegisterLesson create(RegisterLesson registerLesson, Integer escolaId, Integer professorId){
         List<RegisterLesson> aulas = registerLessonRepository.findAll();
         List<DefinitionPeriods> definitionsPeriods = definitionPeriodsRepository.findAll();
-        DefinitionPeriods lastDefinitionPeriods = definitionsPeriods.get(definitionsPeriods.size() - 1);
+        DefinitionPeriods lastDefinitionPeriods = definitionsPeriods.get(0);
 
         LocalDate localDateCadastroAula = registerLesson.getLessonDay().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate startDatePeriod = lastDefinitionPeriods.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gerenciamentoescolas.server.entities.RegisterTeacher;
 import com.gerenciamentoescolas.server.services.RegisterTeacherService;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = { "http://192.168.0.78:3000", "http://www3.rancharia.sp.gov.br"})
 @RestController
 @RequestMapping(value = "/security/cadastro-professor")
 public class RegisterTeacherControllers {
