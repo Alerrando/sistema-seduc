@@ -82,12 +82,8 @@ export default function DefinitionPeriods() {
 
               <div className="w-auto h-full flex p-2 border border-[#cfcfcf] rounded shadow-lg">
                 <span>
-                  {infosDefinitionPeriods?.length > 0 &&
-                  isValid(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.startDate))
-                    ? format(
-                        new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.startDate),
-                        "dd/MM/yyyy",
-                      )
+                  {infosDefinitionPeriods?.length > 0 && isValid(new Date(infosDefinitionPeriods[0]?.startDate))
+                    ? format(new Date(infosDefinitionPeriods[0]?.startDate), "dd/MM/yyyy")
                     : ""}
                 </span>
               </div>
@@ -100,9 +96,8 @@ export default function DefinitionPeriods() {
 
               <div className="w-auto h-full flex p-2 border border-[#cfcfcf] rounded shadow-lg">
                 <span>
-                  {infosDefinitionPeriods?.length > 0 &&
-                  isValid(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.endDate))
-                    ? format(new Date(infosDefinitionPeriods[infosDefinitionPeriods.length - 1]?.endDate), "dd/MM/yyyy")
+                  {infosDefinitionPeriods?.length > 0 && isValid(new Date(infosDefinitionPeriods[0]?.endDate))
+                    ? format(new Date(infosDefinitionPeriods[0]?.endDate), "dd/MM/yyyy")
                     : ""}
                 </span>
               </div>
@@ -128,10 +123,12 @@ export default function DefinitionPeriods() {
     if (datas.startDate !== null && datas.endDate !== null) {
       const message: string | AxiosError = await createDefinitionPeriods(datas);
       const aux = await findAllDefinitionPeriods();
+
       const formattedPeriods: DefinitionPeriodsInfos[] = aux?.map((period: DefinitionPeriodsInfos) => ({
         startDate: new Date(period.startDate).toISOString(),
         endDate: new Date(period.endDate).toISOString(),
       }));
+
       dispatch(refreshDefinitionPeriods(formattedPeriods));
       messageToast(message);
     }

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../configureStore";
-import { TeachersOffice, SchoolDTOInfos } from "../../../../slice";
+import { SchoolDTOInfos, TeachersOffice } from "../../../../slice";
 import { DefaultUserInfos, UserInfos } from "../../../../slice/LoginSlice";
 import { getUserByIdSchool, getUserByMandatoryBulletin } from "../../../api";
 import RootLayout from "../../layout";
@@ -111,15 +111,16 @@ export default function ImprimirBoletimSubstituicao() {
               <tbody className="">
                 {allFilterInfosSchool !== undefined &&
                   allFilterInfosSchool.map((info: SchoolDTOInfos, index: number) => (
-                    <tr className="border border-neutral-500" key={`${info.name}-${index}`}>
+                    <tr
+                      className="border border-neutral-500 divide-x-[1px] divide-neutral-500"
+                      key={`${info.name}-${index}`}
+                    >
                       <>
-                        <td className="max-w-[200px] text-start whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-neutral-500">
+                        <td className="max-w-[200px] text-start whitespace-nowrap px-4 py-1 font-medium text-gray-900">
                           <span className="whitespace-normal">{info.name}</span>
                         </td>
-                        <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-neutral-500">
-                          {info.id}
-                        </td>
-                        <td className="items-center h-full px-4 font-medium text-gray-900 border-r border-neutral-500">
+                        <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900">{info.id}</td>
+                        <td className="items-center h-full px-4 font-medium text-gray-900 border !border-r-[1px] border-neutral-500">
                           <div className="flex flex-row divide-x-2 divide-zinc-400">
                             {info.datesWork.map((dateWork: unknown, index: number) => (
                               <div
@@ -134,7 +135,7 @@ export default function ImprimirBoletimSubstituicao() {
                             ))}
                           </div>
                         </td>
-                        <td className="whitespace-nowrap flex flex-row px-4 py-1 font-medium text-gray-900 border-r border-neutral-500">
+                        <td className="whitespace-nowrap flex flex-row px-4 py-1 font-medium text-gray-900 !border-l-0">
                           <span className="flex divide-x-2 divide-zinc-400">
                             {allInfosTeachersOffice
                               .filter((teachersOffice: TeachersOffice) => teachersOffice.registerTeacher.id === info.id)
@@ -147,9 +148,9 @@ export default function ImprimirBoletimSubstituicao() {
 
                           <span>= {info.amountTime}h</span>
                         </td>
-                        <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-neutral-500">
+                        <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900">
                           <textarea
-                            className="w-full px-4 outline-none rounded-md resize-none"
+                            className="w-full px-4 outline-none rounded-md resize-none border border-neutral-50"
                             rows={3}
                             name="observação"
                             defaultValue="-----------------------"

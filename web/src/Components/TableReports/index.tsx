@@ -1,7 +1,7 @@
 import { format, isValid } from "date-fns";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../configureStore";
-import { OfficesTeacher, SchoolDTOInfos, TeacherDTOInfos } from "../../../slice";
+import { OfficesTeacher, SchoolDTOInfos, TeacherDTOInfos, TeachersOffice } from "../../../slice";
 
 type InfosTableReportsData = SchoolDTOInfos | TeacherDTOInfos;
 
@@ -31,14 +31,14 @@ export default function TableReports(props: TableReportsProps) {
           {allFilterInfos !== undefined &&
             allFilterInfos.map((info: InfosTableReportsData, index: number) => {
               return (
-                <tr key={`${info.name}-${index}`}>
+                <tr key={`${info.name}-${index}`} className="divide-x-[1px] divide-neutral-400">
                   {reportsTypes === "School" && "amountTime" in info && "datesWork" in info ? (
                     <>
-                      <td className="max-w-[200px] text-start whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">
+                      <td className="max-w-[200px] text-start whitespace-nowrap px-4 py-1 font-medium text-gray-900">
                         <span className="whitespace-normal">{info.name}</span>
                       </td>
 
-                      <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200 divide-x-2 divide-zinc-600">
+                      <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 divide-x-2 divide-zinc-600">
                         {allInfosTeachersOffice?.map((officeTeacher: OfficesTeacher, index: number) => (
                           <>
                             {officeTeacher.registerTeacher.id === info.id && (
@@ -50,7 +50,7 @@ export default function TableReports(props: TableReportsProps) {
                         ))}
                       </td>
 
-                      <td className="items-center h-full px-4 font-medium text-gray-900 border-r border-gray-200">
+                      <td className="items-center h-full px-4 font-medium text-gray-900">
                         <div className="grid grid-cols-report-teacher divide-x divide-gray-600">
                           {info.datesWork.map((dateWork: unknown, index: number) => (
                             <div
@@ -66,14 +66,12 @@ export default function TableReports(props: TableReportsProps) {
                           ))}
                         </div>
                       </td>
-
-                      <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r border-gray-200">
+                      {console.log(allInfosTeachersOffice[index])}
+                      <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900">
                         {"datesWork" in info &&
-                          `${
-                            allInfosTeachersOffice[index].registerTeacher.id === info.id
-                              ? allInfosTeachersOffice[index].registerOffice.name
-                              : "Professor sem cargo"
-                          } = ${info.amountTime}h`}
+                          `${allInfosTeachersOffice.find(
+                            (office: TeachersOffice) => office.registerTeacher.id === info.id,
+                          )?.registerOffice.name} = ${info.amountTime}h`}
                       </td>
 
                       <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 border-r ">
@@ -87,7 +85,6 @@ export default function TableReports(props: TableReportsProps) {
                     </>
                   ) : (
                     <>
-                      {console.log(info)}
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{info.name}</td>
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                         {"lessonDay" in info && (

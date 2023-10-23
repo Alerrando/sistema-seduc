@@ -9,15 +9,15 @@ import {
 } from "../../slice";
 import { UserInfos } from "../../slice/LoginSlice";
 
-const urlLesson = "http://localhost:9090/security/cadastro-aulas";
-const urlSchool = "http://localhost:9090/security/cadastro-escola";
-const urlTeacher = "http://localhost:9090/security/cadastro-professor";
-const urlUser = "http://localhost:9090/security/users";
-const urlFree = "http://localhost:9090/free";
-const urlDefinitionPeriods = "http://localhost:9090/security/definition-periods";
-const urlOffice = "http://localhost:9090/security/office";
-const urlTeachersOffice = "http://localhost:9090/security/teachers-office";
-const urlTeachersThirst = "http://localhost:9090/security/teachers-thirst";
+const urlLesson = "http://192.168.0.78:9090/security/cadastro-aulas";
+const urlSchool = "http://192.168.0.78:9090/security/cadastro-escola";
+const urlTeacher = "http://192.168.0.78:9090/security/cadastro-professor";
+const urlUser = "http://192.168.0.78:9090/security/users";
+const urlFree = "http://192.168.0.78:9090/free";
+const urlDefinitionPeriods = "http://192.168.0.78:9090/security/definition-periods";
+const urlOffice = "http://192.168.0.78:9090/security/office";
+const urlTeachersOffice = "http://192.168.0.78:9090/security/teachers-office";
+const urlTeachersThirst = "http://192.168.0.78:9090/security/teachers-thirst";
 
 export async function readAllLesson() {
   try {

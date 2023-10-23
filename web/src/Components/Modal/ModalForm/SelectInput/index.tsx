@@ -47,32 +47,36 @@ export default function SelectInput(props: SelectInputProps) {
 
         {optionType === "School" ? (
           <>
-            {allInfosSchool?.map((school: SchoolInfos) => (
-              <>
-                {school.inactive === false ? (
-                  <option
-                    key={`escola-${school.name}`}
-                    value={school.id}
-                    defaultChecked={true}
-                    className="outline-none border-none"
-                  >
-                    {school.name}
-                  </option>
-                ) : null}
-              </>
-            ))}
+            {[...allInfosSchool]
+              ?.sort((info1: SchoolInfos, info2: SchoolInfos) => info1.name.localeCompare(info2.name))
+              .map((school: SchoolInfos) => (
+                <>
+                  {school.inactive === false ? (
+                    <option
+                      key={`escola-${school.name}`}
+                      value={school.id}
+                      defaultChecked={true}
+                      className="outline-none border-none"
+                    >
+                      {school.name}
+                    </option>
+                  ) : null}
+                </>
+              ))}
           </>
         ) : optionType === "Teacher" ? (
           <>
-            {allInfosTeacher?.map((teacher: TeacherInfos) => (
-              <>
-                {teacher.inactive === false && (
-                  <option key={`professor-${teacher.name}`} value={teacher.id} className="outline-none border-none">
-                    {teacher.name}
-                  </option>
-                )}
-              </>
-            ))}
+            {[...allInfosTeacher]
+              ?.sort((info1: TeacherInfos, info2: TeacherInfos) => info1.name.localeCompare(info2.name))
+              .map((teacher: TeacherInfos) => (
+                <>
+                  {teacher.inactive === false && (
+                    <option key={`professor-${teacher.name}`} value={teacher.id} className="outline-none border-none">
+                      {teacher.name}
+                    </option>
+                  )}
+                </>
+              ))}
           </>
         ) : optionType === "Office" ? (
           <>
