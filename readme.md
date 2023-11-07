@@ -24,14 +24,24 @@
     <li><a href="https://www.mysql.com">Banco de Dados</a> -  O sistema utiliza um banco de dados MySQL por padrão, mas você pode configurar outro banco de dados de sua preferência no arquivo application.properties.</li>
 </ul>
 
-## Instalação
+## Configuração
 
 <h3>1. Clone o repositório:</h3> 
 
 ```
-git clone https://seurepositorio.git
+git clone https://github.com/Alerrando/sistema-seduc
 ```
 
+<h3>2. Configurando Banco:</h3>
+<p>Insira as suas proprias configurações do banco de dados no arquivo <strong>src/main/resources/application.properties</strong></p>
+
+<h3>3. Executando projeto</h3>
+
+```
+mvn spring-boot:run
+```
+
+<span>O aplicativo irá abrir no http://localhost:8080</span>
 
 </br>
 
