@@ -8,6 +8,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "../../configureStore";
 import "./globals.css";
 import Home from "./page";
+import { StateContextLogin, initialState } from "../../slice/LoginSlice";
 
 const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 
@@ -20,17 +21,15 @@ export default function RootLayout({ children, showHeaderAside }: RootLayoutProp
   return (
     <html lang="pt-br">
       <body className={roboto.className}>
-        <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            {showHeaderAside ? (
+        <StateContextLogin.Provider value={initialState}>
+            {showHeaderAside && (
               <>
                 <Aside />
                 <Header />
               </>
-            ) : null}
+            )}
             <Home>{children}</Home>
-          </PersistGate>
-        </Provider>
+        </StateContextLogin.Provider>
       </body>
     </html>
   );

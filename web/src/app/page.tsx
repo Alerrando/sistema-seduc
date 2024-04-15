@@ -1,25 +1,27 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../configureStore";
+import { StateContextLogin } from "../../slice/LoginSlice";
 
 type HomeProps = {
   children: React.ReactNode;
 }
 
 function Home({ children }: HomeProps) {
-  const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
+  const { user } = useContext(StateContextLogin);
   const router = useRouter();
   const pathName = usePathname();
 
   useEffect(() => {
+    debugger
     if (pathName === "/") {
       router.replace("/login-register");
     }
 
-    if (typeof window !== "undefined" && Object.values(userInfos).length !== 0) {
-      if (pathName === "/admin" && userInfos.level === 1) {
+    if (typeof window !== "undefined" && Object.values(user).length !== 0) {
+      if (pathName === "/admin") {
         router.replace("/admin");
       }
     } else {

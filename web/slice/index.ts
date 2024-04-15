@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction, Slice } from "@reduxjs/toolkit";
+import create, { createStore } from "zustand";
+import { persist } from "zustand/middleware";
 
 export type InputConfig = {
   label: string;
@@ -31,7 +32,7 @@ export type TeacherInfos = {
   cpf: string;
 } & TypeDefault;
 
-export type LessonsInfos = {
+export type LessonInfos = {
   id: number;
   registerTeacher: TeacherInfos;
   amountTime: string;
@@ -79,17 +80,13 @@ export type TeacherDTOInfos = {
 
 export const registerTypes = {
   Lesson: {},
-
   School: {},
-
   Teacher: {},
-
   User: {},
 };
 
 const reportsTypes = {
   School: {},
-
   Teacher: {},
 };
 
@@ -118,7 +115,7 @@ export const TeacherValuesDefault: TeacherInfos = {
   cpf: "",
 };
 
-export const HorasValuesDefault: LessonsInfos = {
+export const HorasValuesDefault: LessonInfos = {
   id: 0,
   lessonDay: new Date().toString(),
   edit: false,
@@ -128,99 +125,49 @@ export const HorasValuesDefault: LessonsInfos = {
   inactive: false,
 };
 
-export const DefinitionPeriodsValuesDefault: DefinitionPeriodsInfos = {
-  startDate: new Date().toString(),
-  endDate: new Date().toString(),
-};
-
 type StateProps = {
-  allInfosLesson: LessonsInfos[];
+  allInfosLesson: LessonInfos[];
+  setAllInfosLesson: (allInfosLesson: LessonInfos[]) => void;
   allInfosSchool: SchoolInfos[];
+  setAllInfosSchool: (allInfosSchool: SchoolInfos[]) => void;
   allInfosTeacher: TeacherInfos[];
-  infosDefinitionPeriods: DefinitionPeriodsInfos[];
+  setAllInfosTeacher: (allInfosTeacher: TeacherInfos[]) => void;
   allInfosOffice: OfficeInfos[];
+  setAllInfosOffice: (allInfosOffice: OfficeInfos[]) => void;
   allInfosTeachersOffice: TeachersOffice[];
+  setAllInfosTeacherOffice: (allInfosTeacherOffice: TeachersOffice[]) => void;
   allInfosTeachersThirst: TeachersThirst[];
+  setAllInfosTeachersThirst: (allInfosTeachersThirst: TeachersThirst[]) => void;
   registerType: keyof typeof registerTypes | null;
   reportsTypes: keyof typeof reportsTypes | null;
 };
 
-const initialState: StateProps = {
-  allInfosLesson: [],
-  allInfosSchool: [],
-  allInfosTeacher: [],
-  infosDefinitionPeriods: [],
-  allInfosOffice: [],
-  allInfosTeachersOffice: [],
-  allInfosTeachersThirst: [],
-  registerType: null,
-  reportsTypes: null,
-};
 
-export const slice: Slice<StateProps> = createSlice({
-  name: "slice",
-  initialState,
-  reducers: {
-    refreshInfosLesson: (state, action: PayloadAction<LessonsInfos[]>) => {
-      state.allInfosLesson = action.payload;
-    },
-
-    refreshInfosSchool: (state, action: PayloadAction<SchoolInfos[]>) => {
-      state.allInfosSchool = action.payload;
-    },
-
-    refreshInfosTeacher: (state, action: PayloadAction<TeacherInfos[]>) => {
-      state.allInfosTeacher = action.payload;
-    },
-
-    refreshDefinitionPeriods: (state, action: PayloadAction<DefinitionPeriodsInfos[]>) => {
-      state.infosDefinitionPeriods = action.payload;
-    },
-
-    refreshInfosOffice: (state, action: PayloadAction<OfficeInfos[]>) => {
-      state.allInfosOffice = action.payload;
-    },
-    refreshInfosTeachersOffice: (state, action: PayloadAction<TeachersOffice[]>) => {
-      state.allInfosTeachersOffice = action.payload;
-    },
-
-    refreshInfosTeachersThirst: (state, action: PayloadAction<TeachersThirst[]>) => {
-      state.allInfosTeachersThirst = action.payload;
-    },
-
-    changeRegisterType: (state, action: PayloadAction<keyof typeof registerTypes>) => {
-      state.registerType = action.payload;
-    },
-
-    changeReportsType: (state, action: PayloadAction<keyof typeof reportsTypes>) => {
-      state.reportsTypes = action.payload;
-    },
-  },
-});
-
-export function objectEmptyValue(obj: LessonsInfos | SchoolInfos | TeacherInfos) {
-  for (const key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      const value = obj[key as keyof (LessonsInfos | SchoolInfos | TeacherInfos)];
-      if (typeof value === "string" && (value === "" || value === null || value === undefined)) {
-        return true;
-      }
+const useStore = () => 
+  createStore(
+  persist<StateProps>((set) => (
+    {
+      allInfosLesson: [],
+      setAllInfosLesson: (allInfosLesson: LessonInfos[]) => set({ allInfosLesson }),
+      allInfosSchool: [],
+      setAllInfosSchool: (allInfosSchool: SchoolInfos[]) => set({ allInfosSchool }),
+      allInfosTeacher: [],
+      setAllInfosTeacher: (allInfosTeacher: TeacherInfos[]) => set({ allInfosTeacher }),
+      allInfosOffice: [],
+      setAllInfosOffice: (allInfosOffice: OfficeInfos[]) => set({ allInfosOffice }),
+      allInfosTeachersOffice: [],
+      setAllInfosTeacherOffice: (allInfosTeachersOffice: TeachersOffice[]) => set({ allInfosTeachersOffice }),
+      allInfosTeachersThirst: [],
+      setAllInfosTeachersThirst: (allInfosTeachersThirst: TeachersThirst[]) => set({ allInfosTeachersThirst }),
+      registerType: null,
+      reportsTypes: null,
     }
-  }
+    ), {
+      name: "state",
+      version: 1,
+      getStorage: () => sessionStorage,
+    }
+  ),
+);
 
-  return false;
-}
-
-export const {
-  refreshInfosLesson,
-  refreshInfosSchool,
-  refreshInfosTeacher,
-  refreshDefinitionPeriods,
-  refreshInfosOffice,
-  refreshInfosTeachersOffice,
-  refreshInfosTeachersThirst,
-  changeRegisterType,
-  changeReportsType,
-} = slice.actions;
-
-export default slice.reducer;
+export default useStore;
