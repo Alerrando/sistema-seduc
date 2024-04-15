@@ -1,26 +1,15 @@
 import { Pencil, Trash, X } from "lucide-react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../configureStore";
-import {
-  LessonsInfos,
-  OfficeInfos,
-  SchoolInfos,
-  TeacherInfos,
-  refreshInfosSchool,
-  refreshInfosTeacher,
-  refreshInfosTeachersOffice,
-  refreshInfosTeachersThirst,
-} from "../../../slice";
+import { useContext } from "react";
+import { LessonInfos, OfficeInfos, SchoolInfos, StateContext, TeacherInfos } from "../../../slice";
+
 import { UserInfos } from "../../../slice/LoginSlice";
-import { findAllTeachersOffice, findAllTeachersThirst, readAllSchool, readAllTeacher } from "../../api";
 import RenderLessonColumns from "./RenderLessonColumns";
 import RenderOtherColumns from "./RenderOtherColumns";
 import RenderSchoolColumns from "./RenderSchoolColumns";
 import RenderTeacherColumns from "./RenderTeacherColumns";
 import RenderUserColumns from "./RenderUserColumns";
 
-export type InfosTableRegisterData = LessonsInfos | SchoolInfos | TeacherInfos | OfficeInfos | UserInfos;
+export type InfosTableRegisterData = LessonInfos | SchoolInfos | TeacherInfos | OfficeInfos | UserInfos;
 
 type TableRegistersProps = {
   tableHead: string[];
@@ -31,18 +20,7 @@ type TableRegistersProps = {
 
 export default function TableRegisters(props: TableRegistersProps) {
   const { tableHead, editInfo, deleteInfo, infosAll } = props;
-  const { registerType } = useSelector((root: RootState) => root.Slice);
-  const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
-    (async () => {
-      dispatch(refreshInfosSchool(await readAllSchool()));
-      dispatch(refreshInfosTeacher(await readAllTeacher()));
-      dispatch(refreshInfosTeachersOffice(await findAllTeachersOffice()));
-      dispatch(refreshInfosTeachersThirst(await findAllTeachersThirst()));
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { registerType } = useContext(StateContext);
 
   return (
     <div className="w-full overflow-x-auto border border-gray-200">
@@ -64,9 +42,11 @@ export default function TableRegisters(props: TableRegistersProps) {
           {infosAll !== null &&
             [...infosAll]
               ?.sort((info1: InfosTableRegisterData, info2: InfosTableRegisterData) =>
-                info1.name !== undefined
+                "name" in info1 && "name" in info2
                   ? info1.name.localeCompare(info2.name)
-                  : info1.registerTeacher.name.localeCompare(info2.registerTeacher.name),
+                  : "registerTeacher" in info1 && "registerTeacher" in info2
+                  ? info1.registerTeacher.name.localeCompare(info2.registerTeacher.name)
+                  : 0,
               )
               .map((info: InfosTableRegisterData, index: number) => (
                 <>
@@ -80,7 +60,7 @@ export default function TableRegisters(props: TableRegistersProps) {
                         "zip" in info &&
                         "fone" in info &&
                         "email" in info ? (
-                        <RenderSchoolColumns school={info} index={index} />
+                        <RenderSchoolColumns school={info} indeX={index} />
                       ) : registerType === "Teacher" && "cpf" in info ? (
                         <RenderTeacherColumns teacher={info} index={index} />
                       ) : registerType === "User" &&
@@ -93,7 +73,7 @@ export default function TableRegisters(props: TableRegistersProps) {
                         "mandatoryBulletin" in info ? (
                         <RenderUserColumns user={info} index={index} />
                       ) : (
-                        <RenderOtherColumns office={info} index={index} />
+                        <RenderOtherColumns office={info as OfficeInfos} index={index} />
                       )}
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                         <div

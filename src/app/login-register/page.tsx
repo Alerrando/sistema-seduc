@@ -1,32 +1,26 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../configureStore";
-import { changeLoginLogout } from "../../../slice/LoginSlice";
+import { useEffect, useContext } from "react";
 import RootLayout from "../layout";
 import Login from "./Login";
 import "./style.css";
+import { StateContextLogin } from "../../../slice/LoginSlice";
 
 export default function LoginRegister() {
-  const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
+  const { user } = useContext(StateContextLogin);
   const router = useRouter();
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(changeLoginLogout({}));
     localStorage.clear();
-    if (Object.values(userInfos).length > 0) {
+    if (Object.values(user).length > 0) {
       router.replace("/dashboard");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <RootLayout showHeaderAside={false}>
-      <main className={"w-full h-screen flex flex-col md:flex-row overflow-x-hidden pr-4 md:py-9"}>
-        <Login />
-      </main>
-    </RootLayout>
+    <main className={"w-full h-screen flex flex-col md:flex-row overflow-x-hidden pr-4 md:py-9"}>
+      <Login />
+    </main>
   );
 }

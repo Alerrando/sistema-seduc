@@ -1,58 +1,15 @@
 "use client";
 import { Book, GraduationCap, School2 } from "lucide-react";
+import { useContext } from "react";
+import { StateContextLogin } from "../../../slice/LoginSlice";
+
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../configureStore";
-import {
-  OfficeInfos,
-  refreshDefinitionPeriods,
-  refreshInfosLesson,
-  refreshInfosOffice,
-  refreshInfosSchool,
-  refreshInfosTeacher,
-  refreshInfosTeachersOffice,
-  refreshInfosTeachersThirst,
-} from "../../../slice";
-import { refreshAllFilterInfosSchool, refreshFilterInfosSchool } from "../../../slice/FilterSlice";
-import {
-  findAllDefinitionPeriods,
-  findAllTeachersOffice,
-  findAllTeachersThirst,
-  getRegisterOffice,
-  readAllLesson,
-  readAllSchool,
-  readAllTeacher,
-} from "../../api";
+
 import RootLayout from "../layout";
 
 export default function Dashboard() {
-  const dispatch = useDispatch<AppDispatch>();
-  const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
-
-  useEffect(() => {
-    (async () => {
-      dispatch(refreshInfosLesson(await readAllLesson()));
-      dispatch(refreshInfosSchool(await readAllSchool()));
-      dispatch(refreshInfosTeacher(await readAllTeacher()));
-      dispatch(refreshDefinitionPeriods(await findAllDefinitionPeriods()));
-      dispatch(refreshAllFilterInfosSchool([]));
-      dispatch(refreshFilterInfosSchool({}));
-      dispatch(refreshInfosTeachersOffice(await findAllTeachersOffice()));
-      dispatch(refreshInfosTeachersThirst(await findAllTeachersThirst()));
-      const allInfos: OfficeInfos[] | string = await getRegisterOffice();
-      if (allInfos !== undefined && typeof allInfos !== "string") {
-        const sortedInfos = allInfos
-          .slice()
-          .sort((info1: OfficeInfos, info2: OfficeInfos) =>
-            info1.type && info2.type ? info1.type.localeCompare(info2.type) : 0,
-          );
-        dispatch(refreshInfosOffice(sortedInfos));
-      }
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { user } = useContext(StateContextLogin);
 
   return (
     <RootLayout showHeaderAside>
@@ -61,7 +18,7 @@ export default function Dashboard() {
           <section className="w-full h-full flex flex-col md:flex-row gap-8 md:gap-0 md:pl-6">
             <div className="w-full md:w-[80%] h-full flex flex-col justify-between gap-12 px-6 md:pl-0">
               <header className="w-full h-auto flex flex-col gap-2 items-start">
-                <h1 className="text-3xl md:text-4xl">Bem vindo {userInfos.name}!</h1>
+                <h1 className="text-3xl md:text-4xl">Bem vindo {user.name}!</h1>
                 <p className="text-base text-[#5a5a5a]">É bom vê-lo novamente.</p>
               </header>
 

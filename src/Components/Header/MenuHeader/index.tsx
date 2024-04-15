@@ -2,14 +2,12 @@
 import { Menu, Transition } from "@headlessui/react";
 import { LogOut, ShieldAlert, User } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Fragment } from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../../configureStore";
-import { changeLoginLogout } from "../../../../slice/LoginSlice";
+import { Fragment, useContext } from "react";
+import { DefaultUserInfos, StateContextLogin } from "../../../../slice/LoginSlice";
 
 export default function MenuHeader() {
   const router = useRouter();
-  const dispatch = useDispatch<AppDispatch>();
+  const { setUser } = useContext(StateContextLogin);
 
   return (
     <div className="">
@@ -69,7 +67,7 @@ export default function MenuHeader() {
 
   function logOut() {
     if (window.confirm("Quer realmente sair?")) {
-      dispatch(changeLoginLogout({}));
+      setUser(DefaultUserInfos);
     }
   }
 }

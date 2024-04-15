@@ -1,23 +1,15 @@
 "use client";
 import { AxiosError } from "axios";
 import { ClipboardList } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useContext, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import { AppDispatch, RootState } from "../../../../configureStore";
-import {
-  InputConfig,
-  SchoolInfos,
-  SchoolValuesDefault,
-  changeRegisterType,
-  refreshInfosSchool,
-} from "../../../../slice";
+import { InputConfig, SchoolInfos, SchoolValuesDefault, StateContext, initialState } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
-import { createSchool, deleteSchool, editSchool, readAllSchool } from "../../../api";
+import { createSchool, deleteSchool, editSchool } from "../../../api";
 import RootLayout from "../../../app/layout";
 import { applyCEPFormat, maskTelefone } from "../../../utils/maskUtils";
 
@@ -38,13 +30,12 @@ const createFormSchema = z.object({
 export type CreateFormDataSchool = z.infer<typeof createFormSchema>;
 
 export default function CadastroEscola() {
-  const { allInfosSchool } = useSelector((root: RootState) => root.Slice);
+  const { allInfosSchool } = useContext(StateContext);
   const [infosInput, setInfosInput] = useState<SchoolInfos>(SchoolValuesDefault);
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState<boolean>(false);
   const [modalInactive, setModalInactive] = useState<boolean>(false);
   const thead = ["Id", "Nome da Escola", "Endereço da Escola", "Cep", "Telefone", "Email", "Inatividade", "Ações"];
-  const dispatch = useDispatch<AppDispatch>();
   const inputs: InputConfig[] = [
     {
       htmlFor: "name",
@@ -96,70 +87,64 @@ export default function CadastroEscola() {
     },
   ];
 
-  useEffect(() => {
-    (async () => {
-      dispatch(refreshInfosSchool(await readAllSchool()));
-      dispatch(changeRegisterType("School"));
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
-    <RootLayout showHeaderAside>
-      <main className="w-full sm:w-5/6 h-max ml-auto">
-        <div className="w-full flex flex-col gap-4 px-6 py-3">
-          <h1 className="text-3xl md:text-[42px]">Cadastro de Escolas</h1>
+    <StateContext.Provider value={initialState}>
+      <RootLayout showHeaderAside>
+        <main className="w-full sm:w-5/6 h-max ml-auto">
+          <div className="w-full flex flex-col gap-4 px-6 py-3">
+            <h1 className="text-3xl md:text-[42px]">Cadastro de Escolas</h1>
 
-          {allInfosSchool !== undefined ? (
-            <CreateHeaderRegisters
-              setModal={setModal}
-              setSearch={setSearch}
-              totalRegiter={allInfosSchool.length}
-              key={"create-header-school"}
+            {allInfosSchool !== undefined ? (
+              <CreateHeaderRegisters
+                setModal={setModal}
+                setSearch={setSearch}
+                totalRegiter={allInfosSchool.length}
+                key={"create-header-school"}
+              />
+            ) : null}
+
+            <div className="w-full h-auto flex items-center justify-end">
+              <ClipboardList size={26} className="cursor-pointer" onClick={() => setModalInactive(true)} />
+            </div>
+
+            <TableRegisters
+              tableHead={thead}
+              infosAll={allInfosSchool.filter((school: SchoolInfos) =>
+                school.name.toLowerCase().includes(search.toLowerCase()),
+              )}
+              editInfo={editInfo}
+              deleteInfo={deleteInfo}
+              key={"Table-Escola"}
+            />
+          </div>
+          {modal ? (
+            <Modal
+              infosInput={infosInput}
+              setModal={handleCloseModal}
+              setInfosInput={setInfosInput}
+              submitInfos={submitSchool}
+              title="Cadastro de Escolas"
+              createFormSchema={createFormSchema}
+              inputs={inputs}
+              modalName="School"
+              key={"modal-cadastro-escola"}
             />
           ) : null}
 
-          <div className="w-full h-auto flex items-center justify-end">
-            <ClipboardList size={26} className="cursor-pointer" onClick={() => setModalInactive(true)} />
-          </div>
+          {modalInactive ? (
+            <Modal
+              setModal={setModalInactive}
+              modalName="School"
+              editInfo={editInfo}
+              title="Escolas Inativas"
+              thead={thead}
+            />
+          ) : null}
 
-          <TableRegisters
-            tableHead={thead}
-            infosAll={allInfosSchool.filter((school: SchoolInfos) =>
-              school.name.toLowerCase().includes(search.toLowerCase()),
-            )}
-            editInfo={editInfo}
-            deleteInfo={deleteInfo}
-            key={"Table-Escola"}
-          />
-        </div>
-        {modal ? (
-          <Modal
-            infosInput={infosInput}
-            setModal={handleCloseModal}
-            setInfosInput={setInfosInput}
-            submitInfos={submitSchool}
-            title="Cadastro de Escolas"
-            createFormSchema={createFormSchema}
-            inputs={inputs}
-            modalName="School"
-            key={"modal-cadastro-escola"}
-          />
-        ) : null}
-
-        {modalInactive ? (
-          <Modal
-            setModal={setModalInactive}
-            modalName="School"
-            editInfo={editInfo}
-            title="Escolas Inativas"
-            thead={thead}
-          />
-        ) : null}
-
-        <ToastContainer />
-      </main>
-    </RootLayout>
+          <ToastContainer />
+        </main>
+      </RootLayout>
+    </StateContext.Provider>
   );
 
   async function submitSchool(data: SubmitDataModal) {
@@ -182,7 +167,6 @@ export default function CadastroEscola() {
         setModal(false);
       }
 
-      dispatch(refreshInfosSchool(await readAllSchool()));
       setInfosInput(SchoolValuesDefault);
       messageToast(message);
     }
@@ -204,7 +188,6 @@ export default function CadastroEscola() {
           const aux: SchoolInfos = { inactive: !inactive, ...rest };
           await editSchool(aux, aux.id);
           messageToast(inactive ? "Inativação da Escola feito com sucesso!" : "Ativação da Escola feito com sucesso!");
-          dispatch(refreshInfosSchool(await readAllSchool()));
         }
       }
     }
@@ -215,7 +198,6 @@ export default function CadastroEscola() {
       if (window.confirm(`Quer mesmo deletar a escola ${info.name}?`)) {
         const message: AxiosError | string = await deleteSchool(info.id);
         messageToast(message);
-        dispatch(refreshInfosSchool(await readAllSchool()));
       }
     }
   }

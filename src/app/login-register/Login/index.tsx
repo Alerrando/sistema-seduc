@@ -1,19 +1,16 @@
 "use client";
+import { useContext } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import { BookOpen } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import { AppDispatch } from "../../../../configureStore";
-import { emptyAllFilter } from "../../../../slice/FilterSlice";
-import { changeLoginLogout } from "../../../../slice/LoginSlice";
 import Input from "../../../Components/Modal/ModalForm/Input";
-import { createToken, getUserByEmail } from "../../../api";
+import { StateContextLogin } from "../../../../slice/LoginSlice";
 
 const createFormSchema = z.object({
   email: z.string().nonempty("O campo Email é obrigatório!"),
@@ -30,7 +27,7 @@ export default function Login() {
   } = useForm<CreateFormData>({
     resolver: zodResolver(createFormSchema),
   });
-  const dispatch = useDispatch<AppDispatch>();
+  const { usersAll } = useContext(StateContextLogin);
   const router = useRouter();
 
   return (
@@ -102,19 +99,13 @@ export default function Login() {
   );
 
   async function submit(e: CreateFormData) {
-    const tokenAux = await createToken();
+    const aux = usersAll.filter((user) => user.email === e.email && user.password === e.senha)[0];
 
-    const aux = await getUserByEmail(e.email, e.senha, tokenAux);
-    console.log(aux);
-    if (aux === undefined) {
-      messageToast(aux);
+    if (aux.email.length < 0) {
+      messageToast("Usuário não existe");
     } else {
-      if (aux?.usuario?.inactive === false) {
-        messageToast(aux);
-
-        localStorage.setItem("token", tokenAux);
-        dispatch(changeLoginLogout(aux.usuario));
-        dispatch(emptyAllFilter());
+      if (aux.inactive === false) {
+        messageToast("Usuário logado! Você será redirecionado");
         setTimeout(() => {
           router.replace("/dashboard");
         }, 3000);

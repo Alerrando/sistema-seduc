@@ -13,10 +13,10 @@ import SelectInput from "./SelectInput";
 import CheckboxDropdown from "./SelectInput/CheckboxDropdown";
 
 type ModalFormProps = {
-  schema: ZodType<unknown, unknown, unknown>;
+  schema: ZodType<any, any, any>;
   inputs: InputConfig[];
-  initialValues: unknown;
-  setInfosInput?: (initalValues: unknown) => void;
+  initialValues: any;
+  setInfosInput?: (initalValues: any) => void;
   onSubmit: (data: SubmitDataModal, officesTeacher?: number[]) => void;
   modalName: string;
 };
@@ -77,7 +77,7 @@ export function ModalForm(props: ModalFormProps) {
                       : allInfosSchool
                   }
                   control={control}
-                  optionDefault={input.optionDefault}
+                  optionDefault={input.optionDefault as string}
                   checkboxOptionType={input.name}
                   initalValuesId={initialValues.id}
                   key={`input-checkbox-dropdown`}
@@ -87,7 +87,7 @@ export function ModalForm(props: ModalFormProps) {
                   name={input.name}
                   htmlFor={input.htmlFor}
                   label={input.label}
-                  optionDefault={input.optionDefault}
+                  optionDefault={input.optionDefault as string}
                   optionType={input.optionType}
                   register={register}
                   initialValues={initialValues}

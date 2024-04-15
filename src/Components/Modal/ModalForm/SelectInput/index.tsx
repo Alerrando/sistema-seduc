@@ -1,8 +1,6 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../../configureStore";
-import { OfficeInfos, SchoolInfos, TeacherInfos } from "../../../../../slice";
+import { OfficeInfos, SchoolInfos, StateContext, TeacherInfos } from "../../../../../slice";
 
 type SelectInputProps = {
   label: string;
@@ -10,15 +8,15 @@ type SelectInputProps = {
   name: string;
   optionDefault: string;
   optionType: string;
-  register: UseFormRegister<unknown>;
-  initialValues: unknown;
-  setValue: UseFormSetValue<unknown>;
+  register: UseFormRegister<any>;
+  initialValues: any;
+  setValue: UseFormSetValue<any>;
   modalName: string;
 };
 
 export default function SelectInput(props: SelectInputProps) {
   const { label, htmlFor, name, optionDefault, optionType, register, initialValues, setValue, modalName } = props;
-  const { allInfosSchool, allInfosTeacher, allInfosOffice } = useSelector((root: RootState) => root.Slice);
+  const { allInfosSchool, allInfosTeacher, allInfosOffice } = useContext(StateContext);
 
   useEffect(() => {
     if (initialValues !== undefined) {

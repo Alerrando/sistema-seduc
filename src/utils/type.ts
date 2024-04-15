@@ -1,0 +1,19 @@
+export type OptionType =
+  | "name"
+  | "adress"
+  | "zip"
+  | "type"
+  | "fone"
+  | "email"
+  | "cpf"
+  | "teachersThirst"
+  | "teachersOffice"
+  | "amountTime"
+  | "registerTeacher"
+  | "registerSchool"
+  | "rg"
+  | "office"
+  | "password"
+  | "mandatoryBulletin"
+  | `teachersThirst.${number}`
+  | `teachersOffice.${number}`;
