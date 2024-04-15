@@ -1,7 +1,7 @@
 import React, { createContext, useRef } from "react";
 import { createStore } from "zustand";
 import { persist } from "zustand/middleware";
-import { OfficeInfos, OfficeValuesDefault, SchoolInfos, SchoolValuesDefault, TypeDefault } from ".";
+import { OfficeInfos, OfficeValuesDefault, SchoolInfos, SchoolValuesDefault, TypeDefault } from "./index";
 
 export type UserInfos = {
   email: string;

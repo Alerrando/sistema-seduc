@@ -1,13 +1,6 @@
 import axios from "axios";
-import {
-  DefinitionPeriodsInfos,
-  LessonsInfos,
-  OfficeInfos,
-  SchoolInfos,
-  TeacherInfos,
-  TeacherValuesDefault,
-} from "../../slice";
 import { UserInfos } from "../../slice/LoginSlice";
+import { DefinitionPeriodsInfos, LessonsInfos, OfficeInfos, SchoolInfos, TeacherInfos } from "./../../slice/index";
 
 const urlLesson = "http://192.168.0.78:9090/security/cadastro-aulas";
 const urlSchool = "http://192.168.0.78:9090/security/cadastro-escola";
@@ -186,16 +179,7 @@ export async function readAllTeacher() {
 }
 
 export async function getNameByIdTeacher(id: number) {
-  let aux: TeacherInfos = TeacherValuesDefault;
-
-  await axios
-    .get(`${urlTeacher}/${id}`, {
-      headers: { Authorization: `${localStorage.getItem("token")}` },
-    })
-    .then((res) => (aux = res.data))
-    .catch((err) => err);
-
-  await axios
+  let aux: TeacherInfos = await axios
     .get(`${urlTeacher}/${id}`, {
       headers: { Authorization: `${localStorage.getItem("token")}` },
     })

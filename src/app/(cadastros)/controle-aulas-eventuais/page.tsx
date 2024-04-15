@@ -7,20 +7,13 @@ import "react-calendar/dist/Calendar.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import {
-  HorasValuesDefault,
-  InputConfig,
-  LessonsInfos,
-  SchoolInfos,
-  StateContext,
-  TeacherInfos,
-} from "../../../../slice";
-import { StateContextFilter } from "../../../../slice/FilterSlice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
 import { createLesson, deleteLesson, editLesson, getIdSchool, getNameByIdTeacher, readAllLesson } from "../../../api";
 import RootLayout from "../../../app/layout";
+import { InputConfig, LessonInfos, SchoolInfos, StateContext, TeacherInfos } from "../../../../slice";
+import { StateContextFilter } from "../../../../slice/FilterSlice";
 
 const createFormSchema = z.object({
   amountTime: z.string().nonempty("Digite a quantidade de aulas!"),
@@ -37,7 +30,7 @@ const createFormSchema = z.object({
 export type CreateFormDataLesson = z.infer<typeof createFormSchema>;
 
 export default function ControleAulasEventuais() {
-  const [infosInput, setInfosInput] = useState<LessonsInfos>(HorasValuesDefault);
+  const [infosInput, setInfosInput] = useState<LessonInfos>({} as LessonInfos);
   const { allInfosLesson } = useContext(StateContext);
   const { infosDefinitionPeriods } = useContext(StateContextFilter);
   const [search, setSearch] = useState("");
@@ -130,7 +123,7 @@ export default function ControleAulasEventuais() {
               tableHead={tableHead}
               editInfo={editInfo}
               deleteInfo={deleteInfo}
-              infosAll={allInfosLesson.filter((lesson: LessonsInfos) =>
+              infosAll={allInfosLesson.filter((lesson: LessonInfos) =>
                 lesson.registerTeacher.name.toLowerCase().includes(search.toLowerCase()),
               )}
               key={"Table-Cadastro"}
@@ -174,7 +167,7 @@ export default function ControleAulasEventuais() {
       const schoolLesson: SchoolInfos = await getIdSchool(registerSchool);
       const teacherLesson: TeacherInfos = await getNameByIdTeacher(registerTeacher);
 
-      const aux: LessonsInfos = {
+      const aux: LessonInfos = {
         id: infosInput.id,
         lessonDay: new Date(infosInput.lessonDay),
         edit: false,
@@ -193,7 +186,7 @@ export default function ControleAulasEventuais() {
       }
 
       messageToast(message);
-      setInfosInput(HorasValuesDefault);
+      setInfosInput({} as LessonInfos);
       setLessonsLengthall(await readAllLesson().then((data) => data.length));
     }
   }
@@ -267,6 +260,6 @@ export default function ControleAulasEventuais() {
 
   function handleCloseModal() {
     setModal(false);
-    setInfosInput(HorasValuesDefault);
+    setInfosInput({} as LessonInfos);
   }
 }

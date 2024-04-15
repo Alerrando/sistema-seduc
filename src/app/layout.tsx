@@ -3,12 +3,9 @@ import Aside from "@/Components/Aside";
 import Header from "@/Components/Header";
 import { Roboto } from "next/font/google";
 import React from "react";
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import { persistor, store } from "../../configureStore";
+import { StateContextLogin, initialState } from "../../slice/LoginSlice";
 import "./globals.css";
 import Home from "./page";
-import { StateContextLogin, initialState } from "../../slice/LoginSlice";
 
 const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 
@@ -22,13 +19,13 @@ export default function RootLayout({ children, showHeaderAside }: RootLayoutProp
     <html lang="pt-br">
       <body className={roboto.className}>
         <StateContextLogin.Provider value={initialState}>
-            {showHeaderAside && (
-              <>
-                <Aside />
-                <Header />
-              </>
-            )}
-            <Home>{children}</Home>
+          {showHeaderAside && (
+            <>
+              <Aside />
+              <Header />
+            </>
+          )}
+          <Home>{children}</Home>
         </StateContextLogin.Provider>
       </body>
     </html>

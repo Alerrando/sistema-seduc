@@ -1,9 +1,9 @@
 "use client";
 import { format, isValid } from "date-fns";
 import { Key, useContext } from "react";
+import RootLayout from "../../../layout";
 import { StateContext, TeacherDTOInfos, TeachersOffice, TeachersThirst } from "../../../../../slice";
 import { StateContextFilter } from "../../../../../slice/FilterSlice";
-import RootLayout from "../../../layout";
 
 export default function ImprimirBoletimControleAulasEventuais({ params }: { params: { slug: string } }) {
   const { allInfosTeachersOffice, allInfosTeachersThirst } = useContext(StateContext);

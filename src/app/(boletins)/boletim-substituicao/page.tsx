@@ -4,12 +4,12 @@ import { SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
 import { useContext, useState } from "react";
 import { z } from "zod";
-import { SchoolDTOInfos } from "../../../../slice";
-import { StateContextFilter } from "../../../../slice/FilterSlice";
 import Filter, { DatasTypes, SubmitDataFilter } from "../../../Components/Filter";
 import TableReports from "../../../Components/TableReports";
 import { getReportsSchool } from "../../../api";
 import RootLayout from "../../../app/layout";
+import { StateContextFilter } from "../../../../slice/FilterSlice";
+import { SchoolDTOInfos } from "../../../../slice";
 
 const createFormSchema = z.object({
   cadastroEscola: z

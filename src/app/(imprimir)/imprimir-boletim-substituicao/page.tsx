@@ -3,17 +3,15 @@ import { format, isValid } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../configureStore";
-import { SchoolDTOInfos, TeachersOffice } from "../../../../slice";
+import { SchoolDTOInfos, StateContext, TeachersOffice } from "../../../../slice";
+import { StateContextFilter } from "../../../../slice/FilterSlice";
 import { DefaultUserInfos, UserInfos } from "../../../../slice/LoginSlice";
 import { getUserByIdSchool, getUserByMandatoryBulletin } from "../../../api";
 import RootLayout from "../../layout";
-import { StateContextFilter } from "../../../../slice/FilterSlice";
 
 export default function ImprimirBoletimSubstituicao() {
   const { filterInfosSchool, allFilterInfosSchool, filterStartEndDate } = useContext(StateContextFilter);
-  const { allInfosTeachersOffice } = useSelector((root: RootState) => root.Slice);
+  const { allInfosTeachersOffice } = useContext(StateContext);
   const [usersMandatoryBulletin, setUsersMandatoryBulletin] = useState<UserInfos[]>([]);
   const [schoolBulletinUser, setSchoolBulletinUser] = useState<UserInfos>(DefaultUserInfos);
   const [dateNow, setDateNow] = useState<Date>(new Date());

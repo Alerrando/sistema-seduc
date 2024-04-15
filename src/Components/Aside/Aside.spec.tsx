@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import Aside from ".";
+import Aside from "./index";
 
 describe("Aside component", () => {
   it("renders correctly", () => {

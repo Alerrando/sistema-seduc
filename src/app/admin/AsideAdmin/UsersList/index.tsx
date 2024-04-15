@@ -5,13 +5,13 @@ import { useContext, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import { InputConfig, OfficeInfos, OfficeValuesDefault, SchoolInfos, SchoolValuesDefault } from "../../../../../slice";
-import { DefaultUserInfos, StateContextLogin, UserInfos } from "../../../../../slice/LoginSlice";
 import CreateHeaderRegisters from "../../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../../Components/TableRegisters";
 import { createUser, deleteUser, editUser, getIdSchool, getOfficeById } from "../../../../api";
 import { maskRG } from "../../../../utils/maskUtils";
+import { DefaultUserInfos, StateContextLogin, UserInfos } from "../../../../../slice/LoginSlice";
+import { InputConfig, OfficeInfos, SchoolInfos } from "../../../../../slice";
 
 const createFormSchema = z.object({
   name: z.string().nonempty("O campo Nome é obrigatório!"),
@@ -191,8 +191,8 @@ export default function UsersList() {
           id,
           level,
           edit,
-          registerSchool: school === undefined ? SchoolValuesDefault : school,
-          office: officeUser === undefined ? OfficeValuesDefault : officeUser,
+          registerSchool: school === undefined ? ({} as SchoolInfos) : school,
+          office: officeUser === undefined ? ({} as OfficeInfos) : officeUser,
           inactive: false,
           ...restData,
         };

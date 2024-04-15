@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import { InputConfig, StateContext, TeacherInfos, TeacherValuesDefault } from "../../../../slice";
+import { InputConfig, StateContext, TeacherInfos } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
@@ -37,7 +37,7 @@ export type CreateFormDataTeacher = z.infer<typeof createFormSchema>;
 
 export default function CadastroProfessor() {
   const { allInfosTeacher } = useContext(StateContext);
-  const [infosInput, setInfosInput] = useState<TeacherInfos>(TeacherValuesDefault);
+  const [infosInput, setInfosInput] = useState<TeacherInfos>({} as TeacherInfos);
   const [search, setSearch] = useState("");
   const [modalInactive, setModalInactive] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
@@ -156,7 +156,7 @@ export default function CadastroProfessor() {
       };
 
       await submitEditTeacher(aux, data);
-      setInfosInput(TeacherValuesDefault);
+      setInfosInput({} as TeacherInfos);
     }
   }
 
@@ -243,6 +243,6 @@ export default function CadastroProfessor() {
 
   function handleCloseModal() {
     setModal(false);
-    setInfosInput(TeacherValuesDefault);
+    setInfosInput({} as TeacherInfos);
   }
 }

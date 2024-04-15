@@ -2,19 +2,13 @@
 import { SlidersHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
-import { useDispatch } from "react-redux";
 import { z } from "zod";
-import { AppDispatch } from "../../../../configureStore";
-import { StateContext, TeacherDTOInfos, TeachersThirst } from "../../../../slice";
-import {
-  StateContextFilter,
-  refreshAllFilterInfosTeacher,
-  refreshFilterInfosTeacher,
-} from "../../../../slice/FilterSlice";
+import { StateContextFilter } from "../../../../slice/FilterSlice";
 import Filter, { DatasTypes, SubmitDataFilter } from "../../../Components/Filter";
 import TableReports from "../../../Components/TableReports";
-import { getNameByIdTeacher, getReportsTeacher } from "../../../api";
+import { getReportsTeacher } from "../../../api";
 import RootLayout from "../../../app/layout";
+import { StateContext, TeacherDTOInfos, TeachersThirst } from "../../../../slice";
 
 const createFormSchema = z.object({
   cadastroProfessor: z
@@ -35,7 +29,6 @@ export default function BoletimControleAulasEventuais() {
   const [filter, setFilter] = useState<boolean>(false);
   const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
   const tableHead = ["Nome Professor", "Data", "Escola", "N° de Aulas"];
-  const dispatch = useDispatch<AppDispatch>();
   const { allInfosTeachersThirst } = useContext(StateContext);
   const { allFilterInfosTeacher, filterInfosTeacher } = useContext(StateContextFilter);
   const router = useRouter();
@@ -95,8 +88,8 @@ export default function BoletimControleAulasEventuais() {
       (infosTeacher: TeacherDTOInfos) => infosTeacher.registerSchool.id === idThirst,
     );
 
-    dispatch(refreshAllFilterInfosTeacher(aux));
-
+    const idTeacher = aux[0].registerTeacher.id;
+    console.log(idTeacher);
     router.replace(`/imprimir-boletim-controle-aulas-eventuais/${idThirst}`);
   }
 
@@ -110,10 +103,8 @@ export default function BoletimControleAulasEventuais() {
       aux = aux?.sort(
         (info1: TeacherDTOInfos, info2: TeacherDTOInfos) => info1.registerSchool.id - info2.registerSchool.id,
       );
-      if (typeof aux === "object") {
-        dispatch(refreshAllFilterInfosTeacher(aux));
-        dispatch(refreshFilterInfosTeacher(await getNameByIdTeacher(data.cadastroProfessor)));
-      }
+
+      console.log(aux);
       setFilter(false);
     }
   }

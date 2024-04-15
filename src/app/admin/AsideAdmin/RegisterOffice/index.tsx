@@ -5,11 +5,11 @@ import { useContext, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import { InputConfig, OfficeInfos, OfficeValuesDefault, StateContext } from "../../../../../slice";
 import CreateHeaderRegisters from "../../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../../Components/TableRegisters";
 import { createRegisterOffice, deleteRegisterOffice, editRegisterOffice, getRegisterOffice } from "../../../../api";
+import { InputConfig, OfficeInfos, StateContext } from "../../../../../slice";
 
 const createFormSchema = z.object({
   name: z.string().nonempty("Nome é obrigatório!"),
@@ -20,7 +20,7 @@ export type CreateFormDataOffice = z.infer<typeof createFormSchema>;
 
 export default function RegisterOffice() {
   const { allInfosOffice } = useContext(StateContext);
-  const [infosRegister, setInfosRegister] = useState<OfficeInfos>(OfficeValuesDefault);
+  const [infosRegister, setInfosRegister] = useState<OfficeInfos>({} as OfficeInfos);
   const [modal, setModal] = useState<boolean>(false);
   const [modalInactive, setModalInactive] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
@@ -222,6 +222,6 @@ export default function RegisterOffice() {
 
   function handleCloseModal() {
     setModal(false);
-    setInfosRegister(OfficeValuesDefault);
+    setInfosRegister({} as OfficeInfos);
   }
 }

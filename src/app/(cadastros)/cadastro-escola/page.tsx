@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import { InputConfig, SchoolInfos, SchoolValuesDefault, StateContext, initialState } from "../../../../slice";
+import { InputConfig, SchoolInfos, StateContext, initialState } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
@@ -31,7 +31,7 @@ export type CreateFormDataSchool = z.infer<typeof createFormSchema>;
 
 export default function CadastroEscola() {
   const { allInfosSchool } = useContext(StateContext);
-  const [infosInput, setInfosInput] = useState<SchoolInfos>(SchoolValuesDefault);
+  const [infosInput, setInfosInput] = useState<SchoolInfos>({} as SchoolInfos);
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState<boolean>(false);
   const [modalInactive, setModalInactive] = useState<boolean>(false);
@@ -167,7 +167,7 @@ export default function CadastroEscola() {
         setModal(false);
       }
 
-      setInfosInput(SchoolValuesDefault);
+      setInfosInput({} as SchoolInfos);
       messageToast(message);
     }
   }
@@ -231,6 +231,6 @@ export default function CadastroEscola() {
 
   function handleCloseModal() {
     setModal(false);
-    setInfosInput(SchoolValuesDefault);
+    setInfosInput({} as SchoolInfos);
   }
 }
