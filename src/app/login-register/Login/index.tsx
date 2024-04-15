@@ -1,16 +1,16 @@
 "use client";
-import { useContext } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import { BookOpen } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import Input from "../../../Components/Modal/ModalForm/Input";
 import { StateContextLogin } from "../../../../slice/LoginSlice";
+import Input from "../../../Components/Modal/ModalForm/Input";
 
 const createFormSchema = z.object({
   email: z.string().nonempty("O campo Email é obrigatório!"),

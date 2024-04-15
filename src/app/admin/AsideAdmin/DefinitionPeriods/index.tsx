@@ -1,19 +1,16 @@
 "use client";
 import { AxiosError } from "axios";
 import { format, isValid } from "date-fns";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
-import { AppDispatch, RootState } from "../../../../../configureStore";
-import { DefinitionPeriodsInfos, refreshDefinitionPeriods } from "../../../../../slice";
+import { DefinitionPeriodsInfos, StateContext } from "../../../../../slice";
 import { createDefinitionPeriods, findAllDefinitionPeriods } from "../../../../api";
 
 export default function DefinitionPeriods() {
-  const { infosDefinitionPeriods } = useSelector((root: RootState) => root.Slice);
+  const { infosDefinitionPeriods } = useContext(StateContext);
   const [datas, setDatas] = useState<DefinitionPeriodsInfos>({} as DefinitionPeriodsInfos);
-  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     (async () => {
@@ -23,7 +20,7 @@ export default function DefinitionPeriods() {
         endDate: new Date(period.endDate).toISOString(),
       }));
 
-      dispatch(refreshDefinitionPeriods(formattedPeriods));
+      console.log(formattedPeriods);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -37,7 +34,6 @@ export default function DefinitionPeriods() {
           <div
             className="inline-block h-5 w-5 cursor-pointer hover:animate-spin rounded-full border-4 border-solid border-current border-b-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
             role="status"
-            onClick={() => handleLoadingClick()}
           ></div>
         </div>
       </header>
@@ -129,17 +125,8 @@ export default function DefinitionPeriods() {
         endDate: new Date(period.endDate).toISOString(),
       }));
 
-      dispatch(refreshDefinitionPeriods(formattedPeriods));
+      console.log(formattedPeriods);
       messageToast(message);
-    }
-  }
-
-  async function handleLoadingClick() {
-    try {
-      const data = await findAllDefinitionPeriods();
-      dispatch(refreshDefinitionPeriods(data));
-    } catch (error) {
-      console.error("Erro ao atualizar os dados:", error);
     }
   }
 

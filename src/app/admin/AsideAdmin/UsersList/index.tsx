@@ -1,25 +1,16 @@
 "use client";
 import { AxiosError } from "axios";
 import { ClipboardList } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useContext, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import { RootState } from "../../../../../configureStore";
-import {
-  InputConfig,
-  OfficeInfos,
-  OfficeValuesDefault,
-  SchoolInfos,
-  SchoolValuesDefault,
-  changeRegisterType,
-} from "../../../../../slice";
-import { DefaultUserInfos, UserInfos, refreshInfosUser } from "../../../../../slice/LoginSlice";
+import { InputConfig, OfficeInfos, OfficeValuesDefault, SchoolInfos, SchoolValuesDefault } from "../../../../../slice";
+import { DefaultUserInfos, StateContextLogin, UserInfos } from "../../../../../slice/LoginSlice";
 import CreateHeaderRegisters from "../../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../../Components/TableRegisters";
-import { createUser, deleteUser, editUser, findAllUser, getIdSchool, getOfficeById } from "../../../../api";
+import { createUser, deleteUser, editUser, getIdSchool, getOfficeById } from "../../../../api";
 import { maskRG } from "../../../../utils/maskUtils";
 
 const createFormSchema = z.object({
@@ -35,7 +26,7 @@ const createFormSchema = z.object({
 export type CreateFormDataUser = z.infer<typeof createFormSchema>;
 
 export default function UsersList() {
-  const { usersAll } = useSelector((root: RootState) => root.SliceLogin);
+  const { usersAll } = useContext(StateContextLogin);
   const [modal, setModal] = useState<boolean>(false);
   const [modalInactive, setModalInactive] = useState<boolean>(false);
   const [infosEdit, setInfosEdit] = useState<UserInfos>(DefaultUserInfos);
@@ -51,7 +42,6 @@ export default function UsersList() {
     "Inatividade",
     "Ações",
   ];
-  const dispatch = useDispatch();
 
   const inputs: InputConfig[] = [
     {
@@ -122,14 +112,6 @@ export default function UsersList() {
       type: "string",
     },
   ];
-
-  useEffect(() => {
-    (async () => {
-      dispatch(refreshInfosUser(await findAllUser()));
-      dispatch(changeRegisterType("User"));
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <>
@@ -221,7 +203,6 @@ export default function UsersList() {
           message = await editUser(formData, infosEdit.id);
         }
 
-        dispatch(refreshInfosUser(await findAllUser()));
         setModal(false);
         messageToast(message);
       }
@@ -256,7 +237,6 @@ export default function UsersList() {
           messageToast(
             inactive ? "Inativação do Usuário feito com sucesso!" : "Ativação do Usuário feito com sucesso!",
           );
-          dispatch(refreshInfosUser(await findAllUser()));
         }
       }
     }
@@ -274,7 +254,6 @@ export default function UsersList() {
     ) {
       if (window.confirm(`Quer mesmo deletar o usuário ${name}?`)) {
         const message: string | AxiosError = await deleteUser(info.id);
-        dispatch(refreshInfosUser(await findAllUser()));
 
         messageToast(message);
       }

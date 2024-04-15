@@ -1,19 +1,11 @@
 "use client";
 import { AxiosError } from "axios";
 import { ClipboardList } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useContext, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import { RootState } from "../../../../../configureStore";
-import {
-  InputConfig,
-  OfficeInfos,
-  OfficeValuesDefault,
-  changeRegisterType,
-  refreshInfosOffice,
-} from "../../../../../slice";
+import { InputConfig, OfficeInfos, OfficeValuesDefault, StateContext } from "../../../../../slice";
 import CreateHeaderRegisters from "../../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../../Components/TableRegisters";
@@ -27,12 +19,11 @@ const createFormSchema = z.object({
 export type CreateFormDataOffice = z.infer<typeof createFormSchema>;
 
 export default function RegisterOffice() {
-  const { allInfosOffice } = useSelector((root: RootState) => root.Slice);
+  const { allInfosOffice } = useContext(StateContext);
   const [infosRegister, setInfosRegister] = useState<OfficeInfos>(OfficeValuesDefault);
   const [modal, setModal] = useState<boolean>(false);
   const [modalInactive, setModalInactive] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
-  const dispatch = useDispatch();
   const tableHead = ["Id", "Nome", "Tipo de Cargo", "Inatividade", "Ações"];
   const inputs: InputConfig[] = [
     {
@@ -65,12 +56,11 @@ export default function RegisterOffice() {
             info1.type && info2.type ? info1.type.localeCompare(info2.type) : 0,
           );
 
-        dispatch(refreshInfosOffice(sortedInfos));
-        dispatch(changeRegisterType(""));
+        console.log(sortedInfos);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, []);
 
   return (
     <main className="w-full h-max ml-auto">
@@ -156,7 +146,7 @@ export default function RegisterOffice() {
         .slice()
         .sort((info1: OfficeInfos, info2: OfficeInfos) => info1.type.localeCompare(info2.type));
 
-      dispatch(refreshInfosOffice(sortedInfos));
+      console.log(sortedInfos);
       messageToast(message);
     }
   }
@@ -182,7 +172,7 @@ export default function RegisterOffice() {
             .slice()
             .sort((info1: OfficeInfos, info2: OfficeInfos) => info1.type.localeCompare(info2.type));
 
-          dispatch(refreshInfosOffice(sortedInfos));
+          console.log(sortedInfos);
         }
       }
     }
@@ -197,7 +187,7 @@ export default function RegisterOffice() {
           .slice()
           .sort((info1: OfficeInfos, info2: OfficeInfos) => info1.type.localeCompare(info2.type));
 
-        dispatch(refreshInfosOffice(sortedInfos));
+        console.log(sortedInfos);
         messageToast(message);
       }
     }

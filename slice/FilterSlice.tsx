@@ -1,6 +1,8 @@
-import { PayloadAction, Slice, createSlice } from "@reduxjs/toolkit";
+import { DatasTypes } from "@/Components/Filter";
+import React, { createContext, useRef } from "react";
+import { persist } from "zustand/middleware";
+import { createStore } from "zustand/vanilla";
 import { SchoolDTOInfos, SchoolInfos, TeacherDTOInfos, TeacherInfos } from ".";
-import { DatasTypes } from "../src/Components/Filter";
 
 type StateProps = {
   allFilterInfosTeacher: TeacherDTOInfos[];
@@ -10,7 +12,7 @@ type StateProps = {
   filterStartEndDate: DatasTypes;
 };
 
-const initialState: StateProps = {
+export const initialState: StateProps = {
   allFilterInfosTeacher: [],
   allFilterInfosSchool: [],
   filterInfosTeacher: {} as TeacherInfos,
@@ -18,47 +20,28 @@ const initialState: StateProps = {
   filterStartEndDate: {} as DatasTypes,
 };
 
-export const sliceFilter: Slice<StateProps> = createSlice({
-  name: "sliceFilter",
-  initialState,
-  reducers: {
-    refreshAllFilterInfosTeacher: (state, action: PayloadAction<TeacherDTOInfos[]>) => {
-      state.allFilterInfosTeacher = action.payload;
-    },
+const useStore = createStore(
+  persist<StateProps>((set) => ({
+    refreshAllFilterInfosTeacher: (payload: TeacherDTOInfos[]) => set({ allFilterInfosTeacher: payload }),
+    refreshAllFilterInfosSchool: (payload: SchoolDTOInfos[]) => set({ allFilterInfosSchool: payload }),
+    refreshFilterInfosTeacher: (payload: TeacherInfos) => set({ filterInfosTeacher: payload }),
+    refreshFilterInfosSchool: (payload: SchoolInfos) => set({ filterInfosSchool: payload }),
+    refreshFilterStartEndDate: (payload: DatasTypes) => set({ filterStartEndDate: payload }),
+    emptyAllFilter: () =>
+      set({
+        allFilterInfosSchool: [],
+        allFilterInfosTeacher: [],
+        filterInfosSchool: {} as SchoolInfos,
+        filterInfosTeacher: {} as TeacherInfos,
+        filterStartEndDate: {} as DatasTypes,
+      }),
+  })),
+);
 
-    refreshAllFilterInfosSchool: (state, action: PayloadAction<SchoolDTOInfos[]>) => {
-      state.allFilterInfosSchool = action.payload;
-    },
+export const StateContextFilter = createContext<StateProps>(initialState);
 
-    refreshFilterInfosTeacher: (state, action: PayloadAction<TeacherInfos>) => {
-      state.filterInfosTeacher = action.payload;
-    },
+export function StateProviderFilter({ children }: { children: React.ReactNode }) {
+  const { getState } = useRef(useStore()).current;
 
-    refreshFilterInfosSchool: (state, action: PayloadAction<SchoolInfos>) => {
-      state.filterInfosSchool = action.payload;
-    },
-
-    refreshFilterStartEndDate: (state, action: PayloadAction<DatasTypes>) => {
-      state.filterStartEndDate = action.payload;
-    },
-
-    emptyAllFilter: (state) => {
-      state.allFilterInfosSchool = [];
-      state.allFilterInfosTeacher = [];
-      state.filterInfosSchool = [];
-      state.filterInfosTeacher = [];
-      state.filterStartEndDate = [];
-    },
-  },
-});
-
-export const {
-  refreshAllFilterInfosTeacher,
-  refreshAllFilterInfosSchool,
-  refreshFilterInfosTeacher,
-  refreshFilterInfosSchool,
-  refreshFilterStartEndDate,
-  emptyAllFilter,
-} = sliceFilter.actions;
-
-export default sliceFilter.reducer;
+  return <StateContextFilter.Provider value={getState()}>{children}</StateContextFilter.Provider>;
+}

@@ -1,14 +1,13 @@
 "use client";
 import { format, isValid } from "date-fns";
-import { Key } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../../configureStore";
-import { TeacherDTOInfos, TeachersOffice, TeachersThirst } from "../../../../../slice";
+import { Key, useContext } from "react";
+import { StateContext, TeacherDTOInfos, TeachersOffice, TeachersThirst } from "../../../../../slice";
+import { StateContextFilter } from "../../../../../slice/FilterSlice";
 import RootLayout from "../../../layout";
 
 export default function ImprimirBoletimControleAulasEventuais({ params }: { params: { slug: string } }) {
-  const { allInfosTeachersOffice, allInfosTeachersThirst } = useSelector((root: RootState) => root.Slice);
-  const { filterInfosTeacher, allFilterInfosTeacher } = useSelector((root: RootState) => root.SliceFilter);
+  const { allInfosTeachersOffice, allInfosTeachersThirst } = useContext(StateContext);
+  const { filterInfosTeacher, allFilterInfosTeacher } = useContext(StateContextFilter);
 
   return (
     <RootLayout showHeaderAside={false}>

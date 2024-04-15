@@ -1,21 +1,19 @@
 "use client";
 import { SlidersHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useContext, useState } from "react";
+import { useDispatch } from "react-redux";
 import { z } from "zod";
-import { AppDispatch, RootState } from "../../../../configureStore";
+import { AppDispatch } from "../../../../configureStore";
+import { StateContext, TeacherDTOInfos, TeachersThirst } from "../../../../slice";
 import {
-  TeacherDTOInfos,
-  TeachersThirst,
-  changeReportsType,
-  refreshInfosSchool,
-  refreshInfosTeacher,
-} from "../../../../slice";
-import { refreshAllFilterInfosTeacher, refreshFilterInfosTeacher } from "../../../../slice/FilterSlice";
+  StateContextFilter,
+  refreshAllFilterInfosTeacher,
+  refreshFilterInfosTeacher,
+} from "../../../../slice/FilterSlice";
 import Filter, { DatasTypes, SubmitDataFilter } from "../../../Components/Filter";
 import TableReports from "../../../Components/TableReports";
-import { getNameByIdTeacher, getReportsTeacher, readAllSchool, readAllTeacher } from "../../../api";
+import { getNameByIdTeacher, getReportsTeacher } from "../../../api";
 import RootLayout from "../../../app/layout";
 
 const createFormSchema = z.object({
@@ -38,20 +36,9 @@ export default function BoletimControleAulasEventuais() {
   const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
   const tableHead = ["Nome Professor", "Data", "Escola", "N° de Aulas"];
   const dispatch = useDispatch<AppDispatch>();
-  const { allInfosTeachersThirst } = useSelector((root: RootState) => root.Slice);
-  const { allFilterInfosTeacher, filterInfosTeacher } = useSelector((root: RootState) => root.SliceFilter);
+  const { allInfosTeachersThirst } = useContext(StateContext);
+  const { allFilterInfosTeacher, filterInfosTeacher } = useContext(StateContextFilter);
   const router = useRouter();
-
-  useEffect(() => {
-    (async () => {
-      dispatch(refreshInfosSchool(await readAllSchool()));
-      dispatch(refreshInfosTeacher(await readAllTeacher()));
-      dispatch(changeReportsType("Teacher"));
-      dispatch(refreshFilterInfosTeacher([]));
-      dispatch(refreshAllFilterInfosTeacher([]));
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <RootLayout showHeaderAside>

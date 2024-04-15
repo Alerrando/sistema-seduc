@@ -1,23 +1,11 @@
 "use client";
 import { AxiosError } from "axios";
 import { ClipboardList } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useContext, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import { AppDispatch, RootState } from "../../../../configureStore";
-import {
-  InputConfig,
-  OfficeInfos,
-  TeacherInfos,
-  TeacherValuesDefault,
-  changeRegisterType,
-  refreshInfosOffice,
-  refreshInfosTeacher,
-  refreshInfosTeachersOffice,
-  refreshInfosTeachersThirst,
-} from "../../../../slice";
+import { InputConfig, StateContext, TeacherInfos, TeacherValuesDefault } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
@@ -29,10 +17,6 @@ import {
   editTeacher,
   editTeacherOffice,
   editTeacherThirst,
-  findAllTeachersOffice,
-  findAllTeachersThirst,
-  getRegisterOffice,
-  readAllTeacher,
 } from "../../../api";
 import RootLayout from "../../../app/layout";
 import { isValidCPF, maskCPF } from "../../../utils/maskUtils";
@@ -52,13 +36,12 @@ const createFormSchema = z.object({
 export type CreateFormDataTeacher = z.infer<typeof createFormSchema>;
 
 export default function CadastroProfessor() {
-  const { allInfosTeacher } = useSelector((root: RootState) => root.Slice);
+  const { allInfosTeacher } = useContext(StateContext);
   const [infosInput, setInfosInput] = useState<TeacherInfos>(TeacherValuesDefault);
   const [search, setSearch] = useState("");
   const [modalInactive, setModalInactive] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
   const thead = ["Id", "Nome do Professor(a)", "Cpf", "Sede", "Cargo", "Inatividade", "Ações"];
-  const dispatch = useDispatch<AppDispatch>();
   const inputs: InputConfig[] = [
     {
       htmlFor: "name",
@@ -100,23 +83,6 @@ export default function CadastroProfessor() {
       input: "select",
     },
   ];
-
-  useEffect(() => {
-    (async () => {
-      dispatch(refreshInfosTeacher(await readAllTeacher()));
-      dispatch(changeRegisterType("Teacher"));
-      const allInfos: OfficeInfos[] | string = await getRegisterOffice();
-      if (allInfos !== undefined && typeof allInfos !== "string") {
-        const sortedInfos = allInfos
-          .slice()
-          .sort((info1: OfficeInfos, info2: OfficeInfos) =>
-            info1.type && info2.type ? info1.type.localeCompare(info2.type) : 0,
-          );
-        dispatch(refreshInfosOffice(sortedInfos));
-      }
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <RootLayout showHeaderAside>
@@ -190,7 +156,6 @@ export default function CadastroProfessor() {
       };
 
       await submitEditTeacher(aux, data);
-      dispatch(refreshInfosTeacher(await readAllTeacher()));
       setInfosInput(TeacherValuesDefault);
     }
   }
@@ -213,8 +178,6 @@ export default function CadastroProfessor() {
     }
 
     messageToast(message);
-    dispatch(refreshInfosTeachersOffice(await findAllTeachersOffice()));
-    dispatch(refreshInfosTeachersThirst(await findAllTeachersThirst()));
   }
 
   async function editInfo(info: InfosTableRegisterData, inactive = false) {
@@ -237,7 +200,6 @@ export default function CadastroProfessor() {
           messageToast(
             inactive ? "Inativação do Professor feito com sucesso!" : "Ativação do Professor feito com sucesso!",
           );
-          dispatch(refreshInfosTeacher(await readAllTeacher()));
         }
       }
     }
@@ -248,7 +210,6 @@ export default function CadastroProfessor() {
       if (window.confirm(`Quer mesmo deletar o professor ${info.name}?`)) {
         const message: AxiosError | string = await deleteTeacher(info.id);
         messageToast(message);
-        dispatch(refreshInfosTeacher(await readAllTeacher()));
       }
     }
   }

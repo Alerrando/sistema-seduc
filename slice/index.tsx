@@ -1,4 +1,5 @@
 import { OptionType } from "@/utils/type";
+import React, { createContext, useRef } from "react";
 import { createStore } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -137,4 +138,10 @@ const useStore = createStore(
   ),
 );
 
-export default useStore;
+export const StateContext = createContext<StateProps>(initialState);
+
+export function StateProvider({ children }: { children: React.ReactNode }) {
+  const { getState } = useRef(useStore()).current;
+
+  return <StateContext.Provider value={getState()}>{children}</StateContext.Provider>;
+}

@@ -2,22 +2,20 @@
 import { AxiosError } from "axios";
 import { format, isValid } from "date-fns";
 import { ClipboardList } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import "react-calendar/dist/Calendar.css";
-import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import { AppDispatch, RootState } from "../../../../configureStore";
 import {
   HorasValuesDefault,
   InputConfig,
   LessonsInfos,
   SchoolInfos,
+  StateContext,
   TeacherInfos,
-  changeRegisterType,
-  refreshInfosLesson,
 } from "../../../../slice";
+import { StateContextFilter } from "../../../../slice/FilterSlice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
@@ -40,9 +38,8 @@ export type CreateFormDataLesson = z.infer<typeof createFormSchema>;
 
 export default function ControleAulasEventuais() {
   const [infosInput, setInfosInput] = useState<LessonsInfos>(HorasValuesDefault);
-  const { allInfosLesson } = useSelector((slice: RootState) => slice.Slice);
-  const { infosDefinitionPeriods } = useSelector((root: RootState) => root.Slice);
-  const dispatch = useDispatch<AppDispatch>();
+  const { allInfosLesson } = useContext(StateContext);
+  const { infosDefinitionPeriods } = useContext(StateContextFilter);
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState(false);
   const [modalInactive, setModalInactive] = useState<boolean>(false);
@@ -78,14 +75,6 @@ export default function ControleAulasEventuais() {
       type: "string",
     },
   ];
-
-  useEffect(() => {
-    (async () => {
-      dispatch(changeRegisterType("Lesson"));
-      setLessonsLengthall(await readAllLesson().then((data) => data?.length));
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <RootLayout showHeaderAside>
@@ -203,7 +192,6 @@ export default function ControleAulasEventuais() {
         setModal(false);
       }
 
-      dispatch(refreshInfosLesson(await readAllLesson()));
       messageToast(message);
       setInfosInput(HorasValuesDefault);
       setLessonsLengthall(await readAllLesson().then((data) => data.length));
@@ -233,7 +221,6 @@ export default function ControleAulasEventuais() {
           const aux = { inactive: !inactive, ...rest };
           await editLesson(aux, aux.registerSchool.id, aux.registerTeacher.id);
           messageToast(inactive ? "Inativação da Aula feito com sucesso!" : "Ativação da Aula feito com sucesso!");
-          dispatch(refreshInfosLesson(await readAllLesson()));
         }
       }
     }
@@ -247,7 +234,6 @@ export default function ControleAulasEventuais() {
       ) {
         const message = await deleteLesson(info.id);
         messageToast(message);
-        dispatch(refreshInfosLesson(await readAllLesson()));
       }
     }
   }

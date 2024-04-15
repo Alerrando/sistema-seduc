@@ -1,7 +1,6 @@
 import { format, isValid } from "date-fns";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../configureStore";
-import { OfficesTeacher, SchoolDTOInfos, TeacherDTOInfos, TeachersOffice } from "../../../slice";
+import { useContext } from "react";
+import { OfficesTeacher, SchoolDTOInfos, StateContext, TeacherDTOInfos, TeachersOffice } from "../../../slice";
 
 type InfosTableReportsData = SchoolDTOInfos | TeacherDTOInfos;
 
@@ -12,7 +11,7 @@ type TableReportsProps = {
 
 export default function TableReports(props: TableReportsProps) {
   const { tableHead, allFilterInfos } = props;
-  const { reportsTypes, allInfosTeachersOffice } = useSelector((root: RootState) => root.Slice);
+  const { reportsTypes, allInfosTeachersOffice } = useContext(StateContext);
 
   return (
     <div className="max-h-[77%] overflow-x-auto rounded-lg border border-gray-200">

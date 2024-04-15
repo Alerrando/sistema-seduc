@@ -1,15 +1,10 @@
 import { ErrorMessage } from "@hookform/error-message";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
-import { useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
 import { ZodType } from "zod";
-import { AppDispatch } from "../../../configureStore";
-import { refreshInfosSchool, refreshInfosTeacher } from "../../../slice";
-import { readAllSchool, readAllTeacher } from "../../api";
 import { InitalValuesBulletinControlOccasionalClasses } from "../../app/(boletins)/boletim-controle-aulas-eventuais/page";
 import { InitalValuesTypeSubstitutionBulletin } from "../../app/(boletins)/boletim-substituicao/page";
 import SelectInput from "../Modal/ModalForm/SelectInput";
@@ -41,19 +36,6 @@ export default function Filter(props: FilterProps) {
     resolver: zodResolver(schema),
     defaultValues: initialValues as (typeof schema)["_input"],
   });
-
-  const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
-    (async () => {
-      if (filterName === "cadastroProfessor") {
-        dispatch(refreshInfosTeacher(await readAllTeacher()));
-      } else {
-        dispatch(refreshInfosSchool(await readAllSchool()));
-      }
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className="w-screen h-full fixed flex items-center justify-end bg-modal top-0 left-0 ">

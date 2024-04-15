@@ -2,19 +2,13 @@
 
 import { SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useContext, useState } from "react";
 import { z } from "zod";
-import { AppDispatch, RootState } from "../../../../configureStore";
-import { SchoolDTOInfos, changeReportsType } from "../../../../slice";
-import {
-  refreshAllFilterInfosSchool,
-  refreshFilterInfosSchool,
-  refreshFilterStartEndDate,
-} from "../../../../slice/FilterSlice";
+import { SchoolDTOInfos } from "../../../../slice";
+import { StateContextFilter } from "../../../../slice/FilterSlice";
 import Filter, { DatasTypes, SubmitDataFilter } from "../../../Components/Filter";
 import TableReports from "../../../Components/TableReports";
-import { getIdSchool, getReportsSchool } from "../../../api";
+import { getReportsSchool } from "../../../api";
 import RootLayout from "../../../app/layout";
 
 const createFormSchema = z.object({
@@ -36,15 +30,7 @@ export default function BoletimSubstituicao() {
   );
   const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
   const tableHead = ["Nome", "Formação", "Dias Trabalhados", "Total a pagar", "Observações"];
-  const { allFilterInfosSchool } = useSelector((root: RootState) => root.SliceFilter);
-  const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
-    (async () => {
-      dispatch(changeReportsType("School"));
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { allFilterInfosSchool } = useContext(StateContextFilter);
 
   return (
     <RootLayout showHeaderAside>
@@ -99,9 +85,7 @@ export default function BoletimSubstituicao() {
           info1.name.localeCompare(info2.name),
         );
 
-        dispatch(refreshAllFilterInfosSchool(sortedInfos));
-        dispatch(refreshFilterInfosSchool(await getIdSchool(data.cadastroEscola)));
-        dispatch(refreshFilterStartEndDate(datas));
+        console.log(sortedInfos);
       }
 
       setFilter(false);

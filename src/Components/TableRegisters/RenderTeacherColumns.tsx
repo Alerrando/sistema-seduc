@@ -1,6 +1,5 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../../configureStore";
-import { SchoolInfos, TeacherInfos, TeachersOffice } from "../../../slice";
+import { useContext } from "react";
+import { SchoolInfos, StateContext, TeacherInfos, TeachersOffice } from "../../../slice";
 
 type RenderTeacherColumnsProps = {
   teacher: TeacherInfos;
@@ -8,7 +7,7 @@ type RenderTeacherColumnsProps = {
 };
 
 export default function RenderTeacherColumns({ teacher, index }: RenderTeacherColumnsProps) {
-  const { allInfosTeachersOffice, allInfosTeachersThirst } = useSelector((root: RootState) => root.Slice);
+  const { allInfosTeachersOffice, allInfosTeachersThirst } = useContext(StateContext);
 
   return (
     <>
