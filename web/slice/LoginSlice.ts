@@ -32,7 +32,21 @@ type StateProps = {
 
 const initialState: StateProps = {
   userInfos: {} as UserInfos,
-  usersAll: [],
+  usersAll: [
+    {
+      id: 0,
+      email: "alerrando2@gmail.com",
+      edit: false,
+      inactive: false,
+      level: 0,
+      mandatoryBulletin: 0,
+      name: "Alerrando",
+      office: OfficeValuesDefault,
+      password: "1234",
+      registerSchool: SchoolValuesDefault,
+      rg: "",
+    }
+  ],
 };
 
 export const sliceLogin: Slice<StateProps> = createSlice({

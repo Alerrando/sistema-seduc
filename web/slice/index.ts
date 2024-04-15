@@ -116,8 +116,6 @@ export const OfficeValuesDefault: OfficeInfos = {
 export const TeacherValuesDefault: TeacherInfos = {
   ...ValuesDefault,
   cpf: "",
-  teachersOffice: [],
-  thirst: SchoolValuesDefault,
 };
 
 export const HorasValuesDefault: LessonsInfos = {

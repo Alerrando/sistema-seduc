@@ -7,8 +7,8 @@ type InputProps = {
   type: string;
   placeholder?: string;
   name: string;
-  register: UseFormRegister<unknown>;
-  setValue: UseFormSetValue<unknown>;
+  register: UseFormRegister<any>;
+  setValue?: UseFormSetValue<any>;
   maskHandleForm?: (value: string) => string;
   maxChars?: number;
 };

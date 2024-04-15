@@ -2,57 +2,14 @@
 import { Book, GraduationCap, School2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../configureStore";
-import {
-  OfficeInfos,
-  refreshDefinitionPeriods,
-  refreshInfosLesson,
-  refreshInfosOffice,
-  refreshInfosSchool,
-  refreshInfosTeacher,
-  refreshInfosTeachersOffice,
-  refreshInfosTeachersThirst,
-} from "../../../slice";
-import { refreshAllFilterInfosSchool, refreshFilterInfosSchool } from "../../../slice/FilterSlice";
-import {
-  findAllDefinitionPeriods,
-  findAllTeachersOffice,
-  findAllTeachersThirst,
-  getRegisterOffice,
-  readAllLesson,
-  readAllSchool,
-  readAllTeacher,
-} from "../../api";
+
 import RootLayout from "../layout";
 
 export default function Dashboard() {
   const dispatch = useDispatch<AppDispatch>();
   const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
-
-  useEffect(() => {
-    (async () => {
-      dispatch(refreshInfosLesson(await readAllLesson()));
-      dispatch(refreshInfosSchool(await readAllSchool()));
-      dispatch(refreshInfosTeacher(await readAllTeacher()));
-      dispatch(refreshDefinitionPeriods(await findAllDefinitionPeriods()));
-      dispatch(refreshAllFilterInfosSchool([]));
-      dispatch(refreshFilterInfosSchool({}));
-      dispatch(refreshInfosTeachersOffice(await findAllTeachersOffice()));
-      dispatch(refreshInfosTeachersThirst(await findAllTeachersThirst()));
-      const allInfos: OfficeInfos[] | string = await getRegisterOffice();
-      if (allInfos !== undefined && typeof allInfos !== "string") {
-        const sortedInfos = allInfos
-          .slice()
-          .sort((info1: OfficeInfos, info2: OfficeInfos) =>
-            info1.type && info2.type ? info1.type.localeCompare(info2.type) : 0,
-          );
-        dispatch(refreshInfosOffice(sortedInfos));
-      }
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <RootLayout showHeaderAside>

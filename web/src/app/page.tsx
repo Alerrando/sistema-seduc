@@ -1,10 +1,14 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../configureStore";
 
-function Home({ children }: unknown) {
+type HomeProps = {
+  children: React.ReactNode;
+}
+
+function Home({ children }: HomeProps) {
   const { userInfos } = useSelector((root: RootState) => root.SliceLogin);
   const router = useRouter();
   const pathName = usePathname();
