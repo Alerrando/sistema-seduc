@@ -1,8 +1,8 @@
-import { DatasTypes } from "@/Components/Filter";
 import React, { createContext, useRef } from "react";
 import { persist } from "zustand/middleware";
 import { createStore } from "zustand/vanilla";
-import { SchoolDTOInfos, SchoolInfos, TeacherDTOInfos, TeacherInfos } from "@/utils/type";
+import { DatasTypes } from "../src/Components/Filter";
+import { SchoolDTOInfos, SchoolInfos, TeacherDTOInfos, TeacherInfos } from "../src/utils/type";
 
 type StateProps = {
   allFilterInfosTeacher: TeacherDTOInfos[];
@@ -21,21 +21,28 @@ export const initialState: StateProps = {
 };
 
 const useStore = createStore(
-  persist<StateProps>((set) => ({
-    refreshAllFilterInfosTeacher: (payload: TeacherDTOInfos[]) => set({ allFilterInfosTeacher: payload }),
-    refreshAllFilterInfosSchool: (payload: SchoolDTOInfos[]) => set({ allFilterInfosSchool: payload }),
-    refreshFilterInfosTeacher: (payload: TeacherInfos) => set({ filterInfosTeacher: payload }),
-    refreshFilterInfosSchool: (payload: SchoolInfos) => set({ filterInfosSchool: payload }),
-    refreshFilterStartEndDate: (payload: DatasTypes) => set({ filterStartEndDate: payload }),
-    emptyAllFilter: () =>
-      set({
-        allFilterInfosSchool: [],
-        allFilterInfosTeacher: [],
-        filterInfosSchool: {} as SchoolInfos,
-        filterInfosTeacher: {} as TeacherInfos,
-        filterStartEndDate: {} as DatasTypes,
-      }),
-  })),
+  persist<StateProps>(
+    (set) => ({
+      refreshAllFilterInfosTeacher: (payload: TeacherDTOInfos[]) => set({ allFilterInfosTeacher: payload }),
+      refreshAllFilterInfosSchool: (payload: SchoolDTOInfos[]) => set({ allFilterInfosSchool: payload }),
+      refreshFilterInfosTeacher: (payload: TeacherInfos) => set({ filterInfosTeacher: payload }),
+      refreshFilterInfosSchool: (payload: SchoolInfos) => set({ filterInfosSchool: payload }),
+      refreshFilterStartEndDate: (payload: DatasTypes) => set({ filterStartEndDate: payload }),
+      emptyAllFilter: () =>
+        set({
+          allFilterInfosSchool: [],
+          allFilterInfosTeacher: [],
+          filterInfosSchool: {} as SchoolInfos,
+          filterInfosTeacher: {} as TeacherInfos,
+          filterStartEndDate: {} as DatasTypes,
+        }),
+    }),
+    {
+      name: "state",
+      version: 1,
+      getStorage: () => sessionStorage,
+    },
+  ),
 );
 
 export const StateContextFilter = createContext<StateProps>(initialState);

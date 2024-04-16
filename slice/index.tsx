@@ -1,4 +1,4 @@
-import { LessonInfos, OfficeInfos, SchoolInfos, TeacherInfos, TeachersOffice, TeachersThirst } from "@/utils/type";
+import { LessonInfos, OfficeInfos, SchoolInfos, TeacherInfos, TeachersOffice, TeachersThirst } from "../src/utils/type";
 import React, { createContext, useRef } from "react";
 import { createStore } from "zustand";
 import { persist } from "zustand/middleware";

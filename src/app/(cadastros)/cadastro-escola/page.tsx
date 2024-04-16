@@ -12,7 +12,7 @@ import TableRegisters, { InfosTableRegisterData } from "../../../Components/Tabl
 import { createSchool, deleteSchool, editSchool } from "../../../api";
 import RootLayout from "../../../app/layout";
 import { applyCEPFormat, maskTelefone } from "../../../utils/maskUtils";
-import { InputConfig, SchoolInfos } from "@/utils/type";
+import { InputConfig, SchoolInfos } from "../../../utils/type";
 
 const createFormSchema = z.object({
   name: z.string().nonempty("Campo Nome é obrigatório!"),

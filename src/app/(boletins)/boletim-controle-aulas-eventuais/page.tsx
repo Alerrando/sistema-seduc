@@ -9,7 +9,7 @@ import TableReports from "../../../Components/TableReports";
 import { getReportsTeacher } from "../../../api";
 import RootLayout from "../../../app/layout";
 import { StateContext } from "../../../../slice";
-import { TeacherDTOInfos, TeachersThirst } from "@/utils/type";
+import { TeacherDTOInfos, TeachersThirst } from "../../../utils/type";
 
 const createFormSchema = z.object({
   cadastroProfessor: z

@@ -1,4 +1,4 @@
-import { OfficeInfos, OfficeValuesDefault, SchoolInfos, TypeDefault } from "@/utils/type";
+import { OfficeInfos, SchoolInfos, TypeDefault } from "../src/utils/type";
 import React, { createContext, useRef } from "react";
 import { createStore } from "zustand";
 import { persist } from "zustand/middleware";
@@ -18,7 +18,7 @@ export const DefaultUserInfos: UserInfos = {
   name: "",
   email: "",
   password: "",
-  office: OfficeValuesDefault,
+  office: {} as OfficeInfos,
   rg: "",
   registerSchool: {} as SchoolInfos,
   level: 2,
@@ -43,7 +43,7 @@ export const initialState: StateProps = {
     level: 0,
     mandatoryBulletin: 0,
     name: "Alerrando",
-    office: OfficeValuesDefault,
+    office: {} as OfficeInfos,
     password: "1234",
     registerSchool: {} as SchoolInfos,
     rg: "",
@@ -57,7 +57,7 @@ export const initialState: StateProps = {
       level: 0,
       mandatoryBulletin: 0,
       name: "Alerrando",
-      office: OfficeValuesDefault,
+      office: {} as OfficeInfos,
       password: "1234",
       registerSchool: {} as SchoolInfos,
       rg: "",

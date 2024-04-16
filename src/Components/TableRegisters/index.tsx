@@ -7,8 +7,8 @@ import RenderOtherColumns from "./RenderOtherColumns";
 import RenderSchoolColumns from "./RenderSchoolColumns";
 import RenderTeacherColumns from "./RenderTeacherColumns";
 import RenderUserColumns from "./RenderUserColumns";
-import { LessonInfos, OfficeInfos, SchoolInfos, TeacherInfos } from "@/utils/type";
 import { StateContext } from "../../../slice";
+import { LessonInfos, OfficeInfos, SchoolInfos, TeacherInfos } from "../../utils/type";
 
 export type InfosTableRegisterData = LessonInfos | SchoolInfos | TeacherInfos | OfficeInfos | UserInfos;
 

@@ -20,7 +20,7 @@ import {
 } from "../../../api";
 import RootLayout from "../../../app/layout";
 import { isValidCPF, maskCPF } from "../../../utils/maskUtils";
-import { InputConfig, TeacherInfos } from "@/utils/type";
+import { InputConfig, TeacherInfos } from "../../../utils/type";
 
 const createFormSchema = z.object({
   name: z.string().nonempty("Nome é obrigatório!"),

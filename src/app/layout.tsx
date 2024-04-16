@@ -1,11 +1,11 @@
 "use client";
-import Aside from "@/Components/Aside";
-import Header from "@/Components/Header";
 import { Roboto } from "next/font/google";
 import React from "react";
 import { StateContextLogin, initialState } from "../../slice/LoginSlice";
 import "./globals.css";
 import Home from "./page";
+import Aside from "../Components/Aside";
+import Header from "../Components/Header";
 
 const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 

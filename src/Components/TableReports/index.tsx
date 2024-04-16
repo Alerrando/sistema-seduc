@@ -1,7 +1,7 @@
-import { SchoolDTOInfos, TeacherDTOInfos, TeachersOffice } from "@/utils/type";
 import { format, isValid } from "date-fns";
 import { useContext } from "react";
 import { StateContext } from "../../../slice";
+import { SchoolDTOInfos, TeacherDTOInfos, TeachersOffice } from "../../utils/type";
 
 type InfosTableReportsData = SchoolDTOInfos | TeacherDTOInfos;
 

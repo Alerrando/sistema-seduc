@@ -2,7 +2,7 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { Control, Controller } from "react-hook-form";
 import { SubmitDataModal } from "../..";
 import { StateContext } from "../../../../../slice";
-import { OfficeInfos, SchoolInfos, TeachersOffice, TeachersThirst } from "@/utils/type";
+import { OfficeInfos, SchoolInfos, TeachersOffice, TeachersThirst } from "../../../../utils/type";
 
 type CheckboxDropdownOfficeTeacherProps = {
   infos: OfficeInfos[] | SchoolInfos[];

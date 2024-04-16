@@ -2,9 +2,9 @@
 import { format, isValid } from "date-fns";
 import { Check, Eye, EyeOff, Pencil, Trash } from "lucide-react";
 import { useState } from "react";
-import { LessonsInfos, SchoolInfos, TeacherInfos } from "@/utils/type";
 import { UserInfos } from "../../../../slice/LoginSlice";
 import { InfosTableRegisterData } from "../../../Components/TableRegisters";
+import { LessonInfos, SchoolInfos, TeacherInfos } from "../../../utils/type";
 
 type ModalInactiveProps = {
   editInfo?: ((info: InfosTableRegisterData, inactive: boolean) => void) | undefined;
@@ -16,7 +16,7 @@ type ModalInactiveProps = {
 export default function ModalInactive({ editInfo, modalName, thead, infosAll }: ModalInactiveProps) {
   const [viewPassword, setViewPassword] = useState<boolean>(false);
 
-  function renderLessonColumns(info: LessonsInfos, index: number) {
+  function renderLessonColumns(info: LessonInfos, index: number) {
     return (
       <>
         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>

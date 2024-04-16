@@ -12,8 +12,9 @@ import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
 import { createLesson, deleteLesson, editLesson, getIdSchool, getNameByIdTeacher, readAllLesson } from "../../../api";
 import RootLayout from "../../../app/layout";
-import { InputConfig, LessonInfos, SchoolInfos, StateContext, TeacherInfos } from "@/utils/type";
+import { InputConfig, LessonInfos, SchoolInfos, TeacherInfos } from "../../../utils/type";
 import { StateContextFilter } from "../../../../slice/FilterSlice";
+import { StateContext } from "../../../../slice";
 
 const createFormSchema = z.object({
   amountTime: z.string().nonempty("Digite a quantidade de aulas!"),

@@ -8,7 +8,7 @@ import { StateContextFilter } from "../../../../slice/FilterSlice";
 import { DefaultUserInfos, UserInfos } from "../../../../slice/LoginSlice";
 import { getUserByIdSchool, getUserByMandatoryBulletin } from "../../../api";
 import RootLayout from "../../layout";
-import { SchoolDTOInfos, TeachersOffice } from "@/utils/type";
+import { SchoolDTOInfos, TeachersOffice } from "../../../utils/type";
 
 export default function ImprimirBoletimSubstituicao() {
   const { filterInfosSchool, allFilterInfosSchool, filterStartEndDate } = useContext(StateContextFilter);

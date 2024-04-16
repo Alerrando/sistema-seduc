@@ -1,4 +1,4 @@
-import { SchoolInfos } from "@/utils/type";
+import { SchoolInfos } from "../../utils/type";
 
 type RenderSchoolColumnsProps = {
   school: SchoolInfos;

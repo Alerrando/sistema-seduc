@@ -1,5 +1,5 @@
-import { LessonInfos } from "@/utils/type";
 import { format, isValid } from "date-fns";
+import { LessonInfos } from "../../utils/type";
 
 type RenderLessonColumnsProps = {
   lesson: LessonInfos;

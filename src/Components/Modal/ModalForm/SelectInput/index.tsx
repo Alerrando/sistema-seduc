@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { StateContext } from "../../../../../slice";
-import { OfficeInfos, SchoolInfos, TeacherInfos } from "@/utils/type";
+import { OfficeInfos, SchoolInfos, TeacherInfos } from "../../../../utils/type";
 
 type SelectInputProps = {
   label: string;
