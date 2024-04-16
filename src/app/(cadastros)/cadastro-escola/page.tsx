@@ -5,13 +5,14 @@ import { useContext, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import { InputConfig, SchoolInfos, StateContext, initialState } from "../../../../slice";
+import { StateContext, initialState } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
 import { createSchool, deleteSchool, editSchool } from "../../../api";
 import RootLayout from "../../../app/layout";
 import { applyCEPFormat, maskTelefone } from "../../../utils/maskUtils";
+import { InputConfig, SchoolInfos } from "@/utils/type";
 
 const createFormSchema = z.object({
   name: z.string().nonempty("Campo Nome é obrigatório!"),

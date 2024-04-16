@@ -2,7 +2,7 @@ import { DatasTypes } from "@/Components/Filter";
 import React, { createContext, useRef } from "react";
 import { persist } from "zustand/middleware";
 import { createStore } from "zustand/vanilla";
-import { SchoolDTOInfos, SchoolInfos, TeacherDTOInfos, TeacherInfos } from "./index";
+import { SchoolDTOInfos, SchoolInfos, TeacherDTOInfos, TeacherInfos } from "@/utils/type";
 
 type StateProps = {
   allFilterInfosTeacher: TeacherDTOInfos[];

@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import { InputConfig, StateContext, TeacherInfos } from "../../../../slice";
+import { StateContext } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
@@ -20,6 +20,7 @@ import {
 } from "../../../api";
 import RootLayout from "../../../app/layout";
 import { isValidCPF, maskCPF } from "../../../utils/maskUtils";
+import { InputConfig, TeacherInfos } from "@/utils/type";
 
 const createFormSchema = z.object({
   name: z.string().nonempty("Nome é obrigatório!"),

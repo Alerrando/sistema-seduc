@@ -2,7 +2,7 @@
 import { format, isValid } from "date-fns";
 import { Check, Eye, EyeOff, Pencil, Trash } from "lucide-react";
 import { useState } from "react";
-import { LessonsInfos, SchoolInfos, TeacherInfos } from "../../../../slice";
+import { LessonsInfos, SchoolInfos, TeacherInfos } from "@/utils/type";
 import { UserInfos } from "../../../../slice/LoginSlice";
 import { InfosTableRegisterData } from "../../../Components/TableRegisters";
 

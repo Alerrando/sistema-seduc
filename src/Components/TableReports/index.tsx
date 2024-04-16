@@ -1,6 +1,7 @@
+import { SchoolDTOInfos, TeacherDTOInfos, TeachersOffice } from "@/utils/type";
 import { format, isValid } from "date-fns";
 import { useContext } from "react";
-import { OfficesTeacher, SchoolDTOInfos, StateContext, TeacherDTOInfos, TeachersOffice } from "../../../slice";
+import { StateContext } from "../../../slice";
 
 type InfosTableReportsData = SchoolDTOInfos | TeacherDTOInfos;
 
@@ -38,7 +39,7 @@ export default function TableReports(props: TableReportsProps) {
                       </td>
 
                       <td className="whitespace-nowrap px-4 py-1 font-medium text-gray-900 divide-x-2 divide-zinc-600">
-                        {allInfosTeachersOffice?.map((officeTeacher: OfficesTeacher, index: number) => (
+                        {allInfosTeachersOffice?.map((officeTeacher: TeachersOffice, index: number) => (
                           <>
                             {officeTeacher.registerTeacher.id === info.id && (
                               <span key={index} className="px-2">

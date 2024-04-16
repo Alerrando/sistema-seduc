@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { ZodType } from "zod";
 import { SubmitDataModal } from "..";
 import { RootState } from "../../../../configureStore";
-import { InputConfig, OfficeInfos } from "../../../../slice";
+import { InputConfig, OfficeInfos } from "@/utils/type";
 import Input from "./Input";
 import SelectInput from "./SelectInput";
 import CheckboxDropdown from "./SelectInput/CheckboxDropdown";

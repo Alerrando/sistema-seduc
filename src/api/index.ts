@@ -1,6 +1,6 @@
 import axios from "axios";
 import { UserInfos } from "../../slice/LoginSlice";
-import { DefinitionPeriodsInfos, LessonsInfos, OfficeInfos, SchoolInfos, TeacherInfos } from "./../../slice/index";
+import { DefinitionPeriodsInfos, LessonInfos, OfficeInfos, SchoolInfos, TeacherInfos } from "@/utils/type";
 
 const urlLesson = "http://192.168.0.78:9090/security/cadastro-aulas";
 const urlSchool = "http://192.168.0.78:9090/security/cadastro-escola";
@@ -41,7 +41,7 @@ export async function readPaginationLesson(pageNumber: number, pageSize: number)
   }
 }
 
-export async function createLesson(info: LessonsInfos, schoolId: number, teacherId: number) {
+export async function createLesson(info: LessonInfos, schoolId: number, teacherId: number) {
   try {
     const message = await axios
       .post(`${urlLesson}/${schoolId}&${teacherId}`, info, {
@@ -58,7 +58,7 @@ export async function createLesson(info: LessonsInfos, schoolId: number, teacher
   }
 }
 
-export async function editLesson(info: LessonsInfos, schoolId: number, teacherId: number) {
+export async function editLesson(info: LessonInfos, schoolId: number, teacherId: number) {
   try {
     const message = await axios
       .put(`${urlLesson}/${schoolId}&${teacherId}`, info, {

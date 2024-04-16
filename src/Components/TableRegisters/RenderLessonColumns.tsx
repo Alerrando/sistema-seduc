@@ -1,8 +1,8 @@
+import { LessonInfos } from "@/utils/type";
 import { format, isValid } from "date-fns";
-import { LessonsInfos } from "../../../slice";
 
 type RenderLessonColumnsProps = {
-  lesson: LessonsInfos;
+  lesson: LessonInfos;
   index: number;
 };
 

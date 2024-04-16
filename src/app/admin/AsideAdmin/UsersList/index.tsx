@@ -11,7 +11,7 @@ import TableRegisters, { InfosTableRegisterData } from "../../../../Components/T
 import { createUser, deleteUser, editUser, getIdSchool, getOfficeById } from "../../../../api";
 import { maskRG } from "../../../../utils/maskUtils";
 import { DefaultUserInfos, StateContextLogin, UserInfos } from "../../../../../slice/LoginSlice";
-import { InputConfig, OfficeInfos, SchoolInfos } from "../../../../../slice";
+import { InputConfig, OfficeInfos, SchoolInfos } from "@/utils/type";
 
 const createFormSchema = z.object({
   name: z.string().nonempty("O campo Nome é obrigatório!"),

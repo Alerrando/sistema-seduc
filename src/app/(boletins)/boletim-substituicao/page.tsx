@@ -9,7 +9,7 @@ import TableReports from "../../../Components/TableReports";
 import { getReportsSchool } from "../../../api";
 import RootLayout from "../../../app/layout";
 import { StateContextFilter } from "../../../../slice/FilterSlice";
-import { SchoolDTOInfos } from "../../../../slice";
+import { SchoolDTOInfos } from "@/utils/type";
 
 const createFormSchema = z.object({
   cadastroEscola: z

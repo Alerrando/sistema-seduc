@@ -1,7 +1,7 @@
+import { OfficeInfos, OfficeValuesDefault, SchoolInfos, TypeDefault } from "@/utils/type";
 import React, { createContext, useRef } from "react";
 import { createStore } from "zustand";
 import { persist } from "zustand/middleware";
-import { OfficeInfos, OfficeValuesDefault, SchoolInfos, SchoolValuesDefault, TypeDefault } from "./index";
 
 export type UserInfos = {
   email: string;
@@ -20,7 +20,7 @@ export const DefaultUserInfos: UserInfos = {
   password: "",
   office: OfficeValuesDefault,
   rg: "",
-  registerSchool: SchoolValuesDefault,
+  registerSchool: {} as SchoolInfos,
   level: 2,
   mandatoryBulletin: 0,
   edit: false,
@@ -45,7 +45,7 @@ export const initialState: StateProps = {
     name: "Alerrando",
     office: OfficeValuesDefault,
     password: "1234",
-    registerSchool: SchoolValuesDefault,
+    registerSchool: {} as SchoolInfos,
     rg: "",
   },
   usersAll: [
@@ -59,7 +59,7 @@ export const initialState: StateProps = {
       name: "Alerrando",
       office: OfficeValuesDefault,
       password: "1234",
-      registerSchool: SchoolValuesDefault,
+      registerSchool: {} as SchoolInfos,
       rg: "",
     },
   ],

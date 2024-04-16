@@ -1,6 +1,5 @@
 import { Pencil, Trash, X } from "lucide-react";
 import { useContext } from "react";
-import { LessonInfos, OfficeInfos, SchoolInfos, StateContext, TeacherInfos } from "../../../slice";
 
 import { UserInfos } from "../../../slice/LoginSlice";
 import RenderLessonColumns from "./RenderLessonColumns";
@@ -8,6 +7,8 @@ import RenderOtherColumns from "./RenderOtherColumns";
 import RenderSchoolColumns from "./RenderSchoolColumns";
 import RenderTeacherColumns from "./RenderTeacherColumns";
 import RenderUserColumns from "./RenderUserColumns";
+import { LessonInfos, OfficeInfos, SchoolInfos, TeacherInfos } from "@/utils/type";
+import { StateContext } from "../../../slice";
 
 export type InfosTableRegisterData = LessonInfos | SchoolInfos | TeacherInfos | OfficeInfos | UserInfos;
 

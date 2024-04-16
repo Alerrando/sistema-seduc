@@ -3,11 +3,12 @@ import { format, isValid } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
-import { SchoolDTOInfos, StateContext, TeachersOffice } from "../../../../slice";
+import { StateContext } from "../../../../slice";
 import { StateContextFilter } from "../../../../slice/FilterSlice";
 import { DefaultUserInfos, UserInfos } from "../../../../slice/LoginSlice";
 import { getUserByIdSchool, getUserByMandatoryBulletin } from "../../../api";
 import RootLayout from "../../layout";
+import { SchoolDTOInfos, TeachersOffice } from "@/utils/type";
 
 export default function ImprimirBoletimSubstituicao() {
   const { filterInfosSchool, allFilterInfosSchool, filterStartEndDate } = useContext(StateContextFilter);

@@ -9,7 +9,8 @@ import CreateHeaderRegisters from "../../../../Components/CreateHeaderRegisters"
 import Modal, { SubmitDataModal } from "../../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../../Components/TableRegisters";
 import { createRegisterOffice, deleteRegisterOffice, editRegisterOffice, getRegisterOffice } from "../../../../api";
-import { InputConfig, OfficeInfos, StateContext } from "../../../../../slice";
+import { StateContext } from "../../../../../slice";
+import { InputConfig, OfficeInfos } from "@/utils/type";
 
 const createFormSchema = z.object({
   name: z.string().nonempty("Nome é obrigatório!"),

@@ -12,7 +12,7 @@ import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
 import { createLesson, deleteLesson, editLesson, getIdSchool, getNameByIdTeacher, readAllLesson } from "../../../api";
 import RootLayout from "../../../app/layout";
-import { InputConfig, LessonInfos, SchoolInfos, StateContext, TeacherInfos } from "../../../../slice";
+import { InputConfig, LessonInfos, SchoolInfos, StateContext, TeacherInfos } from "@/utils/type";
 import { StateContextFilter } from "../../../../slice/FilterSlice";
 
 const createFormSchema = z.object({

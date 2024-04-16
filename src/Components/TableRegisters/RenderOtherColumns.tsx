@@ -1,4 +1,4 @@
-import { OfficeInfos } from "../../../slice";
+import { OfficeInfos } from "@/utils/type";
 
 type RenderOtherColumnsProps = {
   office: OfficeInfos;

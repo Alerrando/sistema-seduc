@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { SchoolInfos, StateContext, TeacherInfos, TeachersOffice } from "../../../slice";
+import { SchoolInfos, StateContext, TeacherInfos, TeachersOffice } from "@/utils/type";
 
 type RenderTeacherColumnsProps = {
   teacher: TeacherInfos;

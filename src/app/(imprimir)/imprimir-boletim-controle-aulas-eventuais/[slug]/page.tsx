@@ -2,8 +2,9 @@
 import { format, isValid } from "date-fns";
 import { Key, useContext } from "react";
 import RootLayout from "../../../layout";
-import { StateContext, TeacherDTOInfos, TeachersOffice, TeachersThirst } from "../../../../../slice";
+import { StateContext } from "../../../../../slice";
 import { StateContextFilter } from "../../../../../slice/FilterSlice";
+import { TeacherDTOInfos, TeachersOffice, TeachersThirst } from "@/utils/type";
 
 export default function ImprimirBoletimControleAulasEventuais({ params }: { params: { slug: string } }) {
   const { allInfosTeachersOffice, allInfosTeachersThirst } = useContext(StateContext);

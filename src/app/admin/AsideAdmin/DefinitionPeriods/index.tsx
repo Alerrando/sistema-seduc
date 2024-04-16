@@ -6,7 +6,8 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { ToastContainer, toast } from "react-toastify";
 import { createDefinitionPeriods, findAllDefinitionPeriods } from "../../../../api";
-import { DefinitionPeriodsInfos, StateContext } from "../../../../../slice";
+import { StateContext } from "../../../../../slice";
+import { DefinitionPeriodsInfos } from "@/utils/type";
 
 export default function DefinitionPeriods() {
   const { infosDefinitionPeriods } = useContext(StateContext);
