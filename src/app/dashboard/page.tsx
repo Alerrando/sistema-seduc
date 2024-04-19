@@ -1,7 +1,6 @@
 "use client";
 import { Book, GraduationCap, School2 } from "lucide-react";
-import { useContext } from "react";
-import { StateContextLogin } from "../../../slice/LoginSlice";
+import { useLoginState } from "../../../slice/LoginSlice";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -9,7 +8,7 @@ import Link from "next/link";
 import RootLayout from "../layout";
 
 export default function Dashboard() {
-  const { user } = useContext(StateContextLogin);
+  const { user } = useLoginState();
 
   return (
     <RootLayout showHeaderAside>

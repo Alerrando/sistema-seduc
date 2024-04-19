@@ -1,6 +1,6 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
-import { StateContext } from "../../../../../slice";
+import { useStore } from "../../../../../slice";
 import { OfficeInfos, SchoolInfos, TeacherInfos } from "../../../../utils/type";
 
 type SelectInputProps = {
@@ -17,7 +17,7 @@ type SelectInputProps = {
 
 export default function SelectInput(props: SelectInputProps) {
   const { label, htmlFor, name, optionDefault, optionType, register, initialValues, setValue, modalName } = props;
-  const { allInfosSchool, allInfosTeacher, allInfosOffice } = useContext(StateContext);
+  const { allInfosSchool, allInfosTeacher, allInfosOffice } = useStore();
 
   useEffect(() => {
     if (initialValues !== undefined) {

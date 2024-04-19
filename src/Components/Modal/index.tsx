@@ -1,7 +1,6 @@
 import { X } from "lucide-react";
-import { useContext } from "react";
 import { ZodType } from "zod";
-import { InputConfig, StateContext } from "../../../slice";
+import { InputConfig, useStore } from "../../../slice";
 import { CreateFormDataSchool } from "../../app/(cadastros)/cadastro-escola/page";
 import { CreateFormDataTeacher } from "../../app/(cadastros)/cadastro-professor/page";
 import { CreateFormDataLesson } from "../../app/(cadastros)/controle-aulas-eventuais/page";
@@ -11,7 +10,7 @@ import { InfosTableRegisterData } from "../TableRegisters";
 import { ModalForm } from "./ModalForm";
 import ModalInactive from "./ModalInactive";
 
-import { StateContextLogin } from "../../../slice/LoginSlice";
+import { useLoginState } from "../../../slice/LoginSlice";
 
 export type SubmitDataModal =
   | CreateFormDataSchool
@@ -46,8 +45,8 @@ export default function Modal(props: ModalProps) {
     thead,
     modalName,
   } = props;
-  const { allInfosOffice, allInfosSchool, allInfosTeacher, allInfosLesson } = useContext(StateContext);
-  const { usersAll } = useContext(StateContextLogin);
+  const { allInfosOffice, allInfosSchool, allInfosTeacher, allInfosLesson } = useStore();
+  const { usersAll } = useLoginState();
 
   return (
     <div className="w-screen h-auto flex items-center justify-center bg-modal fixed inset-0">

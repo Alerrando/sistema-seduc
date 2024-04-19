@@ -1,6 +1,5 @@
 import { format, isValid } from "date-fns";
-import { useContext } from "react";
-import { StateContext } from "../../../slice";
+import { useStore } from "../../../slice";
 import { SchoolDTOInfos, TeacherDTOInfos, TeachersOffice } from "../../utils/type";
 
 type InfosTableReportsData = SchoolDTOInfos | TeacherDTOInfos;
@@ -8,11 +7,12 @@ type InfosTableReportsData = SchoolDTOInfos | TeacherDTOInfos;
 type TableReportsProps = {
   allFilterInfos: SchoolDTOInfos[] | TeacherDTOInfos[];
   tableHead: string[];
+  reportsTypes: string;
 };
 
 export default function TableReports(props: TableReportsProps) {
-  const { tableHead, allFilterInfos } = props;
-  const { reportsTypes, allInfosTeachersOffice } = useContext(StateContext);
+  const { tableHead, allFilterInfos, reportsTypes } = props;
+  const { allInfosTeachersOffice } = useStore();
 
   return (
     <div className="max-h-[77%] overflow-x-auto rounded-lg border border-gray-200">

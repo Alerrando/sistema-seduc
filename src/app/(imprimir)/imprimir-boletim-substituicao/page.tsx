@@ -2,17 +2,17 @@
 import { format, isValid } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
-import { StateContext } from "../../../../slice";
-import { StateContextFilter } from "../../../../slice/FilterSlice";
+import { useEffect, useState } from "react";
+import { useStore } from "../../../../slice";
+import { useStateContextFilter } from "../../../../slice/FilterSlice";
 import { DefaultUserInfos, UserInfos } from "../../../../slice/LoginSlice";
 import { getUserByIdSchool, getUserByMandatoryBulletin } from "../../../api";
-import RootLayout from "../../layout";
 import { SchoolDTOInfos, TeachersOffice } from "../../../utils/type";
+import RootLayout from "../../layout";
 
 export default function ImprimirBoletimSubstituicao() {
-  const { filterInfosSchool, allFilterInfosSchool, filterStartEndDate } = useContext(StateContextFilter);
-  const { allInfosTeachersOffice } = useContext(StateContext);
+  const { filterInfosSchool, allFilterInfosSchool, filterStartEndDate } = useStateContextFilter();
+  const { allInfosTeachersOffice } = useStore();
   const [usersMandatoryBulletin, setUsersMandatoryBulletin] = useState<UserInfos[]>([]);
   const [schoolBulletinUser, setSchoolBulletinUser] = useState<UserInfos>(DefaultUserInfos);
   const [dateNow, setDateNow] = useState<Date>(new Date());

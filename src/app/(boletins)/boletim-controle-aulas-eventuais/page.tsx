@@ -1,14 +1,14 @@
 "use client";
 import { SlidersHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { z } from "zod";
-import { StateContextFilter } from "../../../../slice/FilterSlice";
+import { useStore } from "../../../../slice";
+import { useStateContextFilter } from "../../../../slice/FilterSlice";
 import Filter, { DatasTypes, SubmitDataFilter } from "../../../Components/Filter";
 import TableReports from "../../../Components/TableReports";
 import { getReportsTeacher } from "../../../api";
 import RootLayout from "../../../app/layout";
-import { StateContext } from "../../../../slice";
 import { TeacherDTOInfos, TeachersThirst } from "../../../utils/type";
 
 const createFormSchema = z.object({
@@ -30,8 +30,8 @@ export default function BoletimControleAulasEventuais() {
   const [filter, setFilter] = useState<boolean>(false);
   const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
   const tableHead = ["Nome Professor", "Data", "Escola", "N° de Aulas"];
-  const { allInfosTeachersThirst } = useContext(StateContext);
-  const { allFilterInfosTeacher, filterInfosTeacher } = useContext(StateContextFilter);
+  const { allInfosTeachersThirst } = useStore();
+  const { allFilterInfosTeacher, filterInfosTeacher } = useStateContextFilter();
   const router = useRouter();
 
   return (
@@ -46,7 +46,7 @@ export default function BoletimControleAulasEventuais() {
             />
           </div>
 
-          <TableReports tableHead={tableHead} allFilterInfos={allFilterInfosTeacher} />
+          <TableReports tableHead={tableHead} allFilterInfos={allFilterInfosTeacher} reportsTypes="Teacher" />
         </div>
 
         <div className="w-full flex flex-row gap-4 items-center justify-end">

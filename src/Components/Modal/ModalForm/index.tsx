@@ -1,12 +1,11 @@
 "use client";
 import { ErrorMessage } from "@hookform/error-message";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext } from "react";
 import Calendar from "react-calendar";
 import { useForm } from "react-hook-form";
 import { ZodType } from "zod";
 import { SubmitDataModal } from "..";
-import { StateContext } from "../../../../slice";
+import { useStore } from "../../../../slice";
 import { InputConfig, OfficeInfos } from "../../../utils/type";
 import Input from "./Input";
 import SelectInput from "./SelectInput";
@@ -22,7 +21,7 @@ type ModalFormProps = {
 };
 
 export function ModalForm(props: ModalFormProps) {
-  const { allInfosOffice, allInfosSchool } = useContext(StateContext);
+  const { allInfosOffice, allInfosSchool } = useStore();
   const { schema, inputs, initialValues, setInfosInput, onSubmit, modalName } = props;
 
   const {

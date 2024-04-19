@@ -1,7 +1,5 @@
+import React, { createContext, useContext, useState } from "react";
 import { OfficeInfos, SchoolInfos, TypeDefault } from "../src/utils/type";
-import React, { createContext, useRef } from "react";
-import { createStore } from "zustand";
-import { persist } from "zustand/middleware";
 
 export type UserInfos = {
   email: string;
@@ -34,7 +32,7 @@ type StateProps = {
   setUsersAll: (usersAll: UserInfos[]) => void;
 };
 
-export const initialState: StateProps = {
+const initialState: StateProps = {
   user: {
     id: 0,
     email: "alerrando2@gmail.com",
@@ -48,6 +46,7 @@ export const initialState: StateProps = {
     registerSchool: {} as SchoolInfos,
     rg: "",
   },
+  setUser: () => {},
   usersAll: [
     {
       id: 0,
@@ -63,28 +62,25 @@ export const initialState: StateProps = {
       rg: "",
     },
   ],
+  setUsersAll: () => {},
 };
 
-const useProviderStore = () =>
-  createStore(
-    persist<StateProps>(
-      (set) => ({
-        user: initialState.user,
-        setUser: (user: UserInfos) => set({ user }),
-        usersAll: initialState.usersAll,
-        setUsersAll: (usersAll: UserInfos[]) => set({ usersAll }),
-      }),
-      {
-        name: "user",
-        skipHydration: true,
-      },
-    ),
-  );
-
-export const StateContextLogin = createContext<StateProps>(initialState);
+const StateContextLogin = createContext<StateProps>(initialState);
 
 export function StateProviderLogin({ children }: { children: React.ReactNode }) {
-  const { getState } = useRef(useProviderStore()).current;
+  const [state, setState] = useState(initialState);
 
-  return <StateContextLogin.Provider value={getState()}>{children}</StateContextLogin.Provider>;
+  const setUser = (user: UserInfos) => {
+    setState((prevState) => ({ ...prevState, user }));
+  };
+
+  const setUsersAll = (usersAll: UserInfos[]) => {
+    setState((prevState) => ({ ...prevState, usersAll }));
+  };
+
+  return <StateContextLogin.Provider value={{ ...state, setUser, setUsersAll }}>{children}</StateContextLogin.Provider>;
+}
+
+export function useLoginState() {
+  return useContext(StateContextLogin);
 }

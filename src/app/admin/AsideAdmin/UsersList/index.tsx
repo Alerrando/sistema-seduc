@@ -1,16 +1,16 @@
 "use client";
 import { AxiosError } from "axios";
 import { ClipboardList } from "lucide-react";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
+import { DefaultUserInfos, UserInfos, useLoginState } from "../../../../../slice/LoginSlice";
 import CreateHeaderRegisters from "../../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../../Components/TableRegisters";
 import { createUser, deleteUser, editUser, getIdSchool, getOfficeById } from "../../../../api";
 import { maskRG } from "../../../../utils/maskUtils";
-import { DefaultUserInfos, StateContextLogin, UserInfos } from "../../../../../slice/LoginSlice";
 import { InputConfig, OfficeInfos, SchoolInfos } from "../../../../utils/type";
 
 const createFormSchema = z.object({
@@ -26,7 +26,7 @@ const createFormSchema = z.object({
 export type CreateFormDataUser = z.infer<typeof createFormSchema>;
 
 export default function UsersList() {
-  const { usersAll } = useContext(StateContextLogin);
+  const { usersAll } = useLoginState();
   const [modal, setModal] = useState<boolean>(false);
   const [modalInactive, setModalInactive] = useState<boolean>(false);
   const [infosEdit, setInfosEdit] = useState<UserInfos>(DefaultUserInfos);
@@ -137,6 +137,7 @@ export default function UsersList() {
           editInfo={editInfo}
           infosAll={usersAll}
           tableHead={tableHead}
+          registerType="User"
           key="Table Users"
         />
       </section>

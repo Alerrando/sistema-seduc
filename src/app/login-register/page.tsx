@@ -1,12 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect } from "react";
-import { StateContextLogin } from "../../../slice/LoginSlice";
+import { useEffect } from "react";
+import { useLoginState } from "../../../slice/LoginSlice";
 import Login from "./Login";
 import "./style.css";
 
 export default function LoginRegister() {
-  const { user } = useContext(StateContextLogin);
+  const { user } = useLoginState();
   const router = useRouter();
 
   useEffect(() => {

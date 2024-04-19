@@ -1,8 +1,7 @@
-import React, { createContext, useRef } from "react";
-import { persist } from "zustand/middleware";
-import { createStore } from "zustand/vanilla";
+import React, { createContext, useContext, useState } from "react";
 import { DatasTypes } from "../src/Components/Filter";
 import { SchoolDTOInfos, SchoolInfos, TeacherDTOInfos, TeacherInfos } from "../src/utils/type";
+import { initialState } from "./zustandStore";
 
 type StateProps = {
   allFilterInfosTeacher: TeacherDTOInfos[];
@@ -10,45 +9,29 @@ type StateProps = {
   filterInfosTeacher: TeacherInfos;
   filterInfosSchool: SchoolInfos;
   filterStartEndDate: DatasTypes;
+  emptyAllFilter: () => void;
 };
 
-export const initialState: StateProps = {
-  allFilterInfosTeacher: [],
-  allFilterInfosSchool: [],
-  filterInfosTeacher: {} as TeacherInfos,
-  filterInfosSchool: {} as SchoolInfos,
-  filterStartEndDate: {} as DatasTypes,
-};
-
-const useStore = createStore(
-  persist<StateProps>(
-    (set) => ({
-      refreshAllFilterInfosTeacher: (payload: TeacherDTOInfos[]) => set({ allFilterInfosTeacher: payload }),
-      refreshAllFilterInfosSchool: (payload: SchoolDTOInfos[]) => set({ allFilterInfosSchool: payload }),
-      refreshFilterInfosTeacher: (payload: TeacherInfos) => set({ filterInfosTeacher: payload }),
-      refreshFilterInfosSchool: (payload: SchoolInfos) => set({ filterInfosSchool: payload }),
-      refreshFilterStartEndDate: (payload: DatasTypes) => set({ filterStartEndDate: payload }),
-      emptyAllFilter: () =>
-        set({
-          allFilterInfosSchool: [],
-          allFilterInfosTeacher: [],
-          filterInfosSchool: {} as SchoolInfos,
-          filterInfosTeacher: {} as TeacherInfos,
-          filterStartEndDate: {} as DatasTypes,
-        }),
-    }),
-    {
-      name: "state",
-      version: 1,
-      getStorage: () => sessionStorage,
-    },
-  ),
-);
-
-export const StateContextFilter = createContext<StateProps>(initialState);
+const StateContext = createContext<StateProps>(initialState);
 
 export function StateProviderFilter({ children }: { children: React.ReactNode }) {
-  const { getState } = useRef(useStore()).current;
+  const [state, setState] = useState<StateProps>(initialState);
 
-  return <StateContextFilter.Provider value={getState()}>{children}</StateContextFilter.Provider>;
+  const emptyAllFilter = () => {
+    setState({
+      ...state,
+      allFilterInfosTeacher: [],
+      allFilterInfosSchool: [],
+      filterInfosTeacher: {} as TeacherInfos,
+      filterInfosSchool: {} as SchoolInfos,
+      filterStartEndDate: {} as DatasTypes,
+    });
+  };
+
+  return <StateContext.Provider value={{ ...state, emptyAllFilter }}>{children}</StateContext.Provider>;
+}
+
+export function useStateContextFilter() {
+  const context = useContext(StateContext);
+  return context;
 }

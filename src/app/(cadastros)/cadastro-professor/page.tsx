@@ -1,11 +1,11 @@
 "use client";
 import { AxiosError } from "axios";
 import { ClipboardList } from "lucide-react";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import { StateContext } from "../../../../slice";
+import { useStore } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
@@ -37,7 +37,7 @@ const createFormSchema = z.object({
 export type CreateFormDataTeacher = z.infer<typeof createFormSchema>;
 
 export default function CadastroProfessor() {
-  const { allInfosTeacher } = useContext(StateContext);
+  const { allInfosTeacher } = useStore();
   const [infosInput, setInfosInput] = useState<TeacherInfos>({} as TeacherInfos);
   const [search, setSearch] = useState("");
   const [modalInactive, setModalInactive] = useState<boolean>(false);
@@ -111,7 +111,8 @@ export default function CadastroProfessor() {
             )}
             editInfo={editInfo}
             deleteInfo={deleteInfo}
-            key={"Table-Escola"}
+            registerType="Teacher"
+            key={"Table-Teacher"}
           />
         </div>
         {modal ? (

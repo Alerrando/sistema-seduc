@@ -1,16 +1,16 @@
 "use client";
 import { AxiosError } from "axios";
 import { format, isValid } from "date-fns";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { ToastContainer, toast } from "react-toastify";
 import { createDefinitionPeriods, findAllDefinitionPeriods } from "../../../../api";
-import { StateContext } from "../../../../../slice";
 import { DefinitionPeriodsInfos } from "../../../../utils/type";
+import { useStore } from "../../../../../slice";
 
 export default function DefinitionPeriods() {
-  const { infosDefinitionPeriods } = useContext(StateContext);
+  const { infosDefinitionPeriods } = useStore();
   const [datas, setDatas] = useState<DefinitionPeriodsInfos>({} as DefinitionPeriodsInfos);
 
   useEffect(() => {

@@ -1,14 +1,12 @@
 import { Pencil, Trash, X } from "lucide-react";
-import { useContext } from "react";
 
 import { UserInfos } from "../../../slice/LoginSlice";
+import { LessonInfos, OfficeInfos, SchoolInfos, TeacherInfos } from "../../utils/type";
 import RenderLessonColumns from "./RenderLessonColumns";
 import RenderOtherColumns from "./RenderOtherColumns";
 import RenderSchoolColumns from "./RenderSchoolColumns";
 import RenderTeacherColumns from "./RenderTeacherColumns";
 import RenderUserColumns from "./RenderUserColumns";
-import { StateContext } from "../../../slice";
-import { LessonInfos, OfficeInfos, SchoolInfos, TeacherInfos } from "../../utils/type";
 
 export type InfosTableRegisterData = LessonInfos | SchoolInfos | TeacherInfos | OfficeInfos | UserInfos;
 
@@ -17,11 +15,11 @@ type TableRegistersProps = {
   editInfo: (info: InfosTableRegisterData, inactive: boolean) => void;
   deleteInfo: (info: InfosTableRegisterData) => void;
   infosAll: InfosTableRegisterData[];
+  registerType: string;
 };
 
 export default function TableRegisters(props: TableRegistersProps) {
-  const { tableHead, editInfo, deleteInfo, infosAll } = props;
-  const { registerType } = useContext(StateContext);
+  const { tableHead, editInfo, deleteInfo, infosAll, registerType } = props;
 
   return (
     <div className="w-full overflow-x-auto border border-gray-200">

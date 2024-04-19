@@ -1,6 +1,5 @@
-import { useContext } from "react";
+import { useStore } from "../../../slice";
 import { SchoolInfos, TeacherInfos, TeachersOffice } from "../../utils/type";
-import { StateContext } from "../../../slice";
 
 type RenderTeacherColumnsProps = {
   teacher: TeacherInfos;
@@ -8,7 +7,7 @@ type RenderTeacherColumnsProps = {
 };
 
 export default function RenderTeacherColumns({ teacher, index }: RenderTeacherColumnsProps) {
-  const { allInfosTeachersOffice, allInfosTeachersThirst } = useContext(StateContext);
+  const { allInfosTeachersOffice, allInfosTeachersThirst } = useStore();
 
   return (
     <>

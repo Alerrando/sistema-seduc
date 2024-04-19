@@ -1,15 +1,15 @@
 "use client";
 import { AxiosError } from "axios";
 import { ClipboardList } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
+import { useStore } from "../../../../../slice";
 import CreateHeaderRegisters from "../../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../../Components/TableRegisters";
 import { createRegisterOffice, deleteRegisterOffice, editRegisterOffice, getRegisterOffice } from "../../../../api";
-import { StateContext } from "../../../../../slice";
 import { InputConfig, OfficeInfos } from "../../../../utils/type";
 
 const createFormSchema = z.object({
@@ -20,7 +20,7 @@ const createFormSchema = z.object({
 export type CreateFormDataOffice = z.infer<typeof createFormSchema>;
 
 export default function RegisterOffice() {
-  const { allInfosOffice } = useContext(StateContext);
+  const { allInfosOffice } = useStore();
   const [infosRegister, setInfosRegister] = useState<OfficeInfos>({} as OfficeInfos);
   const [modal, setModal] = useState<boolean>(false);
   const [modalInactive, setModalInactive] = useState<boolean>(false);
@@ -89,6 +89,7 @@ export default function RegisterOffice() {
             editInfo={editInfo}
             infosAll={allInfosOffice.map((info: OfficeInfos) => info.name.toLowerCase().includes(search.toLowerCase()))}
             tableHead={tableHead}
+            registerType="Office"
             key={"table-office"}
           />
         </section>

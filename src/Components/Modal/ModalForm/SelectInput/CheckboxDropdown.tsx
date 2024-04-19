@@ -1,7 +1,7 @@
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Control, Controller } from "react-hook-form";
 import { SubmitDataModal } from "../..";
-import { StateContext } from "../../../../../slice";
+import { useStore } from "../../../../../slice";
 import { OfficeInfos, SchoolInfos, TeachersOffice, TeachersThirst } from "../../../../utils/type";
 
 type CheckboxDropdownOfficeTeacherProps = {
@@ -31,7 +31,7 @@ type CheckboxDropdownOfficeTeacherProps = {
 };
 
 export default function CheckboxDropdown(props: CheckboxDropdownOfficeTeacherProps) {
-  const { allInfosTeachersOffice, allInfosTeachersThirst } = useContext(StateContext);
+  const { allInfosTeachersOffice, allInfosTeachersThirst } = useStore();
   const { checkboxOptionType, control, infos, optionDefault } = props;
   const [defaultValueController, setDefaultValueController] = useState<OfficeInfos[] | SchoolInfos[]>([]);
   const [menuHandle, setMenuHandle] = useState<boolean>(false);

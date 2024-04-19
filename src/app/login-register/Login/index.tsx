@@ -4,12 +4,11 @@ import { AxiosError } from "axios";
 import { BookOpen } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import { StateContextLogin } from "../../../../slice/LoginSlice";
+import { useLoginState } from "../../../../slice/LoginSlice";
 import Input from "../../../Components/Modal/ModalForm/Input";
 
 const createFormSchema = z.object({
@@ -27,7 +26,7 @@ export default function Login() {
   } = useForm<CreateFormData>({
     resolver: zodResolver(createFormSchema),
   });
-  const { usersAll } = useContext(StateContextLogin);
+  const { usersAll } = useLoginState();
   const router = useRouter();
 
   return (

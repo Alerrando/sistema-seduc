@@ -1,10 +1,10 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import { useContext, useEffect } from "react";
-import { StateContextLogin } from "../../slice/LoginSlice";
+import { useEffect } from "react";
+import { useLoginState } from "../../slice/LoginSlice";
 
 function Home({ children }: unknown) {
-  const { user } = useContext(StateContextLogin);
+  const { user } = useLoginState();
   const router = useRouter();
   const pathName = usePathname();
 

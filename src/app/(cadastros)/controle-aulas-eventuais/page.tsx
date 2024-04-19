@@ -2,19 +2,19 @@
 import { AxiosError } from "axios";
 import { format, isValid } from "date-fns";
 import { ClipboardList } from "lucide-react";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import "react-calendar/dist/Calendar.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
+import { useStore } from "../../../../slice";
+import { useStateContextFilter } from "../../../../slice/FilterSlice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
 import { createLesson, deleteLesson, editLesson, getIdSchool, getNameByIdTeacher, readAllLesson } from "../../../api";
 import RootLayout from "../../../app/layout";
 import { InputConfig, LessonInfos, SchoolInfos, TeacherInfos } from "../../../utils/type";
-import { StateContextFilter } from "../../../../slice/FilterSlice";
-import { StateContext } from "../../../../slice";
 
 const createFormSchema = z.object({
   amountTime: z.string().nonempty("Digite a quantidade de aulas!"),
@@ -32,8 +32,8 @@ export type CreateFormDataLesson = z.infer<typeof createFormSchema>;
 
 export default function ControleAulasEventuais() {
   const [infosInput, setInfosInput] = useState<LessonInfos>({} as LessonInfos);
-  const { allInfosLesson } = useContext(StateContext);
-  const { infosDefinitionPeriods } = useContext(StateContextFilter);
+  const { allInfosLesson } = useStore();
+  const { infosDefinitionPeriods } = useStateContextFilter();
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState(false);
   const [modalInactive, setModalInactive] = useState<boolean>(false);
@@ -127,6 +127,7 @@ export default function ControleAulasEventuais() {
               infosAll={allInfosLesson.filter((lesson: LessonInfos) =>
                 lesson.registerTeacher.name.toLowerCase().includes(search.toLowerCase()),
               )}
+              registerType="Lesson"
               key={"Table-Cadastro"}
             />
           </div>

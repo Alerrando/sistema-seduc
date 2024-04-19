@@ -1,15 +1,15 @@
 "use client";
 import { AxiosError } from "axios";
 import { ClipboardList } from "lucide-react";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import { StateContext, initialState } from "../../../../slice";
+import { StateProvider, useStore } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
-import { createSchool, deleteSchool, editSchool } from "../../../api";
+import { deleteSchool, editSchool } from "../../../api";
 import RootLayout from "../../../app/layout";
 import { applyCEPFormat, maskTelefone } from "../../../utils/maskUtils";
 import { InputConfig, SchoolInfos } from "../../../utils/type";
@@ -31,7 +31,7 @@ const createFormSchema = z.object({
 export type CreateFormDataSchool = z.infer<typeof createFormSchema>;
 
 export default function CadastroEscola() {
-  const { allInfosSchool } = useContext(StateContext);
+  const { allInfosSchool, setAllInfosSchool } = useStore();
   const [infosInput, setInfosInput] = useState<SchoolInfos>({} as SchoolInfos);
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState<boolean>(false);
@@ -89,7 +89,7 @@ export default function CadastroEscola() {
   ];
 
   return (
-    <StateContext.Provider value={initialState}>
+    <StateProvider>
       <RootLayout showHeaderAside>
         <main className="w-full sm:w-5/6 h-max ml-auto">
           <div className="w-full flex flex-col gap-4 px-6 py-3">
@@ -115,6 +115,7 @@ export default function CadastroEscola() {
               )}
               editInfo={editInfo}
               deleteInfo={deleteInfo}
+              registerType="School"
               key={"Table-Escola"}
             />
           </div>
@@ -145,7 +146,7 @@ export default function CadastroEscola() {
           <ToastContainer />
         </main>
       </RootLayout>
-    </StateContext.Provider>
+    </StateProvider>
   );
 
   async function submitSchool(data: SubmitDataModal) {
@@ -158,11 +159,11 @@ export default function CadastroEscola() {
         inactive: false,
         ...rest,
       };
-
-      let message: AxiosError | string;
+      let message = "";
 
       if (!infosInput.edit) {
-        message = await createSchool(aux);
+        message = "Cadastro feito com sucesso!";
+        setAllInfosSchool([...allInfosSchool, aux]);
       } else {
         message = await editSchool(aux, aux.id);
         setModal(false);

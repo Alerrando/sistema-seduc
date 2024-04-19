@@ -2,13 +2,13 @@
 
 import { SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { z } from "zod";
+import { useStateContextFilter } from "../../../../slice/FilterSlice";
 import Filter, { DatasTypes, SubmitDataFilter } from "../../../Components/Filter";
 import TableReports from "../../../Components/TableReports";
 import { getReportsSchool } from "../../../api";
 import RootLayout from "../../../app/layout";
-import { StateContextFilter } from "../../../../slice/FilterSlice";
 import { SchoolDTOInfos } from "../../../utils/type";
 
 const createFormSchema = z.object({
@@ -30,7 +30,7 @@ export default function BoletimSubstituicao() {
   );
   const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
   const tableHead = ["Nome", "Formação", "Dias Trabalhados", "Total a pagar", "Observações"];
-  const { allFilterInfosSchool } = useContext(StateContextFilter);
+  const { allFilterInfosSchool } = useStateContextFilter();
 
   return (
     <RootLayout showHeaderAside>
@@ -44,7 +44,7 @@ export default function BoletimSubstituicao() {
             />
           </div>
 
-          <TableReports tableHead={tableHead} allFilterInfos={allFilterInfosSchool} />
+          <TableReports tableHead={tableHead} allFilterInfos={allFilterInfosSchool} reportsTypes="School" />
         </div>
 
         <div className="w-full flex items-center justify-end">
