@@ -1,14 +1,14 @@
 "use client";
 import { Book, GraduationCap, School2 } from "lucide-react";
-import { useLoginState } from "../../../slice/LoginSlice";
 
 import Image from "next/image";
 import Link from "next/link";
 
+import { useStore } from "../../../slice";
 import RootLayout from "../layout";
 
 export default function Dashboard() {
-  const { user } = useLoginState();
+  const { user } = useStore();
 
   return (
     <RootLayout showHeaderAside>

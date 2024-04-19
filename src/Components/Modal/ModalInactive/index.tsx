@@ -2,9 +2,8 @@
 import { format, isValid } from "date-fns";
 import { Check, Eye, EyeOff, Pencil, Trash } from "lucide-react";
 import { useState } from "react";
-import { UserInfos } from "../../../../slice/LoginSlice";
 import { InfosTableRegisterData } from "../../../Components/TableRegisters";
-import { LessonInfos, SchoolInfos, TeacherInfos } from "../../../utils/type";
+import { LessonInfos, SchoolInfos, TeacherInfos, UserInfos } from "../../../utils/type";
 
 type ModalInactiveProps = {
   editInfo?: ((info: InfosTableRegisterData, inactive: boolean) => void) | undefined;

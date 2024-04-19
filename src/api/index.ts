@@ -1,6 +1,5 @@
 import axios from "axios";
-import { UserInfos } from "../../slice/LoginSlice";
-import { DefinitionPeriodsInfos, LessonInfos, OfficeInfos, SchoolInfos, TeacherInfos } from "../utils/type";
+import { DefinitionPeriodsInfos, LessonInfos, OfficeInfos, SchoolInfos, TeacherInfos, UserInfos } from "../utils/type";
 
 const urlLesson = "http://192.168.0.78:9090/security/cadastro-aulas";
 const urlSchool = "http://192.168.0.78:9090/security/cadastro-escola";

@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { z } from "zod";
 import { useStore } from "../../../../slice";
-import { useStateContextFilter } from "../../../../slice/FilterSlice";
 import Filter, { DatasTypes, SubmitDataFilter } from "../../../Components/Filter";
 import TableReports from "../../../Components/TableReports";
 import { getReportsTeacher } from "../../../api";
@@ -30,8 +29,7 @@ export default function BoletimControleAulasEventuais() {
   const [filter, setFilter] = useState<boolean>(false);
   const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
   const tableHead = ["Nome Professor", "Data", "Escola", "N° de Aulas"];
-  const { allInfosTeachersThirst } = useStore();
-  const { allFilterInfosTeacher, filterInfosTeacher } = useStateContextFilter();
+  const { allInfosTeachersThirst, allFilterInfosTeacher, filterInfosTeacher } = useStore();
   const router = useRouter();
 
   return (

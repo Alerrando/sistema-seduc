@@ -8,7 +8,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
 import { useStore } from "../../../../slice";
-import { useStateContextFilter } from "../../../../slice/FilterSlice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
@@ -32,8 +31,7 @@ export type CreateFormDataLesson = z.infer<typeof createFormSchema>;
 
 export default function ControleAulasEventuais() {
   const [infosInput, setInfosInput] = useState<LessonInfos>({} as LessonInfos);
-  const { allInfosLesson } = useStore();
-  const { infosDefinitionPeriods } = useStateContextFilter();
+  const { allInfosLesson, infosDefinitionPeriods } = useStore();
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState(false);
   const [modalInactive, setModalInactive] = useState<boolean>(false);

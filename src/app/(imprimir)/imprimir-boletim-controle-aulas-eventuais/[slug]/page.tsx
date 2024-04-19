@@ -2,13 +2,11 @@
 import { format, isValid } from "date-fns";
 import { Key } from "react";
 import { useStore } from "../../../../../slice";
-import { useStateContextFilter } from "../../../../../slice/FilterSlice";
 import { TeacherDTOInfos, TeachersOffice, TeachersThirst } from "../../../../utils/type";
 import RootLayout from "../../../layout";
 
 export default function ImprimirBoletimControleAulasEventuais({ params }: { params: { slug: string } }) {
-  const { allInfosTeachersOffice, allInfosTeachersThirst } = useStore();
-  const { filterInfosTeacher, allFilterInfosTeacher } = useStateContextFilter();
+  const { allInfosTeachersOffice, allInfosTeachersThirst, filterInfosTeacher, allFilterInfosTeacher } = useStore();
 
   return (
     <RootLayout showHeaderAside={false}>

@@ -4,7 +4,7 @@ import { SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { z } from "zod";
-import { useStateContextFilter } from "../../../../slice/FilterSlice";
+import { useStore } from "../../../../slice";
 import Filter, { DatasTypes, SubmitDataFilter } from "../../../Components/Filter";
 import TableReports from "../../../Components/TableReports";
 import { getReportsSchool } from "../../../api";
@@ -30,7 +30,7 @@ export default function BoletimSubstituicao() {
   );
   const [datas, setDatas] = useState<DatasTypes>({} as DatasTypes);
   const tableHead = ["Nome", "Formação", "Dias Trabalhados", "Total a pagar", "Observações"];
-  const { allFilterInfosSchool } = useStateContextFilter();
+  const { allFilterInfosSchool } = useStore();
 
   return (
     <RootLayout showHeaderAside>

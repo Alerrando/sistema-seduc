@@ -1,6 +1,6 @@
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { UserInfos } from "../../../slice/LoginSlice";
+import { UserInfos } from "../../utils/type";
 
 type RenderUserColumnsProps = {
   user: UserInfos;

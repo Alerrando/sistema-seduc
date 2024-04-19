@@ -5,13 +5,13 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import { DefaultUserInfos, UserInfos, useLoginState } from "../../../../../slice/LoginSlice";
+import { DefaultUserInfos, useStore } from "../../../../../slice";
 import CreateHeaderRegisters from "../../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../../Components/TableRegisters";
 import { createUser, deleteUser, editUser, getIdSchool, getOfficeById } from "../../../../api";
 import { maskRG } from "../../../../utils/maskUtils";
-import { InputConfig, OfficeInfos, SchoolInfos } from "../../../../utils/type";
+import { InputConfig, OfficeInfos, SchoolInfos, UserInfos } from "../../../../utils/type";
 
 const createFormSchema = z.object({
   name: z.string().nonempty("O campo Nome é obrigatório!"),
@@ -26,7 +26,7 @@ const createFormSchema = z.object({
 export type CreateFormDataUser = z.infer<typeof createFormSchema>;
 
 export default function UsersList() {
-  const { usersAll } = useLoginState();
+  const { usersAll } = useStore();
   const [modal, setModal] = useState<boolean>(false);
   const [modalInactive, setModalInactive] = useState<boolean>(false);
   const [infosEdit, setInfosEdit] = useState<UserInfos>(DefaultUserInfos);

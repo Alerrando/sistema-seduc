@@ -5,7 +5,7 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import { StateProvider, useStore } from "../../../../slice";
+import { useStore } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
@@ -31,7 +31,7 @@ const createFormSchema = z.object({
 export type CreateFormDataSchool = z.infer<typeof createFormSchema>;
 
 export default function CadastroEscola() {
-  const { allInfosSchool, setAllInfosSchool } = useStore();
+  const { allInfosSchool, setValueInState } = useStore();
   const [infosInput, setInfosInput] = useState<SchoolInfos>({} as SchoolInfos);
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState<boolean>(false);
@@ -89,71 +89,69 @@ export default function CadastroEscola() {
   ];
 
   return (
-    <StateProvider>
-      <RootLayout showHeaderAside>
-        <main className="w-full sm:w-5/6 h-max ml-auto">
-          <div className="w-full flex flex-col gap-4 px-6 py-3">
-            <h1 className="text-3xl md:text-[42px]">Cadastro de Escolas</h1>
+    <RootLayout showHeaderAside>
+      <main className="w-full sm:w-5/6 h-max ml-auto">
+        <div className="w-full flex flex-col gap-4 px-6 py-3">
+          <h1 className="text-3xl md:text-[42px]">Cadastro de Escolas</h1>
 
-            {allInfosSchool !== undefined ? (
-              <CreateHeaderRegisters
-                setModal={setModal}
-                setSearch={setSearch}
-                totalRegiter={allInfosSchool.length}
-                key={"create-header-school"}
-              />
-            ) : null}
-
-            <div className="w-full h-auto flex items-center justify-end">
-              <ClipboardList size={26} className="cursor-pointer" onClick={() => setModalInactive(true)} />
-            </div>
-
-            <TableRegisters
-              tableHead={thead}
-              infosAll={allInfosSchool.filter((school: SchoolInfos) =>
-                school.name.toLowerCase().includes(search.toLowerCase()),
-              )}
-              editInfo={editInfo}
-              deleteInfo={deleteInfo}
-              registerType="School"
-              key={"Table-Escola"}
+          {allInfosSchool !== undefined ? (
+            <CreateHeaderRegisters
+              setModal={setModal}
+              setSearch={setSearch}
+              totalRegiter={allInfosSchool.length}
+              key={"create-header-school"}
             />
+          ) : null}
+
+          <div className="w-full h-auto flex items-center justify-end">
+            <ClipboardList size={26} className="cursor-pointer" onClick={() => setModalInactive(true)} />
           </div>
-          {modal ? (
-            <Modal
-              infosInput={infosInput}
-              setModal={handleCloseModal}
-              setInfosInput={setInfosInput}
-              submitInfos={submitSchool}
-              title="Cadastro de Escolas"
-              createFormSchema={createFormSchema}
-              inputs={inputs}
-              modalName="School"
-              key={"modal-cadastro-escola"}
-            />
-          ) : null}
 
-          {modalInactive ? (
-            <Modal
-              setModal={setModalInactive}
-              modalName="School"
-              editInfo={editInfo}
-              title="Escolas Inativas"
-              thead={thead}
-            />
-          ) : null}
+          <TableRegisters
+            tableHead={thead}
+            infosAll={allInfosSchool.filter((school: SchoolInfos) =>
+              school.name.toLowerCase().includes(search.toLowerCase()),
+            )}
+            editInfo={editInfo}
+            deleteInfo={deleteInfo}
+            registerType="School"
+            key={"Table-Escola"}
+          />
+        </div>
+        {modal ? (
+          <Modal
+            infosInput={infosInput}
+            setModal={handleCloseModal}
+            setInfosInput={setInfosInput}
+            submitInfos={submitSchool}
+            title="Cadastro de Escolas"
+            createFormSchema={createFormSchema}
+            inputs={inputs}
+            modalName="School"
+            key={"modal-cadastro-escola"}
+          />
+        ) : null}
 
-          <ToastContainer />
-        </main>
-      </RootLayout>
-    </StateProvider>
+        {modalInactive ? (
+          <Modal
+            setModal={setModalInactive}
+            modalName="School"
+            editInfo={editInfo}
+            title="Escolas Inativas"
+            thead={thead}
+          />
+        ) : null}
+
+        <ToastContainer />
+      </main>
+    </RootLayout>
   );
 
   async function submitSchool(data: SubmitDataModal) {
     if ("name" in data && "adress" in data && "zip" in data && "fone" in data && "email" in data) {
       const { ...rest } = data;
       const { id } = infosInput;
-      const aux: SchoolInfos = {
+      const infos: SchoolInfos = {
         id,
         edit: false,
         inactive: false,
@@ -163,9 +161,11 @@ export default function CadastroEscola() {
 
       if (!infosInput.edit) {
         message = "Cadastro feito com sucesso!";
-        setAllInfosSchool([...allInfosSchool, aux]);
+        const aux = allInfosSchool;
+        aux.push(infos);
+        setValueInState("allInfosSchool", aux);
       } else {
-        message = await editSchool(aux, aux.id);
+        message = await editSchool(infos, infos.id);
         setModal(false);
       }
 
@@ -204,7 +204,7 @@ export default function CadastroEscola() {
     }
   }
 
-  function messageToast(message: AxiosError | string) {
+  function messageToast(message: string) {
     if (typeof message !== "object") {
       toast.success(message, {
         position: "bottom-left",
@@ -217,8 +217,7 @@ export default function CadastroEscola() {
         theme: "light",
       });
     } else {
-      const errorMessage = message?.response?.data || "Erro desconhecido";
-      toast.error(errorMessage.toString(), {
+      toast.error("Erro ao cadastrar", {
         position: "bottom-left",
         autoClose: 5000,
         hideProgressBar: false,

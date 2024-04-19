@@ -3,11 +3,11 @@ import { Menu, Transition } from "@headlessui/react";
 import { LogOut, ShieldAlert, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Fragment } from "react";
-import { DefaultUserInfos, useLoginState } from "../../../../slice/LoginSlice";
+import { DefaultUserInfos, useStore } from "../../../../slice";
 
 export default function MenuHeader() {
   const router = useRouter();
-  const { setUser } = useLoginState();
+  const { setUser } = useStore();
 
   return (
     <div className="">

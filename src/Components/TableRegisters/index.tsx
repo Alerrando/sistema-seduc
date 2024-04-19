@@ -1,7 +1,6 @@
 import { Pencil, Trash, X } from "lucide-react";
 
-import { UserInfos } from "../../../slice/LoginSlice";
-import { LessonInfos, OfficeInfos, SchoolInfos, TeacherInfos } from "../../utils/type";
+import { LessonInfos, OfficeInfos, SchoolInfos, TeacherInfos, UserInfos } from "../../utils/type";
 import RenderLessonColumns from "./RenderLessonColumns";
 import RenderOtherColumns from "./RenderOtherColumns";
 import RenderSchoolColumns from "./RenderSchoolColumns";

@@ -1,7 +1,6 @@
 "use client";
 import { Roboto } from "next/font/google";
 import React from "react";
-import { StateProviderLogin } from "../../slice/LoginSlice";
 import Aside from "../Components/Aside";
 import Header from "../Components/Header";
 import "./globals.css";
@@ -18,15 +17,13 @@ export default function RootLayout({ children, showHeaderAside }: RootLayoutProp
   return (
     <html lang="pt-br">
       <body className={roboto.className}>
-        <StateProviderLogin>
-          {showHeaderAside && (
-            <>
-              <Aside />
-              <Header />
-            </>
-          )}
-          <Home>{children}</Home>
-        </StateProviderLogin>
+        {showHeaderAside && (
+          <>
+            <Aside />
+            <Header />
+          </>
+        )}
+        <Home>{children}</Home>
       </body>
     </html>
   );

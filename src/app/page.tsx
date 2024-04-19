@@ -1,14 +1,14 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-import { useLoginState } from "../../slice/LoginSlice";
+import { useStore } from "../../slice";
 
 type HomeProps = {
-  children: React.ReactNode
-}
+  children: React.ReactNode;
+};
 
 function Home({ children }: HomeProps) {
-  const { user } = useLoginState();
+  const { user } = useStore();
   const router = useRouter();
   const pathName = usePathname();
 
@@ -17,7 +17,7 @@ function Home({ children }: HomeProps) {
       router.replace("/login-register");
     } else if (typeof window !== "undefined" && Object.values(user).length !== 0) {
       if (pathName === "/admin" && user.level === 1) {
-        router.replace("/admin");
+        router.push("/admin");
       }
     } else {
       router.push("/login-register");

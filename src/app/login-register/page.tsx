@@ -1,12 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useLoginState } from "../../../slice/LoginSlice";
+import { useStore } from "../../../slice";
 import Login from "./Login";
 import "./style.css";
 
 export default function LoginRegister() {
-  const { user } = useLoginState();
+  const { user } = useStore();
   const router = useRouter();
 
   useEffect(() => {

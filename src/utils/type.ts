@@ -94,3 +94,13 @@ export type TeacherDTOInfos = {
   registerSchool: TeacherInfos;
   amountTimeTotal: number;
 };
+
+export type UserInfos = {
+  email: string;
+  password: string;
+  office: OfficeInfos;
+  rg: string;
+  registerSchool: SchoolInfos;
+  level: number;
+  mandatoryBulletin: number;
+} & TypeDefault;

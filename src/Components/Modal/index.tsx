@@ -10,8 +10,6 @@ import { InfosTableRegisterData } from "../TableRegisters";
 import { ModalForm } from "./ModalForm";
 import ModalInactive from "./ModalInactive";
 
-import { useLoginState } from "../../../slice/LoginSlice";
-
 export type SubmitDataModal =
   | CreateFormDataSchool
   | CreateFormDataTeacher
@@ -46,7 +44,7 @@ export default function Modal(props: ModalProps) {
     modalName,
   } = props;
   const { allInfosOffice, allInfosSchool, allInfosTeacher, allInfosLesson } = useStore();
-  const { usersAll } = useLoginState();
+  const { usersAll } = useStore();
 
   return (
     <div className="w-screen h-auto flex items-center justify-center bg-modal fixed inset-0">
