@@ -33,35 +33,9 @@ type StateProps = {
 };
 
 const initialState: StateProps = {
-  user: {
-    id: 0,
-    email: "alerrando2@gmail.com",
-    edit: false,
-    inactive: false,
-    level: 0,
-    mandatoryBulletin: 0,
-    name: "Alerrando",
-    office: {} as OfficeInfos,
-    password: "1234",
-    registerSchool: {} as SchoolInfos,
-    rg: "",
-  },
+  user: DefaultUserInfos,
   setUser: () => {},
-  usersAll: [
-    {
-      id: 0,
-      email: "alerrando2@gmail.com",
-      edit: false,
-      inactive: false,
-      level: 0,
-      mandatoryBulletin: 0,
-      name: "Alerrando",
-      office: {} as OfficeInfos,
-      password: "1234",
-      registerSchool: {} as SchoolInfos,
-      rg: "",
-    },
-  ],
+  usersAll: [DefaultUserInfos],
   setUsersAll: () => {},
 };
 

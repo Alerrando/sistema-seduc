@@ -1,53 +1,56 @@
-import React, { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { LessonInfos, OfficeInfos, SchoolInfos, TeacherInfos, TeachersOffice, TeachersThirst } from "../src/utils/type";
 import { DatasTypes } from "../src/Components/Filter";
 
+type AllTypesUsedStateSlice = LessonInfos | OfficeInfos | SchoolInfos | TeacherInfos | TeachersOffice | TeachersThirst | DatasTypes;
+
 type StateProps = {
   allInfosLesson: LessonInfos[];
-  setAllInfosLesson: (allInfosLesson: LessonInfos[]) => void;
   allInfosSchool: SchoolInfos[];
-  setAllInfosSchool: (allInfosSchool: SchoolInfos[]) => void;
   allInfosTeacher: TeacherInfos[];
-  setAllInfosTeacher: (allInfosTeacher: TeacherInfos[]) => void;
   allInfosOffice: OfficeInfos[];
-  setAllInfosOffice: (allInfosOffice: OfficeInfos[]) => void;
   allInfosTeachersOffice: TeachersOffice[];
-  setAllInfosTeacherOffice: (allInfosTeacherOffice: TeachersOffice[]) => void;
   allInfosTeachersThirst: TeachersThirst[];
-  setAllInfosTeachersThirst: (allInfosTeachersThirst: TeachersThirst[]) => void;
   infosDefinitionPeriods: DatasTypes[];
-  setInfosDefinitionPeriods: (infosDefinitionPeriods: DatasTypes[]) => void;
+  emptyAllFilter: () => void;
+  setValueInState: (name: string, value: AllTypesUsedStateSlice) => void;
 };
 
-const StateContext = createContext<StateProps | undefined>(undefined);
+const initialState: StateProps = {
+  allInfosLesson: [],
+  allInfosSchool: [],
+  allInfosTeacher: [],
+  allInfosOffice: [],
+  allInfosTeachersOffice: [],
+  allInfosTeachersThirst: [],
+  infosDefinitionPeriods: [],
+  emptyAllFilter: () => {},
+  setValueInState: (name: string, value: AllTypesUsedStateSlice) => {},
+}
+
+const StateContext = createContext<StateProps>(initialState);
 
 export function StateProvider(children: React.ReactNode) {
-  const [allInfosLesson, setAllInfosLesson] = useState<LessonInfos[]>([]);
-  const [allInfosSchool, setAllInfosSchool] = useState<SchoolInfos[]>([]);
-  const [allInfosTeacher, setAllInfosTeacher] = useState<TeacherInfos[]>([]);
-  const [allInfosOffice, setAllInfosOffice] = useState<OfficeInfos[]>([]);
-  const [allInfosTeachersOffice, setAllInfosTeacherOffice] = useState<TeachersOffice[]>([]);
-  const [allInfosTeachersThirst, setAllInfosTeachersThirst] = useState<TeachersThirst[]>([]);
-  const [infosDefinitionPeriods, setInfosDefinitionPeriods] = useState<DatasTypes[]>([]);
+  const [state, setState] = useState<StateProps>(initialState);
 
-  const value: StateProps = {
-    allInfosLesson,
-    setAllInfosLesson,
-    allInfosSchool,
-    setAllInfosSchool,
-    allInfosTeacher,
-    setAllInfosTeacher,
-    allInfosOffice,
-    setAllInfosOffice,
-    allInfosTeachersOffice,
-    setAllInfosTeacherOffice,
-    allInfosTeachersThirst,
-    setAllInfosTeachersThirst,
-    infosDefinitionPeriods,
-    setInfosDefinitionPeriods,
+  function emptyAllFilter(){
+    setState({
+      ...state,
+      allInfosLesson: [],
+      allInfosSchool: [],
+      allInfosTeacher: [],
+      allInfosOffice: [],
+      allInfosTeachersOffice: [],
+      allInfosTeachersThirst: [],
+      infosDefinitionPeriods: [],
+    });
   };
 
-  return <StateContext.Provider value={value}>{children}</StateContext.Provider>;
+  function setValueInState(name: string, value: AllTypesUsedStateSlice){
+    setState({ ...state, [name]: value });
+  }
+
+  return <StateContext.Provider value={{ ...state, setValueInState, emptyAllFilter }}>{children}</StateContext.Provider>;
 }
 
 export const useStore = () => {

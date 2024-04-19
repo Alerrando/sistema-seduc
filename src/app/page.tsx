@@ -1,9 +1,13 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useLoginState } from "../../slice/LoginSlice";
 
-function Home({ children }: unknown) {
+type HomeProps = {
+  children: React.ReactNode
+}
+
+function Home({ children }: HomeProps) {
   const { user } = useLoginState();
   const router = useRouter();
   const pathName = usePathname();
@@ -16,7 +20,7 @@ function Home({ children }: unknown) {
         router.replace("/admin");
       }
     } else {
-      router.replace("/login-register");
+      router.push("/login-register");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

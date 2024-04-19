@@ -12,7 +12,7 @@ export default function LoginRegister() {
   useEffect(() => {
     localStorage.clear();
     if (Object.values(user).length > 0) {
-      router.replace("/dashboard");
+      router.push("/dashboard");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

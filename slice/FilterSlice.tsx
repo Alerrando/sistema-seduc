@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
 import { DatasTypes } from "../src/Components/Filter";
 import { SchoolDTOInfos, SchoolInfos, TeacherDTOInfos, TeacherInfos } from "../src/utils/type";
-import { initialState } from "./zustandStore";
+
+type AllTypesUsedFilterSlice = SchoolDTOInfos | SchoolInfos | TeacherDTOInfos | TeacherInfos;
 
 type StateProps = {
   allFilterInfosTeacher: TeacherDTOInfos[];
@@ -10,14 +11,25 @@ type StateProps = {
   filterInfosSchool: SchoolInfos;
   filterStartEndDate: DatasTypes;
   emptyAllFilter: () => void;
+  setValueInState: (name: string, value: AllTypesUsedFilterSlice) => void;
 };
+
+const initialState: StateProps = {
+  allFilterInfosTeacher: [],
+  allFilterInfosSchool: [],
+  filterInfosTeacher: {} as TeacherInfos,
+  filterInfosSchool: {} as SchoolInfos,
+  filterStartEndDate: {} as DatasTypes,
+  emptyAllFilter: () => {},
+  setValueInState: (name: string, value: AllTypesUsedFilterSlice) => {},
+}
 
 const StateContext = createContext<StateProps>(initialState);
 
 export function StateProviderFilter({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<StateProps>(initialState);
 
-  const emptyAllFilter = () => {
+  function emptyAllFilter(){
     setState({
       ...state,
       allFilterInfosTeacher: [],
@@ -27,6 +39,10 @@ export function StateProviderFilter({ children }: { children: React.ReactNode })
       filterStartEndDate: {} as DatasTypes,
     });
   };
+
+  function setValueInState(name: string, value: AllTypesUsedFilterSlice){
+    setState({ ...state, [name]: value });
+  }
 
   return <StateContext.Provider value={{ ...state, emptyAllFilter }}>{children}</StateContext.Provider>;
 }
