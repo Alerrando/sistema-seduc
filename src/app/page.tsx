@@ -7,7 +7,7 @@ type HomeProps = {
   children: React.ReactNode;
 };
 
-function Home({ children }: HomeProps) {
+export default function Home({ children }: HomeProps) {
   const { user } = useStore();
   const router = useRouter();
   const pathName = usePathname();
@@ -27,5 +27,3 @@ function Home({ children }: HomeProps) {
 
   return <>{children}</>;
 }
-
-export default Home;

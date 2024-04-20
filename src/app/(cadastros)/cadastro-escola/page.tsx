@@ -4,6 +4,7 @@ import { ClipboardList } from "lucide-react";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 import { useStore } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
@@ -88,6 +89,8 @@ export default function CadastroEscola() {
     },
   ];
 
+  console.log(allInfosSchool);
+
   return (
     <RootLayout showHeaderAside>
       <main className="w-full sm:w-5/6 h-max ml-auto">
@@ -150,9 +153,8 @@ export default function CadastroEscola() {
   async function submitSchool(data: SubmitDataModal) {
     if ("name" in data && "adress" in data && "zip" in data && "fone" in data && "email" in data) {
       const { ...rest } = data;
-      const { id } = infosInput;
       const infos: SchoolInfos = {
-        id,
+        id: uuidv4(),
         edit: false,
         inactive: false,
         ...rest,
@@ -165,6 +167,7 @@ export default function CadastroEscola() {
         aux.push(infos);
         setValueInState("allInfosSchool", aux);
       } else {
+        infos.id = infosInput.id;
         message = await editSchool(infos, infos.id);
         setModal(false);
       }
