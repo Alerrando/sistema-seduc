@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useStore } from "../../slice";
 
 type HomeProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export default function Home({ children }: HomeProps) {
