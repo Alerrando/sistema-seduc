@@ -5,6 +5,7 @@ import Aside from "../Components/Aside";
 import Header from "../Components/Header";
 import "./globals.css";
 import Home from "./page";
+import { StateProvider } from "../../slice";
 
 const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 
@@ -17,13 +18,15 @@ export default function RootLayout({ children, showHeaderAside }: RootLayoutProp
   return (
     <html lang="pt-br">
       <body className={roboto.className}>
-        {showHeaderAside && (
-          <>
-            <Aside />
-            <Header />
-          </>
-        )}
-        <Home>{children}</Home>
+        <StateProvider>
+          {showHeaderAside && (
+            <>
+              <Aside />
+              <Header />
+            </>
+          )}
+          <Home>{children}</Home>
+        </StateProvider>
       </body>
     </html>
   );

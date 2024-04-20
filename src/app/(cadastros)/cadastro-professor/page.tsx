@@ -9,15 +9,7 @@ import { useStore } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
-import {
-  createTeacher,
-  createTeachersOffice,
-  createTeachersThirst,
-  deleteTeacher,
-  editTeacher,
-  editTeacherOffice,
-  editTeacherThirst,
-} from "../../../api";
+import { deleteTeacher, editTeacher } from "../../../api";
 import RootLayout from "../../../app/layout";
 import { isValidCPF, maskCPF } from "../../../utils/maskUtils";
 import { InputConfig, TeacherInfos } from "../../../utils/type";
@@ -37,7 +29,7 @@ const createFormSchema = z.object({
 export type CreateFormDataTeacher = z.infer<typeof createFormSchema>;
 
 export default function CadastroProfessor() {
-  const { allInfosTeacher } = useStore();
+  const { allInfosTeacher, setValueInState } = useStore();
   const [infosInput, setInfosInput] = useState<TeacherInfos>({} as TeacherInfos);
   const [search, setSearch] = useState("");
   const [modalInactive, setModalInactive] = useState<boolean>(false);
@@ -144,42 +136,24 @@ export default function CadastroProfessor() {
     </RootLayout>
   );
 
-  async function submitTeacher(data: SubmitDataModal) {
+  async function submitTeacher(aux: TeacherInfos, data: SubmitDataModal) {
     if ("cpf" in data && "name" in data) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { teachersThirst, cpf, teachersOffice, ...rest } = data;
+      let message: string;
+      let auxData: TeacherInfos;
+      let aux = allInfosTeacher;
 
-      const aux: TeacherInfos = {
-        edit: false,
-        id: infosInput.id,
-        cpf: data.cpf.replaceAll(".", "").replaceAll("-", ""),
-        inactive: false,
-        ...rest,
-      };
+      if (!infosInput.edit) {
+        aux.push(aux);
+        message = auxData !== undefined ? "Professor cadastrada com sucesso" : auxData;
+      } else {
+        aux = allInfosTeacher.map((info: TeacherInfos) => (info.edit ? aux : info));
+        message = auxData !== undefined ? "Professor editado com sucesso" : auxData;
+        setModal(false);
+      }
 
-      await submitEditTeacher(aux, data);
-      setInfosInput({} as TeacherInfos);
+      setValueInState("allInfosTeacher", aux);
+      messageToast(message);
     }
-  }
-
-  async function submitEditTeacher(aux: TeacherInfos, data: SubmitDataModal) {
-    let message: AxiosError | string;
-    let auxData: AxiosError | TeacherInfos;
-
-    if (!infosInput.edit) {
-      auxData = await createTeacher(aux, data);
-      message = auxData !== undefined ? "Professor cadastrada com sucesso" : auxData;
-      await createTeachersOffice(data.teachersOffice, auxData.id);
-      await createTeachersThirst(data.teachersThirst, auxData.id);
-    } else {
-      auxData = await editTeacher(aux, data);
-      message = auxData !== undefined ? "Professor editado com sucesso" : auxData;
-      await editTeacherThirst(data.teachersThirst, auxData.id);
-      await editTeacherOffice(data.teachersOffice, auxData.id);
-      setModal(false);
-    }
-
-    messageToast(message);
   }
 
   async function editInfo(info: InfosTableRegisterData, inactive = false) {

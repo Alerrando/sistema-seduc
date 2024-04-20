@@ -64,8 +64,20 @@ type StateProps = {
 };
 
 const initialState: StateProps = {
-  user: DefaultUserInfos,
-  usersAll: [DefaultUserInfos],
+  user: {
+    ...DefaultUserInfos,
+    name: "Admin",
+    email: "admin@gmail.com",
+    password: "1234",
+  },
+  usersAll: [
+    {
+      ...DefaultUserInfos,
+      name: "Admin",
+      email: "admin@gmail.com",
+      password: "1234",
+    },
+  ],
   allInfosLesson: [],
   allInfosSchool: [],
   allInfosTeacher: [],
@@ -84,7 +96,7 @@ const initialState: StateProps = {
 
 const StateContext = createContext<StateProps>(initialState);
 
-export function StateProvider(children: React.ReactNode) {
+export function StateProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<StateProps>(initialState);
 
   function emptyAllFilter() {

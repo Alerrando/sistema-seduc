@@ -3,11 +3,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useStore } from "../../slice";
 
-type HomeProps = {
-  children?: React.ReactNode;
-};
-
-export default function Home({ children }: HomeProps) {
+export default function Home({ children }: { children: React.ReactNode }) {
   const { user } = useStore();
   const router = useRouter();
   const pathName = usePathname();

@@ -1,5 +1,4 @@
 "use client";
-import { AxiosError } from "axios";
 import { ClipboardList } from "lucide-react";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,7 +9,6 @@ import { useStore } from "../../../../slice";
 import CreateHeaderRegisters from "../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../Components/TableRegisters";
-import { deleteSchool, editSchool } from "../../../api";
 import RootLayout from "../../../app/layout";
 import { applyCEPFormat, maskTelefone } from "../../../utils/maskUtils";
 import { InputConfig, SchoolInfos } from "../../../utils/type";
@@ -89,8 +87,6 @@ export default function CadastroEscola() {
     },
   ];
 
-  console.log(allInfosSchool);
-
   return (
     <RootLayout showHeaderAside>
       <main className="w-full sm:w-5/6 h-max ml-auto">
@@ -153,6 +149,7 @@ export default function CadastroEscola() {
   async function submitSchool(data: SubmitDataModal) {
     if ("name" in data && "adress" in data && "zip" in data && "fone" in data && "email" in data) {
       const { ...rest } = data;
+      let aux = allInfosSchool;
       const infos: SchoolInfos = {
         id: uuidv4(),
         edit: false,
@@ -163,15 +160,15 @@ export default function CadastroEscola() {
 
       if (!infosInput.edit) {
         message = "Cadastro feito com sucesso!";
-        const aux = allInfosSchool;
         aux.push(infos);
-        setValueInState("allInfosSchool", aux);
       } else {
         infos.id = infosInput.id;
-        message = await editSchool(infos, infos.id);
+        aux = allInfosSchool.map((info: SchoolInfos) => (info.id === infos.id ? infos : info));
         setModal(false);
+        message = "Escola editada com sucesso!";
       }
 
+      setValueInState("allInfosSchool", aux);
       setInfosInput({} as SchoolInfos);
       messageToast(message);
     }
@@ -190,8 +187,9 @@ export default function CadastroEscola() {
       } else {
         if (window.confirm(`Quer mesmo ${inactive ? "inativar" : "ativar"} a escola ${info.name}?`)) {
           const { inactive, ...rest } = info;
-          const aux: SchoolInfos = { inactive: !inactive, ...rest };
-          await editSchool(aux, aux.id);
+          const infos: SchoolInfos = { inactive: !inactive, ...rest };
+          const aux = allInfosSchool.map((info: SchoolInfos) => (info.id === infos.id ? infos : info));
+          setValueInState("allInfosSchool", aux);
           messageToast(inactive ? "Inativação da Escola feito com sucesso!" : "Ativação da Escola feito com sucesso!");
         }
       }
@@ -201,8 +199,9 @@ export default function CadastroEscola() {
   async function deleteInfo(info: InfosTableRegisterData) {
     if ("name" in info && "adress" in info && "zip" in info && "fone" in info && "email" in info) {
       if (window.confirm(`Quer mesmo deletar a escola ${info.name}?`)) {
-        const message: AxiosError | string = await deleteSchool(info.id);
-        messageToast(message);
+        const aux = allInfosSchool.filter((school: SchoolInfos) => school.id !== info.id);
+        setValueInState("allInfosSchool", aux);
+        messageToast("Escola deletada com sucesso!");
       }
     }
   }
