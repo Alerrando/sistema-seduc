@@ -1,6 +1,7 @@
 "use client";
 import { ErrorMessage } from "@hookform/error-message";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import Calendar from "react-calendar";
 import { useForm } from "react-hook-form";
 import { ZodType } from "zod";
@@ -21,7 +22,7 @@ type ModalFormProps = {
 };
 
 export function ModalForm(props: ModalFormProps) {
-  const { allInfosOffice, allInfosSchool } = useStore();
+  const { allInfosOffice, allInfosSchool, getAllStates } = useStore();
   const { schema, inputs, initialValues, setInfosInput, onSubmit, modalName } = props;
 
   const {
@@ -49,6 +50,10 @@ export function ModalForm(props: ModalFormProps) {
     }
     onSubmit(data);
   }
+
+  useEffect(() => {
+    getAllStates();
+  }, []);
 
   return (
     <>

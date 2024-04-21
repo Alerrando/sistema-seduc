@@ -22,8 +22,8 @@ const createFormSchema = z.object({
     .refine((value) => isValidCPF(value), {
       message: "CPF inválido",
     }),
-  teachersThirst: z.array(z.number()).min(1, "Selecione pelo menos uma sede"),
-  teachersOffice: z.array(z.number()).min(1, "Selecione pelo menos um cargo"),
+  teachersThirst: z.array(z.string()).min(1, "Selecione pelo menos uma sede"),
+  teachersOffice: z.array(z.string()).min(1, "Selecione pelo menos um cargo"),
 });
 
 export type CreateFormDataTeacher = z.infer<typeof createFormSchema>;
@@ -107,7 +107,7 @@ export default function CadastroProfessor() {
             key={"Table-Teacher"}
           />
         </div>
-        {modal ? (
+        {modal && (
           <Modal
             infosInput={infosInput}
             setModal={handleCloseModal}
@@ -119,7 +119,7 @@ export default function CadastroProfessor() {
             modalName="Teacher"
             key={"modal-cadastro-professor"}
           />
-        ) : null}
+        )}
 
         {modalInactive ? (
           <Modal

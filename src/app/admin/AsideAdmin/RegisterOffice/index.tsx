@@ -1,15 +1,16 @@
 "use client";
 import { AxiosError } from "axios";
 import { ClipboardList } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 import { useStore } from "../../../../../slice";
 import CreateHeaderRegisters from "../../../../Components/CreateHeaderRegisters";
 import Modal, { SubmitDataModal } from "../../../../Components/Modal";
 import TableRegisters, { InfosTableRegisterData } from "../../../../Components/TableRegisters";
-import { createRegisterOffice, deleteRegisterOffice, editRegisterOffice, getRegisterOffice } from "../../../../api";
+import { deleteRegisterOffice, editRegisterOffice, getRegisterOffice } from "../../../../api";
 import { InputConfig, OfficeInfos } from "../../../../utils/type";
 
 const createFormSchema = z.object({
@@ -20,7 +21,7 @@ const createFormSchema = z.object({
 export type CreateFormDataOffice = z.infer<typeof createFormSchema>;
 
 export default function RegisterOffice() {
-  const { allInfosOffice } = useStore();
+  const { allInfosOffice, setValueInState } = useStore();
   const [infosRegister, setInfosRegister] = useState<OfficeInfos>({} as OfficeInfos);
   const [modal, setModal] = useState<boolean>(false);
   const [modalInactive, setModalInactive] = useState<boolean>(false);
@@ -47,21 +48,7 @@ export default function RegisterOffice() {
     },
   ];
 
-  useEffect(() => {
-    (async () => {
-      const allInfos: OfficeInfos[] | string = await getRegisterOffice();
-      if (allInfos !== undefined && typeof allInfos !== "string") {
-        const sortedInfos = allInfos
-          .slice()
-          .sort((info1: OfficeInfos, info2: OfficeInfos) =>
-            info1.type && info2.type ? info1.type.localeCompare(info2.type) : 0,
-          );
-
-        console.log(sortedInfos);
-      }
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  console.log(allInfosOffice);
 
   return (
     <main className="w-full h-max ml-auto">
@@ -87,7 +74,9 @@ export default function RegisterOffice() {
           <TableRegisters
             deleteInfo={deleteInfo}
             editInfo={editInfo}
-            infosAll={allInfosOffice.map((info: OfficeInfos) => info.name.toLowerCase().includes(search.toLowerCase()))}
+            infosAll={allInfosOffice.filter((info: OfficeInfos) =>
+              info.name.toLowerCase().includes(search.toLowerCase()),
+            )}
             tableHead={tableHead}
             registerType="Office"
             key={"table-office"}
@@ -126,29 +115,31 @@ export default function RegisterOffice() {
 
   async function submit(data: SubmitDataModal) {
     if ("name" in data && "type" in data) {
-      let message: AxiosError | string;
+      let message: string;
       let allInfos: OfficeInfos[] = [];
       const { ...rest } = data;
       const aux: OfficeInfos = {
-        id: infosRegister.id,
-        edit: infosRegister.edit,
+        id: uuidv4(),
+        edit: false,
         inactive: false,
         ...rest,
       };
 
       if (!infosRegister.edit) {
-        message = await createRegisterOffice(aux);
+        allInfos = allInfosOffice;
+        allInfos.push(aux);
+        message = "Cargo criado com sucesso!";
       } else {
         message = await editRegisterOffice(aux, infosRegister.id);
         setModal(false);
       }
 
-      allInfos = await getRegisterOffice();
       const sortedInfos = allInfos
         .slice()
         .sort((info1: OfficeInfos, info2: OfficeInfos) => info1.type.localeCompare(info2.type));
 
       console.log(sortedInfos);
+      setValueInState("allInfosOffice", sortedInfos);
       messageToast(message);
     }
   }

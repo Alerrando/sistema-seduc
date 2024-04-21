@@ -59,6 +59,7 @@ type StateProps = {
   filterInfosTeacher: TeacherInfos;
   filterInfosSchool: SchoolInfos;
   filterStartEndDate: DatasTypes;
+  getAllStates: () => void;
   emptyAllFilter: () => void;
   setValueInState: (name: string, value: AllTypesUsedStateSlice) => void;
 };
@@ -90,6 +91,7 @@ const initialState: StateProps = {
   filterInfosTeacher: {} as TeacherInfos,
   filterInfosSchool: {} as SchoolInfos,
   filterStartEndDate: {} as DatasTypes,
+  getAllStates: () => {},
   emptyAllFilter: () => {},
   setValueInState: (name: string, value: AllTypesUsedStateSlice) => {},
 };
@@ -112,12 +114,27 @@ export function StateProvider({ children }: { children: React.ReactNode }) {
     });
   }
 
+  function getAllStates() {
+    const aux = {};
+    Object.keys(state).forEach((name) => {
+      const value = localStorage.getItem(name);
+      if (aux[name] === undefined && Array.isArray(state[name]))
+        aux[name] = value === null ? [] : JSON.parse(value as string);
+      else aux[name] = value === null ? {} : JSON.parse(value as string);
+    });
+    console.log(aux);
+    setState(aux);
+  }
+
   function setValueInState(name: string, value: AllTypesUsedStateSlice) {
     setState({ ...state, [name]: value });
+    localStorage.setItem(name, JSON.stringify(value));
   }
 
   return (
-    <StateContext.Provider value={{ ...state, setValueInState, emptyAllFilter }}>{children}</StateContext.Provider>
+    <StateContext.Provider value={{ ...state, setValueInState, emptyAllFilter, getAllStates }}>
+      {children}
+    </StateContext.Provider>
   );
 }
 

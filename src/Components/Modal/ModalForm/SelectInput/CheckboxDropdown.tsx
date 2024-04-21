@@ -6,7 +6,7 @@ import { OfficeInfos, SchoolInfos, TeachersOffice, TeachersThirst } from "../../
 
 type CheckboxDropdownOfficeTeacherProps = {
   infos: OfficeInfos[] | SchoolInfos[];
-  control: Control<SubmitDataModal, unknown>;
+  control: Control<SubmitDataModal, any>;
   optionDefault: string;
   checkboxOptionType:
     | "name"
@@ -37,18 +37,15 @@ export default function CheckboxDropdown(props: CheckboxDropdownOfficeTeacherPro
   const [menuHandle, setMenuHandle] = useState<boolean>(false);
 
   useEffect(() => {
-    (async () => {
-      if (checkboxOptionType === "teachersOffice") {
-        setDefaultValueController(
-          allInfosTeachersOffice.map((officeTeacher: TeachersOffice) => officeTeacher.registerOffice),
-        );
-      } else if (checkboxOptionType === "teachersThirst") {
-        setDefaultValueController(
-          allInfosTeachersThirst.map((teacherThirst: TeachersThirst) => teacherThirst.registerSchool),
-        );
-      }
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (checkboxOptionType === "teachersOffice") {
+      setDefaultValueController(
+        allInfosTeachersOffice.map((officeTeacher: TeachersOffice) => officeTeacher.registerOffice),
+      );
+    } else if (checkboxOptionType === "teachersThirst") {
+      setDefaultValueController(
+        allInfosTeachersThirst.map((teacherThirst: TeachersThirst) => teacherThirst.registerSchool),
+      );
+    }
   }, []);
 
   return (
@@ -101,7 +98,7 @@ export default function CheckboxDropdown(props: CheckboxDropdownOfficeTeacherPro
 
   function handleSelectInfos(
     onChange: (...event: unknown[]) => void,
-    value: string | number | number[],
+    value: string | number | string[],
     e: ChangeEvent<HTMLInputElement>,
     optionId: number,
   ) {
@@ -111,7 +108,7 @@ export default function CheckboxDropdown(props: CheckboxDropdownOfficeTeacherPro
       const updatedOffices = value.filter((valueId: number) => valueId !== optionId);
       onChange(updatedOffices);
     } else {
-      onChange([...(value as number[]), parseInt(e.target.value)]);
+      onChange([...value, e.target.value]);
     }
   }
 }

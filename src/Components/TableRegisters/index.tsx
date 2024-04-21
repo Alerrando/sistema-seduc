@@ -20,6 +20,8 @@ type TableRegistersProps = {
 export default function TableRegisters(props: TableRegistersProps) {
   const { tableHead, editInfo, deleteInfo, infosAll, registerType } = props;
 
+  console.log(props);
+
   return (
     <div className="w-full overflow-x-auto border border-gray-200">
       <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
@@ -58,7 +60,7 @@ export default function TableRegisters(props: TableRegistersProps) {
                         "zip" in info &&
                         "fone" in info &&
                         "email" in info ? (
-                        <RenderSchoolColumns school={info} indeX={index} />
+                        <RenderSchoolColumns school={info} indeX={index} /> // Aqui está o erro
                       ) : registerType === "Teacher" && "cpf" in info ? (
                         <RenderTeacherColumns teacher={info} index={index} />
                       ) : registerType === "User" &&
